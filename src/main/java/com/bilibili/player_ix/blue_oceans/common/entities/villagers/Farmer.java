@@ -13,8 +13,6 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.ai.behavior.HarvestFarmland;
-import net.minecraft.world.entity.ai.behavior.UseBonemeal;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.*;
@@ -74,7 +72,6 @@ extends BaseVillager {
         private int timeWorkedSoFar;
         private Option<BlockPos> cropPos = Option.empty();
         private final Farmer farmer;
-        UseBonemeal useBonemeal;
         public UseBonemealGoal(Farmer pFarmer) {
             this.farmer = pFarmer;
             this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
@@ -178,7 +175,6 @@ extends BaseVillager {
         private long nextOkStartTime;
         private int timeWorkedSoFar;
         private final List<BlockPos> validFarmlandAroundVillager = Lists.newArrayList();
-        HarvestFarmland harvestFarmland;
         public FarmGoal(Farmer pFarmer) {
             this.farmer = pFarmer;
             this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
