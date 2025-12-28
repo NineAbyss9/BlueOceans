@@ -121,6 +121,7 @@ implements EvilFactionMob, IBehaviorUser, ICitizen {
                     break;
                 }
                 case MEET: {
+                    this.meet();
                     break;
                 }
             }
