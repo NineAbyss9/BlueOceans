@@ -1,0 +1,12 @@
+
+package com.github.player_ix.ix_api.api.mobs;
+
+import net.minecraft.world.entity.Mob;
+
+public interface FoodDataUser {
+    MobFoodData foodData();
+
+    default MobFoodData createFoodData() {
+        return new MobFoodData((Mob)this);
+    }
+}

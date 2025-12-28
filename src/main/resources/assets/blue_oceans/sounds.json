@@ -1,0 +1,303 @@
+{
+  "bike_run": {
+    "subtitle": "subtitles.bike_run",
+    "sounds": [
+      {
+        "name": "blue_oceans:bike_run"
+      }
+    ]
+  },
+  "ring": {
+    "subtitle": "subtitles.ring",
+    "sounds": [
+      {
+        "name": "blue_oceans:ring",
+        "pitch" : 1
+      },
+      {
+        "name": "blue_oceans:ring",
+        "pitch": 0.9
+      }
+    ]
+  },
+  "honk": {
+    "subtitle": "subtitles.honk",
+    "sounds": [
+      {
+        "name": "blue_oceans:honk",
+        "pitch" : 1
+      },
+      {
+        "name": "blue_oceans:honk",
+        "pitch": 0.9
+      }
+    ]
+  },
+  "sniper_rifle_fire": {
+    "subtitle": "subtitles.sniper_rifle_fire",
+    "sounds": [
+      {
+        "name": "blue_oceans:gun/sniper_rifle_fire",
+        "pitch" : 1
+      },
+      {
+        "name": "blue_oceans:gun/sniper_rifle_fire",
+        "pitch": 0.95
+      },
+      {
+        "name": "blue_oceans:gun/sniper_rifle_fire",
+        "pitch": 0.9
+      }
+    ]
+  },
+  "bullet_hit": {
+    "subtitle": "subtitles.bullet_hit",
+    "sounds": [
+      {
+        "name": "blue_oceans:gun/bullet_hit",
+        "pitch" : 1
+      },
+      {
+        "name": "blue_oceans:gun/bullet_hit",
+        "pitch": 0.9
+      },
+      {
+        "name": "blue_oceans:gun/bullet_hit",
+        "pitch": 0.8
+      }
+    ]
+  },
+  "red_plum_girl_cast_spell": {
+    "subtitle": "subtitles.red_plum_girl_cast_spell",
+    "sounds": [
+      {
+        "name": "mob/evocation_illager/cast1",
+        "pitch" : 0.75
+      },
+      {
+      "name": "mob/evocation_illager/cast2",
+        "pitch": 0.75
+      }
+    ]
+  },
+  "red_plum_cultist_cast_spell": {
+      "subtitle": "subtitles.red_plum_cultist_cast_spell",
+    "sounds": [
+      {
+      "name": "mob/evocation_illager/cast1",
+      "pitch" : 0.85
+      },
+      {
+        "name": "mob/evocation_illager/cast2",
+        "pitch": 0.85
+      }
+    ]
+  },
+  "red_plum_cultist_ambient": {
+    "subtitle": "subtitles.red_plum_cultist_idle",
+    "sounds": [
+      {
+        "name": "mob/vindication_illager/idle1",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/vindication_illager/idle2",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/vindication_illager/idle3",
+        "pitch": 0.85
+      },
+      {
+        "name": "entity/witch/ambient4",
+        "pitch": 0.85
+      },
+      {
+        "name": "entity/witch/ambient3",
+        "pitch": 0.85
+      },
+      {
+        "name": "entity/witch/ambient2",
+        "pitch": 0.85
+      },
+      {
+        "name": "entity/witch/ambient1",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/illusion_illager/idle1",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/illusion_illager/idle2",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/illusion_illager/idle3",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/illusion_illager/idle4",
+        "pitch": 0.85
+      }
+    ]
+  },
+  "red_plum_cultist_hurt": {
+    "subtitle": "subtitles.red_plum_cultist_hurts",
+    "sounds": [
+      {
+        "name": "entity/witch/hurt1",
+        "pitch": 0.85
+      },
+      {
+        "name": "entity/witch/hurt2",
+        "pitch": 0.85
+      },
+      {
+        "name": "entity/witch/hurt3",
+        "pitch": 0.85
+      },
+      {
+        "name": "entity/witch/hurt4",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/vindication_illager/hurt1",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/vindication_illager/hurt2",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/vindication_illager/hurt3",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/illusion_illager/hurt1",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/illusion_illager/hurt2",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/illusion_illager/hurt3",
+        "pitch": 0.85
+      }
+    ]
+  },
+  "red_plum_cultist_dies": {
+    "subtitle": "subtitles.red_plum_cultist_dies",
+    "sounds": [
+      {
+        "name": "entity/witch/death1",
+        "pitch": 0.85
+      },
+      {
+        "name": "entity/witch/death2",
+        "pitch": 0.85
+      },
+      {
+        "name": "entity/witch/death3",
+        "pitch": 0.85
+      },
+      {
+        "name": "entity/witch/death4",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/vindication/death1",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/vindication/death2",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/vindication/death3",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/vindication/death4",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/illusion_illager/death1",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/illusion_illager/death2",
+        "pitch": 0.85
+      }
+    ]
+  },
+  "red_plum_worm_ambient":  {
+    "subtitle": "subtitles.red_plum_worm_idle",
+    "sounds": [
+      {
+        "name": "mob/silverfish/say1",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/silverfish/say2",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/silverfish/say3",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/silverfish/say4",
+        "pitch": 0.85
+      }
+    ]
+  },
+  "red_plum_worm_hurt":  {
+    "subtitle": "subtitles.red_plum_worm_hurts",
+    "sounds": [
+      {
+        "name": "mob/silverfish/hit1",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/silverfish/hit2",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/silverfish/hit3",
+        "pitch": 0.85
+      }
+    ]
+  },
+  "red_plum_worm_die": {
+    "subtitle": "subtitles.red_plum_worm_dies",
+    "sounds": [
+      {
+        "name": "mob/silverfish/kill",
+        "pitch": 0.85
+      }
+    ]
+  },
+  "red_plum_worm_step":  {
+    "subtitle": "subtitles.red_plum_worm_step",
+    "sounds": [
+      {
+        "name": "mob/silverfish/step1",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/silverfish/step2",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/silverfish/step3",
+        "pitch": 0.85
+      },
+      {
+        "name": "mob/silverfish/step4",
+        "pitch": 0.85
+      }
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "xx",
+    "xi",
+    " i"
+  ],
+  "key": {
+    "i": {
+      "item": "minecraft:stick"
+    },
+    "x": {
+      "item": "minecraft:flint"
+    }
+  },
+  "result": {
+    "item": "blue_oceans:flint_axe",
+    "count": 1
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "age=0":  { "model": "blue_oceans:block/rice_ears_0" },
+    "age=1":  { "model": "blue_oceans:block/rice_ears" }
+  }
+}

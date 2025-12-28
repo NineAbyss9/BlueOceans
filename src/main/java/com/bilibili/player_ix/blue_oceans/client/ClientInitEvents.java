@@ -1,0 +1,109 @@
+
+package com.bilibili.player_ix.blue_oceans.client;
+
+import com.bilibili.player_ix.blue_oceans.BlueOceans;
+import com.bilibili.player_ix.blue_oceans.client.model.*;
+import com.bilibili.player_ix.blue_oceans.client.particles.Impart;
+import com.bilibili.player_ix.blue_oceans.client.particles.RedPlumSpell;
+import com.bilibili.player_ix.blue_oceans.client.particles.SparkParticle;
+import com.bilibili.player_ix.blue_oceans.client.renderer.*;
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansParticleTypes;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+public class ClientInitEvents {
+    public static final ResourceLocation LOCKED = BlueOceans.location("textures/gui/lock.png");
+    private ClientInitEvents() {
+    }
+
+    @SubscribeEvent
+    public static void registerParticles(RegisterParticleProvidersEvent event) {
+        event.registerSpriteSet(BlueOceansParticleTypes.BIG_RED_PLUM_INSTANT_SPELL.get(),
+            RedPlumSpell.BigInstantSpellProvider::new);
+        event.registerSpriteSet(BlueOceansParticleTypes.BO_SPELL.get(), RedPlumSpell.BOSpellProvider::new);
+        event.registerSpriteSet(BlueOceansParticleTypes.IMPART.get(), Impart.Provider::new);
+        event.registerSpriteSet(BlueOceansParticleTypes.RED_PLUM_SPELL.get(),
+                RedPlumSpell.SpellProvider::new);
+        event.registerSpriteSet(BlueOceansParticleTypes.RED_PLUM_INSTANT_SPELL.get(),
+                RedPlumSpell.InstantProvider::new);
+        event.registerSpriteSet(BlueOceansParticleTypes.RED_SPELL.get(), RedPlumSpell.RedSpell::new);
+        event.registerSpriteSet(BlueOceansParticleTypes.SPARK.get(), SparkParticle.SparkParticleProvider::new);
+    }
+
+    @SubscribeEvent
+    public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(AbstractSkeletonModel.LOCATION, AbstractSkeletonModel::createBodyLayer);
+        event.registerLayerDefinition(BikeModel.LAYER_LOCATION, BikeModel::createBodyLayer);
+        event.registerLayerDefinition(BulletModel.LAYER_LOCATION, BulletModel::createBodyLayer);
+        event.registerLayerDefinition(DeathModel.DEATH, DeathModel::createBodyLayer);
+        event.registerLayerDefinition(DumplingMonsterModel.LAYER_LOCATION, DumplingMonsterModel::createBodyLayer);
+        event.registerLayerDefinition(FreakagerModel.LAYER_LOCATION, FreakagerModel::createBodyLayer);
+        event.registerLayerDefinition(HeartOfHorrorModel.LAYER_LOCATION, HeartOfHorrorModel::createBodyLayer);
+        event.registerLayerDefinition(HuntingVillagerArmorModel.LOCATION, HuntingVillagerArmorModel::createInnerArmorLayer);
+        event.registerLayerDefinition(HuntingVillagerArmorModel.LOC, HuntingVillagerArmorModel::createOuterArmorLayer);
+        event.registerLayerDefinition(HuntingVillagerModel.LOCATION, HuntingVillagerModel::createBodyLayer);
+        event.registerLayerDefinition(PlumFactoryModel.LAYER_LOCATION, PlumFactoryModel::createBodyLayer);
+        event.registerLayerDefinition(NeoPlumModel.NEO_PLUM, NeoPlumModel::createBodyLayer);
+        event.registerLayerDefinition(ParameciumModel.LAYER_LOCATION, ParameciumModel::createBodyLayer);
+        event.registerLayerDefinition(RedPlumGirlModel.LAYER_LOCATION, RedPlumGirlModel::createBodyLayer);
+        event.registerLayerDefinition(RedPlumIllagerModel.LAYER_LOCATION, RedPlumIllagerModel::createBodyLayer);
+        event.registerLayerDefinition(RedPlumSlayerModel.LAYER_LOCATION, RedPlumSlayerModel::createBodyLayer);
+        event.registerLayerDefinition(VenomModel.LAYER_LOCATION, VenomModel::createBodyLayer);
+    }
+
+    @SubscribeEvent
+    public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(BlueOceansEntities.BASE_VILLAGER.get(), BaseVillagerRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.BEAR.get(), BearRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.BIKE.get(), BikeRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.BULLET.get(), BulletRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.DEATH.get(), DeathRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.DICTATOR.get(), DictatorRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.DUMPLING_MONSTER.get(), DumplingMonsterRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.FREAK.get(), FreakerRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.HEART_OF_HORROR.get(), HeartOfHorrorRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.HUNTING_VILLAGER.get(), HuntingVillagerRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.NATURAL_ENVOY.get(), NaturalEnvoyRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.NEO_PLUM.get(), NeoPlumRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.PARAMECIUM.get(), ParameciumRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.PLUM_FACTORY.get(), PlumFactoryRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.RED_PLUMS_COW.get(), RedPlumsCowRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.RED_PLUM_GIRL.get(), RedPlumGirlRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.RED_PLUM_HUMAN.get(), RedPlumHumanRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.RED_PLUM_SKELETON.get(), RedPlumSkeletonRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.RED_PLUM_SLAYER.get(), RedPlumSlayerRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.RED_PLUM_SPIDER.get(), RedPlumSpiderRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.RED_PLUM_WORM.get(), RedPlumWormRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.VENOM.get(), VenomRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.VILLAGER_BIOLOGIST.get(), VillagerBiologistRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.VILLAGER_CHIEF.get(), VillagerChiefRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.WATER_TRAP.get(), WaterTrapRenderer::new);
+    }
+
+    @SubscribeEvent
+    public static void registerItemDecorations(RegisterItemDecorationsEvent event) {
+        event.register(BlueOceansItems.RED_PLUM_SWORD.get(),
+                (guiGraphics, font, stack, xOffset, yOffset) -> {
+            guiGraphics.blit(LOCKED, xOffset, yOffset, 8 ,8, 8,
+                    8, 8, 8);
+            return true;
+                });
+    }
+
+    public static void onClientSetup(FMLClientSetupEvent event) {
+        registerItemStates();
+    }
+
+    public static void registerItemStates() {
+        //ItemProperties.register();
+    }
+}

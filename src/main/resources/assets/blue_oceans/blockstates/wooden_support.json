@@ -1,0 +1,18 @@
+{
+  "variants": {
+    "facing=west": {
+      "model": "blue_oceans:block/wooden_support",
+      "y": 90
+    },
+    "facing=east": {
+      "model": "blue_oceans:block/wooden_support",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "blue_oceans:block/wooden_support"
+    },
+    "facing=south": {
+      "model": "blue_oceans:block/wooden_support"
+    }
+  }
+}

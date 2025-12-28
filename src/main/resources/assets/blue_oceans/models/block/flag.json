@@ -1,0 +1,78 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made with Blockbench",
+	"texture_size": [128, 86],
+	"textures": {
+		"0": "blue_oceans:block/flag/evil_faction_flag",
+		"particle": "blue_oceans:block/flag/evil_faction_flag"
+	},
+	"elements": [
+		{
+			"name": "stick",
+			"from": [7, 0, 7],
+			"to": [9, 20, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [0, 12.27907, 0.25, 16], "texture": "#0"},
+				"east": {"uv": [0, 12.27907, 0.25, 16], "texture": "#0"},
+				"south": {"uv": [0, 12.27907, 0.25, 16], "texture": "#0"},
+				"west": {"uv": [0, 12.27907, 0.25, 16], "texture": "#0"},
+				"up": {"uv": [0, 12.27907, 0.25, 16], "texture": "#0"},
+				"down": {"uv": [0, 12.27907, 0.25, 16], "texture": "#0"}
+			}
+		},
+		{
+			"name": "flag",
+			"from": [9, 10, 8],
+			"to": [25, 20, 8],
+			"rotation": {"angle": 0, "axis": "y", "origin": [9, 19, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 11.90698], "texture": "#0"},
+				"east": {"uv": [0, 9.30233, 2.5, 11.72093], "texture": "#0"},
+				"south": {"uv": [0, 0, 16, 11.90698], "texture": "#0"},
+				"west": {"uv": [0, 9.30233, 2.5, 11.72093], "texture": "#0"},
+				"up": {"uv": [0, 9.30233, 2.5, 11.72093], "texture": "#0"},
+				"down": {"uv": [0, 9.30233, 2.5, 11.72093], "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [11, 90, 0],
+			"translation": [0, 6.75, 2.75]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [11, -90, 0],
+			"translation": [0, 6.75, 2.75]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 180, -26]
+		},
+		"gui": {
+			"translation": [-5.5, -1.5, 0],
+			"scale": [0.75, 0.75, 1]
+		},
+		"head": {
+			"translation": [0, 8, 0]
+		},
+		"fixed": {
+			"translation": [0, 0, -1]
+		}
+	},
+	"groups": [
+		{
+			"name": "group",
+			"origin": [8, 8, 8],
+			"color": 0,
+			"children": [
+				0,
+				{
+					"name": "main_flag",
+					"origin": [8, 8, 8],
+					"color": 0,
+					"children": [1]
+				}
+			]
+		}
+	]
+}

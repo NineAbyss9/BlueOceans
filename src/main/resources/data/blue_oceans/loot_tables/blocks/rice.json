@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:block",
+  "random_sequence": "blue_oceans:blocks/rice",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "blue_oceans:rice_seeds"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MIT License"
+
+[[mods]]
+modId="blue_oceans"
+version="1.0.8b"
+displayName="Blue Oceans"
+displayURL="https://github.com/noixmod"
+logoFile="logo.png"
+credits="Player_IX"
+authors="Player_IX"
+description="A fun mod!"
+
+[[dependencies.blue_oceans]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1]"
+ordering="AFTER"
+side="BOTH"

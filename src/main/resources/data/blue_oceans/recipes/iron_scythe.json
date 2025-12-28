@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "xxx",
+    "  x",
+    "  i"
+  ],
+  "key": {
+    "i": {
+      "item": "minecraft:stick"
+    },
+    "x": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "blue_oceans:iron_scythe",
+    "count": 1
+  }
+}
