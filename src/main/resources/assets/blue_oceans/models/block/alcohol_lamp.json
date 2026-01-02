@@ -1,0 +1,7 @@
+{
+  "parent": "blue_oceans:block/model_alcohol_lamp",
+  "textures": {
+    "0": "blue_oceans:block/alcohol_lamp",
+    "particle": "blue_oceans:block/alcohol_lamp"
+  }
+}
