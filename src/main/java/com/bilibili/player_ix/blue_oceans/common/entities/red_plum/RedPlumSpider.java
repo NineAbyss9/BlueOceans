@@ -54,9 +54,8 @@ public class RedPlumSpider extends RedPlumMonster {
         return this.getBbHeight() * 0.5F;
     }
 
-    @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType
-            pReason, @Nullable SpawnGroupData pData, @Nullable CompoundTag pTag) {
+            pReason, SpawnGroupData pData, CompoundTag pTag) {
         SpawnGroupData data = super.finalizeSpawn(pLevel, pDifficulty, pReason, pData, pTag);
         if (data == null) {
             data = new SpiderData();

@@ -11,5 +11,7 @@ extends WaterAnimal {
         super(pEntityType, pLevel);
     }
 
-
+    protected void registerGoals() {
+        super.registerGoals();
+    }
 }

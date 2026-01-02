@@ -20,5 +20,6 @@ public class TransformerUtil {
         if (this.transformer != null) {
             this.transformer.transform(new DOMSource(), new DOMResult());
         }
+        ixUtil.m.unlock(true);
     }
 }

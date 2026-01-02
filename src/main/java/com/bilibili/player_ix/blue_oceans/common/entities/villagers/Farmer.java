@@ -2,14 +2,17 @@
 package com.bilibili.player_ix.blue_oceans.common.entities.villagers;
 
 import com.bilibili.player_ix.blue_oceans.api.mob.Profession;
+import com.bilibili.player_ix.blue_oceans.api.task.Task;
 import com.bilibili.player_ix.blue_oceans.common.item.util.ScytheItem;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
+import com.github.player_ix.ix_api.api.ApiPose;
 import com.github.player_ix.ix_api.api.item.ItemStacks;
 import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -45,8 +48,8 @@ extends BaseVillager {
     }
 
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new FarmGoal(this));
-        this.goalSelector.addGoal(2, new UseBonemealGoal(this));
+        this.goalSelector.addGoal(1, new UseBonemealGoal(this));
+        this.goalSelector.addGoal(2, new FarmGoal(this));
         super.registerGoals();
     }
 
@@ -66,6 +69,12 @@ extends BaseVillager {
         return new ItemStack(BlueOceansItems.IRON_SCYTHE.get());
     }
 
+    public ApiPose getArmPose() {
+        if (isAggressive() || isWorking())
+            return ApiPose.ATTACKING;
+        return ApiPose.NATURAL;
+    }
+
     protected static class UseBonemealGoal extends Goal implements IXUtilUser {
         private long nextWorkCycleTime;
         private long lastBonemealingSession;
@@ -80,28 +89,30 @@ extends BaseVillager {
         public boolean canUse() {
             if (farmer.tickCount % 10 == 0 && (this.lastBonemealingSession == 0L || this.lastBonemealingSession + 160L
                     <= farmer.tickCount)) {
-                if (farmer.getInventory().countItem(Items.BONE_MEAL) <= 0) {
+                if (farmer.getInventory().countItem(Items.BONE_MEAL) <= 0)
                     return false;
-                } else {
+                else {
+                    if (!checkTarget())
+                        return false;
                     this.cropPos = this.pickNextTarget(farmer.level(), farmer);
                     return this.cropPos.isPresent();
                 }
-            } else {
+            } else
                 return false;
-            }
         }
 
         public boolean canContinueToUse() {
-            return this.timeWorkedSoFar < 80 && this.cropPos.isPresent();
+            return this.timeWorkedSoFar < 80 && this.cropPos.isPresent()
+                    && checkTarget();
         }
 
         private Option<BlockPos> pickNextTarget(Level pLevel, Farmer pVillager) {
             BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
             Option<BlockPos> option = Option.empty();
             int i = 0;
-            for(int j = -1; j <= 1; ++j) {
-                for(int k = -1; k <= 1; ++k) {
-                    for(int l = -1; l <= 1; ++l) {
+            for (int j = -1; j <= 1; ++j) {
+                for (int k = -1; k <= 1; ++k) {
+                    for (int l = -1; l <= 1; ++l) {
                         blockpos$mutableblockpos.setWithOffset(pVillager.blockPosition(), j, k, l);
                         if (this.validPos(blockpos$mutableblockpos, pLevel)) {
                             ++i;
@@ -117,15 +128,20 @@ extends BaseVillager {
 
         private boolean validPos(BlockPos pPos, Level pLevel) {
             BlockState blockstate = pLevel.getBlockState(pPos);
+            net.minecraft.world.entity.ai.behavior.UseBonemeal useBonemeal;
             Block block = blockstate.getBlock();
             return block instanceof CropBlock && !((CropBlock)block).isMaxAge(blockstate);
         }
 
         private void setCurrentCropAsTarget(Farmer entity) {
-            this.cropPos.ifPresent(pos -> entity.navigation.moveTo(pos.getX(), pos.getY(), pos.getZ(), 0.5D));
+            this.cropPos.ifPresent(pos -> {
+                entity.navigation.moveTo(pos.getX(), pos.getY(), pos.getZ(), 0.5D);
+                entity.lookControl.setLookAt(pos.getX(), pos.getY(), pos.getZ());
+            });
         }
 
         public void start() {
+            farmer.setTask(Task.WORK);
             this.setCurrentCropAsTarget(farmer);
             farmer.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.BONE_MEAL));
             this.nextWorkCycleTime = farmer.level().getGameTime();
@@ -136,12 +152,12 @@ extends BaseVillager {
         public void tick() {
             Level pLevel = farmer.level();
             long pGameTime = pLevel.getGameTime();
-            BlockPos blockpos = this.cropPos.get();
+            BlockPos blockpos = this.cropPos.orElseThrow();
             if (pGameTime >= this.nextWorkCycleTime && blockpos.closerToCenterThan(farmer.position(), 1)) {
                 ItemStack itemstack = ItemStack.EMPTY;
                 SimpleContainer simplecontainer = farmer.getInventory();
                 int i = simplecontainer.getContainerSize();
-                for(int j = 0; j < i; ++j) {
+                for (int j = 0; j < i; ++j) {
                     ItemStack itemstack1 = simplecontainer.getItem(j);
                     if (itemstack1.is(Items.BONE_MEAL)) {
                         itemstack = itemstack1;
@@ -159,12 +175,17 @@ extends BaseVillager {
         }
 
         public void stop() {
+            farmer.resetTask();
             farmer.setHandItemToDaily();
             this.lastBonemealingSession = farmer.tickCount;
         }
 
         public <T> T convert() {
             return IXUtil.c.convert(this.farmer);
+        }
+
+        public boolean checkTarget() {
+            return farmer.getTarget() == null;
         }
     }
 
@@ -198,11 +219,13 @@ extends BaseVillager {
             if (!ForgeEventFactory.getMobGriefingEvent(this.farmer.level(), this.farmer))
                 return false;
             else {
+                if (!checkTarget())
+                    return false;
                 BlockPos.MutableBlockPos pos = this.farmer.blockPosition().mutable();
                 validFarmlandAroundVillager.clear();
-                for(int i = -1; i <= 1; ++i) {
-                    for(int j = -1; j <= 1; ++j) {
-                        for(int k = -1; k <= 1; ++k) {
+                for (int i = -1; i <= 1; ++i) {
+                    for (int j = -1; j <= 1; ++j) {
+                        for (int k = -1; k <= 1; ++k) {
                             pos.set(farmer.getX() + i, farmer.getY() + j, farmer.getZ() + k);
                             if (this.validPos(pos, farmer.level())) {
                                 this.validFarmlandAroundVillager.add(new BlockPos(pos));
@@ -217,6 +240,7 @@ extends BaseVillager {
 
         public void start() {
             if (farmer.level().getGameTime() > nextOkStartTime && aboveFarmlandPos != null) {
+                farmer.setTask(Task.WORK);
                 farmer.lookControl.setLookAt(aboveFarmlandPos.getX(), aboveFarmlandPos.getY(), aboveFarmlandPos.getZ());
                 farmer.navigation.moveTo(aboveFarmlandPos.getX(), aboveFarmlandPos.getY(), aboveFarmlandPos.getZ(),
                         0.5);
@@ -238,10 +262,11 @@ extends BaseVillager {
                             scythe.mineBlock(farmer.getMainHandItem(), pLevel, blockstate, aboveFarmlandPos, farmer);
                         else
                             pLevel.destroyBlock(this.aboveFarmlandPos, true, pOwner);
+                        farmer.swing(InteractionHand.MAIN_HAND);
                     }
                     if (blockstate.isAir() && block1 instanceof FarmBlock && pOwner.hasFarmSeeds()) {
                         SimpleContainer simplecontainer = pOwner.getInventory();
-                        for(int i = 0; i < simplecontainer.getContainerSize(); ++i) {
+                        for (int i = 0; i < simplecontainer.getContainerSize(); ++i) {
                             ItemStack itemstack = simplecontainer.getItem(i);
                             boolean flag = false;
                             if (!itemstack.isEmpty() && itemstack.is(ItemTags.VILLAGER_PLANTABLE_SEEDS)) {
@@ -260,9 +285,9 @@ extends BaseVillager {
                                 }
                             }
                             if (flag) {
-                                pLevel.playSound(null, this.aboveFarmlandPos.getX(), this.aboveFarmlandPos.getY(), this
-                                        .aboveFarmlandPos.getZ(), SoundEvents.CROP_PLANTED, SoundSource.BLOCKS, 1.0F,
-                                        1.0F);
+                                BlockPos pos = aboveFarmlandPos;
+                                pLevel.playSound(null, pos.getX(), pos.getY(), pos.getZ(),
+                                        SoundEvents.CROP_PLANTED, SoundSource.BLOCKS, 1.0F, 1.0F);
                                 itemstack.shrink(1);
                                 if (itemstack.isEmpty()) {
                                     simplecontainer.setItem(i, ItemStack.EMPTY);
@@ -281,10 +306,15 @@ extends BaseVillager {
         }
 
         public boolean canContinueToUse() {
-            return this.timeWorkedSoFar < 200;
+            return this.timeWorkedSoFar < 200 && checkTarget();
+        }
+
+        public boolean checkTarget() {
+            return farmer.getTarget() == null;
         }
 
         public void stop() {
+            farmer.resetTask();
             farmer.navigation.stop();
             farmer.setHandItemToDaily();
             this.timeWorkedSoFar = 0;

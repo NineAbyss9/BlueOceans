@@ -134,7 +134,7 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
     }
 
     protected int nextConvertUpNeeds() {
-        return RedPlumUtil.PLUM_PLUS_KILLS.intValue(this.getInfectLevel() - 1);
+        return RedPlumUtil.PLUM_PLUS_KILLS.intValue(this.getLevel() - 1);
     }
 
     protected boolean shouldUpLevel() {

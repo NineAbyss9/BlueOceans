@@ -63,7 +63,7 @@ extends ModSpellcasterIllager {
         this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, AbstractGolem.class,
                 false));
         this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, LivingEntity.class,
-                false, (ling) -> ling instanceof RedPlumMob));
+                false, ling -> ling instanceof RedPlumMob));
         super.registerGoals();
     }
 

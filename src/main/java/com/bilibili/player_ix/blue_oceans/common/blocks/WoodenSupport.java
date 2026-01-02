@@ -59,15 +59,15 @@ extends BaseEntityBlock {
 
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
                                  BlockHitResult pHit) {
-        if (!pLevel.isClientSide) {
-            if (pLevel.getBlockEntity(pPos) instanceof WoodenSupportBlockEntity entity) {
-                ItemStack itemStack = pPlayer.getItemInHand(pHand);
-                if (itemStack.isEmpty())
+        if (pLevel.getBlockEntity(pPos) instanceof WoodenSupportBlockEntity entity) {
+            ItemStack itemStack = pPlayer.getItemInHand(pHand);
+            if (itemStack.isEmpty())
+                entity.dropItems(pLevel, pPos);
+            else {
+                if (!entity.getPuttedItem().isEmpty())
                     entity.dropItems(pLevel, pPos);
-                else {
-                    entity.setItem(0, itemStack.copy());
-                    ItemUtil.shrink(itemStack, pPlayer, itemStack.getCount());
-                }
+                entity.setItem(0, itemStack.copy());
+                ItemUtil.shrink(itemStack, pPlayer, itemStack.getCount());
             }
         }
         return InteractionResult.sidedSuccess(pLevel.isClientSide);

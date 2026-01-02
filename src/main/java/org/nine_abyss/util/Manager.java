@@ -30,6 +30,15 @@ public final class Manager {
         }
     }
 
+    public void unlock(boolean write) {
+        if (checkCaller(WALKER.getCallerClass())) {
+            if (write)
+                this.lock.writeLock().unlock();
+            else
+                this.lock.readLock().unlock();
+        }
+    }
+
     public boolean isLocked() {
         return this.lock.isWriteLocked();
     }

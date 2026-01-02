@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkEvent;
 import org.nine_abyss.annotation.NotCheckUnused;
 
@@ -14,6 +15,10 @@ import java.util.function.Supplier;
 
 public record ParticlePacket(ParticleOptions options, double x, double y, double z,
                              double dx, double dy, double dz) {
+    public ParticlePacket(ParticleOptions options, Vec3 position, double dx, double dy, double dz) {
+        this(options, position.x(), position.y(), position.z(), dx, dy, dz);
+    }
+
     @SuppressWarnings("deprecation")
     public static <T extends ParticleOptions> void writeParticle(T options, FriendlyByteBuf buffer) {
         buffer.writeInt(BuiltInRegistries.PARTICLE_TYPE.getId(options.getType()));
@@ -32,7 +37,7 @@ public record ParticlePacket(ParticleOptions options, double x, double y, double
 
     @NotCheckUnused
     public static void handle(ParticlePacket packet, Supplier<NetworkEvent.Context> ctx) {
-        NetworkEvent.Context context=ctx.get();
+        NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> {
             if (SideHandler.isServerSide())
                 return;

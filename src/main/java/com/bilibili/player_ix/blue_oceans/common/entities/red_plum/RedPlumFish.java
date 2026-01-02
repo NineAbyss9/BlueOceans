@@ -8,7 +8,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 
 import static org.nine_abyss.math.AbyssMath.random;
 
@@ -29,17 +28,14 @@ extends WaterPlumMob {
                     random(0.12), random(0.2), random(0.12));
     }
 
-    @Nullable
     protected SoundEvent getAmbientSound() {
         return SoundEvents.SALMON_AMBIENT;
     }
 
-    @Nullable
     protected SoundEvent getHurtSound(DamageSource pDamageSource) {
         return SoundEvents.SALMON_HURT;
     }
 
-    @Nullable
     protected SoundEvent getDeathSound() {
         return SoundEvents.SALMON_DEATH;
     }

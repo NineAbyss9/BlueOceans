@@ -7,6 +7,7 @@ import com.bilibili.player_ix.blue_oceans.network.BoNetwork;
 import com.github.player_ix.ix_api.api.ModOfNineAbyss;
 import com.github.player_ix.ix_api.util.ResourceLocations;
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -70,6 +71,10 @@ public class BlueOceans implements ModOfNineAbyss {
     @Nonnull
     public static ResourceLocation location(String s) {
         return ResourceLocations.fromNamespaceAndPath(MOD_ID, s);
+    }
+
+    public static ModelLayerLocation modelLocation(String s) {
+        return new ModelLayerLocation(location(s), "main");
     }
 
     public static ResourceLocation gui(String s) {

@@ -68,9 +68,8 @@ implements Supplier<T> {
      * @throws NoSuchElementException if no value is present
      */
     public T orElseThrow() {
-        if (isEmpty()) {
+        if (isEmpty())
             throw new NoSuchElementException("No value present");
-        }
         return this.value;
     }
 
@@ -117,19 +116,17 @@ implements Supplier<T> {
      * @return the value, if present, otherwise {@code other}
      */
     public T ifOrElse(boolean flag, T other) {
-        if (flag) {
+        if (flag)
             return this.value;
-        } else {
+        else
             return other;
-        }
     }
 
     public T ifOrElseThrow(boolean flag, Supplier<Throwable> exception) throws Throwable {
-        if (flag) {
+        if (flag)
             return this.value;
-        } else {
+        else
             throw exception.get();
-        }
     }
 
     /**@param consumer will always accept the value, but if the {@linkplain Option#value} is {@code null},
@@ -144,18 +141,16 @@ implements Supplier<T> {
 
     /**@see Optional#ifPresent(Consumer)*/
     public void ifPresent(Consumer<? super T> consumer) {
-        if (isPresent()) {
+        if (isPresent())
             consumer.accept(value);
-        }
     }
 
     /**@see Optional#ifPresentOrElse(Consumer, Runnable)*/
     public void ifPresentOrElse(Consumer<? super T> consumer, Runnable runnable) {
-        if (isPresent()) {
+        if (isPresent())
             consumer.accept(value);
-        } else {
+        else
             runnable.run();
-        }
     }
 
     /**
@@ -170,19 +165,17 @@ implements Supplier<T> {
      * @throws NullPointerException if the predicate is {@code null}
      */
     public Option<T> filter(Predicate<? super T> predicate) {
-        if (isEmpty()) {
+        if (isEmpty())
             return this;
-        } else {
+        else
             return predicate.test(value) ? this : Option.empty();
-        }
     }
 
     public Optional<T> asOptional() {
-        if (this.isPresent()) {
+        if (this.isPresent())
             return Optional.of(value);
-        } else {
+        else
             return Optional.empty();
-        }
     }
 
     public Supplier<T> asSupplier() {
@@ -199,15 +192,14 @@ implements Supplier<T> {
 
     /**@see Optional#equals(Object)*/
     public boolean equals(Object obj) {
-        if (this == obj) {
+        if (this == obj)
             return true;
-        } else {
-            if (obj instanceof Option<?> option) {
+        else {
+            if (obj instanceof Option<?> option)
                 return Objects.equals(value, option.value);
-            } else {
-                if (obj instanceof Optional<?> o) {
+            else {
+                if (obj instanceof Optional<?> o)
                     return o.filter(object -> Objects.equals(object, value)).isPresent();
-                }
                 return false;
             }
         }
@@ -226,13 +218,12 @@ implements Supplier<T> {
     }
 
     public boolean isNaN() {
-        if (value instanceof Double d) {
+        if (value instanceof Double d)
             return d.isNaN();
-        } else if (value instanceof Float f) {
+        else if (value instanceof Float f)
             return f.isNaN();
-        } else {
+        else
             return false;
-        }
     }
 
     /**@see Optional#isPresent() */

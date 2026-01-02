@@ -15,4 +15,8 @@ public interface IAcceptTask {
     default void setTask(Task pTask) {
         this.setTask(pTask.id);
     }
+
+    default void resetTask() {
+        this.setTask(Task.EMPTY);
+    }
 }

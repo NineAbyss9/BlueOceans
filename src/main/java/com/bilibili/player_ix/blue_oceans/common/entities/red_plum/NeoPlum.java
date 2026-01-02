@@ -122,6 +122,10 @@ implements IConversion {
         }
     }
 
+    protected int nextConvertUpNeeds() {
+        return 0x7fffffff;
+    }
+
     public int getLevel() {
         return 0;
     }

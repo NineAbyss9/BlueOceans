@@ -6,7 +6,6 @@ import com.github.player_ix.ix_api.api.mobs.MobFoodData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -23,10 +22,6 @@ implements FoodDataUser {
 
     public MobFoodData foodData() {
         return this.foodData;
-    }
-
-    public void eat(LivingEntity pEntity) {
-        this.foodData().eat(pEntity);
     }
 
     public ItemStack eat(Level pLevel, ItemStack pFood) {

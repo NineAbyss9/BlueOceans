@@ -1,25 +1,27 @@
 
 package com.bilibili.player_ix.blue_oceans.api.task;
 
-import javax.annotation.Nullable;
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
+import net.minecraft.world.item.ItemStack;
 
 public enum Task {
     EMPTY(0),
     PURSUIT_AND_APPREHENSION(1),
     MEET(2),
-    PLANT_FLAG(3),
+    PLANT_FLAG(3, () -> new ItemStack(BlueOceansItems.FLAG.get())),
     FIND_HELP(4),
     FARM(5),
-    FOLLOW(6);
+    FOLLOW(6),
+    WORK(7);
     public final int id;
     public final ItemHolder item;
-    Task(int pId, @Nullable ItemHolder pHolder) {
+    Task(int pId, ItemHolder pHolder) {
         id = pId;
         item = pHolder;
     }
 
     Task(int pId) {
-        this(pId, null);
+        this(pId, () -> null);
     }
 
     public int getId() {

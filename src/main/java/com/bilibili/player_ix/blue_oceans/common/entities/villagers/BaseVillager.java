@@ -35,7 +35,9 @@ import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.entity.ai.village.ReputationEventType;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.npc.AbstractVillager;
+import net.minecraft.world.entity.npc.InventoryCarrier;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -77,10 +79,10 @@ implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser {
     }
 
     public void registerBehaviors() {
-        this.addAttackGoals();
+        this.addAttackBehaviors();
     }
 
-    protected void addAttackGoals() {
+    protected void addAttackBehaviors() {
         this.behaviorSelector.addBehavior(2, new VillagerAttackBehavior(this, 1.0,
                 true, 2));
     }
@@ -134,6 +136,7 @@ implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser {
         pCompound.put("VillagerData", villagerData);
         ListTag foodTag = this.foodData.integration();
         pCompound.put("FoodData", foodTag);
+        pCompound.put("Inventory", this.getInventory().createTag());
     }
 
     public void readAdditionalSaveData(CompoundTag pCompound) {
@@ -144,6 +147,9 @@ implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser {
             CompoundTag tag = (CompoundTag)villagerData.get(0);
             this.setAgent(tag.getBoolean("isAgent"));
             this.setTask(tag.getInt("CurrentTask"));
+        }
+        if (pCompound.get("Inventory") instanceof ListTag listTag) {
+            this.getInventory().fromTag(listTag);
         }
     }
 
@@ -171,6 +177,10 @@ implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser {
         return Task.fromId(this.entityData.get(DATA_TASK));
     }
 
+    public boolean isWorking() {
+        return this.getTask().equals(Task.WORK);
+    }
+
     public void setTask(int pTask) {
         this.entityData.set(DATA_TASK, pTask);
     }
@@ -187,9 +197,16 @@ implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser {
     public boolean wantsToPickUp(ItemStack pStack) {
         Item item = pStack.getItem();
         VillagerProfession villagerProfession = getProfession().villagerProfession();
-        return this.getInventory().canAddItem(pStack) && (this.getWantedItems().contains(item) || (villagerProfession != null
+        if (!this.getInventory().canAddItem(pStack))
+            return false;
+        return this.getWantedItems().contains(item) || (villagerProfession != null
                 && villagerProfession.requestedItems().contains(item)) || this.getTask().item.sameStack(pStack) ||
-                this.getProfession().requestedItems.contains(item));
+                this.getProfession().requestedItems.contains(item);
+    }
+
+    //Enable the mobGrifting rule!
+    protected void pickUpItem(ItemEntity pItemEntity) {
+        InventoryCarrier.pickUpItem(this, this, pItemEntity);
     }
 
     protected ItemStack getAttackItem() {

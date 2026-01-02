@@ -34,7 +34,8 @@ public class Cooldown {
     public void tick() {
         ++this.tickCount;
         if (!this.cooldowns.isEmpty()) {
-            this.cooldowns.entrySet().removeIf(parameter -> parameter.getValue().endTime <= this.tickCount);
+            this.cooldowns.entrySet().removeIf(parameter -> parameter.getValue().endTime
+                    <= this.tickCount);
         }
     }
 

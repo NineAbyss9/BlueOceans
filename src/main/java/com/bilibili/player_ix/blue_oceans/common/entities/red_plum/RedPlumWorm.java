@@ -18,7 +18,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
-import org.jetbrains.annotations.Nullable;
 
 public class RedPlumWorm extends RedPlumMonster {
     public RedPlumWorm(EntityType<? extends RedPlumMonster > p_21683_, Level p_21684_) {
@@ -34,7 +33,7 @@ public class RedPlumWorm extends RedPlumMonster {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
-    protected @Nullable SoundEvent getAmbientSound() {
+    protected SoundEvent getAmbientSound() {
         return BlueOceansSounds.RedPlumWormIdle.get();
     }
 

@@ -33,12 +33,19 @@ extends Block {
     public static final BooleanProperty EAST = PipeBlock.EAST;
     public static final BooleanProperty SOUTH = PipeBlock.SOUTH;
     public static final BooleanProperty WEST = PipeBlock.WEST;
-    public static final Map<Direction, BooleanProperty> PROPERTY_BY_DIRECTION = PipeBlock.PROPERTY_BY_DIRECTION.entrySet().stream().filter((p_57886_) -> p_57886_.getKey() != Direction.DOWN).collect(Util.toMap());
-    private static final VoxelShape UP_AABB = Block.box(0.0D, 15.0D, 0.0D, 16.0D, 16.0D, 16.0D);
-    private static final VoxelShape WEST_AABB = Block.box(0.0D, 0.0D, 0.0D, 1.0D, 16.0D, 16.0D);
-    private static final VoxelShape EAST_AABB = Block.box(15.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
-    private static final VoxelShape NORTH_AABB = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 1.0D);
-    private static final VoxelShape SOUTH_AABB = Block.box(0.0D, 0.0D, 15.0D, 16.0D, 16.0D, 16.0D);
+    public static final Map<Direction, BooleanProperty> PROPERTY_BY_DIRECTION = PipeBlock
+            .PROPERTY_BY_DIRECTION.entrySet().stream().filter((p_57886_) ->
+                    p_57886_.getKey() != Direction.DOWN).collect(Util.toMap());
+    private static final VoxelShape UP_AABB =
+            Block.box(0.0D, 15.0D, 0.0D, 16.0D, 16.0D, 16.0D);
+    private static final VoxelShape WEST_AABB =
+            Block.box(0.0D, 0.0D, 0.0D, 1.0D, 16.0D, 16.0D);
+    private static final VoxelShape EAST_AABB =
+            Block.box(15.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
+    private static final VoxelShape NORTH_AABB =
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 1.0D);
+    private static final VoxelShape SOUTH_AABB =
+            Block.box(0.0D, 0.0D, 15.0D, 16.0D, 16.0D, 16.0D);
     private final Map<BlockState, VoxelShape> shapesCache;
     private static final Boolean FALSE = Boolean.FALSE;
 
@@ -114,7 +121,8 @@ extends Block {
     }
 
     public static boolean isAcceptableNeighbour(BlockGetter pBlockReader, BlockPos pNeighborPos, Direction pAttachedFace) {
-        return MultifaceBlock.canAttachTo(pBlockReader, pAttachedFace, pNeighborPos, pBlockReader.getBlockState(pNeighborPos));
+        return MultifaceBlock.canAttachTo(pBlockReader, pAttachedFace, pNeighborPos, pBlockReader
+                .getBlockState(pNeighborPos));
     }
 
     private BlockState getUpdatedState(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
@@ -139,7 +147,8 @@ extends Block {
         return pState;
     }
 
-    public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos) {
+    public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel,
+                                  BlockPos pCurrentPos, BlockPos pFacingPos) {
         if (pFacing == Direction.DOWN) {
             return super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
         } else {
@@ -150,7 +159,7 @@ extends Block {
 
     public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
         if (pLevel.getGameRules().getBoolean(GameRules.RULE_DO_VINES_SPREAD)) {
-            if (pLevel.random.nextInt(4) == 0 && pLevel.isAreaLoaded(pPos, 4)) { // Forge: check area to prevent loading unloaded chunks
+            if (pLevel.random.nextInt(4) == 0 && pLevel.isAreaLoaded(pPos, 4)) {
                 Direction direction = Direction.getRandom(pRandom);
                 BlockPos blockpos = pPos.above();
                 if (direction.getAxis().isHorizontal() && !pState.getValue(getPropertyForFace(direction))) {
@@ -165,16 +174,23 @@ extends Block {
                             BlockPos blockpos2 = blockpos4.relative(direction3);
                             BlockPos blockpos3 = blockpos4.relative(direction4);
                             if (flag && isAcceptableNeighbour(pLevel, blockpos2, direction3)) {
-                                pLevel.setBlock(blockpos4, this.defaultBlockState().setValue(getPropertyForFace(direction3), Boolean.TRUE), 2);
+                                pLevel.setBlock(blockpos4, this.defaultBlockState().setValue(getPropertyForFace(direction3),
+                                        Boolean.TRUE), 2);
                             } else if (flag1 && isAcceptableNeighbour(pLevel, blockpos3, direction4)) {
-                                pLevel.setBlock(blockpos4, this.defaultBlockState().setValue(getPropertyForFace(direction4), Boolean.TRUE), 2);
+                                pLevel.setBlock(blockpos4, this.defaultBlockState().setValue(getPropertyForFace(direction4),
+                                        Boolean.TRUE), 2);
                             } else {
                                 Direction direction1 = direction.getOpposite();
-                                if (flag && pLevel.isEmptyBlock(blockpos2) && isAcceptableNeighbour(pLevel, pPos.relative(direction3), direction1)) {
-                                    pLevel.setBlock(blockpos2, this.defaultBlockState().setValue(getPropertyForFace(direction1), Boolean.TRUE), 2);
-                                } else if (flag1 && pLevel.isEmptyBlock(blockpos3) && isAcceptableNeighbour(pLevel, pPos.relative(direction4), direction1)) {
-                                    pLevel.setBlock(blockpos3, this.defaultBlockState().setValue(getPropertyForFace(direction1), Boolean.TRUE), 2);
-                                } else if ((double)pRandom.nextFloat() < 0.05D && isAcceptableNeighbour(pLevel, blockpos4.above(), Direction.UP)) {
+                                if (flag && pLevel.isEmptyBlock(blockpos2) && isAcceptableNeighbour(pLevel, pPos.relative(direction3),
+                                        direction1)) {
+                                    pLevel.setBlock(blockpos2, this.defaultBlockState().setValue(getPropertyForFace(direction1), Boolean
+                                            .TRUE), 2);
+                                } else if (flag1 && pLevel.isEmptyBlock(blockpos3) && isAcceptableNeighbour(pLevel, pPos
+                                        .relative(direction4), direction1)) {
+                                    pLevel.setBlock(blockpos3, this.defaultBlockState().setValue(getPropertyForFace(direction1), Boolean
+                                            .TRUE), 2);
+                                } else if ((double)pRandom.nextFloat() < 0.05D && isAcceptableNeighbour(pLevel, blockpos4.above(),
+                                        Direction.UP)) {
                                     pLevel.setBlock(blockpos4, this.defaultBlockState().setValue(UP, Boolean.TRUE), 2);
                                 }
                             }

@@ -2,7 +2,6 @@
 package com.bilibili.player_ix.blue_oceans.api.mob;
 
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
-import com.github.player_ix.ix_api.util.UnmodifiableSet;
 import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -12,6 +11,8 @@ import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import org.nine_abyss.annotation.doc.Message;
+import org.nine_abyss.util.lister.Lister;
+import org.nine_abyss.util.lister.SubLister;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -29,8 +30,8 @@ public class Profession {
     public final String name;
     public final Predicate<Holder<PoiType>> heldJobSite;
     public final Predicate<Holder<PoiType>> acquirableJobSite;
-    public final Set<Item> requestedItems;
-    public final Set<Block> secondaryPoi;
+    public final Lister<Item> requestedItems;
+    public final Lister<Block> secondaryPoi;
     @Nullable
     public final SoundEvent workSound;
     public Profession(@Nullable VillagerProfession pProfession, String pName, Predicate<Holder<PoiType>> pHeldJobSite,
@@ -40,8 +41,8 @@ public class Profession {
         this.name = pName;
         this.heldJobSite = pHeldJobSite;
         this.acquirableJobSite = pAcquirableJobSite;
-        this.requestedItems = pRequestedItems;
-        this.secondaryPoi = pSecondaryPoi;
+        this.requestedItems = SubLister.copyOf(pRequestedItems);
+        this.secondaryPoi = SubLister.copyOf(pSecondaryPoi);
         this.workSound = pWorkSound;
     }
 
@@ -61,7 +62,7 @@ public class Profession {
         FARMER = new Profession(VillagerProfession.FARMER);
         FISHMAN = new Profession(VillagerProfession.FISHERMAN);
         SOLIDER = new Profession(null, "Solider", site->site.is(PoiTypeTags.VILLAGE),
-                aqSite->true, UnmodifiableSet.of(BlueOceansItems.SNIPER_RIFLE.get()), UnmodifiableSet.of(),
+                aqSite->true, Set.of(BlueOceansItems.SNIPER_RIFLE.get()), Set.of(),
                 SoundEvents.VILLAGER_WORK_BUTCHER);
     }
 }

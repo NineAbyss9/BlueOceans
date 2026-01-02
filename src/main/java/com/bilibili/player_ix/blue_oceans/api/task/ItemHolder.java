@@ -22,11 +22,19 @@ public interface ItemHolder extends IXUtilUser {
         return this.convert(getTaskItem());
     }
 
+    default boolean isEmpty() {
+        return this.getTaskItem() == null;
+    }
+
     default boolean sameStack(ItemStack pStack) {
+        if (isEmpty())
+            return false;
         return pStack.equals(this.getItemStack(), true);
     }
 
     default boolean sameItem(Item pItem) {
+        if (isEmpty())
+            return false;
         return pItem.equals(this.getItem());
     }
 }

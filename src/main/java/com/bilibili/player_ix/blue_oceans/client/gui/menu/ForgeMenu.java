@@ -6,20 +6,18 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.ItemCombinerMenu;
 import net.minecraft.world.inventory.ItemCombinerMenuSlotDefinition;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
 
 public class ForgeMenu
 extends ItemCombinerMenu {
-    public ForgeMenu(@Nullable MenuType<?> pType, int pContainerId, Inventory pPlayerInventory,
+    public ForgeMenu(int pContainerId, Inventory pPlayerInventory,
                      ContainerLevelAccess pAccess) {
-        super(pType, pContainerId, pPlayerInventory, pAccess);
+        super(null, pContainerId, pPlayerInventory, pAccess);
     }
 
     public static ForgeMenu register(int pContainerId, Inventory inventory) {
-        return new ForgeMenu(null, pContainerId, inventory, ContainerLevelAccess.NULL);
+        return new ForgeMenu(pContainerId, inventory, ContainerLevelAccess.NULL);
     }
 
     protected boolean mayPickup(Player pPlayer, boolean pHasStack) {

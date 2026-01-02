@@ -21,6 +21,7 @@ extends BoAnimal
 implements IAnimatedMob {
     private int eatTick;
     private boolean eatStarted;
+    public AnimationState idle = new AnimationState();
     public AnimationState eat = new AnimationState();
     public Mouse(EntityType<? extends Mouse> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);

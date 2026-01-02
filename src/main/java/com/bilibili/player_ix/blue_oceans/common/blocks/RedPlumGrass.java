@@ -21,7 +21,8 @@ implements IPlumBlock {
     protected static final VoxelShape SHAPE;
     public RedPlumGrass() {
         super(Properties.of().mapColor(DyeColor.RED).replaceable().noCollission().instabreak()
-                .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XYZ).ignitedByLava().pushReaction(PushReaction.DESTROY));
+                .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XYZ).ignitedByLava()
+                .pushReaction(PushReaction.DESTROY));
     }
 
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {

@@ -28,7 +28,7 @@ public class PlumInvade extends MobEffect {
                     if (mob instanceof PlumFactory factory) {
                         factory.setLevelPlus();
                     }
-                    mob.setInfectLevelPlus();
+                    mob.checkAndPlusInfectLevel(pLivingEntity);
                 }
                 pLivingEntity.removeEffect(this);
                 var plum = NeoPlum.create(pLivingEntity.position(), pLivingEntity.level());

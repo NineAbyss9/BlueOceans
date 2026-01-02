@@ -153,6 +153,8 @@ public class BlueOceansItems {
             BlueOceansEntities.BASE_VILLAGER, 5651507, 12422002);
     public static final RegistryObject<Item> DEATH_SPAWN_EGG = ITEMS.register("death_spawn_egg", ()-> new ForgeSpawnEggItem(BlueOceansEntities.DEATH, 0x000000, 0x001000, new Item.Properties()));
     public static final RegistryObject<Item> DICTATOR_SPAWN_EGG = ITEMS.register("dictator_spawn_egg", () -> new ForgeSpawnEggItem(BlueOceansEntities.DICTATOR,-10066330, -6710887, new Item.Properties()));
+    public static final RegistryObject<Item> FARMER_SPAWN_EGG = spawnEgg("farmer", BlueOceansEntities.FARMER,
+            5651507, 12422002);
     public static final RegistryObject<Item> FREAK_SPAWN_EGG = ITEMS.register("freak_spawn_egg", () -> new ForgeSpawnEggItem(BlueOceansEntities.FREAK, 0x272727, 0xDCDCDC, new Item.Properties()));
     public static final RegistryObject<Item> HUNTING_VILLAGER_SPAWN_EGG = ITEMS.register("hunting_villager_spawn_egg", ()-> new ForgeSpawnEggItem(BlueOceansEntities.HUNTING_VILLAGER, 5651507, 12422002, new Item.Properties()));
     public static final RegistryObject<Item> NEO_PLUM_SPAWN_EGG = spawnEgg("neo_plum", BlueOceansEntities.NEO_PLUM,

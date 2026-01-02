@@ -8,12 +8,14 @@ import net.minecraft.world.entity.Mob;
 
 public class EntityInfoScreen
 extends Screen {
+    private final Mob entity;
     protected int leftPos;
     protected int topPos;
     private float xMouse;
     private float yMouse;
     public EntityInfoScreen(Mob pMob) {
         super(pMob.getDisplayName());
+        this.entity = pMob;
     }
 
     protected void init() {
@@ -23,6 +25,7 @@ extends Screen {
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         this.renderBg(pGuiGraphics, pPartialTick, pMouseX, pMouseY);
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        pGuiGraphics.drawString(font, entity.getDisplayName(), 0, 0, 0);
     }
 
     @SuppressWarnings("all")

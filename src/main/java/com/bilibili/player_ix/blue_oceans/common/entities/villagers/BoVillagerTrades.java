@@ -12,7 +12,7 @@ public class BoVillagerTrades {
     public static final VillagerTrades.ItemListing[] FARMER_TRADES;
     public static final VillagerTrades.ItemListing[] FISHMAN_TRADES;
     public static final VillagerTrades.ItemListing[] HUNTER_TRADES;
-    public BoVillagerTrades() {
+    private BoVillagerTrades() {
     }
 
     static {

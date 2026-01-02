@@ -3,22 +3,22 @@ package org.nine_abyss.reflect;
 
 import org.nine_abyss.util.IXUtil;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 
+/**A util that provides some methods about {@code Reflect}*/
 public class ReflectUtil {
     private ReflectUtil() {
     }
 
     public static Field getField(Class<?> clazz, String pName) {
+        Field field = null;
         try {
-            Field field = clazz.getDeclaredField(pName);
+            field = clazz.getDeclaredField(pName);
             field.setAccessible(true);
-            return field;
         } catch (Exception e) {
             IXUtil.l.warning("Find error in " + ReflectUtil.class.getSimpleName() + "e:" + e);
         }
-        return null;
+        return field;
     }
 
     public static Method getMethod(Class<?> clazz, String pName) {

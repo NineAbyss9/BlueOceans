@@ -1,10 +1,7 @@
 
 package org.nine_abyss.annotation;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**Use this {@linkplain java.lang.annotation.Annotation} to stop warn {@code unchecked}*/
 @Target({ElementType.ANNOTATION_TYPE, ElementType.FIELD, ElementType.CONSTRUCTOR,

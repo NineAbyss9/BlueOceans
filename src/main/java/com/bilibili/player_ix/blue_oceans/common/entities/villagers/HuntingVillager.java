@@ -18,8 +18,8 @@ import javax.annotation.Nullable;
 
 public class HuntingVillager
 extends BaseVillager {
-    public HuntingVillager(EntityType<HuntingVillager> p_35267_, Level p_35268_) {
-        super(p_35267_, p_35268_);
+    public HuntingVillager(EntityType<HuntingVillager> type, Level pLevel) {
+        super(type, pLevel);
     }
 
     public boolean doHurtTarget(Entity pEntity) {

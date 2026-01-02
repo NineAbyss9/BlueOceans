@@ -30,6 +30,7 @@ public class RedPlumUtil {
                 BlueOceansEntities.RED_PLUM_WORM.get(), BlueOceansEntities.RED_PLUMS_COW.get()),
                 2, List.of(BlueOceansEntities.RED_PLUM_SLAYER.get()));
         PLUM_ENTITY_TYPES = ObjectArray.of(BlueOceansEntities.RED_PLUM_SLAYER.get());
-        PLUM_PLUS_KILLS = IntArray.of(3, 10, Integer.MAX_VALUE);
+        PLUM_PLUS_KILLS = IntArray.of(3, 10, Integer.MAX_VALUE, Integer.MAX_VALUE,
+                Integer.MAX_VALUE);
     }
 }

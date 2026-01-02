@@ -2,6 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.common.entities.villagers;
 
 import com.bilibili.player_ix.blue_oceans.api.mob.IBehaviorUser;
+import com.bilibili.player_ix.blue_oceans.api.mob.Profession;
 import com.bilibili.player_ix.blue_oceans.common.entities.AbstractBlueOceansMob;
 import com.bilibili.player_ix.blue_oceans.common.entities.ai.behavior.Behavior;
 import com.bilibili.player_ix.blue_oceans.common.entities.ai.behavior.BehaviorFlag;
@@ -12,6 +13,9 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -36,10 +40,7 @@ import net.minecraft.world.level.pathfinder.Node;
 import net.minecraft.world.level.pathfinder.Path;
 
 import javax.annotation.Nullable;
-import java.util.EnumSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public abstract class AbstractHuntingVillager
 extends AbstractBlueOceansMob
@@ -54,12 +55,21 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
     protected int remainingPersistentAngerTime = 10;
     @Nullable
     protected UUID targetUUID;
+    protected static final EntityDataAccessor<Optional<UUID>> DATA_TARGET_UUID;
+    protected static final EntityDataAccessor<Integer> DATA_TARGET_ID;
     protected AbstractHuntingVillager(EntityType<? extends AbstractHuntingVillager> pType, Level level) {
         super(pType, level);
         this.behaviorSelector = new BehaviorSelector(level::getProfiler);
         this.registerBehaviors();
         this.restockAll();
         this.updateTrades();
+        this.setCanPickUpLoot(true);
+    }
+
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(DATA_TARGET_UUID, Optional.empty());
+        this.entityData.define(DATA_TARGET_ID, -1);
     }
 
     public BehaviorSelector getBehaviorSelector() {
@@ -70,8 +80,8 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
     }
 
     public void makeParticleAroundSelf() {
-        if (!this.level().isClientSide) {
-            ((ServerLevel)this.level()).sendParticles(ParticleTypes.ANGRY_VILLAGER, this.getX(), this.getY() + 1,
+        if (this.isServerSide()) {
+            this.getServerLevel().sendParticles(ParticleTypes.ANGRY_VILLAGER, this.getX(), this.getY() + 1,
                     this.getZ(), 8,  0.5, 0.5, 0.5, 0.1);
         }
     }
@@ -100,13 +110,18 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
         return false;
     }
 
+    public void die(DamageSource pDamageSource) {
+        super.die(pDamageSource);
+        this.stopTrading();
+    }
+
     protected SoundEvent getDeathSound() {
         return SoundEvents.VILLAGER_DEATH;
     }
 
     public void aiStep() {
         super.aiStep();
-        if (tradingPlayer != null) {
+        if (this.tradingPlayer != null) {
             lookControl.setLookAt(tradingPlayer);
             navigation.stop();
             if (this.getTarget() != null) {
@@ -118,6 +133,41 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
     protected void customServerAiStep() {
         this.behaviorTick();
         super.customServerAiStep();
+    }
+
+    @Nullable
+    public LivingEntity getTarget() {
+        if (!(this.level() instanceof ServerLevel serverLevel))
+            return this.level().getEntity(this.getTargetId()) instanceof LivingEntity entity ? entity : null;
+        UUID uuid = this.getTargetUUID();
+        return uuid == null ? null : serverLevel.getEntity(uuid) instanceof LivingEntity entity ? entity : null;
+    }
+
+    public void setTarget(@Nullable LivingEntity pTarget) {
+        if (pTarget != null) {
+            this.setTargetId(pTarget.getId());
+            this.setTargetUUID(pTarget.getUUID());
+        } else {
+            this.setTargetId(-1);
+            this.setTargetUUID(null);
+        }
+    }
+
+    @Nullable
+    public UUID getTargetUUID() {
+        return this.entityData.get(DATA_TARGET_UUID).orElse(null);
+    }
+
+    public void setTargetUUID(@Nullable UUID uuid) {
+        this.entityData.set(DATA_TARGET_UUID, Optional.ofNullable(uuid));
+    }
+
+    public int getTargetId() {
+        return this.entityData.get(DATA_TARGET_ID);
+    }
+
+    public void setTargetId(int pId) {
+        this.entityData.set(DATA_TARGET_ID, pId);
     }
 
     public void performRangedAttack(LivingEntity livingEntity, float v) {}
@@ -132,11 +182,11 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
 
     @Nullable
     public UUID getPersistentAngerTarget() {
-        return this.targetUUID;
+        return this.getTargetUUID();
     }
 
     public void setPersistentAngerTarget(@Nullable UUID uuid) {
-        this.targetUUID = uuid;
+        this.setTargetUUID(uuid);
     }
 
     public void startPersistentAngerTimer() {
@@ -215,21 +265,17 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
 
     protected void addOffersFromItemListings(MerchantOffers merchantOffers, VillagerTrades.ItemListing[] listings) {
         Set<Integer> set = Sets.newHashSet();
-        if (listings.length > 4) {
-            while (set.size() < 4) {
+        /*if (listings.length > 4)
+            while (set.size() < 4)
                 set.add(this.random.nextInt(listings.length));
-            }
-        } else {
-            for (int i = 0; i < listings.length; ++i) {
+        else*/
+        for (int i = 0; i < listings.length; ++i)
                 set.add(i);
-            }
-        }
         for (int integer : set) {
             VillagerTrades.ItemListing villagertrades$itemlisting = listings[integer];
             MerchantOffer merchantoffer = villagertrades$itemlisting.getOffer(this, this.random);
-            if (merchantoffer != null) {
+            if (merchantoffer != null)
                 merchantOffers.add(merchantoffer);
-            }
         }
     }
 
@@ -249,13 +295,20 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
         return null;
     }
 
-    public void overrideXp(int i) {}
+    public void overrideXp(int i) {
+    }
 
     public void overrideOffers(MerchantOffers merchantOffers) {
     }
 
     public boolean showProgressBar() {
-        return false;
+        return true;
+    }
+
+    @Nullable
+    public Entity changeDimension(ServerLevel pDestination) {
+        this.stopTrading();
+        return super.changeDimension(pDestination);
     }
 
     public SoundEvent getNotifyTradeSound() {
@@ -266,6 +319,8 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
         return this.level().isClientSide;
     }
 
+    public abstract Profession getProfession();
+
     protected abstract ItemStack getAttackItem();
 
     protected ItemStack getDailyItem() {
@@ -273,7 +328,8 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
     }
 
     protected ItemStack getWorkItem() {
-        return this.getAttackItem();
+        Item item = this.getProfession().requestedItems.peek();
+        return item == null ? this.getAttackItem() : item.getDefaultInstance();
     }
 
     protected void setHandItemToAttack(InteractionHand hand) {
@@ -298,6 +354,21 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
 
     protected void setHandItemToWork() {
         this.setHandItemToWork(InteractionHand.MAIN_HAND);
+    }
+
+    public ApiPose getArmPose() {
+        return ApiPose.CROSSED;
+    }
+
+    static {
+        FOOD_POINTS = ImmutableMap.of(Items.BREAD, 4, Items.POTATO, 1,
+                Items.CARROT, 1, Items.BEETROOT, 1);
+        WANTED_ITEMS = ImmutableSet.of(Items.BREAD, Items.POTATO, Items.CARROT,
+                Items.WHEAT, Items.WHEAT_SEEDS, Items.BEETROOT, Items.BEETROOT_SEEDS,
+                Items.TORCHFLOWER_SEEDS, Items.PITCHER_POD);
+        DATA_TARGET_UUID = SynchedEntityData.defineId(AbstractHuntingVillager.class,
+                EntityDataSerializers.OPTIONAL_UUID);
+        DATA_TARGET_ID = SynchedEntityData.defineId(AbstractHuntingVillager.class, EntityDataSerializers.INT);
     }
 
     protected static class VillagerAttackBehavior
@@ -484,17 +555,5 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
             super.start();
             this.setAlertOthers();
         }
-    }
-
-    public ApiPose getArmPose() {
-        return ApiPose.CROSSED;
-    }
-
-    static {
-        FOOD_POINTS = ImmutableMap.of(Items.BREAD, 4, Items.POTATO, 1,
-                Items.CARROT, 1, Items.BEETROOT, 1);
-        WANTED_ITEMS = ImmutableSet.of(Items.BREAD, Items.POTATO, Items.CARROT,
-                Items.WHEAT, Items.WHEAT_SEEDS, Items.BEETROOT, Items.BEETROOT_SEEDS,
-                Items.TORCHFLOWER_SEEDS, Items.PITCHER_POD);
     }
 }

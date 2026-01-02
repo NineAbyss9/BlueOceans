@@ -7,9 +7,12 @@ import com.bilibili.player_ix.blue_oceans.client.particles.Impart;
 import com.bilibili.player_ix.blue_oceans.client.particles.RedPlumSpell;
 import com.bilibili.player_ix.blue_oceans.client.particles.SparkParticle;
 import com.bilibili.player_ix.blue_oceans.client.renderer.*;
+import com.bilibili.player_ix.blue_oceans.client.renderer.block.WoodenSupportRenderer;
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlockEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansParticleTypes;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -47,6 +50,7 @@ public class ClientInitEvents {
         event.registerLayerDefinition(DeathModel.DEATH, DeathModel::createBodyLayer);
         event.registerLayerDefinition(DumplingMonsterModel.LAYER_LOCATION, DumplingMonsterModel::createBodyLayer);
         event.registerLayerDefinition(FreakagerModel.LAYER_LOCATION, FreakagerModel::createBodyLayer);
+        event.registerLayerDefinition(HattedVillagerModel.LOCATION, HattedVillagerModel::createBodyLayer);
         event.registerLayerDefinition(HeartOfHorrorModel.LAYER_LOCATION, HeartOfHorrorModel::createBodyLayer);
         event.registerLayerDefinition(HuntingVillagerArmorModel.LOCATION, HuntingVillagerArmorModel::createInnerArmorLayer);
         event.registerLayerDefinition(HuntingVillagerArmorModel.LOC, HuntingVillagerArmorModel::createOuterArmorLayer);
@@ -69,6 +73,7 @@ public class ClientInitEvents {
         event.registerEntityRenderer(BlueOceansEntities.DEATH.get(), DeathRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.DICTATOR.get(), DictatorRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.DUMPLING_MONSTER.get(), DumplingMonsterRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.FARMER.get(), FarmerRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.FREAK.get(), FreakerRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.HEART_OF_HORROR.get(), HeartOfHorrorRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.HUNTING_VILLAGER.get(), HuntingVillagerRenderer::new);
@@ -93,14 +98,16 @@ public class ClientInitEvents {
     public static void registerItemDecorations(RegisterItemDecorationsEvent event) {
         event.register(BlueOceansItems.RED_PLUM_SWORD.get(),
                 (guiGraphics, font, stack, xOffset, yOffset) -> {
-            guiGraphics.blit(LOCKED, xOffset, yOffset, 8 ,8, 8,
-                    8, 8, 8);
-            return true;
+                    guiGraphics.blit(LOCKED, xOffset, yOffset, 8, 8, 8,
+                            8, 8, 8);
+                    return true;
                 });
     }
 
+    @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
-        registerItemStates();
+        BlockEntityRenderers.register(BlueOceansBlockEntities.WOODEN_SUPPORT.get(), WoodenSupportRenderer::new);
+        //registerItemStates();
     }
 
     public static void registerItemStates() {

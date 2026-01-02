@@ -5,6 +5,7 @@ import com.bilibili.player_ix.blue_oceans.BlueOceans;
 import com.bilibili.player_ix.blue_oceans.book.BlueBook;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -31,8 +32,8 @@ extends Screen {
         // 添加翻页按钮
         //20, 20;
         //20, 20;
-        this.addRenderableWidget(Button.builder(Component.literal("<"), button -> previousPage())
-                .pos(this.leftPos + 12, this.topPos + 156).width(20).build());
+        this.addRenderableWidget(new ImageButton(this.leftPos + 12, this.topPos + 156, 20, 20,
+                0, 0, TEXTURE, button -> previousPage()));
         this.addRenderableWidget(Button.builder(Component.literal(">"), button -> nextPage())
                 .pos(this.leftPos + 114, this.topPos + 156).width(20).build());
     }

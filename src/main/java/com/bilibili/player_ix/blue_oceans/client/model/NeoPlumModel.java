@@ -13,8 +13,8 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 
 public class NeoPlumModel<T extends NeoPlum> extends HierarchicalModel<T> {
-	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation NEO_PLUM = new ModelLayerLocation(BlueOceans.location("neoplum"), "main");
+	public static final ModelLayerLocation NEO_PLUM = new ModelLayerLocation(BlueOceans
+            .location("neoplum"), "main");
 	private final ModelPart root;
 	protected final ModelPart body;
 	protected final ModelPart head;

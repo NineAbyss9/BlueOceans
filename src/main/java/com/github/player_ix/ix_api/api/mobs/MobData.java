@@ -36,6 +36,7 @@ public class MobData {
         this.synchronizer = sync;
     }
 
+    @Unused
     public boolean isInEnd() {
         return mob.level().dimension() == Level.END;
     }

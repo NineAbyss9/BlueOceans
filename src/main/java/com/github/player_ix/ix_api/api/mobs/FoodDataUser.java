@@ -1,6 +1,7 @@
 
 package com.github.player_ix.ix_api.api.mobs;
 
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 
 public interface FoodDataUser {
@@ -8,5 +9,9 @@ public interface FoodDataUser {
 
     default MobFoodData createFoodData() {
         return new MobFoodData((Mob)this);
+    }
+
+    default void eat(LivingEntity pEntity) {
+        this.foodData().eat(pEntity);
     }
 }

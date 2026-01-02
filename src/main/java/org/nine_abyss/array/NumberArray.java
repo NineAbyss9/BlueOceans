@@ -10,7 +10,7 @@ implements INumberArray {
     }
 
     public Number getNumber(int pIndex) {
-        return this.convert(pIndex);
+        return this.get(pIndex);
     }
 
     public int intValue(int pIndex) {

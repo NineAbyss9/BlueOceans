@@ -37,23 +37,28 @@ implements IElement {
         return null;
     }
 
-    public ElementArmor(Element pElement, SoundEvent pSound, Ingredient ingredient, String name, Type pType, Properties properties) {
+    public ElementArmor(Element pElement, SoundEvent pSound, Ingredient ingredient, String name, Type pType,
+                        Properties properties) {
         this(pElement, MathUtils.getElementArmor(pElement, pType, pSound, ingredient, name), pType, properties);
     }
 
-    public static ElementArmor helmet(Element pElement, SoundEvent pSound, Ingredient ingredient, String name, Properties properties) {
+    public static ElementArmor helmet(Element pElement, SoundEvent pSound, Ingredient ingredient, String name,
+                                      Properties properties) {
         return new ElementArmor(pElement, pSound, ingredient, name, Type.HELMET, properties);
     }
 
-    public static ElementArmor chestplate(Element pElement, SoundEvent pSound, Ingredient ingredient, String name, Properties properties) {
+    public static ElementArmor chestplate(Element pElement, SoundEvent pSound, Ingredient ingredient, String name,
+                                          Properties properties) {
         return new ElementArmor(pElement, pSound, ingredient, name, Type.CHESTPLATE, properties);
     }
 
-    public static ElementArmor leggings(Element pElement, SoundEvent pSound, Ingredient ingredient, String name, Properties properties) {
+    public static ElementArmor leggings(Element pElement, SoundEvent pSound, Ingredient ingredient, String name,
+                                        Properties properties) {
         return new ElementArmor(pElement, pSound, ingredient, name, Type.LEGGINGS, properties);
     }
 
-    public static ElementArmor boots(Element pElement, SoundEvent pSound, Ingredient ingredient, String name, Properties properties) {
+    public static ElementArmor boots(Element pElement, SoundEvent pSound, Ingredient ingredient, String name,
+                                     Properties properties) {
         return new ElementArmor(pElement, pSound, ingredient, name, Type.BOOTS, properties);
     }
 }

@@ -42,6 +42,7 @@ public class BlueOceansTabs {
                         output.accept(BlueOceansItems.BASE_VILLAGER_SPAWN_EGG.get());
                         output.accept(BlueOceansItems.DEATH_SPAWN_EGG.get());
                         output.accept(BlueOceansItems.DICTATOR_SPAWN_EGG.get());
+                        output.accept(BlueOceansItems.FARMER_SPAWN_EGG.get());
                         output.accept(BlueOceansItems.FREAK_SPAWN_EGG.get());
                         output.accept(BlueOceansItems.HUNTING_VILLAGER_SPAWN_EGG.get());
                         output.accept(BlueOceansItems.NEO_PLUM_SPAWN_EGG.get());
@@ -59,7 +60,8 @@ public class BlueOceansTabs {
                     }).build());
     public static final RegistryObject<CreativeModeTab> BO_BLOCK = TABS
             .register("blue_oceans_block", ()-> CreativeModeTab.builder().icon(()->
-                    ItemStacks.of(BlueOceansItems.RED_PLUM_BLOCK)).title(Component.translatable("item_group.blue_oceans.blue_oceans_block").withStyle(
+                    ItemStacks.of(BlueOceansItems.RED_PLUM_BLOCK)).title(Component.translatable(
+                            "item_group.blue_oceans.blue_oceans_block").withStyle(
                             ChatFormatting.GRAY)).displayItems((parameters, output) -> {
                         output.accept(BlueOceansItems.RED_PLUM_BLOCK.get());
                         output.accept(BlueOceansItems.RED_PLUM_CATALYST.get());

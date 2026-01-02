@@ -128,7 +128,7 @@ public class Government {
         if (!(obj instanceof Government other))
             return false;
         else {
-            if (this == other)
+            if (this == obj)
                 return true;
             return this.getName().equals(other.name);
         }
