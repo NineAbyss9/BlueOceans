@@ -20,6 +20,6 @@ extends CraftingTableBlock {
 
     public MenuProvider getMenuProvider(BlockState pState, Level pLevel, BlockPos pPos) {
         return new SimpleMenuProvider((pContainerId, pPlayerInventory, pPlayer) ->
-                new ForgeMenu(pContainerId, pPlayerInventory, ContainerLevelAccess.NULL), FORGING);
+                new ForgeMenu(pContainerId, pPlayerInventory, ContainerLevelAccess.create(pLevel, pPos)), FORGING);
     }
 }

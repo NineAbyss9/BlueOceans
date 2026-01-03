@@ -1,0 +1,43 @@
+
+package com.bilibili.player_ix.blue_oceans.common.blocks.cave;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.phys.BlockHitResult;
+
+@SuppressWarnings("deprecation")
+public class CaveLight
+extends Block {
+    public static final BooleanProperty LIT = BlockStateProperties.LIT;
+    public CaveLight(Properties pProperties) {
+        super(pProperties);
+        this.stateDefinition.any().setValue(LIT, Boolean.FALSE);
+    }
+
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+        pBuilder.add(LIT);
+    }
+
+    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
+        return this.defaultBlockState().setValue(LIT, Boolean.FALSE);
+    }
+
+    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
+                                 BlockHitResult pHit) {
+        pState.setValue(LIT, !pState.getValue(LIT));
+        pLevel.playLocalSound(pPos, SoundEvents.LEVER_CLICK, SoundSource.BLOCKS, 1.0F, 1.0F,
+                false);
+        return InteractionResult.sidedSuccess(pLevel.isClientSide);
+    }
+}

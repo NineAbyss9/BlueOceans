@@ -235,9 +235,8 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
     }
 
     public MerchantOffers getOffers() {
-        if (this.offers == null) {
+        if (this.offers == null)
             offers = new MerchantOffers();
-        }
         return this.offers;
     }
 

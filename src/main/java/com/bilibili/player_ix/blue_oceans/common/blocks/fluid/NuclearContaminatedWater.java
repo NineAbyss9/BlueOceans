@@ -26,6 +26,12 @@ extends FlowingFluid {
         return true;
     }
 
+    protected boolean canSpreadTo(BlockGetter pLevel, BlockPos pFromPos, BlockState pFromBlockState,
+                                  Direction pDirection, BlockPos pToPos, BlockState pToBlockState, FluidState pToFluidState, Fluid pFluid) {
+        return pToBlockState.isAir() && super.canSpreadTo(pLevel, pFromPos, pFromBlockState, pDirection, pToPos,
+                pToBlockState, pToFluidState, pFluid);
+    }
+
     protected void beforeDestroyingBlock(LevelAccessor pLevel, BlockPos pPos, BlockState pState) {
     }
 
