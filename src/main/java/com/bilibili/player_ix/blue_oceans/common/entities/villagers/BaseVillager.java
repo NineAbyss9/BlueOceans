@@ -84,7 +84,7 @@ implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser {
 
     protected void addAttackBehaviors() {
         this.behaviorSelector.addBehavior(2, new VillagerAttackBehavior(this, 1.0,
-                true, 2));
+                true, 7.5));
     }
 
     protected void registerGoals() {
@@ -204,7 +204,7 @@ implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser {
                 this.getProfession().requestedItems.contains(item);
     }
 
-    //Enable the mobGrifting rule!
+    //Enable the mobGriefing rule!
     protected void pickUpItem(ItemEntity pItemEntity) {
         InventoryCarrier.pickUpItem(this, this, pItemEntity);
     }

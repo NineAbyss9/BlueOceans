@@ -44,7 +44,7 @@ extends BaseVillager {
 
     public void registerBehaviors() {
         this.behaviorSelector.addBehavior(3, new VillagerAttackBehavior(
-                this, 1.0, false, 2));
+                this, 1.0, false, 7.5));
     }
 
     protected void registerGoals() {

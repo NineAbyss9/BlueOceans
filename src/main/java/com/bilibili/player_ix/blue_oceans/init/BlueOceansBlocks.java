@@ -25,7 +25,7 @@ public class BlueOceansBlocks {
     public static final RegistryObject<Block> ALCOHOL_LAMP = BLOCKS.register("alcohol_lamp",
             () -> new AlcoholLamp(BlockBehaviour.Properties.of().sound(SoundType.GLASS).strength(
                     4F, 10F).lightLevel(value ->
-                    AlcoholLamp.isLit(value) ? 10 : 0)));
+                    AlcoholLamp.isBurning(value) ? 10 : 0).noOcclusion()));
     public static final RegistryObject<FlagBlock> FLAG_BLOCK = BLOCKS.register("flag",
             ()-> new FlagBlock(FlagItem.Type.EVIL_FACTION));
     public static final RegistryObject<Block> GANODERMA_LUCIDUM = BLOCKS.register("ganoderma_lucidum",

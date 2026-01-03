@@ -9,4 +9,8 @@ extends RedPlumMonster {
     public RedLight(EntityType<? extends AbstractRedPlumMob> type, Level level) {
         super(type, level);
     }
+
+    public void aiStep() {
+        super.aiStep();
+    }
 }

@@ -20,7 +20,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
@@ -36,17 +35,17 @@ implements IChemical {
     public static final BooleanProperty COVERED = BooleanProperty.create("covered");
     public static final IntegerProperty CAPACITY = IntegerProperty.create("capacity",
             0, 8);
-    public static final BooleanProperty LIT = BlockStateProperties.LIT;
+    public static final BooleanProperty BURNING = BooleanProperty.create("burning");
     private static float FIRE_DAMAGE = 4.0F;
     private static final VoxelShape SHAPE = box(3.0, 0.0, 3.0, 13.0, 10.0, 13.0);
     public AlcoholLamp(Properties pProperties) {
         super(pProperties);
         this.stateDefinition.any().setValue(COVERED, Boolean.FALSE).setValue(CAPACITY, 8)
-                .setValue(LIT, Boolean.FALSE);
+                .setValue(BURNING, Boolean.FALSE);
     }
 
     public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, RandomSource pRandom) {
-        if (isLit(pState)) {
+        if (isBurning(pState)) {
             pLevel.addParticle(ParticleTypes.FLAME, pPos.getX() + 0.5, pPos.getY() + 0.5, pPos.getZ() + 0.5,
                     AbyssMath.trueOrFalse(pRandom.nextDouble() * 0.05),
                     AbyssMath.trueOrFalse(pRandom.nextDouble() * 0.05),
@@ -61,9 +60,9 @@ implements IChemical {
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
                                  BlockHitResult pHit) {
         ItemStack itemStack = pPlayer.getItemInHand(pHand);
-        if (!isLit(pState) && getCapacity(pState) > 0 && !isCovered(pState) &&
+        if (!isBurning(pState) && getCapacity(pState) > 0 && !isCovered(pState) &&
                 itemStack.is(Items.FLINT_AND_STEEL)) {
-            setLit(pState, true);
+            setBurning(pState, true);
             return InteractionResult.sidedSuccess(pLevel.isClientSide);
         }
         return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
@@ -82,7 +81,7 @@ implements IChemical {
     }*/
 
     public void entityInside(BlockState pState, Level pLevel, BlockPos pPos, Entity pEntity) {
-        if (isLit(pState)) {
+        if (isBurning(pState)) {
             pEntity.hurt(pLevel.damageSources().inFire(), FIRE_DAMAGE);
         }
     }
@@ -99,25 +98,25 @@ implements IChemical {
     public BlockState getStateForPlacement(BlockPlaceContext pContext) {
         BlockState state = this.defaultBlockState();
         setCovered(state, false);
-        setLit(state, false);
+        setBurning(state, false);
         setCapacity(state, 8);
         return state;
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(COVERED, CAPACITY, LIT);
+        pBuilder.add(COVERED, CAPACITY, BURNING);
     }
 
     public static void setFireDamage(float f) {
         FIRE_DAMAGE = f;
     }
 
-    public static boolean isLit(BlockState state) {
-        return state.getValue(LIT);
+    public static boolean isBurning(BlockState state) {
+        return state.getValue(BURNING);
     }
 
-    public static void setLit(BlockState state, boolean lit) {
-        state.setValue(LIT, lit);
+    public static void setBurning(BlockState state, boolean lit) {
+        state.setValue(BURNING, lit);
     }
 
     public static int getCapacity(BlockState state) {

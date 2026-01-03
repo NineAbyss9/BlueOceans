@@ -17,10 +17,9 @@ public class BaseSolider
 extends BaseVillager {
     public BaseSolider(EntityType<? extends BaseSolider> pType, Level level) {
         super(pType, level);
-        this.populateItems();
     }
 
-    protected void populateItems() {
+    protected void populateDefaultItems() {
         this.setMainHandItem(BlueOceansItems.SNIPER_RIFLE.get());
         this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.IRON_HELMET));
     }

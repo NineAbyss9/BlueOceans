@@ -3,7 +3,6 @@ package com.bilibili.player_ix.blue_oceans.common.entities.red_plum;
 
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansParticleTypes;
-import com.bilibili.player_ix.blue_oceans.init.BoTags;
 import com.bilibili.player_ix.blue_oceans.util.RedPlumUtil;
 import com.github.player_ix.ix_api.api.mobs.IConversion;
 import com.github.player_ix.ix_api.api.mobs.OwnableMob;
@@ -42,7 +41,7 @@ implements IConversion {
 
     public void aiStep() {
         super.aiStep();
-        if (this.getConversionTick() >= 600 || this.getFeetBlockState().is(BoTags.RED_PLUM_BLOCKS)) {
+        if (this.getConversionTick() >= 600) {
             this.reduceConvertTick();
         }
         this.convertTick();
@@ -54,6 +53,10 @@ implements IConversion {
                     this.getRandomX(0.8), this.getRandomY(), this.getRandomZ(0.8),
                     0, 0, 0);
         }
+    }
+
+    public void standOnPlumTick() {
+        this.reduceConvertTick();
     }
 
     public void registerBehaviors() {

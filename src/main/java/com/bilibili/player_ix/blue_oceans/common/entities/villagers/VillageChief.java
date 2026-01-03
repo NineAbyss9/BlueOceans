@@ -29,7 +29,7 @@ extends BaseVillager {
         List<LivingEntity> entities = this.level().getEntitiesOfClass(LivingEntity.class,
                 this.getBoundingBox().inflate(16), e -> {
                     if (e instanceof ICitizen citizen) {
-                        return citizen.getGovernment() == this.getGovernment();
+                        return citizen.getGovernment().equals(this.getGovernment());
                     }
                     return false;
                 });

@@ -220,6 +220,8 @@ public class BlueOceansItems {
                     return SoundEvents.GENERIC_DRINK;
                 }
             });
+    public static final RegistryObject<Item> MUSHROOM_SKEWER = ITEMS.register("mushroom_skewer",
+            () -> new FoodItem(5, 3.0F));
     public static final RegistryObject<Item> GINKGO = ITEMS.register("ginkgo",
             () -> new FoodItem(1, 1.5F));
     public static final RegistryObject<Item> LEEK = ITEMS.register("leek", () -> new FoodItem(2, 1.0F));

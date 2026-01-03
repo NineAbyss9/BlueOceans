@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "food",
+  "pattern": [
+    "  x",
+    " x ",
+    "i  "
+  ],
+  "key": {
+    "i": {
+      "item": "minecraft:stick"
+    },
+    "x": {
+      "item": "minecraft:red_mushroom"
+    }
+  },
+  "result": {
+    "item": "blue_oceans:mushroom_skewer",
+    "count": 1
+  }
+}

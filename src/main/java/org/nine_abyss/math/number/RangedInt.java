@@ -7,6 +7,8 @@ import java.util.Random;
 
 public abstract class RangedInt
 extends Number {
+    /**@deprecated */
+    @Deprecated
     static final Random random = new Random();
     final int min;
     final int max;

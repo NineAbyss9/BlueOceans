@@ -20,6 +20,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
@@ -279,6 +280,23 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
         }
     }
 
+    public static void addOffersFromItemListings(MerchantOffers merchantOffers, VillagerTrades.ItemListing[] listings, Entity pTrader,
+                                                 RandomSource source) {
+        Set<Integer> set = Sets.newHashSet();
+        /*if (listings.length > 4)
+            while (set.size() < 4)
+                set.add(this.random.nextInt(listings.length));
+        else*/
+        for (int i = 0; i < listings.length; ++i)
+            set.add(i);
+        for (int integer : set) {
+            VillagerTrades.ItemListing villagertrades$itemlisting = listings[integer];
+            MerchantOffer merchantoffer = villagertrades$itemlisting.getOffer(pTrader, source);
+            if (merchantoffer != null)
+                merchantOffers.add(merchantoffer);
+        }
+    }
+
     public boolean isTrading() {
         return this.tradingPlayer != null;
     }
@@ -384,9 +402,9 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
         private long lastCanUseCheck;
         private int failedPathFindingPenalty = 0;
         private final boolean canPenalize = false;
-        protected final float attackSqr;
+        protected final double attackSqr;
 
-        public VillagerAttackBehavior(AbstractHuntingVillager pMob, double pV, boolean pFollow, float attackSqr) {
+        public VillagerAttackBehavior(AbstractHuntingVillager pMob, double pV, boolean pFollow, double attackSqr) {
             this.mob = pMob;
             this.speedModifier = pV;
             this.followingTargetEvenIfNotSeen = pFollow;

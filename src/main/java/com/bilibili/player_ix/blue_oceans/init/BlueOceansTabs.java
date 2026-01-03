@@ -114,6 +114,7 @@ public class BlueOceansTabs {
                 output.accept(BlueOceansItems.RICE.get());
                 output.accept(BlueOceansItems.STRAWBERRY.get());
                 output.accept(BlueOceansItems.MILK_BOTTLE.get());
+                output.accept(BlueOceansItems.MUSHROOM_SKEWER.get());
                 output.accept(BlueOceansItems.SALT_PILE.get());
             }).build());
 

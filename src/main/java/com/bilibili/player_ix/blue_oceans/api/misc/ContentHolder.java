@@ -5,8 +5,8 @@ import com.bilibili.player_ix.blue_oceans.common.chemistry.Content;
 
 import java.util.ArrayList;
 
-public class ContainerHolder extends ArrayList<Content> {
-    public ContainerHolder() {
+public class ContentHolder extends ArrayList<Content> {
+    public ContentHolder() {
         super();
     }
 

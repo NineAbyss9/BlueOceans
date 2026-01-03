@@ -57,17 +57,17 @@ implements Enemy {
         return SoundEvents.HOSTILE_SPLASH;
     }
 
-    protected enum AttackCoolDownType {
-        DEPEND_ON_HEALTH,
-        INT
-    }
-
     protected AttackCoolDownType getAttackCoolDownType() {
         return AttackCoolDownType.INT;
     }
 
     public boolean removeWhenFarAway(double p_21542_) {
         return false;
+    }
+
+    protected enum AttackCoolDownType {
+        DEPEND_ON_HEALTH,
+        INT
     }
 
     protected static class RedPlumMonsterMeleeAttackGoal<T extends RedPlumMonster> extends Goal {

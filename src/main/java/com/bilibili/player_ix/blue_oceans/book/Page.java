@@ -1,6 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.book;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.NonNullList;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,6 +28,10 @@ public class Page {
     public void renderEntity(LivingEntity pRenderEntity) {
         shouldRenderEntity = true;
         renderEntity = pRenderEntity;
+    }
+
+    public void renderEntity(GuiGraphics guiGraphics) {
+
     }
 
     public boolean isLocked() {

@@ -1,40 +1,47 @@
 
 package com.bilibili.player_ix.blue_oceans.api.crafting;
 
+//import com.bilibili.player_ix.blue_oceans.BlueOceans;
+import com.google.gson.JsonObject;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 
-public class ForgeRecipe implements Recipe<Container> {
+/**It will become a {@linkplain Class} instead of {@linkplain Record} before long.*/
+public record ForgeRecipe(ResourceLocation id, int hitCount, Ingredient hitItem, ItemStack result) implements Recipe<Container> {
+
     /**
      * Used to check if a recipe matches current crafting inventory
      */
     public boolean matches(Container pContainer, Level pLevel) {
-        return false;
+        return this.hitItem.test(pContainer.getItem(2));
     }
 
     public ItemStack assemble(Container pContainer, RegistryAccess pRegistryAccess) {
-        return null;
+        ItemStack itemstack = this.result.copy();
+        CompoundTag compoundtag = pContainer.getItem(1).getTag();
+        if (compoundtag != null) {
+            itemstack.setTag(compoundtag.copy());
+        }
+        return itemstack;
     }
 
-    /**
-     * Used to determine if this recipe can fit in a grid of the given width/height
-     */
     public boolean canCraftInDimensions(int pWidth, int pHeight) {
-        return false;
+        return pWidth >= 3 && pHeight >= 1;
     }
 
     public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
-        return null;
+        return this.result;
     }
 
     public ResourceLocation getId() {
-        return null;
+        return id;
     }
 
     public RecipeSerializer<?> getSerializer() {
@@ -42,6 +49,30 @@ public class ForgeRecipe implements Recipe<Container> {
     }
 
     public RecipeType<?> getType() {
-        return null;
+        return //RecipeType.simple(BlueOceans.location("forging"))
+                null;
+    }
+
+    public static class Serializer implements RecipeSerializer<ForgeRecipe> {
+        public ForgeRecipe fromJson(ResourceLocation pRecipeId, JsonObject pSerializedRecipe) {
+            int hitCount = pSerializedRecipe.getAsInt();
+            Ingredient ingredient = Ingredient.fromJson(pSerializedRecipe);
+            ItemStack itemstack = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(pSerializedRecipe,
+                    "result"));
+            return new ForgeRecipe(pRecipeId, hitCount, ingredient, itemstack);
+        }
+
+        public ForgeRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
+            int hitCount = pBuffer.readInt();
+            Ingredient hitItem = Ingredient.fromNetwork(pBuffer);
+            ItemStack stack = pBuffer.readItem();
+            return new ForgeRecipe(pRecipeId, hitCount, hitItem, stack);
+        }
+
+        public void toNetwork(FriendlyByteBuf pBuffer, ForgeRecipe pRecipe) {
+            pBuffer.writeInt(pRecipe.hitCount);
+            pRecipe.hitItem.toNetwork(pBuffer);
+            pBuffer.writeItem(pRecipe.result);
+        }
     }
 }

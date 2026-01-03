@@ -15,7 +15,8 @@ public enum BoTier implements Tier {
     FLINT(72, 3.0F, 0.5F, 0, 7, Ingredient.of(Items.FLINT)),
     ICE(500, 6.09F, 4.6F, 2, 16,
             Ingredient.of(Items.ICE, Items.PACKED_ICE, Items.BLUE_ICE)),
-    IRON(550, 6.0F, 2.0F, 2, 14, Ingredient.of(Items.IRON_INGOT)),
+    IRON(550, 6.0F, 2.0F, 2, 14, Ingredient.of(Items
+            .IRON_INGOT)),
     RED_PLUM(1999, 7.9F, 5.0F, 3, 14,
             Ingredient.EMPTY);
     final int uses;

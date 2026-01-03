@@ -41,6 +41,7 @@ extends PathfinderMob {
     protected ParticleUtil particleUtil = new ParticleUtil(this);
     protected ApiPathfinderMob(EntityType<? extends ApiPathfinderMob> type, Level level) {
         super(type, level);
+        this.populateDefaultItems();
     }
 
     protected void defineSynchedData() {
@@ -174,6 +175,9 @@ extends PathfinderMob {
 
     public static AttributeSupplier.Builder createPathAttributes() {
         return ApiPathfinderMob.createMobAttributes().add(Attributes.ATTACK_DAMAGE);
+    }
+
+    protected void populateDefaultItems() {
     }
 
     public Random getRandomUtil() {

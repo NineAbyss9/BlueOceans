@@ -18,6 +18,7 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.nine_abyss.NineAbyssBase;
+import org.nine_abyss.annotation.NotCheckUnused;
 import org.slf4j.Logger;
 
 import javax.annotation.Nonnull;
@@ -59,6 +60,7 @@ public class BlueOceans implements ModOfNineAbyss {
         BlueOceansHooks.onHandleConfigValue();
     }
 
+    @NotCheckUnused
     public String getVersion() {
         return "1.0.9a";
     }

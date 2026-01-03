@@ -31,7 +31,7 @@ extends BaseVillager {
     }
 
     public void registerBehaviors() {
-        this.behaviorSelector.addBehavior(2, new VillagerAttackBehavior(this, 1, true, 3));
+        this.behaviorSelector.addBehavior(2, new VillagerAttackBehavior(this, 1, true, 7.5));
         this.behaviorSelector.addBehavior(4, new MoveThroughVillageBehavior(this, 0.8,
                 false, 1, FunctionCollector.positiveSupplier()));
     }
