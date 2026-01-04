@@ -26,14 +26,14 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
-public class StringLadder
+public class Rope
 extends Block
 implements SimpleWaterloggedBlock {
     public static final BooleanProperty TOP;
     public static final BooleanProperty END;
     public static final BooleanProperty WATERLOGGED;
     protected static final VoxelShape SHAPE;
-    public StringLadder(Properties pProperties) {
+    public Rope(Properties pProperties) {
         super(pProperties);
         this.stateDefinition.any().setValue(WATERLOGGED, Boolean.FALSE).setValue(TOP, Boolean.FALSE)
                 .setValue(END, Boolean.FALSE);
@@ -48,11 +48,11 @@ implements SimpleWaterloggedBlock {
     }
 
     public boolean isTop(BlockGetter pLevel, BlockPos pPos) {
-        return !(pLevel.getBlockState(pPos.above()).getBlock() instanceof StringLadder);
+        return !(pLevel.getBlockState(pPos.above()).getBlock() instanceof Rope);
     }
 
     public boolean isEnd(BlockGetter pLevel, BlockPos pPos) {
-        return !(pLevel.getBlockState(pPos.below()).getBlock() instanceof StringLadder);
+        return !(pLevel.getBlockState(pPos.below()).getBlock() instanceof Rope);
     }
 
     @Nullable

@@ -6,7 +6,7 @@ import net.minecraft.world.level.Level;
 
 public class RedLight
 extends RedPlumMonster {
-    public RedLight(EntityType<? extends AbstractRedPlumMob> type, Level level) {
+    public RedLight(EntityType<? extends RedLight> type, Level level) {
         super(type, level);
     }
 

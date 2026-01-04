@@ -1,6 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.entities.projectile;
 
+import com.bilibili.player_ix.blue_oceans.init.BoTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -34,14 +35,30 @@ extends ThrowableItemProjectile {
         BlockPos blockPos = BlockPos.containing(pos);
         //for (int j = 0; j < 3;j++) {
             for (int i = 0;i < 3;i++) {
-                this.level().destroyBlock(blockPos.below().offset(i, 0, 0), false, this.getOwner());
-                this.level().destroyBlock(blockPos.below().offset(0, 0, i), false, this.getOwner());
-                this.level().destroyBlock(blockPos.below().offset(i, 0, i), false, this.getOwner());
-                this.level().destroyBlock(blockPos.below().offset(-i, 0, 0), false, this.getOwner());
-                this.level().destroyBlock(blockPos.below().offset(-i, 0, -i), false, this.getOwner());
-                this.level().destroyBlock(blockPos.below().offset(0, 0, -i), false, this.getOwner());
+                BlockPos blockPos1 = blockPos.below().offset(i, 0, 0);
+                BlockPos blockPos2 = blockPos.below().offset(0, 0, i);
+                BlockPos blockPos3 = blockPos.below().offset(i, 0, i);
+                BlockPos blockPos4 = blockPos.below().offset(-i, 0, 0);
+                BlockPos blockPos5 = blockPos.below().offset(-i, 0, -i);
+                BlockPos blockPos6 = blockPos.below().offset(0, 0, -i);
+                if (checkIsPlum(blockPos1))
+                    this.level().destroyBlock(blockPos1, false, this.getOwner());
+                if (checkIsPlum(blockPos2))
+                    this.level().destroyBlock(blockPos2, false, this.getOwner());
+                if (checkIsPlum(blockPos3))
+                    this.level().destroyBlock(blockPos3, false, this.getOwner());
+                if (checkIsPlum(blockPos4))
+                    this.level().destroyBlock(blockPos4, false, this.getOwner());
+                if (checkIsPlum(blockPos5))
+                    this.level().destroyBlock(blockPos5, false, this.getOwner());
+                if (checkIsPlum(blockPos6))
+                    this.level().destroyBlock(blockPos6, false, this.getOwner());
             }
         //}
+    }
+
+    private boolean checkIsPlum(BlockPos pos) {
+        return this.level().getBlockState(pos).is(BoTags.RED_PLUM_BLOCKS);
     }
 
     protected Item getDefaultItem() {
