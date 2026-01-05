@@ -63,6 +63,7 @@ public class BlueOceansTabs {
                     ItemStacks.of(BlueOceansItems.RED_PLUM_BLOCK)).title(Component.translatable(
                             "item_group.blue_oceans.blue_oceans_block").withStyle(
                             ChatFormatting.GRAY)).displayItems((parameters, output) -> {
+                        output.accept(BlueOceansItems.MINING_LAMP.get());
                         output.accept(BlueOceansItems.RED_PLUM_BLOCK.get());
                         output.accept(BlueOceansItems.RED_PLUM_CATALYST.get());
                         output.accept(BlueOceansItems.RED_PLUM_GRASS.get());

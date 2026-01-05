@@ -7,9 +7,9 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LanternBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -17,27 +17,27 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 
 @SuppressWarnings("deprecation")
-public class CaveLight
-extends Block {
+public class MiningLamp
+extends LanternBlock {
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
-    public CaveLight(Properties pProperties) {
+    public MiningLamp(Properties pProperties) {
         super(pProperties);
-        this.stateDefinition.any().setValue(LIT, Boolean.FALSE);
+        this.registerDefaultState(this.getStateDefinition().any().setValue(LIT, Boolean.FALSE)
+                .setValue(HANGING, Boolean.FALSE).setValue(WATERLOGGED, Boolean.FALSE));
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(LIT);
-    }
-
-    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-        return this.defaultBlockState().setValue(LIT, Boolean.FALSE);
+        pBuilder.add(LIT, HANGING, WATERLOGGED);
     }
 
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
                                  BlockHitResult pHit) {
-        pState.setValue(LIT, !pState.getValue(LIT));
-        pLevel.playLocalSound(pPos, SoundEvents.LEVER_CLICK, SoundSource.BLOCKS, 1.0F, 1.0F,
-                false);
+        if (!pLevel.isClientSide) {
+            pState = pState.cycle(LIT);
+            pLevel.setBlock(pPos, pState, 3);
+            pLevel.playSound(null, pPos, SoundEvents.LEVER_CLICK, SoundSource.BLOCKS, 1.0F,
+                    1.0F);
+        }
         return InteractionResult.sidedSuccess(pLevel.isClientSide);
     }
 }

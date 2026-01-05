@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "blue_oceans:block/mining_lamp"
+    },
+    "hanging=true": {
+      "model": "blue_oceans:block/mining_lamp_hanging"
+    }
+  }
+}

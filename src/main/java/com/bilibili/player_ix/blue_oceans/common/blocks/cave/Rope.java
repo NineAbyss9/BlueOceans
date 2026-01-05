@@ -70,7 +70,7 @@ implements SimpleWaterloggedBlock {
     }
 
     public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
-        BlockState blockState = setTop(pState, this.isTop(pLevel, pPos)).setValue(END, this.isEnd(pLevel, pPos));
+        BlockState blockState = setEnd(setTop(pState, this.isTop(pLevel, pPos)), this.isEnd(pLevel, pPos));
         if (!isTop(pState) && !pLevel.getBlockState(pPos.above()).is(this))
             pLevel.destroyBlock(pPos, true);
         else

@@ -184,6 +184,7 @@ public class BlueOceansItems {
     public static final RegistryObject<Item> FLAG = ITEMS.register("flag", FlagItem::new);
     public static final RegistryObject<Item> LEEK_SEEDS = ITEMS.register("leek_seeds", () ->
             new ItemNameBlockItem(BlueOceansBlocks.LEEK.get(), properties().stacksTo(64)));
+    public static final RegistryObject<Item> MINING_LAMP = block(BlueOceansBlocks.MINING_LAMP);
     public static final RegistryObject<Item> RED_PLUM_BLOCK = block(BlueOceansBlocks.RED_PLUM_BLOCK);
     public static final RegistryObject<Item> RED_PLUM_CATALYST = block(BlueOceansBlocks.RED_PLUM_CATALYST);
     public static final RegistryObject<Item> RED_PLUM_GRASS = block(BlueOceansBlocks.RED_PLUM_GRASS);

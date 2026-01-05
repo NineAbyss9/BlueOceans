@@ -44,10 +44,16 @@ public class AbyssMath {
         return toThePowerOf(a, 2);
     }
 
+    public static float toThePowerOf(float root, int index) {
+        return toThePowerOf(root, (float)index);
+    }
+
     public static float toThePowerOf(float root, float index) {
         float base = root;
-        for (float i = 0;i < index;i++)
+        int cache = 0;
+        for (;cache < index;cache++)
             base *= root;
+        base += negate((float)cache - index) * root;
         return base;
     }
 
