@@ -1,6 +1,8 @@
 
 package com.bilibili.player_ix.blue_oceans.common.blocks.cave;
 
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlocks;
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -10,6 +12,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -44,7 +47,7 @@ implements SimpleWaterloggedBlock {
     }
 
     public boolean canBeReplaced(BlockState pState, BlockPlaceContext pUseContext) {
-        return pUseContext.getItemInHand().is(this.asItem());
+        return pUseContext.getItemInHand().is(BlueOceansItems.ROPE.get());
     }
 
     public boolean isTop(BlockGetter pLevel, BlockPos pPos) {
@@ -57,7 +60,20 @@ implements SimpleWaterloggedBlock {
 
     @Nullable
     public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-        return super.getStateForPlacement(pContext);
+        Level level = pContext.getLevel();
+        BlockPos pos = pContext.getClickedPos();
+        BlockState blockState = this.defaultBlockState().setValue(TOP,
+                this.isTop(level, pos)).setValue(END, this.isEnd(level, pos))
+                .setValue(WATERLOGGED, level.getFluidState(pos).is(Fluids.WATER));
+        for (Direction direction : pContext.getNearestLookingDirections()) {
+            if (direction.getAxis().isHorizontal()) {
+                if (blockState.canSurvive(level, pos)) {
+                    if (blockState.getValue(TOP))
+                        return blockState;
+                }
+            }
+        }
+        return null;
     }
 
     public void onPlace(BlockState pState, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pMovedByPiston) {
@@ -88,10 +104,6 @@ implements SimpleWaterloggedBlock {
                 super.updateShape(pState, pDirection, pNeighborState, pLevel, pPos, pNeighborPos);
     }
 
-    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
-        return level.getBlockState(pos.above()).is(this);
-    }
-
     public FluidState getFluidState(BlockState pState) {
         return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false)
                 : Fluids.EMPTY.defaultFluidState();
@@ -99,20 +111,46 @@ implements SimpleWaterloggedBlock {
 
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
                                  BlockHitResult pHit) {
+        ItemStack stack = pPlayer.getItemInHand(pHand);
         if (pPlayer.isShiftKeyDown()) {
-            for (int i = 0; i < 32;) {
-                BlockState belowState = pLevel.getBlockState(pPos.below(i + 1));
-                if (!belowState.is(this)) {
-                    pLevel.destroyBlock(pPos.below(i), false);
-                    if (!pPlayer.isCreative())
-                        pPlayer.addItem(new ItemStack((ItemLike)null));
-                    break;
-                } else
-                    i++;
+            if (this.isTop(pLevel, pPos)) {
+                for (int i = 0;i < 39;) {
+                    BlockState belowState = pLevel.getBlockState(pPos.below(i + 1));
+                    if (!belowState.is(this)) {
+                        pLevel.destroyBlock(pPos.below(i), false);
+                        if (!pPlayer.isCreative())
+                            pPlayer.addItem(new ItemStack(BlueOceansItems.ROPE.get()));
+                        break;
+                    } else
+                        i++;
+                }
+                return InteractionResult.sidedSuccess(pLevel.isClientSide);
+            } else if (this.isEnd(pLevel, pPos)) {
+                int i = 0;
+                while (i < 39) {
+                    BlockState belowState = pLevel.getBlockState(pPos.above(i + 1));
+                    if (!belowState.is(this)) {
+                        pLevel.destroyBlock(pPos.above(i), false);
+                        if (!pPlayer.isCreative())
+                            pPlayer.addItem(new ItemStack(BlueOceansItems.ROPE.get()));
+                        break;
+                    } else
+                        i++;
+                }
+                return InteractionResult.sidedSuccess(pLevel.isClientSide);
             }
-            return InteractionResult.sidedSuccess(pLevel.isClientSide);
-        } else
-            return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
+        } else if (stack.is(BlueOceansItems.ROPE.get()) && isEnd(pState)){
+            BlockPos below = pPos.below();
+            DirectionalPlaceContext context = new DirectionalPlaceContext(pLevel, pPos, pPlayer.getDirection()
+                    .getOpposite(), stack, pPlayer.getDirection());
+            if (pLevel.getBlockState(below).canBeReplaced(context)) {
+                BlockState blockState = this.getStateForPlacement(context);
+                if (blockState != null)
+                    pLevel.setBlock(below, blockState, 0);
+                return InteractionResult.sidedSuccess(pLevel.isClientSide);
+            }
+        }
+        return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
     }
 
     public static boolean isTop(BlockState state) {

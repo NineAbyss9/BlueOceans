@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 
+@SuppressWarnings("deprecation")
 public abstract class AbstractContainer
 extends BaseEntityBlock {
     protected final ContentHolder holder;

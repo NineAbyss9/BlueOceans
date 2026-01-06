@@ -4,6 +4,7 @@ package com.bilibili.player_ix.blue_oceans.init;
 import com.bilibili.player_ix.blue_oceans.BlueOceans;
 import com.bilibili.player_ix.blue_oceans.common.blocks.*;
 import com.bilibili.player_ix.blue_oceans.common.blocks.cave.MiningLamp;
+import com.bilibili.player_ix.blue_oceans.common.blocks.cave.Rope;
 import com.bilibili.player_ix.blue_oceans.common.blocks.chemistry.AlcoholLamp;
 import com.bilibili.player_ix.blue_oceans.common.blocks.food.Leek;
 import com.bilibili.player_ix.blue_oceans.common.blocks.food.RiceBlock;
@@ -11,6 +12,7 @@ import com.bilibili.player_ix.blue_oceans.common.blocks.food.RiceEars;
 import com.bilibili.player_ix.blue_oceans.common.item.FlagItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -27,6 +29,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.ToIntFunction;
 
+@SuppressWarnings("deprecation")
 public class BlueOceansBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,
             BlueOceans.MOD_ID);
@@ -77,6 +80,10 @@ public class BlueOceansBlocks {
     public static final RegistryObject<Block> RICE_EARS = BLOCKS.register("rice_ears",
             () -> new RiceEars(Block.Properties.of().noCollission().randomTicks().instabreak().sound(SoundType.CROP)
                     .pushReaction(PushReaction.DESTROY)));
+    public static final RegistryObject<Block> ROPE = BLOCKS.register("rope", () -> new Rope(
+            BlockBehaviour.Properties.of().mapColor(DyeColor.BROWN).sound(SoundType.WOOL).strength(
+                    0.5F, 1F).forceSolidOff().noOcclusion().pushReaction(
+                            PushReaction.DESTROY)));
     public static final RegistryObject<Block> SALT_ORE = BLOCKS.register("salt_ore",
             () -> new OreBlock(Block.Properties.of().requiresCorrectToolForDrops()
                     .strength(2.0F, 20F), UniformInt.of(1, 2)));

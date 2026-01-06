@@ -1,21 +1,19 @@
 
 package org.nine_abyss.util.function;
 
-import org.nine_abyss.util.IXUtil;
-
 @FunctionalInterface
-public interface CiFunction<A, B, C, D> {
-    D apply(A a, B b, C c);
+public interface CiFunction<A, B, C, R> {
+    R apply(A a, B b, C c);
 
-    static <A, B, C, D> CiFunction<A, B, C, D> emptyA() {
-        return (a, b, c) -> IXUtil.c.convert(a);
+    static <R, B, C> CiFunction<R, B, C, R> emptyA() {
+        return (r, b, c) -> r;
     }
 
-    static <A, B, C, D> CiFunction<A, B, C, D> emptyB() {
-        return (a, b, c) -> IXUtil.c.convert(b);
+    static <A, R, C> CiFunction<A, R, C, R> emptyB() {
+        return (a, b, c) -> b;
     }
 
-    static <A, B, C, D> CiFunction<A, B, C, D> emptyC() {
-        return (a, b, c) -> IXUtil.c.convert(c);
+    static <A, B, R> CiFunction<A, B, R, R> emptyC() {
+        return (a, b, c) -> c;
     }
 }

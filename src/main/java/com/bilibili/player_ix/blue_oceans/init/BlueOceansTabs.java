@@ -68,6 +68,7 @@ public class BlueOceansTabs {
                         output.accept(BlueOceansItems.RED_PLUM_CATALYST.get());
                         output.accept(BlueOceansItems.RED_PLUM_GRASS.get());
                         output.accept(BlueOceansItems.RED_PLUM_TRAP.get());
+                        output.accept(BlueOceansItems.ROPE.get());
                         output.accept(BlueOceansItems.SALT_ORE.get());
                         output.accept(BlueOceansItems.WOODEN_SUPPORT.get());
             }).build());

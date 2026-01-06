@@ -14,7 +14,8 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 
 /**It will become a {@linkplain Class} instead of {@linkplain Record} before long.*/
-public record ForgeRecipe(ResourceLocation id, int hitCount, Ingredient hitItem, ItemStack result) implements Recipe<Container> {
+public record ForgeRecipe(ResourceLocation id, int hitCount, Ingredient hitItem, ItemStack result)
+implements Recipe<Container> {
 
     /**
      * Used to check if a recipe matches current crafting inventory

@@ -5,6 +5,7 @@ import org.nine_abyss.annotation.AlwaysNull;
 
 public class ValueHolder {
     public static final String EMPTY = "";
+    public static final Integer ZERO = 0;
 
     /**Static type of {@linkplain Option#orElse(Object)}.
      *

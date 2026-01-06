@@ -191,6 +191,7 @@ public class BlueOceansItems {
     public static final RegistryObject<Item> RED_PLUM_TRAP = block(BlueOceansBlocks.RED_PLUM_TRAP);
     public static final RegistryObject<Item> RICE_SEEDS = ITEMS.register("rice_seeds", () ->
             new RiceItem(BlueOceansBlocks.RICE.get(), properties()));
+    public static final RegistryObject<Item> ROPE = block(BlueOceansBlocks.ROPE);
     public static final RegistryObject<Item> SALT_ORE = block(BlueOceansBlocks.SALT_ORE);
     public static final RegistryObject<Item> WOODEN_SUPPORT = block(BlueOceansBlocks.WOODEN_SUPPORT);
     //BEnd

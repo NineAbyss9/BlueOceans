@@ -60,7 +60,10 @@ implements IChemical {
         ItemStack itemStack = pPlayer.getItemInHand(pHand);
         if (!isBurning(pState) && getCapacity(pState) > 0 && !isCovered(pState) &&
                 itemStack.is(Items.FLINT_AND_STEEL)) {
-            setBurning(pState, true);
+            if (!pLevel.isClientSide) {
+                pState = setBurning(pState, true);
+                pLevel.setBlock(pPos, pState, 3);
+            }
             return InteractionResult.sidedSuccess(pLevel.isClientSide);
         }
         return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
@@ -104,8 +107,8 @@ implements IChemical {
         return state.getValue(BURNING);
     }
 
-    public static void setBurning(BlockState state, boolean lit) {
-        state.setValue(BURNING, lit);
+    public static BlockState setBurning(BlockState state, boolean lit) {
+        return state.setValue(BURNING, lit);
     }
 
     public static int getCapacity(BlockState state) {
