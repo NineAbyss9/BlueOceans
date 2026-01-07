@@ -1,7 +1,6 @@
 
 package com.bilibili.player_ix.blue_oceans.common.blocks.cave;
 
-import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlocks;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -65,10 +64,13 @@ implements SimpleWaterloggedBlock {
         BlockState blockState = this.defaultBlockState().setValue(TOP,
                 this.isTop(level, pos)).setValue(END, this.isEnd(level, pos))
                 .setValue(WATERLOGGED, level.getFluidState(pos).is(Fluids.WATER));
+        BlockState above = level.getBlockState(pos.above());
         for (Direction direction : pContext.getNearestLookingDirections()) {
             if (direction.getAxis().isHorizontal()) {
                 if (blockState.canSurvive(level, pos)) {
                     if (blockState.getValue(TOP))
+                        return blockState;
+                    else if (above.getBlock() instanceof Rope)
                         return blockState;
                 }
             }
