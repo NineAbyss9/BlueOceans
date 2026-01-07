@@ -2,6 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.common.blocks.cave;
 
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
+import com.github.player_ix.ix_api.util.ItemUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -27,6 +28,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
+/**Based on <a href="https://github.com/AstralOrdana/Spelunkery/blob/1.20.1/common/src/main/java/com/ordana/spelunkery/blocks/RopeLadderBlock.java">...</a>*/
 @SuppressWarnings("deprecation")
 public class Rope
 extends Block
@@ -67,12 +69,12 @@ implements SimpleWaterloggedBlock {
         BlockState above = level.getBlockState(pos.above());
         for (Direction direction : pContext.getNearestLookingDirections()) {
             if (direction.getAxis().isHorizontal()) {
-                if (blockState.canSurvive(level, pos)) {
+                //if (blockState.canSurvive(level, pos)) {
                     if (blockState.getValue(TOP))
                         return blockState;
                     else if (above.getBlock() instanceof Rope)
                         return blockState;
-                }
+                //}
             }
         }
         return null;
@@ -102,7 +104,7 @@ implements SimpleWaterloggedBlock {
             pLevel.scheduleTick(pPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
         if (!pLevel.isClientSide())
             pLevel.scheduleTick(pPos, this, 1);
-        return !canSurvive(pState, pLevel, pPos) ? Blocks.AIR.defaultBlockState() :
+        return //!canSurvive(pState, pLevel, pPos) ? Blocks.AIR.defaultBlockState() :
                 super.updateShape(pState, pDirection, pNeighborState, pLevel, pPos, pNeighborPos);
     }
 
@@ -120,7 +122,7 @@ implements SimpleWaterloggedBlock {
                     BlockState belowState = pLevel.getBlockState(pPos.below(i + 1));
                     if (!belowState.is(this)) {
                         pLevel.destroyBlock(pPos.below(i), false);
-                        if (!pPlayer.isCreative())
+                        if (!ItemUtil.instabuild(pPlayer))
                             pPlayer.addItem(new ItemStack(BlueOceansItems.ROPE.get()));
                         break;
                     } else
@@ -133,7 +135,7 @@ implements SimpleWaterloggedBlock {
                     BlockState belowState = pLevel.getBlockState(pPos.above(i + 1));
                     if (!belowState.is(this)) {
                         pLevel.destroyBlock(pPos.above(i), false);
-                        if (!pPlayer.isCreative())
+                        if (!ItemUtil.instabuild(pPlayer))
                             pPlayer.addItem(new ItemStack(BlueOceansItems.ROPE.get()));
                         break;
                     } else
@@ -141,15 +143,21 @@ implements SimpleWaterloggedBlock {
                 }
                 return InteractionResult.sidedSuccess(pLevel.isClientSide);
             }
-        } else if (stack.is(BlueOceansItems.ROPE.get()) && isEnd(pState)){
-            BlockPos below = pPos.below();
-            DirectionalPlaceContext context = new DirectionalPlaceContext(pLevel, pPos, pPlayer.getDirection()
-                    .getOpposite(), stack, pPlayer.getDirection());
-            if (pLevel.getBlockState(below).canBeReplaced(context)) {
+        } else if (stack.is(BlueOceansItems.ROPE.get())){
+            int i = 0;
+            while (i < 39) {
+                i++;
+                BlockPos below = pPos.below(i);
+                DirectionalPlaceContext context = new DirectionalPlaceContext(pLevel, pPos, pPlayer.getDirection()
+                        .getOpposite(), stack, pPlayer.getDirection());
+                //if (pLevel.getBlockState(below).canBeReplaced(context)) {
                 BlockState blockState = this.getStateForPlacement(context);
-                if (blockState != null)
+                if (blockState != null) {
                     pLevel.setBlock(below, blockState, 0);
-                return InteractionResult.sidedSuccess(pLevel.isClientSide);
+                    ItemUtil.shrink(stack, pPlayer);
+                    return InteractionResult.sidedSuccess(pLevel.isClientSide);
+                }
+                //}
             }
         }
         return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);

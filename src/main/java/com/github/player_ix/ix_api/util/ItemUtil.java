@@ -16,6 +16,10 @@ public class ItemUtil {
     public ItemUtil() {
     }
 
+    public static boolean instabuild(Player player) {
+        return player.getAbilities().instabuild;
+    }
+
     public static void shrink(ItemStack stack, Entity entity, int count) {
         if (entity instanceof Player player) {
             if (!player.getAbilities().instabuild) {

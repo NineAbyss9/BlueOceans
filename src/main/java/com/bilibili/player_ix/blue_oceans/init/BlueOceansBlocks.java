@@ -83,7 +83,7 @@ public class BlueOceansBlocks {
     public static final RegistryObject<Block> ROPE = BLOCKS.register("rope", () -> new Rope(
             BlockBehaviour.Properties.of().mapColor(DyeColor.BROWN).sound(SoundType.WOOL).strength(
                     0.5F, 1F).forceSolidOff().noOcclusion().pushReaction(
-                            PushReaction.DESTROY)));
+                            PushReaction.DESTROY).ignitedByLava()));
     public static final RegistryObject<Block> SALT_ORE = BLOCKS.register("salt_ore",
             () -> new OreBlock(Block.Properties.of().requiresCorrectToolForDrops()
                     .strength(2.0F, 20F), UniformInt.of(1, 2)));
