@@ -411,6 +411,10 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
             this.setFlags(EnumSet.of(BehaviorFlag.MOVE, BehaviorFlag.LOOK, BehaviorFlag.JUMP));
         }
 
+        public VillagerAttackBehavior(AbstractHuntingVillager pMob, double pV, boolean pFollow) {
+            this(pMob, pV, pFollow, 4);
+        }
+
         public boolean canUse() {
             long i = this.mob.level().getGameTime();
             if (this.mob.isBaby()) {

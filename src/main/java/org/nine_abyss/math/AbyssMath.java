@@ -188,7 +188,7 @@ public class AbyssMath {
             return value;
         }
 
-        public double doubleValue() {
+        public Double doubleValue() {
             return doubleValue;
         }
     }

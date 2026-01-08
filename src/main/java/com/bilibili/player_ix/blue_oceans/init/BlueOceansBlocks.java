@@ -59,7 +59,7 @@ public class BlueOceansBlocks {
     public static final RegistryObject<Block> MINING_LAMP = BLOCKS.register("mining_lamp",
         () -> new MiningLamp(
             BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).strength(1.0F,
-                    6F).sound(SoundType.LANTERN).lightLevel(light(9))
+                    6F).sound(SoundType.LANTERN).lightLevel(light(15))
                     .emissiveRendering(BlueOceansBlocks::isLit)));
     public static final RegistryObject<FlagBlock> FLAG_BLOCK = BLOCKS.register("flag",
             ()-> new FlagBlock(FlagItem.Type.EVIL_FACTION));
@@ -82,7 +82,7 @@ public class BlueOceansBlocks {
                     .pushReaction(PushReaction.DESTROY)));
     public static final RegistryObject<Block> ROPE = BLOCKS.register("rope", () -> new Rope(
             BlockBehaviour.Properties.of().mapColor(DyeColor.BROWN).sound(SoundType.WOOL).strength(
-                    0.5F, 1F).forceSolidOff().noOcclusion().pushReaction(
+                    0.5F, 1F).forceSolidOff().noCollission().pushReaction(
                             PushReaction.DESTROY).ignitedByLava()));
     public static final RegistryObject<Block> SALT_ORE = BLOCKS.register("salt_ore",
             () -> new OreBlock(Block.Properties.of().requiresCorrectToolForDrops()

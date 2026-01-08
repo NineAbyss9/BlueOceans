@@ -42,15 +42,15 @@ extends BaseVillager {
         super(type, level);
     }
 
-    public void registerBehaviors() {
-        this.behaviorSelector.addBehavior(3, new VillagerAttackBehavior(
-                this, 1.0, false, 7.5));
-    }
-
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new UseBonemealGoal(this));
         this.goalSelector.addGoal(2, new FarmGoal(this));
         super.registerGoals();
+    }
+
+    protected void addAttackBehaviors() {
+        this.behaviorSelector.addBehavior(3, new VillagerAttackBehavior(
+                this, 1.0, false));
     }
 
     public Profession getProfession() {

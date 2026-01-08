@@ -1,6 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.blocks.cave;
 
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlocks;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
 import com.github.player_ix.ix_api.util.ItemUtil;
 import net.minecraft.core.BlockPos;
@@ -12,10 +13,8 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -51,11 +50,11 @@ implements SimpleWaterloggedBlock {
         return pUseContext.getItemInHand().is(BlueOceansItems.ROPE.get());
     }
 
-    public boolean isTop(BlockGetter pLevel, BlockPos pPos) {
+    public static boolean isTop(BlockGetter pLevel, BlockPos pPos) {
         return !(pLevel.getBlockState(pPos.above()).getBlock() instanceof Rope);
     }
 
-    public boolean isEnd(BlockGetter pLevel, BlockPos pPos) {
+    public static boolean isEnd(BlockGetter pLevel, BlockPos pPos) {
         return !(pLevel.getBlockState(pPos.below()).getBlock() instanceof Rope);
     }
 
@@ -63,20 +62,19 @@ implements SimpleWaterloggedBlock {
     public BlockState getStateForPlacement(BlockPlaceContext pContext) {
         Level level = pContext.getLevel();
         BlockPos pos = pContext.getClickedPos();
-        BlockState blockState = this.defaultBlockState().setValue(TOP,
-                this.isTop(level, pos)).setValue(END, this.isEnd(level, pos))
-                .setValue(WATERLOGGED, level.getFluidState(pos).is(Fluids.WATER));
-        BlockState above = level.getBlockState(pos.above());
-        for (Direction direction : pContext.getNearestLookingDirections()) {
-            if (direction.getAxis().isHorizontal()) {
-                //if (blockState.canSurvive(level, pos)) {
-                    if (blockState.getValue(TOP))
-                        return blockState;
-                    else if (above.getBlock() instanceof Rope)
-                        return blockState;
-                //}
-            }
-        }
+        return state(level, pos);
+    }
+
+    @Nullable
+    public static BlockState state(Level pLevel, BlockPos pos) {
+        BlockState blockState = BlueOceansBlocks.ROPE.get().defaultBlockState().setValue(TOP,
+                        isTop(pLevel, pos)).setValue(END, isEnd(pLevel, pos))
+                .setValue(WATERLOGGED, pLevel.getFluidState(pos).is(Fluids.WATER));
+        BlockState above = pLevel.getBlockState(pos.above());
+        if (blockState.getValue(TOP))
+            return blockState;
+        else if (above.getBlock() instanceof Rope)
+            return blockState;
         return null;
     }
 
@@ -90,8 +88,8 @@ implements SimpleWaterloggedBlock {
     }
 
     public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
-        BlockState blockState = setEnd(setTop(pState, this.isTop(pLevel, pPos)), this.isEnd(pLevel, pPos));
-        if (!isTop(pState) && !pLevel.getBlockState(pPos.above()).is(this))
+        BlockState blockState = pState.setValue(TOP, isTop(pLevel, pPos)).setValue(END, isEnd(pLevel, pPos));
+        if (!pState.getValue(TOP) && !pLevel.getBlockState(pPos.above()).is(this))
             pLevel.destroyBlock(pPos, true);
         else
             if (pState != blockState)
@@ -116,8 +114,8 @@ implements SimpleWaterloggedBlock {
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
                                  BlockHitResult pHit) {
         ItemStack stack = pPlayer.getItemInHand(pHand);
-        if (pPlayer.isShiftKeyDown()) {
-            if (this.isTop(pLevel, pPos)) {
+        if (pPlayer.isCrouching()) {
+            if (isTop(pLevel, pPos)) {
                 for (int i = 0;i < 39;) {
                     BlockState belowState = pLevel.getBlockState(pPos.below(i + 1));
                     if (!belowState.is(this)) {
@@ -129,7 +127,7 @@ implements SimpleWaterloggedBlock {
                         i++;
                 }
                 return InteractionResult.sidedSuccess(pLevel.isClientSide);
-            } else if (this.isEnd(pLevel, pPos)) {
+            } else if (isEnd(pLevel, pPos)) {
                 int i = 0;
                 while (i < 39) {
                     BlockState belowState = pLevel.getBlockState(pPos.above(i + 1));
@@ -148,41 +146,23 @@ implements SimpleWaterloggedBlock {
             while (i < 39) {
                 i++;
                 BlockPos below = pPos.below(i);
-                DirectionalPlaceContext context = new DirectionalPlaceContext(pLevel, pPos, pPlayer.getDirection()
-                        .getOpposite(), stack, pPlayer.getDirection());
-                //if (pLevel.getBlockState(below).canBeReplaced(context)) {
-                BlockState blockState = this.getStateForPlacement(context);
-                if (blockState != null) {
-                    pLevel.setBlock(below, blockState, 0);
-                    ItemUtil.shrink(stack, pPlayer);
-                    return InteractionResult.sidedSuccess(pLevel.isClientSide);
+                BlockState blockState = state(pLevel, pPos);
+                if (pLevel.getBlockState(below).canBeReplaced()) {
+                    if (blockState != null) {
+                        pLevel.setBlock(below, blockState, 0);
+                        ItemUtil.shrink(stack, pPlayer);
+                        return InteractionResult.sidedSuccess(pLevel.isClientSide);
+                    }
                 }
-                //}
             }
         }
         return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
-    }
-
-    public static boolean isTop(BlockState state) {
-        return state.getValue(TOP);
-    }
-
-    public static BlockState setTop(BlockState state, boolean value) {
-        return state.setValue(TOP, value);
-    }
-
-    public static boolean isEnd(BlockState state) {
-        return state.getValue(END);
-    }
-
-    public static BlockState setEnd(BlockState state, boolean value) {
-        return state.setValue(END, value);
     }
 
     static {
         TOP = BooleanProperty.create("top");
         END = BooleanProperty.create("end");
         WATERLOGGED = BlockStateProperties.WATERLOGGED;
-        SHAPE = box(0, 0, 0, 4, 16, 4);
+        SHAPE = box(6, 0, 6, 10, 16, 10);
     }
 }

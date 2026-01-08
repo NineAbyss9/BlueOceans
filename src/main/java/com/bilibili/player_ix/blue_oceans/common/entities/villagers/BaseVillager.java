@@ -84,7 +84,7 @@ implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser {
 
     protected void addAttackBehaviors() {
         this.behaviorSelector.addBehavior(2, new VillagerAttackBehavior(this, 1.0,
-                true, 7.5));
+                true));
     }
 
     protected void registerGoals() {
