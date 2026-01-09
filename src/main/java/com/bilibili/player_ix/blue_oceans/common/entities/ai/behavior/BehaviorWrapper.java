@@ -83,4 +83,12 @@ public class BehaviorWrapper {
     public int hashCode() {
         return this.behavior.hashCode();
     }
+
+    public static BehaviorWrapper empty() {
+        return new BehaviorWrapper(Integer.MAX_VALUE, new Behavior()) {
+            public boolean isRunning() {
+                return false;
+            }
+        };
+    }
 }

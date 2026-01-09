@@ -11,12 +11,7 @@ import java.util.function.Supplier;
 
 public class BehaviorSelector {
     private final Set<BehaviorWrapper> availableBehaviors = Sets.newLinkedHashSet();
-    private static final BehaviorWrapper NO_BEHAVIOR = new BehaviorWrapper(Integer.MAX_VALUE,
-            new Behavior()) {
-        public boolean isRunning() {
-            return false;
-        }
-    };
+    private static final BehaviorWrapper NO_BEHAVIOR = BehaviorWrapper.empty();
     private final Supplier<ProfilerFiller> profiler;
     private final Map<BehaviorFlag, BehaviorWrapper> lockedFlags = Maps.newEnumMap(BehaviorFlag.class);
     private final EnumSet<BehaviorFlag> disabledFlags = EnumSet.noneOf(BehaviorFlag.class);

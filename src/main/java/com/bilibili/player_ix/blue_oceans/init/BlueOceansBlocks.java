@@ -53,7 +53,7 @@ public class BlueOceansBlocks {
     public static final RegistryObject<Block> ALCOHOL_LAMP = BLOCKS.register("alcohol_lamp",
             () -> new AlcoholLamp(BlockBehaviour.Properties.of().sound(SoundType.GLASS).strength(
                     4F, 10F).lightLevel(value ->
-                    AlcoholLamp.isBurning(value) ? 10 : 0).noOcclusion().emissiveRendering((pState,
+                    value.getValue(AlcoholLamp.BURNING) ? 10 : 0).noOcclusion().emissiveRendering((pState,
                                                                                             pLevel, pPos) -> isLit(AlcoholLamp.BURNING,
                             pState, pLevel, pPos))));
     public static final RegistryObject<Block> MINING_LAMP = BLOCKS.register("mining_lamp",

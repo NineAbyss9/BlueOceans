@@ -1,6 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.blocks.chemistry;
 
+import com.bilibili.player_ix.blue_oceans.common.blocks.BoBlockProperties;
 import com.bilibili.player_ix.blue_oceans.common.chemistry.IChemical;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -30,10 +31,9 @@ import org.nine_abyss.math.AbyssMath;
 public class AlcoholLamp
 extends Block
 implements IChemical {
-    public static final BooleanProperty COVERED = BooleanProperty.create("covered");
-    public static final IntegerProperty CAPACITY = IntegerProperty.create("capacity",
-            0, 8);
-    public static final BooleanProperty BURNING = BooleanProperty.create("burning");
+    public static final BooleanProperty COVERED = BoBlockProperties.COVERED;
+    public static final IntegerProperty CAPACITY = BoBlockProperties.CAPACITY;
+    public static final BooleanProperty BURNING = BoBlockProperties.BURNING;
     private static float FIRE_DAMAGE = 4.0F;
     private static final VoxelShape SHAPE = box(3.0, 0.0, 3.0, 13.0, 10.0, 13.0);
     public AlcoholLamp(Properties pProperties) {
@@ -43,7 +43,7 @@ implements IChemical {
     }
 
     public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, RandomSource pRandom) {
-        if (isBurning(pState)) {
+        if (pState.getValue(BURNING)) {
             pLevel.addParticle(ParticleTypes.FLAME, pPos.getX() + 0.5, pPos.getY() + 0.5, pPos.getZ() + 0.5,
                     AbyssMath.trueOrFalse(pRandom.nextDouble() * 0.05),
                     AbyssMath.trueOrFalse(pRandom.nextDouble() * 0.05),
@@ -58,10 +58,10 @@ implements IChemical {
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
                                  BlockHitResult pHit) {
         ItemStack itemStack = pPlayer.getItemInHand(pHand);
-        if (!isBurning(pState) && getCapacity(pState) > 0 && !isCovered(pState) &&
+        if (!pState.getValue(BURNING) && pState.getValue(CAPACITY) > 0 && !pState.getValue(COVERED) &&
                 itemStack.is(Items.FLINT_AND_STEEL)) {
             if (!pLevel.isClientSide) {
-                pState = setBurning(pState, true);
+                pState = pState.setValue(BURNING, true);
                 pLevel.setBlock(pPos, pState, 3);
             }
             return InteractionResult.sidedSuccess(pLevel.isClientSide);
@@ -82,7 +82,7 @@ implements IChemical {
     }*/
 
     public void entityInside(BlockState pState, Level pLevel, BlockPos pPos, Entity pEntity) {
-        if (isBurning(pState)) {
+        if (pState.getValue(BURNING)) {
             pEntity.hurt(pLevel.damageSources().inFire(), FIRE_DAMAGE);
         }
     }
@@ -101,29 +101,5 @@ implements IChemical {
 
     public static void setFireDamage(float f) {
         FIRE_DAMAGE = f;
-    }
-
-    public static boolean isBurning(BlockState state) {
-        return state.getValue(BURNING);
-    }
-
-    public static BlockState setBurning(BlockState state, boolean lit) {
-        return state.setValue(BURNING, lit);
-    }
-
-    public static int getCapacity(BlockState state) {
-        return state.getValue(CAPACITY);
-    }
-
-    public static void setCapacity(BlockState state, int c) {
-        state.setValue(CAPACITY, AbyssMath.clamp(c, 0, 8));
-    }
-
-    public static boolean isCovered(BlockState state) {
-        return state.getValue(COVERED);
-    }
-
-    public static void setCovered(BlockState state, boolean covered) {
-        state.setValue(COVERED, covered);
     }
 }

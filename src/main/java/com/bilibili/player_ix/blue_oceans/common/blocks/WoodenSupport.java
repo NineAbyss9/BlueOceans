@@ -26,7 +26,6 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
@@ -36,7 +35,7 @@ import org.jetbrains.annotations.Nullable;
 public class WoodenSupport
 extends BaseEntityBlock {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
-    public static final BooleanProperty BURNING = BlockStateProperties.LIT;
+    public static final BooleanProperty BURNING = BoBlockProperties.BURNING;
     public WoodenSupport(Properties pProperties) {
         super(pProperties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH)
@@ -93,7 +92,8 @@ extends BaseEntityBlock {
         return state.setValue(FACING, direction.rotate(state.getValue(FACING)));
     }
 
-    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
+    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState,
+                         boolean pMovedByPiston) {
         if (!pState.is(pNewState.getBlock())) {
             BlockEntity blockentity = pLevel.getBlockEntity(pPos);
             if (blockentity instanceof WoodenSupportBlockEntity) {
