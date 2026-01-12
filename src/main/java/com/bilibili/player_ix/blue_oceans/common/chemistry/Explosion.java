@@ -2,38 +2,34 @@
 package com.bilibili.player_ix.blue_oceans.common.chemistry;
 
 import com.bilibili.player_ix.blue_oceans.client.particles.ImpartParticleOption;
-import com.bilibili.player_ix.blue_oceans.network.BoNetwork;
-import com.bilibili.player_ix.blue_oceans.network.packet.ParticlePacket;
+import com.github.player_ix.ix_api.api.annotation.ClientOnly;
 import com.github.player_ix.ix_api.util.Vec9;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import net.minecraft.network.Connection;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.NetworkDirection;
 
 public class Explosion {
     private Level level;
     private Vec9 position;
     private double radius;
-    private Connection connection;
     public Explosion(Level pLevel, double pRadius) {
         this.level = pLevel;
         this.radius = pRadius * pRadius;
     }
 
-    public Explosion(Level pLevel, double pRadius, Connection pConnection) {
-        this(pLevel, pRadius);
-        this.pickConnection(pConnection);
+    public Explosion() {
     }
 
-    @CanIgnoreReturnValue
     public Explosion pickLevel(Level pLevel) {
         this.level = pLevel;
         return this;
     }
 
-    @CanIgnoreReturnValue
-    public Explosion pickConnection(Connection pConnection) {
-        this.connection = pConnection;
+    public Explosion pickPos(Vec9 pos) {
+        this.position = pos;
+        return this;
+    }
+
+    public Explosion radius(double pRadius) {
+        this.radius = pRadius;
         return this;
     }
 
@@ -62,12 +58,13 @@ public class Explosion {
     }
 
     public void trigger() {
-        this.spawnParticles();
+        if (this.level.isClientSide)
+            this.spawnParticles();
     }
 
+    @ClientOnly
     public void spawnParticles() {
-        BoNetwork.INSTANCE.sendTo(new ParticlePacket(new ImpartParticleOption(0.1F, 0.5F),
-                this.position(), 0, 0, 0), connection, NetworkDirection.PLAY_TO_CLIENT);
+        this.level.addParticle(new ImpartParticleOption((float)radius(), 1.0F), x(), y(), z(), 0, 0, 0);
     }
 
     public enum Type {

@@ -278,8 +278,8 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
         return false;
     }
 
-    protected boolean isImmobile() {
-        return super.isImmobile() || this.isTrading();
+    public float getSpeed() {
+        return isTrading() ? 0.0F : super.getSpeed();
     }
 
     public void rewardTradeXp(MerchantOffer merchantOffer) {}
@@ -315,10 +315,12 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
         DATA_USING_ITEM = SynchedEntityData.defineId(VillagerBiologist.class, EntityDataSerializers.BOOLEAN);
     }
 
-    private static class NearestHealableFriendTargetGoal<T extends LivingEntity> extends NearestAttackableTargetGoal<T> {
+    private static class NearestHealableFriendTargetGoal<T extends LivingEntity>
+            extends NearestAttackableTargetGoal<T> {
         private int cooldown = 0;
 
-        public NearestHealableFriendTargetGoal(VillagerBiologist biologist, Class<T> p_26088_, boolean p_26089_, @Nullable Predicate<LivingEntity> p_26090_) {
+        public NearestHealableFriendTargetGoal(VillagerBiologist biologist, Class<T> p_26088_, boolean p_26089_,
+                                               @Nullable Predicate<LivingEntity> p_26090_) {
             super(biologist, p_26088_, 500, p_26089_, false, p_26090_);
         }
 
@@ -345,7 +347,8 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
         }
     }
 
-    private static class AttackTargetGoal<T extends LivingEntity> extends NearestAttackableTargetGoal<T> {
+    private static class AttackTargetGoal<T extends LivingEntity>
+            extends NearestAttackableTargetGoal<T> {
         private boolean canAttack = true;
 
         AttackTargetGoal(VillagerBiologist biologist, Class<T> tClass) {

@@ -17,6 +17,9 @@ extends MobRenderer<T, BearModel<T>> {
     }
 
     public ResourceLocation getTextureLocation(T pEntity) {
+        if (pEntity.getVariant().id == 1) {
+            return BlueOceans.animal("bear/black");
+        }
         return BlueOceans.animal("bear/bear");
     }
 

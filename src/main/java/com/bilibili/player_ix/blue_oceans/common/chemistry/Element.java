@@ -184,6 +184,10 @@ public class Element {
         return (int)this.relativeAtomicMass;
     }
 
+    public String elementSymbol() {
+        return this.elementSymbol;
+    }
+
     public boolean equals(Object pOther) {
         if (this == pOther)
             return true;

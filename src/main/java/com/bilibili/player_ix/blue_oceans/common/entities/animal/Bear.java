@@ -24,6 +24,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -34,9 +35,11 @@ import java.util.UUID;
 
 public class Bear
 extends BoAnimal
-implements IBONeutralMob {
+implements IBONeutralMob, VariantHolder<Bear.BearType> {
     private static final EntityDataAccessor<Boolean> DATA_STANDING_ID =
             SynchedEntityData.defineId(Bear.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> DATA_TYPE =
+            SynchedEntityData.defineId(Bear.class, EntityDataSerializers.INT);
     private float clientSideStandAnimationO;
     private float clientSideStandAnimation;
     private int warningSoundTicks;
@@ -47,6 +50,12 @@ implements IBONeutralMob {
     private UUID persistentAngerTarget;
     public Bear(EntityType<? extends Bear> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+    }
+
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(DATA_STANDING_ID, false);
+        this.entityData.define(DATA_TYPE, 0);
     }
 
     protected void registerGoals() {
@@ -132,11 +141,6 @@ implements IBONeutralMob {
         }
     }
 
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(DATA_STANDING_ID, false);
-    }
-
     public void tick() {
         super.tick();
         if (this.level().isClientSide) {
@@ -201,6 +205,32 @@ implements IBONeutralMob {
             pSpawnData = new AgeableMob.AgeableMobGroupData(1.0F);
         }
         return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+    }
+
+    public BearType getVariant() {
+        return BearType.of(this.entityData.get(DATA_TYPE));
+    }
+
+    public void setVariant(BearType pVariant) {
+        this.entityData.set(DATA_TYPE, pVariant.id);
+    }
+
+    public enum BearType {
+        BROWN(0, DyeColor.BROWN),
+        BLACK(1, DyeColor.BLACK);
+        public final int id;
+        public final DyeColor color;
+        BearType(int pId, DyeColor pColor) {
+            id = pId;
+            this.color = pColor;
+        }
+
+        public static BearType of(int pId) {
+            if (pId == 1) {
+                return BearType.BLACK;
+            }
+            return BearType.BROWN;
+        }
     }
 
     protected class BearAttackPlayersGoal extends NearestAttackableTargetGoal<Player> {

@@ -4,6 +4,7 @@ package com.bilibili.player_ix.blue_oceans.common.entities.red_plum;
 import com.bilibili.player_ix.blue_oceans.common.blocks.RedPlumCatalyst;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansParticleTypes;
 import com.bilibili.player_ix.blue_oceans.util.RedPlumUtil;
+import com.github.player_ix.ix_api.api.annotation.ServerOnly;
 import com.github.player_ix.ix_api.util.Maths;
 import com.github.player_ix.ix_api.util.ParticleUtil;
 import net.minecraft.core.BlockPos;
@@ -147,6 +148,7 @@ extends RedPlumMonster {
         return 0x7fffffff;
     }
 
+    @ServerOnly
     public static void spreadPlum(Level pLevel, @Message("It's already below()") BlockPos base) {
         RedPlumCatalyst.spreadPlum((ServerLevel)pLevel, base.below());
     }

@@ -1,6 +1,7 @@
 
 package org.nine_abyss.util.function;
 
+/**@see java.util.function.BiFunction*/
 @FunctionalInterface
 public interface CiFunction<A, B, C, R> {
     R apply(A a, B b, C c);

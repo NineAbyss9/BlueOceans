@@ -17,7 +17,8 @@ extends ItemNameBlockItem {
         super(pBlock, pProperties);
     }
 
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
+    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltip,
+                                TooltipFlag pFlag) {
         pTooltip.add(Component.translatable("info.blue_oceans.rice_item"));
     }
 }

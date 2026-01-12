@@ -8,7 +8,6 @@ public class BehaviorWrapper {
     private final Behavior behavior;
     private final int priority;
     private boolean isRunning;
-
     public BehaviorWrapper(int pPriority, Behavior pBehavior) {
         this.priority = pPriority;
         this.behavior = pBehavior;
@@ -85,10 +84,16 @@ public class BehaviorWrapper {
     }
 
     public static BehaviorWrapper empty() {
-        return new BehaviorWrapper(Integer.MAX_VALUE, new Behavior()) {
-            public boolean isRunning() {
-                return false;
-            }
-        };
+        return new Empty();
+    }
+
+    private static final class Empty extends BehaviorWrapper {
+        public Empty() {
+            super(Integer.MAX_VALUE, new Behavior());
+        }
+
+        public boolean isRunning() {
+            return false;
+        }
     }
 }

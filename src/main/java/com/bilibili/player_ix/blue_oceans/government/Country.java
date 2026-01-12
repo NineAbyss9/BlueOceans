@@ -25,8 +25,7 @@ public class Country {
     }
 
     static {
-        PLAYER = new Country(
-                new Government(Ideology.Anarchism, null, "Player"));
+        PLAYER = new Country(Government.PLAYER);
         EMPIRE_OF_EVIL = new Country(Government.EVIL_FACTION);
         VILLAGER = new Country(new Government(Ideology.Democracy, null, "Villager"));
     }

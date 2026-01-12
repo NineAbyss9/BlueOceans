@@ -1,6 +1,7 @@
 
 package org.nine_abyss.array;
 
+/**Base NumberArray class.*/
 public class NumberArray<T extends Number>
 extends ObjectArray<T>
 implements INumberArray {

@@ -20,6 +20,7 @@ public class Government {
     private final StabilityHandler stability;
     private String name;
     public static final Government EMPTY;
+    public static final Government PLAYER;
     public static final Government EVIL_FACTION;
     public Government(Country pCountry, Ideology pIdeology, LivingEntity pLeader, String pName) {
         this.country = pCountry;
@@ -141,6 +142,7 @@ public class Government {
 
     static {
         EMPTY = new Government(Ideology.Anarchism, null, "EMPTY");
+        PLAYER = new Government(Ideology.Anarchism, null, "Player");
         EVIL_FACTION = new Government(Country.EMPIRE_OF_EVIL, Ideology.Authoritarian, null,
                 "EvilFaction");
     }

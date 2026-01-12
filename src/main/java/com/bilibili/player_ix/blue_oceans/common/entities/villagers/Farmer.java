@@ -128,7 +128,6 @@ extends BaseVillager {
 
         private boolean validPos(BlockPos pPos, Level pLevel) {
             BlockState blockstate = pLevel.getBlockState(pPos);
-            net.minecraft.world.entity.ai.behavior.UseBonemeal useBonemeal;
             Block block = blockstate.getBlock();
             return block instanceof CropBlock && !((CropBlock)block).isMaxAge(blockstate);
         }

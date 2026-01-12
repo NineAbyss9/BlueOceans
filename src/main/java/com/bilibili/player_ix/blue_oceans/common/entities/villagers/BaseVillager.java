@@ -142,8 +142,7 @@ implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser {
     public void readAdditionalSaveData(CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         this.foodData.readIntegration(pCompound);
-        ListTag villagerData = (ListTag)pCompound.get("VillagerData");
-        if (villagerData != null) {
+        if (pCompound.get("VillagerData") instanceof ListTag villagerData) {
             CompoundTag tag = (CompoundTag)villagerData.get(0);
             this.setAgent(tag.getBoolean("isAgent"));
             this.setTask(tag.getInt("CurrentTask"));

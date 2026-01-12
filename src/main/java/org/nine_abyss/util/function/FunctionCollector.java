@@ -3,8 +3,7 @@ package org.nine_abyss.util.function;
 
 import org.nine_abyss.util.IXUtil;
 
-import java.util.function.BooleanSupplier;
-import java.util.function.Predicate;
+import java.util.function.*;
 
 public class FunctionCollector {
     private FunctionCollector() {
@@ -68,13 +67,6 @@ public class FunctionCollector {
 
         PredicateInstance() {}
 
-        /**
-         * Evaluates this predicate on the given argument.
-         *
-         * @param t the input argument
-         * @return {@code true} if the input argument matches the predicate,
-         * otherwise {@code false}
-         */
         public boolean test(Object t) {
             return false;
         }

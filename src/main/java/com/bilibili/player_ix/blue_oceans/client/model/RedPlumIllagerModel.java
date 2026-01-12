@@ -16,8 +16,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
 
-public class RedPlumIllagerModel<T extends RedPlumIllager> extends HierarchicalModel<T> implements HeadedModel, ArmedModel {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("blue_oceans", "redplumillagermodel"), "main");
+public class RedPlumIllagerModel<T extends RedPlumIllager> extends HierarchicalModel<T>
+        implements HeadedModel, ArmedModel {
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(
+            new ResourceLocation("blue_oceans", "redplumillagermodel"), "main");
     private final ModelPart root;
     private final ModelPart head;
     private final ModelPart hat;

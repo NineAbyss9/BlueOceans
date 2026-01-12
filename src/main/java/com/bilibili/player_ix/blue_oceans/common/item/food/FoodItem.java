@@ -89,7 +89,8 @@ extends Item {
     }
 
     @SuppressWarnings("all")
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents,
+                                TooltipFlag pIsAdvanced) {
         FoodProperties properties = this.getFoodProperties();
         if (!properties.getEffects().isEmpty()) {
             List list = new ArrayList();

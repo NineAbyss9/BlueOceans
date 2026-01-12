@@ -10,7 +10,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.nine_abyss.util.ValueHolder;
 
-@SuppressWarnings("all")
 public class BlueOceansBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES
             = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, BlueOceans.MOD_ID);

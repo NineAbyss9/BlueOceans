@@ -6,15 +6,17 @@ import java.util.NoSuchElementException;
 
 public class ImmutableSubLister<E>
 extends SubLister<E> {
+    @java.io.Serial
+    private static final long serialVersionUID = 5322653187890826517L;
     transient final E[] array;
     @SafeVarargs
-    private ImmutableSubLister(E... elements) {
+    ImmutableSubLister(E... elements) {
         super();
         array = elements;
     }
 
     @SuppressWarnings("unchecked")
-    private ImmutableSubLister(Collection<? extends E> c) {
+    ImmutableSubLister(Collection<? extends E> c) {
         super(c);
         array = (E[])c.toArray();
     }
@@ -88,5 +90,21 @@ extends SubLister<E> {
 
     public E remove(int index) {
         return null;
+    }
+
+    @SafeVarargs
+    public static <E> ImmutableSubLister<E> of(E... elements) {
+        return new ImmutableSubLister<>(elements);
+    }
+
+    public static <E> ImmutableSubLister<E> copyOf(Iterable<? extends E> elements) {
+        if (elements instanceof Collection<? extends E> c)
+            return new ImmutableSubLister<>(c);
+        else {
+            ImmutableSubLister<E> subLister = new ImmutableSubLister<>();
+            for (E element : elements)
+                subLister.add(element);
+            return subLister;
+        }
     }
 }

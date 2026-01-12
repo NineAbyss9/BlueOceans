@@ -10,13 +10,17 @@ public class ReflectUtil {
     private ReflectUtil() {
     }
 
+    public static String getSimpleName() {
+        return ReflectUtil.class.getSimpleName();
+    }
+
     public static Field getField(Class<?> clazz, String pName) {
         Field field = null;
         try {
             field = clazz.getDeclaredField(pName);
             field.setAccessible(true);
         } catch (Exception e) {
-            IXUtil.l.warning("Find error in " + ReflectUtil.class.getSimpleName() + "e:" + e);
+            IXUtil.l.warning("Find error in " + getSimpleName() + "e:" + e);
         }
         return field;
     }
@@ -27,7 +31,7 @@ public class ReflectUtil {
             method.setAccessible(true);
             return method;
         } catch (Exception e) {
-            IXUtil.l.warning("Find error in " + ReflectUtil.class.getSimpleName() + "e:" + e);
+            IXUtil.l.warning("Find error in " + getSimpleName() + "e:" + e);
         }
         return null;
     }
@@ -39,7 +43,7 @@ public class ReflectUtil {
                 method.invoke(target, ps);
             }
         } catch (Exception e) {
-            IXUtil.l.warning("Find error in " + ReflectUtil.class.getSimpleName() + "e:" + e);
+            IXUtil.l.warning("Find error in " + getSimpleName() + "e:" + e);
         }
     }
 }

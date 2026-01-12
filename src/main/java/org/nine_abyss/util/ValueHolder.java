@@ -1,7 +1,7 @@
 
 package org.nine_abyss.util;
 
-import org.nine_abyss.annotation.AlwaysNull;
+import org.jetbrains.annotations.NotNull;
 
 public class ValueHolder {
     public static final String EMPTY = "";
@@ -16,7 +16,8 @@ public class ValueHolder {
         return mayNull == null ? other : mayNull;
     }
 
-    @AlwaysNull
+    @SuppressWarnings("all")
+    @NotNull
     public static <T> T nullOf() {
         return null;
     }

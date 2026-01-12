@@ -78,7 +78,7 @@ implements RangedAttackMob {
         this.goalSelector.addGoal(4, new FloatGoal(this));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         RandomStrollGoal goal = new RandomStrollGoal(this, 0.8);
-        goal.setInterval(3);
+        goal.setInterval(20);
         this.goalSelector.addGoal(4, goal);
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new BOAttackTargetGoal(this, false));

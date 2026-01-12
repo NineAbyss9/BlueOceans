@@ -98,7 +98,8 @@ public class Dictator extends SpellcasterRedPlumIllager {
         Freak freak = BlueOceansEntities.FREAK.get().create(this.level());
         if (freak != null) {
             freak.moveTo(this.getX(3), this.getY(), this.getZ(3));
-            freak.finalizeSpawn(level, level.getCurrentDifficultyAt(BlockPos.containing(this.getX(), this.getY(), this.getZ())), MobSpawnType.MOB_SUMMONED, null, null);
+            freak.finalizeSpawn(level, level.getCurrentDifficultyAt(BlockPos.containing(this.getX(), this.getY(), this.getZ())),
+                    MobSpawnType.MOB_SUMMONED, null, null);
             freak.setOwner(this);
             level.addFreshEntityWithPassengers(freak);
             if (!this.level().isClientSide()) {
@@ -118,7 +119,8 @@ public class Dictator extends SpellcasterRedPlumIllager {
 
     public static AttributeSupplier.Builder createAttributes() {
         AttributeSupplier.Builder builder = AbstractRedPlumMob.createLivingAttributes();
-        builder.add(Attributes.ATTACK_DAMAGE, 5).add(Attributes.ARMOR, 12).add(Attributes.MOVEMENT_SPEED, 0.4)
+        builder.add(Attributes.ATTACK_DAMAGE, 5).add(Attributes.ARMOR, 12)
+                .add(Attributes.MOVEMENT_SPEED, 0.4)
                 .add(Attributes.MAX_HEALTH, 300).add(Attributes.KNOCKBACK_RESISTANCE, 0.75)
                 .add(Attributes.FOLLOW_RANGE, 100).add(Attributes.ATTACK_KNOCKBACK, 1);
         return builder;
@@ -145,33 +147,27 @@ public class Dictator extends SpellcasterRedPlumIllager {
     class SummonFreakerGoal extends UseSpellGoal {
         Dictator dictator = Dictator.this;
 
-        @Override
         protected void performSpellCasting() {
             if (!level().isClientSide)
                 dictator.randomSummon();
         }
 
-        @Override
         protected int getCastingTime() {
             return 60;
         }
 
-        @Override
         protected int getCastingInterval() {
             return 600;
         }
 
-        @Override
         protected SoundEvent getSpellPrepareSound() {
             return SoundEvents.EMPTY;
         }
 
-        @Override
         protected BOSpellType getSpell() {
             return BOSpellType.DARK;
         }
 
-        @Override
         public boolean canUse() {
             return super.canUse();
         }
@@ -182,10 +178,11 @@ public class Dictator extends SpellcasterRedPlumIllager {
         double y;
         double z;
         Dictator dictator = Dictator.this;
-        TargetingConditions illagers = TargetingConditions.forCombat().ignoreLineOfSight().ignoreInvisibilityTesting().range(32);
-        TargetingConditions mobs = TargetingConditions.forCombat().range(32).ignoreInvisibilityTesting().ignoreLineOfSight();
+        TargetingConditions illagers = TargetingConditions.forCombat().ignoreLineOfSight().ignoreInvisibilityTesting()
+                .range(32);
+        TargetingConditions mobs = TargetingConditions.forCombat().range(32).ignoreInvisibilityTesting()
+                .ignoreLineOfSight();
 
-        @Override
         public void tick() {
             super.tick();
             if (dictator.commandTicks > 0) {
@@ -199,20 +196,20 @@ public class Dictator extends SpellcasterRedPlumIllager {
             this.z = u;
         }
 
-        @Override
         public void start() {
             super.start();
             dictator.commandTicks = 100;
             dictator.setIsCommanding(true);
         }
 
-        @Override
         public void performSpellCasting() {
-            List<Raider> list = dictator.level().getNearbyEntities(Raider.class, this.illagers, dictator, dictator.getBoundingBox().inflate(x, y, z));
+            List<Raider> list = dictator.level().getNearbyEntities(Raider.class, this.illagers, dictator, dictator.getBoundingBox()
+                    .inflate(x, y, z));
             for (Raider raider : list) {
                 raider.setTarget(dictator.getTarget());
             }
-            List<AbstractRedPlumMob> ist = dictator.level().getNearbyEntities(AbstractRedPlumMob.class, this.mobs, dictator, dictator.getBoundingBox().inflate(x, y, z));
+            List<AbstractRedPlumMob> ist = dictator.level().getNearbyEntities(AbstractRedPlumMob.class, this.mobs,
+                    dictator, dictator.getBoundingBox().inflate(x, y, z));
             for (AbstractRedPlumMob mob : ist) {
                 if (mob instanceof Dictator) {
                     return;
@@ -224,22 +221,18 @@ public class Dictator extends SpellcasterRedPlumIllager {
             dictator.heal(10);
         }
 
-        @Override
         protected int getCastingTime() {
             return 20;
         }
 
-        @Override
         protected int getCastingInterval() {
             return 300;
         }
 
-        @Override
         protected SoundEvent getSpellPrepareSound() {
             return SoundEvents.EMPTY;
         }
 
-        @Override
         protected BOSpellType getSpell() {
             return BOSpellType.NONE;
         }

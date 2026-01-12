@@ -7,6 +7,8 @@ import java.util.function.Consumer;
 public class SubLister<E>
 extends LinkedList<E>
 implements Lister<E> {
+    @java.io.Serial
+    private static final long serialVersionUID = 7474719356862439922L;
     public SubLister() {
         super();
     }
@@ -30,17 +32,21 @@ implements Lister<E> {
         return false;
     }
 
+    public ImmutableSubLister<E> immutable() {
+        return new ImmutableSubLister<>(this);
+    }
+
     @SafeVarargs
     public static <E> SubLister<E> of(E... elements) {
         return new SubLister<>(Arrays.asList(elements));
     }
 
-    public static <ELEMENT> SubLister<ELEMENT> copyOf(Iterable<? extends ELEMENT> elements) {
-        if (elements instanceof Collection<? extends ELEMENT> c)
+    public static <E> SubLister<E> copyOf(Iterable<? extends E> elements) {
+        if (elements instanceof Collection<? extends E> c)
             return new SubLister<>(c);
         else {
-            SubLister<ELEMENT> subLister = new SubLister<>();
-            for (ELEMENT element : elements)
+            SubLister<E> subLister = new SubLister<>();
+            for (E element : elements)
                 subLister.add(element);
             return subLister;
         }

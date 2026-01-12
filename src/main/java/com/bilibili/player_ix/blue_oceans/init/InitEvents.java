@@ -5,7 +5,7 @@ import com.bilibili.player_ix.blue_oceans.common.command.BoCommand;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
+//@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class InitEvents {
     private InitEvents() {
     }

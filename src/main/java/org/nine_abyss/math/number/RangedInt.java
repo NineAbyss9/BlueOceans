@@ -3,6 +3,7 @@ package org.nine_abyss.math.number;
 
 import org.nine_abyss.math.AbyssMath;
 
+import java.io.Serial;
 import java.util.Random;
 
 public abstract class RangedInt
@@ -40,6 +41,8 @@ extends Number {
     }
 
     static class Instance extends RangedInt {
+        @Serial
+        private static final long serialVersionUID = 2863121246089915556L;
         private Instance(int pMin, int pMax) {
             super(pMin, pMax);
         }

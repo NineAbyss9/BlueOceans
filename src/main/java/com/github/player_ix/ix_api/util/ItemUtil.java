@@ -45,7 +45,6 @@ public class ItemUtil {
 
     public record TierInstance(int uses, float speed, float damage, int level, int ev, Ingredient ingredient)
             implements Tier {
-
         public int getUses() {
             return this.uses;
         }

@@ -234,11 +234,11 @@ public class BlueOceansItems {
     public static final RegistryObject<Item> RED_PLUM_FLESH = ITEMS.register("red_plum_flesh",
             RedPlumFlesh::new);
     public static final RegistryObject<Item> RICE = ITEMS.register("rice", () -> new FoodItem(
-            4, 4.0F, Rarity.UNCOMMON));
+            2, 1.0F, Rarity.UNCOMMON));
     public static final RegistryObject<Item> SALT_PILE = ITEMS.register("salt_pile",
             () -> new Item(properties().stacksTo(64)));
     public static final RegistryObject<Item> STRAWBERRY = ITEMS.register("strawberry",
-            () -> FoodItem.fast(1, 0.5F));
+            () -> FoodItem.fast(1, 1F));
     public static final RegistryObject<Item> GREATEST_MANTOU = ITEMS.register("greatest_mantou",
             () -> new FoodItem(100, 100F, 1,
                     new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 600, 5),

@@ -6,7 +6,6 @@ import com.github.player_ix.ix_api.api.mobs.IFlagMob;
 import com.github.player_ix.ix_api.api.mobs.MobFoodData;
 import com.github.player_ix.ix_api.api.mobs.MobUtils;
 import com.github.player_ix.ix_api.api.mobs.ai.goal.MeleeGoal;
-import com.google.common.base.Predicates;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -19,6 +18,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.level.Level;
 import org.nine_abyss.util.IXUtil;
 import org.nine_abyss.util.IXUtilUser;
+import org.nine_abyss.util.function.FunctionCollector;
 
 import java.util.List;
 
@@ -149,7 +149,7 @@ implements IFlagMob, IAnimatedMob {
     implements IXUtilUser {
         public LionTargetGoal(Lion pMob) {
             super(pMob, LivingEntity.class, 20, true, false,
-                    Predicates.alwaysTrue());
+                    FunctionCollector.alwaysTrue());
         }
 
         public boolean canUse() {

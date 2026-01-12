@@ -4,6 +4,7 @@ package com.bilibili.player_ix.blue_oceans.common.blocks;
 import com.bilibili.player_ix.blue_oceans.common.blocks.be.RedPlumCatalystEntity;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlocks;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansGameRules;
+import com.github.player_ix.ix_api.api.annotation.ServerOnly;
 import com.github.player_ix.ix_api.util.Maths;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -65,7 +66,8 @@ extends RedPlumBlock {
         return 2;
     }
 
-    public int getExpDrop(BlockState state, LevelReader level, RandomSource randomSource, BlockPos pos, int fortuneLevel, int silkTouchLevel) {
+    public int getExpDrop(BlockState state, LevelReader level, RandomSource randomSource, BlockPos pos, int fortuneLevel,
+                          int silkTouchLevel) {
         return 2;
     }
 
@@ -80,6 +82,7 @@ extends RedPlumBlock {
         return InteractionResult.sidedSuccess(pLevel.isClientSide);
     }
 
+    @ServerOnly
     public static void spreadPlum(ServerLevel serverLevel, @Message("Blocks do not below()") BlockPos center) {
         BlockPos pos = center.offset(Maths.randomInt(3), 0, Maths.randomInt(3));
         BlockState newBlockstate = getRandomGrowthState(serverLevel, pos, serverLevel.random);

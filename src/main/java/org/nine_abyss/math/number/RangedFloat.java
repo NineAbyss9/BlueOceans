@@ -3,6 +3,7 @@ package org.nine_abyss.math.number;
 
 import org.nine_abyss.math.AbyssMath;
 
+import java.io.Serial;
 import java.util.Random;
 
 public abstract class RangedFloat
@@ -36,6 +37,8 @@ extends Number {
     }
 
     static class Instance extends RangedFloat {
+        @Serial
+        private static final long serialVersionUID = -9137409676543585491L;
         Instance(Float pMin, Float pMax) {
             super(pMin, pMax);
         }

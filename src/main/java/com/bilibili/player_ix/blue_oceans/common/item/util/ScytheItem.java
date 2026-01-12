@@ -43,8 +43,13 @@ extends DiggerItem {
             int dropCount = level.random.nextInt(3);
             for (int j = 0; j < dropCount;j++)
                 Block.dropResources(state, level, pPos, level.getBlockEntity(pPos), entity1, stack);
-            if (i == 1)
-                level.setBlock(pPos, ((CropBlock)state.getBlock()).getStateForAge(1), 2);
+            if (i == 1) {
+                CropBlock crop = ((CropBlock)state.getBlock());
+                if (crop.getMaxAge() >= 1)
+                    level.setBlock(pPos, crop.getStateForAge(1), 2);
+                else
+                    level.setBlock(pPos, crop.getStateForAge(0), 2);
+            }
             return true;
         }
         return false;

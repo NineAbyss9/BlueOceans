@@ -15,7 +15,6 @@ extends MobRenderer<V, HuntingVillagerModel<V>> {
         this.addLayer(new CrossedArmsItemLayer<>(this, p_174304_.getItemInHandRenderer()));
     }
 
-    @Override
     public ResourceLocation getTextureLocation(V v) {
         return new ResourceLocation("blue_oceans:textures/entities/villagers/biologist.png");
     }

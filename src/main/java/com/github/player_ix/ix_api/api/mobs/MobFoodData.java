@@ -45,7 +45,7 @@ public class MobFoodData {
         this.eat(foodLevelModifier, saturationLevelModifier);
     }
 
-    public void eat(Item pItem, ItemStack pStack, @Nullable net.minecraft.world.entity.LivingEntity entity) {
+    public void eat(Item pItem, ItemStack pStack, @Nullable LivingEntity entity) {
         if (pItem.isEdible()) {
             FoodProperties foodproperties = pStack.getFoodProperties(entity);
             if (foodproperties != null) {

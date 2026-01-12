@@ -26,7 +26,6 @@ extends IllagerRenderer<T> {
         });
     }
 
-    @Override
     public  ResourceLocation getTextureLocation( T t) {
         return LOCATION;
     }
