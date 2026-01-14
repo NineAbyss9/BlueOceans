@@ -18,6 +18,9 @@ public enum BoTier implements Tier {
     IRON(550, 6.0F, 2.0F, 2, 14, Ingredient.of(Items
             .IRON_INGOT)),
     RED_PLUM(1999, 7.9F, 5.0F, 3, 14,
+            Ingredient.EMPTY),
+    STEEL(3699, 8.0F, 6.9F, 3, 20,
+            //Empty now
             Ingredient.EMPTY);
     final int uses;
     final int level;

@@ -10,7 +10,7 @@ public class ContentHolder extends ArrayList<Content> {
         super();
     }
 
-    public Content get() {
+    public Content first() {
         return this.get(0);
     }
 

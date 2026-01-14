@@ -184,6 +184,7 @@ implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser {
         this.entityData.set(DATA_TASK, pTask);
     }
 
+    /**Gets the profession of a {@linkplain BaseVillager}*/
     public Profession getProfession() {
         return profession;
     }

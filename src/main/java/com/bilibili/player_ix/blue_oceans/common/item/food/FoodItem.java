@@ -50,19 +50,20 @@ extends Item {
                 new FoodProperties.Builder().nutrition(pNutrition).saturationMod(pSaturation).build()), ciFunction);
     }
 
-    public FoodItem(int pNutrition, float pSaturation, float f, MobEffectInstance... effects) {
+    public FoodItem(int pNutrition, float pSaturation, float probability, MobEffectInstance... effects) {
         this(new Properties().stacksTo(64).food(
-                new BoFoodBuilder().addEffects(f, effects).nutrition(pNutrition).saturationMod(pSaturation).build()));
+                new BoFoodBuilder().addEffects(probability, effects).nutrition(pNutrition).saturationMod(pSaturation).build()));
     }
 
-    public FoodItem(Rarity rarity, int pNutrition, float pSaturation, float f, MobEffectInstance... effects) {
+    public FoodItem(Rarity rarity, int pNutrition, float pSaturation, float probability, MobEffectInstance... effects) {
         this(new Properties().rarity(rarity).stacksTo(64).food(
-                new BoFoodBuilder().addEffects(f, effects).nutrition(pNutrition).saturationMod(pSaturation).build()));
+                new BoFoodBuilder().addEffects(probability, effects).nutrition(pNutrition).saturationMod(pSaturation).build()));
     }
 
-    public FoodItem(Rarity rarity, int pNutrition, float pSaturation, float f, int pDuring, int pLevel, MobEffect... effects) {
+    public FoodItem(Rarity rarity, int pNutrition, float pSaturation, float probability, int pDuring,
+                    int pLevel, MobEffect... effects) {
         this(new Properties().rarity(rarity).stacksTo(64).food(
-                new BoFoodBuilder().addEffects(f, pDuring, pLevel, effects).nutrition(pNutrition)
+                new BoFoodBuilder().addEffects(probability, pDuring, pLevel, effects).nutrition(pNutrition)
                         .saturationMod(pSaturation).build()));
     }
 

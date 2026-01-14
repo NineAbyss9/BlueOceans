@@ -4,6 +4,7 @@ package com.bilibili.player_ix.blue_oceans.init;
 import com.bilibili.player_ix.blue_oceans.BlueOceans;
 import com.bilibili.player_ix.blue_oceans.common.blocks.chemistry.AlcoholLamp;
 import com.bilibili.player_ix.blue_oceans.common.entities.ai.goal.AttackModVillagersGoal;
+import com.bilibili.player_ix.blue_oceans.common.mob_effect.ConfigurableDamageBoost;
 import com.bilibili.player_ix.blue_oceans.config.BlueOceansConfig;
 import com.bilibili.player_ix.blue_oceans.events.HandleConfigValueEvent;
 import com.bilibili.player_ix.blue_oceans.government.Government;
@@ -46,7 +47,9 @@ public class BlueOceansEvents {
     }
 
     @SubscribeEvent
-    public static void handleConfigValues(HandleConfigValueEvent event) {
+    public static void onHandleConfigValues(HandleConfigValueEvent event) {
         AlcoholLamp.setFireDamage(BlueOceansConfig.Common.ALCOHOL_LAMP_DAMAGE.get().floatValue());
+        ConfigurableDamageBoost.value = BlueOceansConfig.Common.DAMAGE_BOOST_PLUS_VALUE.get()
+                .doubleValue();
     }
 }

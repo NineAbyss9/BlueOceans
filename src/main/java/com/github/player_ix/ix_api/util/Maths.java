@@ -76,6 +76,14 @@ extends Mth {
         return tick * 20.0;
     }
 
+    public static int minuteToTick(int minute) {
+        return minute * 1200;
+    }
+
+    public static float minuteToTick(float minute) {
+        return minute * 1200F;
+    }
+
     @SuppressWarnings("deprecation")
     public static float randomBetween(float min, float max) {
         return randomBetween(RandomSource.createThreadSafe(), min, max);

@@ -11,8 +11,8 @@ extends TextureSheetParticle {
     private final SpriteSet set;
     public Impart(ClientLevel pLevel, double pX, double pY, double pZ, ImpartParticleOption option, SpriteSet pSet) {
         super(pLevel, pX, pY, pZ, 0, 0, 0);
-        size = option.size();
-        quadSize = size;
+        size = option.finalSize();
+        quadSize = option.size();
         speed = option.speed();
         set = pSet;
         pickSprite(set);

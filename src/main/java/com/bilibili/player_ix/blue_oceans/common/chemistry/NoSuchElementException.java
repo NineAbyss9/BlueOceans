@@ -3,6 +3,8 @@ package com.bilibili.player_ix.blue_oceans.common.chemistry;
 
 public class NoSuchElementException
 extends RuntimeException {
+    @java.io.Serial
+    private static final long serialVersionUID = -4352292825681263488L;
     public NoSuchElementException(String message) {
         super(message);
     }

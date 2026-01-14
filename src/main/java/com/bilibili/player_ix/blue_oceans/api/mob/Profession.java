@@ -10,7 +10,6 @@ import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import org.nine_abyss.annotation.doc.Message;
 import org.nine_abyss.util.lister.Lister;
 import org.nine_abyss.util.lister.SubLister;
 
@@ -46,7 +45,7 @@ public class Profession {
         this.workSound = pWorkSound;
     }
 
-    public Profession(@Nonnull @Message("Must be nonnull") VillagerProfession pProfession) {
+    public Profession(@Nonnull VillagerProfession pProfession) {
         this(pProfession, pProfession.name(), pProfession.heldJobSite(), pProfession.acquirableJobSite(),
                 pProfession.requestedItems(), pProfession.secondaryPoi(), pProfession.workSound());
     }

@@ -97,7 +97,7 @@ public class BlueOceansTabs {
             }).build());
     public static final RegistryObject<CreativeModeTab> BO_FOOD = TABS
             .register("blue_oceans_farming", () -> CreativeModeTab.builder().icon(() ->
-                    new ItemStack(BlueOceansItems.PEAR.get())).title(Component.translatable(
+                    new ItemStack(BlueOceansItems.RICE_BOWL.get())).title(Component.translatable(
                     "item_group.blue_oceans.blue_oceans_farming"
             ).withStyle(
                     ChatFormatting.GOLD)).displayItems((parameter, output) -> {
@@ -114,6 +114,7 @@ public class BlueOceansTabs {
                 output.accept(BlueOceansItems.PEAR.get());
                 output.accept(BlueOceansItems.RED_PLUM_FLESH.get());
                 output.accept(BlueOceansItems.RICE.get());
+                output.accept(BlueOceansItems.RICE_BOWL.get());
                 output.accept(BlueOceansItems.STRAWBERRY.get());
                 output.accept(BlueOceansItems.MILK_BOTTLE.get());
                 output.accept(BlueOceansItems.MUSHROOM_SKEWER.get());

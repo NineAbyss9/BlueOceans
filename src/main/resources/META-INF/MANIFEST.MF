@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Specification-Title: blue_oceans
 Specification-Vendor: Player_IX
 Specification-Version: 1
-Implementation-Title: Blue Oceans 1.0.9a
+Implementation-Title: Blue Oceans 1.0.9b
 Implementation-Version: 1.3
 Implementation-Vendor: Player_IX
 Implementation-Timestamp: 2025-10-19T13:03:03+0800

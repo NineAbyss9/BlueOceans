@@ -45,6 +45,7 @@
   "gui.blue_oceans.forging": "锻造",
   "info.blue_oceans.entity_killer": "右键来清除生物.",
   "info.blue_oceans.locked": "这个物品目前仅创造可获得",
+  "info.blue_oceans.pound_count": "捶打次数: %s",
   "info.blue_oceans.rice_item": "你应该把它种在水里.",
   "item.blue_oceans.aluminum_axe": "铝斧",
   "item.blue_oceans.aluminum_boots": "铝靴子",

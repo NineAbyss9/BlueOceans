@@ -12,21 +12,29 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class ForgeScreen
 extends ItemCombinerScreen<ForgeMenu> {
+    static final ResourceLocation TEXTURE = BlueOceans.gui("forge");
     static final ResourceLocation ERROR = BlueOceans.gui("forge/error");
     public ForgeScreen(ForgeMenu pMenu, Inventory pPlayerInventory, Component pTitle,
                        ResourceLocation pMenuResource) {
         super(pMenu, pPlayerInventory, pTitle, pMenuResource);
     }
 
+    protected void init() {
+        super.init();
+        this.addRenderableWidget(Button.builder(Component.translatable("gui.blue_oceans.forging"),
+                pButton -> menu.increasePoundCount()).build());
+    }
+
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
-        this.addRenderableWidget(Button.builder(Component.translatable("gui.blue_oceans.forging"),
-                pButton -> {}).build());
     }
 
     protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
         super.renderBg(pGuiGraphics, pPartialTick, pMouseX, pMouseY);
-
+        pGuiGraphics.blit(TEXTURE, 0, 0, 0, 0, 256, 256,
+                256, 256);
+        pGuiGraphics.drawString(this.font, Component.translatable("info.blue_oceans.pound_count",
+                this.menu.getPoundCount()), 61, 20, 0);
     }
 
     protected void renderErrorIcon(GuiGraphics pGuiGraphics, int pX, int pY) {

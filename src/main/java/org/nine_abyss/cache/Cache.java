@@ -35,10 +35,10 @@ public class Cache {
     }
 
     public static void add(Object obj) {
-        NineAbyssBase.cache().caches.put(next(), obj);
+        instance.caches.put(next(), obj);
     }
 
     public static void remove(Integer obj) {
-        NineAbyssBase.cache().caches.remove(obj);
+        instance.caches.remove(obj);
     }
 }

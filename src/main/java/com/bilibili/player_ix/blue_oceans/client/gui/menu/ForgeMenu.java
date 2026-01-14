@@ -8,9 +8,11 @@ import net.minecraft.world.inventory.ItemCombinerMenu;
 import net.minecraft.world.inventory.ItemCombinerMenuSlotDefinition;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import org.nine_abyss.util.function.FunctionCollector;
 
 public class ForgeMenu
 extends ItemCombinerMenu {
+    private int poundCount;
     public ForgeMenu(int pContainerId, Inventory pPlayerInventory,
                      ContainerLevelAccess pAccess) {
         super(null, pContainerId, pPlayerInventory, pAccess);
@@ -32,14 +34,21 @@ extends ItemCombinerMenu {
         return false;
     }
 
-    /**
-     * Called when the Anvil Input Slot changes, calculates the new result and puts it in the output slot.
-     */
     public void createResult() {
 
     }
 
+    public int getPoundCount() {
+        return this.poundCount;
+    }
+
+    public void increasePoundCount() {
+        poundCount++;
+    }
+
     protected ItemCombinerMenuSlotDefinition createInputSlotDefinitions() {
-        return ItemCombinerMenuSlotDefinition.create().build();
+        return ItemCombinerMenuSlotDefinition.create().withSlot(0, 26, 45, FunctionCollector.alwaysTrue())
+                .withSlot(1, 75, 45, FunctionCollector.alwaysTrue())
+                .withResultSlot(2, 133, 45).build();
     }
 }

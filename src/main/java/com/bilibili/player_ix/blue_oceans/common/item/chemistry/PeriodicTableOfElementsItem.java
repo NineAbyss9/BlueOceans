@@ -12,7 +12,7 @@ import net.minecraft.world.level.Level;
 public class PeriodicTableOfElementsItem
 extends Item {
     public PeriodicTableOfElementsItem() {
-        super(new Properties());
+        super(new Properties().stacksTo(1));
     }
 
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {

@@ -39,6 +39,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.nine_abyss.annotation.PAMAreNonnullByDefault;
@@ -199,6 +200,7 @@ public class BlueOceansItems {
     //Food
     public static final RegistryObject<Item> CORN = ITEMS.register("corn",
             ()-> new FoodItem(2, 1.5F));
+    //public static final RegistryObject<Item> EdibleSalt = ITEMS.register("edible_salt", () -> new Item(properties()));
     public static final RegistryObject<Item> GANODERMA_LUCIDUM = mushroom("ganoderma_lucidum",
             BlueOceansBlocks.GANODERMA_LUCIDUM, properties().stacksTo(64), 2, 1.0F);
     public static final RegistryObject<Item> MILK_BOTTLE = ITEMS.register("milk_bottle",
@@ -223,7 +225,7 @@ public class BlueOceansItems {
                 }
             });
     public static final RegistryObject<Item> MUSHROOM_SKEWER = ITEMS.register("mushroom_skewer",
-            () -> new FoodItem(5, 3.0F));
+            () -> new FoodItem(5, 1.0F));
     public static final RegistryObject<Item> GINKGO = ITEMS.register("ginkgo",
             () -> new FoodItem(1, 1.5F));
     public static final RegistryObject<Item> LEEK = ITEMS.register("leek", () -> new FoodItem(2, 1.0F));
@@ -235,6 +237,9 @@ public class BlueOceansItems {
             RedPlumFlesh::new);
     public static final RegistryObject<Item> RICE = ITEMS.register("rice", () -> new FoodItem(
             2, 1.0F, Rarity.UNCOMMON));
+    public static final RegistryObject<Item> RICE_BOWL = ITEMS.register("rice_bowl", () ->
+            new Item(properties().stacksTo(1).rarity(Rarity.UNCOMMON).food(new FoodProperties.Builder()
+                    .nutrition(5).saturationMod(1.2F).build())));
     public static final RegistryObject<Item> SALT_PILE = ITEMS.register("salt_pile",
             () -> new Item(properties().stacksTo(64)));
     public static final RegistryObject<Item> STRAWBERRY = ITEMS.register("strawberry",

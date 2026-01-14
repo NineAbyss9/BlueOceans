@@ -6,18 +6,23 @@ import com.bilibili.player_ix.blue_oceans.common.entities.AbstractBlueOceansMob;
 import com.github.player_ix.ix_api.api.mobs.ApiBoss;
 import com.github.player_ix.ix_api.api.mobs.IFlagMob;
 import com.github.player_ix.ix_api.util.UnmodifiableList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class MarbleGolem
 extends AbstractBlueOceansMob
 implements IFlagMob, ApiBoss, IAnimatedMob {
+    public static final String TRUE_NAME = "Wu1Wu2";
+    private static final EntityDataAccessor<Boolean> DATA_WU1_WU2;
     private static final EntityDataAccessor<Integer> DATA_FLAGS;
     private static final EntityDataAccessor<Integer> DATA_ATTACK_TICK;
     public MarbleGolem(EntityType<? extends MarbleGolem> type, Level level) {
@@ -27,6 +32,7 @@ implements IFlagMob, ApiBoss, IAnimatedMob {
 
     protected void defineSynchedData() {
         super.defineSynchedData();
+        this.entityData.define(DATA_WU1_WU2, false);
         this.entityData.define(DATA_FLAGS, 0);
         this.entityData.define(DATA_ATTACK_TICK, 0);
     }
@@ -48,6 +54,22 @@ implements IFlagMob, ApiBoss, IAnimatedMob {
 
     protected void registerGoals() {
         super.registerGoals();
+    }
+
+    public void readAdditionalSaveData(CompoundTag pCompound) {
+        super.readAdditionalSaveData(pCompound);
+        if (pCompound.getBoolean("isWu1Wu2"))
+            this.setWu1Wu2(true);
+    }
+
+    public void addAdditionalSaveData(CompoundTag pCompound) {
+        super.addAdditionalSaveData(pCompound);
+        pCompound.putBoolean("isWu1Wu2", this.isWu1Wu2());
+    }
+
+    public void setCustomName(@Nullable Component pName) {
+        super.setCustomName(pName);
+        this.setWu1Wu2(this.hasWu1Wu2Name());
     }
 
     public int getFlag() {
@@ -77,6 +99,21 @@ implements IFlagMob, ApiBoss, IAnimatedMob {
         }
     }
 
+    public boolean hasWu1Wu2Name() {
+        Component customName = this.getCustomName();
+        if (customName == null)
+            return false;
+        return customName.getString().equals(TRUE_NAME);
+    }
+
+    public boolean isWu1Wu2() {
+        return this.entityData.get(DATA_WU1_WU2);
+    }
+
+    public void setWu1Wu2(boolean flag) {
+        this.entityData.set(DATA_WU1_WU2, flag);
+    }
+
     public List<AnimationState> getAllAnimations() {
         return UnmodifiableList.of();
     }
@@ -86,6 +123,7 @@ implements IFlagMob, ApiBoss, IAnimatedMob {
     }
 
     static {
+        DATA_WU1_WU2 = SynchedEntityData.defineId(MarbleGolem.class, EntityDataSerializers.BOOLEAN);
         DATA_FLAGS = SynchedEntityData.defineId(MarbleGolem.class, EntityDataSerializers.INT);
         DATA_ATTACK_TICK = SynchedEntityData.defineId(MarbleGolem.class, EntityDataSerializers.INT);
     }

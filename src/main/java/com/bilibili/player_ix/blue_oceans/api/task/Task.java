@@ -8,7 +8,7 @@ public enum Task {
     EMPTY(0),
     PURSUIT_AND_APPREHENSION(1),
     MEET(2),
-    PLANT_FLAG(3, () -> new ItemStack(BlueOceansItems.FLAG.get())),
+    PLANT_FLAG(3, new ItemSupplier(new ItemStack(BlueOceansItems.FLAG.get()))),
     FIND_HELP(4),
     FARM(5),
     FOLLOW(6),

@@ -64,7 +64,7 @@ public class Explosion {
 
     @ClientOnly
     public void spawnParticles() {
-        this.level.addParticle(new ImpartParticleOption((float)radius(), 1.0F), x(), y(), z(), 0, 0, 0);
+        this.level.addParticle(new ImpartParticleOption(0.5F, (float)radius(), 1.0F), x(), y(), z(), 0, 0, 0);
     }
 
     public enum Type {
