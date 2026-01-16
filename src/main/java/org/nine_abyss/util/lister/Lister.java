@@ -37,6 +37,10 @@ public interface Lister<E> extends List<E>, Deque<E>, IXUtilUser {
         return sample(new Random());
     }
 
+    default ImmutableSubLister<E> immutable() {
+        return new ImmutableSubLister<>(this);
+    }
+
     default Optional<E> checkedOptional(int index) {
         return Optional.ofNullable(this.get(index));
     }

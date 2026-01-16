@@ -8,6 +8,7 @@ import com.bilibili.player_ix.blue_oceans.common.mob_effect.ConfigurableDamageBo
 import com.bilibili.player_ix.blue_oceans.config.BlueOceansConfig;
 import com.bilibili.player_ix.blue_oceans.events.HandleConfigValueEvent;
 import com.bilibili.player_ix.blue_oceans.government.Government;
+import com.bilibili.player_ix.blue_oceans.util.RedPlumUtil;
 import com.google.common.collect.Sets;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -51,5 +52,6 @@ public class BlueOceansEvents {
         AlcoholLamp.setFireDamage(BlueOceansConfig.Common.ALCOHOL_LAMP_DAMAGE.get().floatValue());
         ConfigurableDamageBoost.value = BlueOceansConfig.Common.DAMAGE_BOOST_PLUS_VALUE.get()
                 .doubleValue();
+        RedPlumUtil.plumInvadeLevel = BlueOceansConfig.Common.PLUM_INVADE_LEVEL.get().intValue();
     }
 }

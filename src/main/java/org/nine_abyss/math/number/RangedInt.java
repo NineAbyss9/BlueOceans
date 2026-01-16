@@ -7,7 +7,8 @@ import java.io.Serial;
 import java.util.Random;
 
 public abstract class RangedInt
-extends Number {
+extends Number
+implements NumberProvider<Integer> {
     /**@deprecated */
     @Deprecated
     static final Random random = new Random();
@@ -18,18 +19,16 @@ extends Number {
         this.max = pMax;
     }
 
-    public abstract int minValue();
-
     public float minFloat() {
-        return minValue();
+        return min();
     }
 
     public double minDouble() {
-        return minValue();
+        return min();
     }
 
     public long minLong() {
-        return minValue();
+        return min();
     }
 
     public Integer sample() {
@@ -47,8 +46,12 @@ extends Number {
             super(pMin, pMax);
         }
 
-        public int minValue() {
+        public Integer min() {
             return this.min;
+        }
+
+        public Integer max() {
+            return max;
         }
 
         public int intValue() {

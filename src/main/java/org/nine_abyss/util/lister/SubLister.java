@@ -32,10 +32,6 @@ implements Lister<E> {
         return false;
     }
 
-    public ImmutableSubLister<E> immutable() {
-        return new ImmutableSubLister<>(this);
-    }
-
     @SafeVarargs
     public static <E> SubLister<E> of(E... elements) {
         return new SubLister<>(Arrays.asList(elements));

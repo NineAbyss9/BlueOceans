@@ -8,7 +8,4 @@ public class BlueOceansHooks {
     public static void onHandleConfigValue() {
         MinecraftForge.EVENT_BUS.post(new HandleConfigValueEvent());
     }
-
-    public static void handleConfigValues() {
-    }
 }

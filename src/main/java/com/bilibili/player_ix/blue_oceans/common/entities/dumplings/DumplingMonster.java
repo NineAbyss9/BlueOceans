@@ -24,7 +24,6 @@ import net.minecraftforge.network.PlayMessages;
 import org.jetbrains.annotations.Nullable;
 
 public class DumplingMonster extends AbstractDumpling implements Enemy {
-
     public DumplingMonster(EntityType<? extends AbstractDumpling> p_33002_, Level p_33003_) {
         super(p_33002_, p_33003_);
         this.setMaxUpStep(2);

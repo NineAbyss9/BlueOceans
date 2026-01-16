@@ -5,16 +5,12 @@ import org.nine_abyss.annotation.NotCheck;
 import org.nine_abyss.block.TryBlock;
 import org.nine_abyss.cache.Cache;
 import org.nine_abyss.event.EventContainer;
-import sun.misc.Unsafe;
-
-import java.lang.reflect.Constructor;
 
 /**The base of {@code NineAbyss}
  *
  * @author NineAbyss*/
 public class NineAbyssBase implements AutoCloseable
 {
-    public static final Unsafe UNSAFE = getUnsafe();
     public static EventContainer eventContainer;
     private NineAbyssBase() {
     }
@@ -67,21 +63,5 @@ public class NineAbyssBase implements AutoCloseable
     public static boolean run(Runnable work) {
         TryBlock tryBlock = new TryBlock(work);
         return tryBlock.run();
-    }
-
-    private static Unsafe getUnsafe() {
-        if (UNSAFE != null) {
-            return UNSAFE;
-        } else {
-            Unsafe instance = null;
-            try {
-                Constructor<Unsafe> c = Unsafe.class.getDeclaredConstructor();
-                c.setAccessible(true);
-                instance = c.newInstance();
-            } catch (Exception e) {
-                error(e);
-            }
-            return instance;
-        }
     }
 }

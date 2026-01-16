@@ -13,13 +13,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 
-/**It will become a {@linkplain Class} instead of {@linkplain Record} before long.*/
 public record ForgeRecipe(ResourceLocation id, int hitCount, Ingredient hitItem, ItemStack result)
 implements Recipe<Container> {
+    public static final Serializer SERIALIZER = new Serializer();
 
-    /**
-     * Used to check if a recipe matches current crafting inventory
-     */
     public boolean matches(Container pContainer, Level pLevel) {
         return this.hitItem.test(pContainer.getItem(2));
     }
@@ -46,7 +43,7 @@ implements Recipe<Container> {
     }
 
     public RecipeSerializer<?> getSerializer() {
-        return null;
+        return SERIALIZER;
     }
 
     public RecipeType<?> getType() {

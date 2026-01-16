@@ -2,12 +2,13 @@
 package com.github.player_ix.ix_api.api;
 
 import com.github.player_ix.ix_api.util.Colors;
+import net.minecraftforge.common.IExtensibleEnum;
 
 public class APISpells {
     public APISpells() {
     }
 
-    public enum APISpell //implements IExtensibleEnum
+    public enum APISpell implements IExtensibleEnum
     {
         NONE(0, 0.0, 0.0, 0.0),
         RANGE(1, 0.7, 0.7, 0.8),
@@ -35,10 +36,10 @@ public class APISpells {
             this.spellColor = Colors.toDouble(floats);
         }
 
-        /*@SuppressWarnings("unused")
+        @SuppressWarnings("unused")
         public static APISpell create(String name, int id, double x, double y, double z) {
             throw new IllegalStateException("Enum not extended");
-        }*/
+        }
 
         public static APISpell getById(int nt) {
             for (APISpell spellType : APISpell.values()) {

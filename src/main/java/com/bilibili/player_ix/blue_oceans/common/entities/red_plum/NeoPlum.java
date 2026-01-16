@@ -104,7 +104,8 @@ implements IConversion {
     }
 
     public static void addParticleAroundPlum(Entity entity) {
-        if (entity.level() instanceof ServerLevel serverLevel) {
+        if (!entity.level().isClientSide) {
+            ServerLevel serverLevel = (ServerLevel)entity.level();
             serverLevel.sendParticles(BlueOceansParticleTypes.RED_SPELL.get(), entity.getX(), entity.getY(),
                     entity.getZ(), 12, 0.7, 0.7, 0.7, 0);
         }
@@ -125,6 +126,7 @@ implements IConversion {
         }
     }
 
+    /**NeoPlums never level up.*/
     protected int nextConvertUpNeeds() {
         return 0x7fffffff;
     }

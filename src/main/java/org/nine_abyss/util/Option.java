@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.Stream;
 
-/**A container like {@linkplain Optional}, implements {@linkplain Supplier}.
+/**A container like {@linkplain Optional}, implements {@linkplain Supplier}, {@linkplain java.io.Serializable}.
  *
  * @see Optional
  *
@@ -18,7 +18,9 @@ import java.util.stream.Stream;
  * @author NineAbyss*/
 @SuppressWarnings("unused")
 public final class Option<T>
-implements Supplier<T> {
+implements Supplier<T>, java.io.Serializable {
+    @java.io.Serial
+    private static final long serialVersionUID = 6561243608026846372L;
     /**The value of an {@linkplain Option}*/
     private final T value;
 

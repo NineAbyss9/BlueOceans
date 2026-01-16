@@ -24,6 +24,7 @@ extends Screen {
 
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
-        pGuiGraphics.blit(this.location, x, y, blitOffset, uOffset, vOffset, uWidth, vHeight, textureWidth, textureHeight);
+        pGuiGraphics.blit(this.location, x, y, blitOffset, uOffset, vOffset, uWidth, vHeight, textureWidth,
+                textureHeight);
     }
 }

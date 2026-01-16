@@ -7,7 +7,8 @@ import java.io.Serial;
 import java.util.Random;
 
 public abstract class RangedFloat
-extends Number {
+extends Number
+implements NumberProvider<Float> {
     /**@deprecated */
     @Deprecated
     static final Random random = new Random();

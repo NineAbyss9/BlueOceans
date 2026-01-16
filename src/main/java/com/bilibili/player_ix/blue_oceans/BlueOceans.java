@@ -1,6 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans;
 
+//import com.bilibili.player_ix.blue_oceans.api.crafting.BoRecipes;
 import com.bilibili.player_ix.blue_oceans.config.BlueOceansConfig;
 import com.bilibili.player_ix.blue_oceans.init.*;
 import com.bilibili.player_ix.blue_oceans.network.BoNetwork;
@@ -12,13 +13,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
-//import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.nine_abyss.NineAbyssBase;
-import org.nine_abyss.annotation.NotCheckUnused;
 import org.slf4j.Logger;
 
 import javax.annotation.Nonnull;
@@ -47,6 +46,7 @@ public class BlueOceans implements ModOfNineAbyss {
         bus.addListener(BlueOceansEntities::registerSpawns);
         BoTags.register();
         context.registerConfig(ModConfig.Type.COMMON, BlueOceansConfig.COMMON_SPEC);
+        //BoRecipes.RECIPES.register(bus);
         BlueOceansEntities.REGISTRY.register(bus);
         BlueOceansBlockEntities.BLOCK_ENTITIES.register(bus);
         BlueOceansBlocks.BLOCKS.register(bus);
@@ -60,7 +60,6 @@ public class BlueOceans implements ModOfNineAbyss {
         BlueOceansHooks.onHandleConfigValue();
     }
 
-    @NotCheckUnused
     public String getVersion() {
         return "1.0.9a";
     }

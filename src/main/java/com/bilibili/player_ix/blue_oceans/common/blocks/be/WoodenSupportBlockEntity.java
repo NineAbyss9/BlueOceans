@@ -31,7 +31,6 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
-import org.nine_abyss.annotation.NotCheckUnused;
 import org.nine_abyss.util.*;
 
 import javax.annotation.Nullable;
@@ -281,7 +280,6 @@ implements WorldlyContainer, RecipeHolder, IXUtilUser {
         return null;
     }
 
-    @NotCheckUnused
     public void awardUsedRecipesAndPopExperience(ServerPlayer pPlayer) {
         List<Recipe<?>> list = this.getRecipesToAwardAndPopExperience(pPlayer.serverLevel(), pPlayer.position());
         pPlayer.awardRecipes(list);

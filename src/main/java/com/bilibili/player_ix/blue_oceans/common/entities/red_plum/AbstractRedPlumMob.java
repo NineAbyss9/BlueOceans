@@ -273,7 +273,7 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
     protected void doAttackTarget(Entity pEntity) {
         if (pEntity instanceof LivingEntity entity) {
             entity.addEffect(EffectInstance.create(BlueOceansMobEffects.PLUM_INVADE,
-                    300, this.mobData.getDifficultyId()));
+                    300, RedPlumUtil.plumInvadeLevel));
         }
     }
 

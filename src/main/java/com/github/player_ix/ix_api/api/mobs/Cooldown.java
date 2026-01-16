@@ -21,10 +21,10 @@ public class Cooldown {
     }
 
     public float getCooldownPercent(String  p_41522_, float p_41523_) {
-        CooldownInstance $$2 = this.cooldowns.get(p_41522_);
-        if ($$2 != null) {
-            float $$3 = (float)($$2.endTime - $$2.startTime);
-            float $$4 = (float)$$2.endTime - ((float)this.tickCount + p_41523_);
+        CooldownInstance instance = this.cooldowns.get(p_41522_);
+        if (instance != null) {
+            float $$3 = (float)(instance.endTime - instance.startTime);
+            float $$4 = (float)instance.endTime - ((float)this.tickCount + p_41523_);
             return Mth.clamp($$4 / $$3, 0.0F, 1.0F);
         } else {
             return 0.0F;

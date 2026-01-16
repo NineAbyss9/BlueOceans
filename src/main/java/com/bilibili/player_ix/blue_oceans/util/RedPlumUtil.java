@@ -16,6 +16,7 @@ public class RedPlumUtil {
     public static final ImmutableMap<Integer, List<EntityType<? extends AbstractRedPlumMob>>> MAP;
     public static final ObjectArray<EntityType<?>> PLUM_ENTITY_TYPES;
     public static final IntArray PLUM_PLUS_KILLS;
+    public static int plumInvadeLevel = 3;
     public RedPlumUtil() {
     }
 

@@ -22,12 +22,10 @@ public class ItemUtil {
 
     public static void shrink(ItemStack stack, Entity entity, int count) {
         if (entity instanceof Player player) {
-            if (!player.getAbilities().instabuild) {
+            if (!player.getAbilities().instabuild)
                 stack.shrink(count);
-            }
-        } else {
+        } else
             stack.shrink(count);
-        }
     }
 
     public static void shrink(ItemStack stack, Entity player) {

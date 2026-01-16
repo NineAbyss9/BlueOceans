@@ -8,6 +8,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
 
+/**Interface for converters.*/
 public interface IConversion {
     boolean isConverting();
 

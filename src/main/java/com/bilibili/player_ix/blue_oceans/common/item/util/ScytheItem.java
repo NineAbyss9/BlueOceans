@@ -61,7 +61,8 @@ extends DiggerItem {
 
     public boolean mineBlock(ItemStack pStack, Level pLevel, BlockState pState, BlockPos pPos, LivingEntity pEntityLiving) {
         dropResources(pState, pLevel, pPos, pEntityLiving, pStack);
-        if (pState.getBlock().defaultDestroyTime() <= 0.0F && shouldDamage(pStack))
+        if (pState.getBlock().defaultDestroyTime() <= 0.0F
+                && pState.getBlock() instanceof CropBlock && shouldDamage(pStack))
             pStack.hurtAndBreak(1, pEntityLiving, entity -> entity.broadcastBreakEvent(
                     InteractionHand.MAIN_HAND));
         return super.mineBlock(pStack, pLevel, pState, pPos, pEntityLiving);

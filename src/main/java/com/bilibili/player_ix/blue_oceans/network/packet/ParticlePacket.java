@@ -8,7 +8,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkEvent;
-import org.nine_abyss.annotation.NotCheckUnused;
 
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -24,18 +23,15 @@ public record ParticlePacket(ParticleOptions options, double x, double y, double
         buffer.writeInt(BuiltInRegistries.PARTICLE_TYPE.getId(options.getType()));
     }
 
-    @NotCheckUnused
     public static void encode(ParticlePacket packet, FriendlyByteBuf buffer) {
         writeParticle(packet.options(), buffer);
     }
 
-    @NotCheckUnused
     public static ParticlePacket decode(ParticleOptions options, double x, double y, double z,
                                         double dx, double dy, double dz) {
         return new ParticlePacket(options, x, y, z, dx, dy, dz);
     }
 
-    @NotCheckUnused
     public static void handle(ParticlePacket packet, Supplier<NetworkEvent.Context> ctx) {
         NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> {

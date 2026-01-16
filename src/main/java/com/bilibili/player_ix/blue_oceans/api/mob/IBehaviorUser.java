@@ -6,6 +6,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 
 public interface IBehaviorUser {
+    /**Register the behaviors.*/
     void registerBehaviors();
 
     BehaviorSelector getBehaviorSelector();
@@ -15,7 +16,8 @@ public interface IBehaviorUser {
     }
 
     default void behaviorTick() {
-        if (this.mySelf().level() instanceof ServerLevel serverLevel) {
+        if (!this.mySelf().level().isClientSide) {
+            ServerLevel serverLevel = (ServerLevel)mySelf().level();
             int i = serverLevel.getServer().getTickCount() + this.mySelf().getId();
             if (i % 2 != 0 && this.mySelf().tickCount > 1) {
                 serverLevel.getProfiler().push("behaviorSelector");
