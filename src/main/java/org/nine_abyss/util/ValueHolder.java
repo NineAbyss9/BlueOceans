@@ -1,8 +1,6 @@
 
 package org.nine_abyss.util;
 
-import org.jetbrains.annotations.NotNull;
-
 public class ValueHolder {
     public static final String EMPTY = "";
     public static final Integer ZERO = 0;
@@ -17,7 +15,6 @@ public class ValueHolder {
     }
 
     @SuppressWarnings("all")
-    @NotNull
     public static <T> T nullOf() {
         return null;
     }

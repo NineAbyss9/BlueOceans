@@ -62,10 +62,7 @@ implements IAnimatedMob, IFlagMob {
     }
 
     public IllagerArmPose getArmPose() {
-        if (this.isAggressive()) {
-            return IllagerArmPose.ATTACKING;
-        }
-        return IllagerArmPose.CROSSED;
+        return IllagerArmPose.ATTACKING;
     }
 
     static {

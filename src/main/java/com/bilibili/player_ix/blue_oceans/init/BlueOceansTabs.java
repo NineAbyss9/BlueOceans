@@ -28,6 +28,7 @@ public class BlueOceansTabs {
                         output.accept(BlueOceansItems.FREAKY_AXE.get());
                         output.accept(BlueOceansItems.RED_PLUM_SWORD.get());
                         output.accept(BlueOceansItems.RED_PLUM.get());
+                        output.accept(BlueOceansItems.STEEL_INGOT.get());
                         output.accept(BlueOceansItems.SNIPER_RIFLE.get());
                         output.accept(BlueOceansItems.FLINT_AXE.get());
                         output.accept(BlueOceansItems.FLINT_PICKAXE.get());
@@ -37,6 +38,10 @@ public class BlueOceansTabs {
                         output.accept(BlueOceansItems.ICE_PICKAXE.get());
                         output.accept(BlueOceansItems.ICE_SWORD.get());
                         output.accept(BlueOceansItems.IRON_HAMMER.get());
+                        output.accept(BlueOceansItems.STEEL_AXE.get());
+                        output.accept(BlueOceansItems.STEEL_PICKAXE.get());
+                        output.accept(BlueOceansItems.STEEL_SHOVEL.get());
+                        output.accept(BlueOceansItems.STEEL_SWORD.get());
                         output.accept(BlueOceansItems.WOODEN_STICK.get());
                         output.accept(BlueOceansItems.BIKE_EGG.get());
                         output.accept(BlueOceansItems.BASE_VILLAGER_SPAWN_EGG.get());

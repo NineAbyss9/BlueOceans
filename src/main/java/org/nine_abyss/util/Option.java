@@ -19,6 +19,7 @@ import java.util.stream.Stream;
 @SuppressWarnings("unused")
 public final class Option<T>
 implements Supplier<T>, java.io.Serializable {
+    //SerialVersion
     @java.io.Serial
     private static final long serialVersionUID = 6561243608026846372L;
     /**The value of an {@linkplain Option}*/

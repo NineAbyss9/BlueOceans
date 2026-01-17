@@ -38,6 +38,10 @@ public class FunctionCollector {
         return supplier.get();
     }
 
+    public static <T> Supplier<T> supplier(T value) {
+        return () -> value;
+    }
+
     private enum BooleanSupplierInstance implements BooleanSupplier {
         TRUE(true),
         FALSE(false);

@@ -6,7 +6,7 @@ import com.github.player_ix.ix_api.init.ApiEntities;
 import com.github.player_ix.ix_api.init.ApiItems;
 import com.github.player_ix.ix_api.util.ResourceLocations;
 import com.github.player_ix.ix_api.client.ClientAgent;
-import com.github.player_ix.ix_api.init.Agent;
+import com.github.player_ix.ix_api.init.ApiAgent;
 import com.github.player_ix.ix_api.init.ServerAgent;
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
@@ -34,7 +34,7 @@ public class IXApi implements ModOfNineAbyss {
     public static final String BLUE_OCEANS = "blue_oceans";
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
-    public static Agent AGENT;
+    public static ApiAgent AGENT;
 
     @SuppressWarnings("removal")
     public IXApi() {

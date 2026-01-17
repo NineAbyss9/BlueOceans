@@ -8,7 +8,7 @@ implements Code {
     private final int base;
     private int hashCode;
     public HashCode() {
-        base = 0;
+        base = AbyssMath.random.nextInt();
     }
 
     public HashCode(int pBase) {
@@ -16,7 +16,7 @@ implements Code {
     }
 
     public HashCode run() {
-        this.hashCode = AbyssMath.random.nextInt() * 31;
+        this.hashCode = base * 31;
         return this;
     }
 

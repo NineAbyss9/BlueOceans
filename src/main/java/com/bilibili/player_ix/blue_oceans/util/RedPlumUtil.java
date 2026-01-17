@@ -13,6 +13,11 @@ import org.nine_abyss.array.ObjectArray;
 import java.util.List;
 
 public class RedPlumUtil {
+    /**NeoPlum -> {
+     * <p> PlumSpreader -> PlumFactory
+     * <p> BasePlum(like RedPlumZombie) -> RedPlumSlayer
+     * <p>
+     }*/
     public static final ImmutableMap<Integer, List<EntityType<? extends AbstractRedPlumMob>>> MAP;
     public static final ObjectArray<EntityType<?>> PLUM_ENTITY_TYPES;
     public static final IntArray PLUM_PLUS_KILLS;

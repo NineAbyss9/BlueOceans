@@ -31,6 +31,7 @@ import com.bilibili.player_ix.blue_oceans.common.item.util.axe.ElementAxe;
 import com.bilibili.player_ix.blue_oceans.common.item.util.pickaxe.ElementPickaxe;
 import com.bilibili.player_ix.blue_oceans.common.item.weapon.FreakyAxe;
 import com.bilibili.player_ix.blue_oceans.common.item.weapon.red_plum.RedPlumSword;
+import com.github.player_ix.ix_api.api.item.BaseItem;
 import com.google.common.collect.Sets;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.server.level.ServerPlayer;
@@ -39,9 +40,12 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
 import org.nine_abyss.annotation.PAMAreNonnullByDefault;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -181,6 +185,10 @@ public class BlueOceansItems {
             5651507, 12422002);
     //SEnd
 
+    //Material
+    public static final RegistryObject<Item> STEEL_INGOT = ITEMS.register("steel_ingot", BaseItem::new);
+    //MEnd
+
     //Block
     public static final RegistryObject<Item> FLAG = ITEMS.register("flag", FlagItem::new);
     public static final RegistryObject<Item> LEEK_SEEDS = ITEMS.register("leek_seeds", () ->
@@ -239,7 +247,17 @@ public class BlueOceansItems {
             2, 1.0F, Rarity.UNCOMMON));
     public static final RegistryObject<Item> RICE_BOWL = ITEMS.register("rice_bowl", () ->
             new Item(properties().stacksTo(1).rarity(Rarity.UNCOMMON).food(new FoodProperties.Builder()
-                    .nutrition(5).saturationMod(1.2F).build())));
+                    .nutrition(5).saturationMod(1.2F).build())) {
+                public ItemStack finishUsingItem(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity) {
+                    if (pLivingEntity instanceof Player player) {
+                        if (!player.getAbilities().instabuild) {
+                            pStack.shrink(1);
+                            player.getInventory().add(new ItemStack(Items.BOWL));
+                        }
+                    }
+                    return super.finishUsingItem(pStack, pLevel, pLivingEntity);
+                }
+            });
     public static final RegistryObject<Item> SALT_PILE = ITEMS.register("salt_pile",
             () -> new Item(properties().stacksTo(64)));
     public static final RegistryObject<Item> STRAWBERRY = ITEMS.register("strawberry",
@@ -264,6 +282,8 @@ public class BlueOceansItems {
     //Pickaxe
     public static final RegistryObject<Item> FLINT_PICKAXE = ITEMS.register("flint_pickaxe",
             () -> new PickaxeItem(BoTier.FLINT, 2, -3.0F, properties()));
+    public static final RegistryObject<Item> STEEL_PICKAXE = ITEMS.register("steel_pickaxe", () ->
+            new PickaxeItem(BoTier.STEEL, 1, -3.0F, properties()));
     public static final RegistryObject<Item> ICE_PICKAXE = ITEMS.register("ice_pickaxe", IcePickaxe::new);
     //Scythe
     public static final RegistryObject<Item> IRON_SCYTHE = ITEMS.register("iron_scythe", () ->
@@ -271,6 +291,8 @@ public class BlueOceansItems {
     //Shovel
     public static final RegistryObject<Item> FLINT_SHOVEL = ITEMS.register("flint_shovel",
             () -> new ShovelItem(BoTier.FLINT, 2, -3.0F, properties()));
+    public static final RegistryObject<Item> STEEL_SHOVEL = ITEMS.register("steel_shovel",
+            () -> new ShovelItem(BoTier.STEEL, 1, -3.0F, properties()));
     //Traffic
     public static final RegistryObject<Item> BIKE_EGG = spawnEgg("bike", BlueOceansEntities.BIKE,
             1001033, 1001033);
@@ -291,12 +313,16 @@ public class BlueOceansItems {
             () -> new AxeItem(BoTier.FLINT, 4, -3.1F,
                     properties()));
     public static final RegistryObject<Item> FREAKY_AXE = ITEMS.register("freaky_axe", FreakyAxe::new);
+    public static final RegistryObject<Item> STEEL_AXE = ITEMS.register("steel_axe", () -> new AxeItem(BoTier.STEEL,
+            5.0F, -2.8F, properties()));
     //Sword
     public static final RegistryObject<Item> FLINT_SWORD = ITEMS.register("flint_sword",
             () -> new SwordItem(BoTier.FLINT, 3, -2.2F, properties()));
     public static final RegistryObject<Item> ICE_SWORD = ITEMS.register("ice_sword", IceSword::new);
     public static final RegistryObject<Item> RED_PLUM_SWORD = ITEMS.register("red_plum_sword",
             RedPlumSword::new);
+    public static final RegistryObject<Item> STEEL_SWORD = ITEMS.register("steel_sword", () -> new AxeItem(
+            BoTier.STEEL, 3.5F, -2.0F, properties()));
     //WEnd
 
     //Other

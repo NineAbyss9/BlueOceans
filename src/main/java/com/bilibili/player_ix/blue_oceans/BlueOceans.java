@@ -56,7 +56,6 @@ public class BlueOceans implements ModOfNineAbyss {
         BlueOceansSounds.SOUNDS.register(bus);
         BlueOceansTabs.TABS.register(bus);
         MinecraftForge.EVENT_BUS.register(this);
-        //loadingContext.registerConfig(ModConfig.Type.COMMON, BlueOceansConfig.ATTRIBUTE_SPEC);
         BlueOceansHooks.onHandleConfigValue();
     }
 
