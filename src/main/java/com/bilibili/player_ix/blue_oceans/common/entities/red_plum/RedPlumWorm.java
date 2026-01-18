@@ -67,7 +67,7 @@ public class RedPlumWorm extends RedPlumMonster {
     public void die(DamageSource source) {
         this.dropAllDeathLoot(source);
         if (!level().isClientSide)
-            this.getServerLevel().sendParticles(ParticleTypes.LARGE_SMOKE, this.getX(), this.getY(), this.getZ(),
+            this.serverLevel().sendParticles(ParticleTypes.LARGE_SMOKE, this.getX(), this.getY(), this.getZ(),
                     30, 0.5, 0.5, 0.5, 0.1);
         if (this.getOwner() != null && this.getOwner() instanceof AbstractRedPlumMob mobs) {
             mobs.heal(mobs.getHealAmount());

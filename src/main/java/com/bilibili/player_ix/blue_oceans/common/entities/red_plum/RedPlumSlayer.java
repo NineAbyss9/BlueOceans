@@ -22,6 +22,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Random;
@@ -99,6 +100,17 @@ implements IFlagMob, IAnimatedMob {
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new MeleeGoal(this, 1.0));
         super.registerGoals();
+    }
+
+    //Empty now
+    protected int nextConvertUpNeeds() {
+        return 0x7fffffff;
+    }
+
+    //Empty now
+    @Nullable
+    protected EntityType<? extends AbstractRedPlumMob> getNextLevelConvert() {
+        return null;
     }
 
     public int getLevel() {

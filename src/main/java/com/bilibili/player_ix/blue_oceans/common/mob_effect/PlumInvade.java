@@ -12,7 +12,7 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 
 public class PlumInvade extends MobEffect {
     public PlumInvade() {
-        super(MobEffectCategory.HARMFUL, -12189696);
+        super(MobEffectCategory.BENEFICIAL, -12189696);
     }
 
     public void applyEffectTick(LivingEntity pLivingEntity, int pAmplifier) {
@@ -31,7 +31,7 @@ public class PlumInvade extends MobEffect {
                     mob.checkAndPlusInfectLevel(pLivingEntity);
                 }
                 pLivingEntity.removeEffect(this);
-                var plum = NeoPlum.create(pLivingEntity.position(), pLivingEntity.level());
+                var plum = NeoPlum.createRandom(pLivingEntity.position(), pLivingEntity.level());
                 if (plum != null) {
                     NeoPlum.addParticleAroundPlum(plum);
                 }

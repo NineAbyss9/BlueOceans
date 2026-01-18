@@ -48,10 +48,8 @@ extends BaseVillager {
         this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this,
                 AbstractRedPlumMob.class, false) {
             public boolean canUse() {
-                if (this.targetMob instanceof AbstractRedPlumMob ab && ab.getMobTypes() != MobTypes.HOSTILE) {
-                    return false;
-                }
-                return super.canUse();
+                return super.canUse() && this.targetMob instanceof AbstractRedPlumMob ab &&
+                        ab.getMobTypes() != MobTypes.HOSTILE;
             }
         });
         this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, LivingEntity.class,

@@ -49,7 +49,7 @@ implements IConversion {
 
     protected void clientAiStep() {
         if (this.isConverting()) {
-            this.getClientLevel().addParticle(BlueOceansParticleTypes.RED_SPELL.get(),
+            this.clientLevel().addParticle(BlueOceansParticleTypes.RED_SPELL.get(),
                     this.getRandomX(0.8), this.getRandomY(), this.getRandomZ(0.8),
                     0, 0, 0);
         }
@@ -103,6 +103,11 @@ implements IConversion {
         return plum;
     }
 
+    @Nullable
+    public static NeoPlum createRandom(Vec3 vec3, Level pLevel) {
+        return pLevel.getRandom().nextFloat() < 0.1F ? NeoFighter.create(vec3, pLevel) : create(vec3, pLevel);
+    }
+
     public static void addParticleAroundPlum(Entity entity) {
         if (!entity.level().isClientSide) {
             ServerLevel serverLevel = (ServerLevel)entity.level();
@@ -114,9 +119,13 @@ implements IConversion {
     @SuppressWarnings("all")
     public void performConvert() {
         if (!this.level().isClientSide) {
-            ServerLevel serverLevel = this.getServerLevel();
+            ServerLevel serverLevel = this.serverLevel();
             int chance = this.getRandomUtil().nextInt(5);
-            AbstractRedPlumMob monster = RedPlumUtil.MAP.get(1).get(chance).create(serverLevel);
+            AbstractRedPlumMob monster;
+            if (this.random.nextInt(3) != 0)
+                monster = RedPlumUtil.MAP.get(1).get(chance).create(serverLevel);
+            else
+                monster = BlueOceansEntities.PLUM_SPREADER.get().create(serverLevel);
             if (monster != null) {
                 monster.moveTo(this.position());
                 serverLevel.addFreshEntity(monster);
@@ -124,6 +133,10 @@ implements IConversion {
             this.playSound(SoundEvents.ZOMBIE_VILLAGER_CONVERTED);
             this.discard();
         }
+    }
+
+    protected boolean shouldLevelUp() {
+        return false;
     }
 
     /**NeoPlums never level up.*/

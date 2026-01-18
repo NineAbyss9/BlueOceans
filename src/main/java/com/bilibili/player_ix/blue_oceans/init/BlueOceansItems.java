@@ -162,11 +162,15 @@ public class BlueOceansItems {
             5651507, 12422002);
     public static final RegistryObject<Item> FREAK_SPAWN_EGG = ITEMS.register("freak_spawn_egg", () -> new ForgeSpawnEggItem(BlueOceansEntities.FREAK, 0x272727, 0xDCDCDC, new Item.Properties()));
     public static final RegistryObject<Item> HUNTING_VILLAGER_SPAWN_EGG = ITEMS.register("hunting_villager_spawn_egg", ()-> new ForgeSpawnEggItem(BlueOceansEntities.HUNTING_VILLAGER, 5651507, 12422002, new Item.Properties()));
+    public static final RegistryObject<Item> NEO_FIGHTER_SPAWN_EGG = spawnEgg("neo_fighter", BlueOceansEntities.NEO_FIGHTER,
+            0xf32fdc0, 0x4c0000);
     public static final RegistryObject<Item> NEO_PLUM_SPAWN_EGG = spawnEgg("neo_plum", BlueOceansEntities.NEO_PLUM,
             0xf32fdc0, 0x4c0000);
     public static final RegistryObject<Item> PARAMECIUM_SPAWN_EGG = spawnEgg("paramecium", BlueOceansEntities.PARAMECIUM,
             0x1aB654, 0x3CBB33);
     public static final RegistryObject<Item> PLUM_FACTORY_SPAWN_EGG = spawnEgg("plum_factory", BlueOceansEntities.PLUM_FACTORY,
+            355000000, 325000000);
+    public static final RegistryObject<Item> PLUM_SPREADER_SPAWN_EGG = spawnEgg("plum_spreader", BlueOceansEntities.PLUM_SPREADER,
             355000000, 325000000);
     public static final RegistryObject<Item> RED_PLUMS_COW_SPAWN_EGG = ITEMS.register("red_plums_cow_spawn_egg", () -> new ForgeSpawnEggItem(BlueOceansEntities.RED_PLUMS_COW, -3407872, -6750208, new Item.Properties()));
     public static final RegistryObject<Item> RED_PLUM_GIRL_SPAWN_EGG = spawnEgg("red_plum_girl",
@@ -198,6 +202,7 @@ public class BlueOceansItems {
     public static final RegistryObject<Item> RED_PLUM_CATALYST = block(BlueOceansBlocks.RED_PLUM_CATALYST);
     public static final RegistryObject<Item> RED_PLUM_GRASS = block(BlueOceansBlocks.RED_PLUM_GRASS);
     public static final RegistryObject<Item> RED_PLUM_TRAP = block(BlueOceansBlocks.RED_PLUM_TRAP);
+    public static final RegistryObject<Item> RED_PLUM_VEIN = block(BlueOceansBlocks.RED_PLUM_VEIN);
     public static final RegistryObject<Item> RICE_SEEDS = ITEMS.register("rice_seeds", () ->
             new RiceItem(BlueOceansBlocks.RICE.get(), properties()));
     public static final RegistryObject<Item> ROPE = block(BlueOceansBlocks.ROPE);

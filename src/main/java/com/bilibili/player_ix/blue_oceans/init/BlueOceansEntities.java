@@ -47,8 +47,10 @@ public class BlueOceansEntities {
     public static final RegistryObject<EntityType<HeartOfHorror>> HEART_OF_HORROR = register("heart_of_horror", EntityType.Builder.<HeartOfHorror>of(HeartOfHorror::new, MobCategory.MONSTER).setCustomClientFactory(HeartOfHorror::new), 3, 2);
     public static final RegistryObject<EntityType<HuntingVillager>> HUNTING_VILLAGER = register("hunting_villager", EntityType.Builder.<HuntingVillager>of(HuntingVillager::new, MobCategory.MISC), 0.6f, 1.95f);
     public static final RegistryObject<EntityType<NaturalEnvoy>> NATURAL_ENVOY = register("natural_envoy", EntityType.Builder.<NaturalEnvoy>of(NaturalEnvoy::new, MobCategory.MONSTER).setCustomClientFactory(NaturalEnvoy::new), 0.6f, 1.95f);
+    public static final RegistryObject<EntityType<NeoFighter>> NEO_FIGHTER = register("neo_fighter", EntityType.Builder.of(NeoFighter::new, MobCategory.MONSTER).sized(0.5F, 0.5F));
     public static final RegistryObject<EntityType<NeoPlum>> NEO_PLUM = register("neo_plum", EntityType.Builder.of(NeoPlum::new, MobCategory.MONSTER), 0.5f, 0.5f);
     public static final RegistryObject<EntityType<PlumFactory>> PLUM_FACTORY = register("plum_factory", EntityType.Builder.of(PlumFactory::new, MobCategory.MONSTER), 1.25F, .9F);
+    public static final RegistryObject<EntityType<PlumSpreader>> PLUM_SPREADER = register("plum_spreader", EntityType.Builder.of(PlumSpreader::new, MobCategory.MONSTER).sized(0.5f, 0.5f));
     public static final RegistryObject<EntityType<RedPlumCow>> RED_PLUMS_COW = register("red_plums_cow",
             EntityType.Builder.<RedPlumCow>of(RedPlumCow::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(RedPlumCow::new).sized(0.9f, 1.4f));
     public static final RegistryObject<EntityType<RedPlumGirl>> RED_PLUM_GIRL = register("red_plum_girl",EntityType.Builder.<RedPlumGirl>of(RedPlumGirl::new, MobCategory.MISC).clientTrackingRange(1024).setCustomClientFactory(RedPlumGirl::new).fireImmune().sized(0.6f, 1.95f));
@@ -100,8 +102,10 @@ public class BlueOceansEntities {
         event.put(HEART_OF_HORROR.get(), HeartOfHorror.createAttributes().build());
         event.put(HUNTING_VILLAGER.get(), HuntingVillager.createAttributes().build());
         event.put(NATURAL_ENVOY.get(), NaturalEnvoy.createAttributes().build());
+        event.put(NEO_FIGHTER.get(), NeoPlum.createAttributes().build());
         event.put(NEO_PLUM.get(), NeoPlum.createAttributes().build());
         event.put(PLUM_FACTORY.get(), PlumFactory.createAttributes());
+        event.put(PLUM_SPREADER.get(), PlumSpreader.createAttributes().build());
         event.put(RED_PLUMS_COW.get(), RedPlumCow.createAttributes().build());
         event.put(RED_PLUM_GIRL.get(), RedPlumGirl.createAttributes().build());
         event.put(RED_PLUM_HUMAN.get(), RedPlumHuman.createAttributes().build());

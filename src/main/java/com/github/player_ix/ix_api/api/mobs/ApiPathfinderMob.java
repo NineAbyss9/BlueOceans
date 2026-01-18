@@ -133,22 +133,22 @@ extends PathfinderMob {
     }
 
     public double x() {
-        return this.getX();
+        return this.position().x;
     }
 
     public double y() {
-        return this.getY();
+        return this.position().y;
     }
 
     public double z() {
-        return this.getZ();
+        return this.position().z;
     }
 
-    public ServerLevel getServerLevel() {
+    public ServerLevel serverLevel() {
         return (ServerLevel)this.level();
     }
 
-    public ClientLevel getClientLevel() {
+    public ClientLevel clientLevel() {
         return (ClientLevel)this.level();
     }
 
@@ -286,7 +286,8 @@ extends PathfinderMob {
         if (p_33038_.getItem() instanceof ProjectileWeaponItem) {
             Predicate<ItemStack> predicate = ((ProjectileWeaponItem)p_33038_.getItem()).getSupportedHeldProjectiles();
             ItemStack itemstack = ProjectileWeaponItem.getHeldProjectile(this, predicate);
-            return ForgeHooks.getProjectile(this, p_33038_, itemstack.isEmpty() ? new ItemStack(Items.ARROW) : itemstack);
+            return ForgeHooks.getProjectile(this, p_33038_, itemstack.isEmpty() ? new ItemStack(Items.ARROW) :
+                    itemstack);
         } else {
             return ForgeHooks.getProjectile(this, p_33038_, ItemStack.EMPTY);
         }

@@ -73,6 +73,10 @@ public class BlueOceansBlocks {
             RedPlumGrass::new);
     public static final RegistryObject<Block> RED_PLUM_TRAP = BLOCKS.register("red_plum_trap",
             RedPlumTrap::new);
+    public static final RegistryObject<Block> RED_PLUM_VEIN = BLOCKS.register("red_plum_vein",
+            () -> new RedPlumVein(BlockBehaviour.Properties.of().forceSolidOn()
+                    .noCollission().strength(0.2F).sound(SoundType.SCULK_VEIN)
+                    .pushReaction(PushReaction.DESTROY).randomTicks()));
     public static final RegistryObject<Block> RICE = BLOCKS.register("rice",
             () -> new RiceBlock(Block.Properties.of().noCollission().randomTicks().instabreak().sound(SoundType.CROP)
                     .pushReaction(PushReaction.DESTROY).strength(0.2F)));

@@ -89,6 +89,9 @@ public class RedPlumSpider extends RedPlumMonster {
         this.entityData.set(DATA_FLAGS_ID, b0);
     }
 
+    protected void checkFallDamage(double pY, boolean pOnGround, BlockState pState, BlockPos pPos) {
+    }
+
     protected SoundEvent getAmbientSound() {
         return SoundEvents.SPIDER_AMBIENT;
     }

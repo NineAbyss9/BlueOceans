@@ -2,7 +2,6 @@
 package com.bilibili.player_ix.blue_oceans.common.item.util;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -23,13 +22,10 @@ public class EntityKiller extends Item {
     }
 
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand hand) {
-        if (pLevel instanceof ServerLevel level) {
-            Iterable<Entity> entities = level.getAllEntities();
-            for (Entity entity : entities) {
-                if (entity != null && !(entity instanceof Player)) {
-                    entity.remove(Entity.RemovalReason.KILLED);
-                }
-            }
+        if (!pLevel.isClientSide) {
+            List<Entity> entities = pLevel.getEntitiesOfClass(Entity.class, pPlayer.getBoundingBox()
+                    .inflate(99), entity -> !(entity instanceof Player));
+            entities.forEach(entity -> entity.remove(Entity.RemovalReason.KILLED));
         }
         return ItemUtils.startUsingInstantly(pLevel, pPlayer, hand);
     }

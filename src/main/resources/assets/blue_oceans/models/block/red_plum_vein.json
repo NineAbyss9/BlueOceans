@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/sculk_vein",
+  "textures": {
+    "particle": "blue_oceans:block/red_plum_vein",
+    "sculk_vein": "blue_oceans:block/red_plum_vein"
+  }
+}

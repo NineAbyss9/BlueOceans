@@ -13,7 +13,7 @@ import org.nine_abyss.array.ObjectArray;
 import java.util.List;
 
 public class RedPlumUtil {
-    /**NeoPlum -> {
+    /**NeoPlum(NeoFighter) -> {
      * <p> PlumSpreader -> PlumFactory
      * <p> BasePlum(like RedPlumZombie) -> RedPlumSlayer
      * <p>
@@ -21,7 +21,7 @@ public class RedPlumUtil {
     public static final ImmutableMap<Integer, List<EntityType<? extends AbstractRedPlumMob>>> MAP;
     public static final ObjectArray<EntityType<?>> PLUM_ENTITY_TYPES;
     public static final IntArray PLUM_PLUS_KILLS;
-    public static int plumInvadeLevel = 3;
+    public static int plumInvadeLevel = 1;
     public RedPlumUtil() {
     }
 
@@ -30,11 +30,12 @@ public class RedPlumUtil {
     }
 
     static {
-        MAP = ImmutableMap.of(0, List.of(BlueOceansEntities.NEO_PLUM.get()), 1,
-                List.of(BlueOceansEntities.RED_PLUM_HUMAN.get(),
+        MAP = ImmutableMap.of(0, List.of(BlueOceansEntities.NEO_PLUM.get(), BlueOceansEntities.NEO_FIGHTER.get()),
+                1, List.of(BlueOceansEntities.RED_PLUM_HUMAN.get(),
                 BlueOceansEntities.RED_PLUM_SPIDER.get(), BlueOceansEntities.RED_PLUM_SKELETON.get(),
                 BlueOceansEntities.RED_PLUM_WORM.get(), BlueOceansEntities.RED_PLUMS_COW.get()),
-                2, List.of(BlueOceansEntities.RED_PLUM_SLAYER.get()));
+                2, List.of(BlueOceansEntities.RED_PLUM_SLAYER.get()),
+                3, List.of(BlueOceansEntities.PLUM_FACTORY.get(), BlueOceansEntities.PLUM_SPREADER.get()));
         PLUM_ENTITY_TYPES = ObjectArray.of(BlueOceansEntities.RED_PLUM_SLAYER.get());
         PLUM_PLUS_KILLS = IntArray.of(3, 10, Integer.MAX_VALUE, Integer.MAX_VALUE,
                 Integer.MAX_VALUE);

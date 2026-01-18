@@ -54,8 +54,6 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
     private final SimpleContainer simpleContainer = new SimpleContainer(64);
     public final BehaviorSelector behaviorSelector;
     protected int remainingPersistentAngerTime = 10;
-    @Nullable
-    protected UUID targetUUID;
     protected static final EntityDataAccessor<Optional<UUID>> DATA_TARGET_UUID;
     protected static final EntityDataAccessor<Integer> DATA_TARGET_ID;
     protected AbstractHuntingVillager(EntityType<? extends AbstractHuntingVillager> pType, Level level) {
@@ -82,7 +80,7 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
 
     public void makeParticleAroundSelf() {
         if (this.isServerSide()) {
-            this.getServerLevel().sendParticles(ParticleTypes.ANGRY_VILLAGER, this.getX(), this.getY() + 1,
+            this.serverLevel().sendParticles(ParticleTypes.ANGRY_VILLAGER, this.getX(), this.getY() + 1,
                     this.getZ(), 8,  0.5, 0.5, 0.5, 0.1);
         }
     }
@@ -138,10 +136,10 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
 
     @Nullable
     public LivingEntity getTarget() {
-        if (!(this.level() instanceof ServerLevel serverLevel))
+        if (this.level().isClientSide)
             return this.level().getEntity(this.getTargetId()) instanceof LivingEntity entity ? entity : null;
         UUID uuid = this.getTargetUUID();
-        return uuid == null ? null : serverLevel.getEntity(uuid) instanceof LivingEntity entity ? entity : null;
+        return uuid == null ? null : serverLevel().getEntity(uuid) instanceof LivingEntity entity ? entity : null;
     }
 
     public void setTarget(@Nullable LivingEntity pTarget) {
@@ -264,23 +262,11 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
     }
 
     protected void addOffersFromItemListings(MerchantOffers merchantOffers, VillagerTrades.ItemListing[] listings) {
-        Set<Integer> set = Sets.newHashSet();
-        /*if (listings.length > 4)
-            while (set.size() < 4)
-                set.add(this.random.nextInt(listings.length));
-        else*/
-        for (int i = 0; i < listings.length; ++i)
-                set.add(i);
-        for (int integer : set) {
-            VillagerTrades.ItemListing villagertrades$itemlisting = listings[integer];
-            MerchantOffer merchantoffer = villagertrades$itemlisting.getOffer(this, this.random);
-            if (merchantoffer != null)
-                merchantOffers.add(merchantoffer);
-        }
+        addOffersFromItemListings(merchantOffers, listings, this, this.random);
     }
 
-    public static void addOffersFromItemListings(MerchantOffers merchantOffers, VillagerTrades.ItemListing[] listings, Entity pTrader,
-                                                 RandomSource source) {
+    public static void addOffersFromItemListings(MerchantOffers merchantOffers, VillagerTrades.ItemListing[] listings,
+                                                 Entity pTrader, RandomSource source) {
         Set<Integer> set = Sets.newHashSet();
         /*if (listings.length > 4)
             while (set.size() < 4)
@@ -378,8 +364,7 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
     }
 
     static {
-        FOOD_POINTS = ImmutableMap.of(Items.BREAD, 4, Items.POTATO, 1,
-                Items.CARROT, 1, Items.BEETROOT, 1);
+        FOOD_POINTS = ImmutableMap.of(Items.BREAD, 4, Items.POTATO, 1, Items.CARROT, 1, Items.BEETROOT, 1);
         WANTED_ITEMS = ImmutableSet.of(Items.BREAD, Items.POTATO, Items.CARROT,
                 Items.WHEAT, Items.WHEAT_SEEDS, Items.BEETROOT, Items.BEETROOT_SEEDS,
                 Items.TORCHFLOWER_SEEDS, Items.PITCHER_POD);
@@ -463,7 +448,8 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
             } else if (!this.mob.isWithinRestriction(livingentity.blockPosition())) {
                 return false;
             } else {
-                return !(livingentity instanceof Player) || !livingentity.isSpectator() && !((Player) livingentity).isCreative();
+                return !(livingentity instanceof Player) || !livingentity.isSpectator() &&
+                        !((Player)livingentity).isCreative();
             }
         }
 
@@ -560,21 +546,12 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
 
     protected static class VillagerHurtByTargetGoal
     extends HurtByTargetGoal {
-
         public VillagerHurtByTargetGoal(PathfinderMob p_26039_, Class<?>... p_26040_) {
             super(p_26039_, p_26040_);
         }
 
         public boolean canUse() {
-            if (this.targetMob instanceof AbstractHuntingVillager) {
-                return false;
-            }
-            return super.canUse();
-        }
-
-        public void start() {
-            super.start();
-            this.setAlertOthers();
+            return super.canUse() && (!(this.targetMob instanceof BaseVillager villager) || villager.isAgent());
         }
     }
 }

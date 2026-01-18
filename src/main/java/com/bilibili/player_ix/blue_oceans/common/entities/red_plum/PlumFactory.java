@@ -9,9 +9,6 @@ import com.github.player_ix.ix_api.util.Maths;
 import com.github.player_ix.ix_api.util.ParticleUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
@@ -26,8 +23,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class PlumFactory
-extends RedPlumMonster {
-    private static final EntityDataAccessor<Integer> DATA_LEVEL;
+extends RedPlumMonster
+implements IPlumSpreader {
     public AnimationState idle = new AnimationState();
     private int spreadCooldown;
     public PlumFactory(EntityType<? extends PlumFactory> type, Level level) {
@@ -37,7 +34,6 @@ extends RedPlumMonster {
 
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(DATA_LEVEL, 3);
     }
 
     public void baseTick() {
@@ -65,7 +61,9 @@ extends RedPlumMonster {
         }
         if (!this.level().isClientSide &&
                 this.getRandomUtil().nextFloat(1F) < this.getSpawnChance() &&
-                this.tickCount % 20 == 0) {
+                this.tickCount % 20 == 0
+                && this.level().getEntitiesOfClass(RedPlumMonster.class, this.getBoundingBox().inflate(6),
+                e -> e != this).size() < 15) {
             summonPlum(this.level(), this.position().add(Maths.randomInt(3), 0, Maths.randomInt(3)));
         }
     }
@@ -126,13 +124,13 @@ extends RedPlumMonster {
     }
 
     public int getLevel() {
-        return this.entityData.get(DATA_LEVEL);
+        return this.getInfectLevel();
     }
 
     public void setLevel(int pLevel) {
         if (pLevel > 6)
             return;
-        this.entityData.set(DATA_LEVEL, pLevel);
+        this.setInfectLevel(pLevel);
     }
 
     public void setLevelPlus() {
@@ -144,6 +142,7 @@ extends RedPlumMonster {
         return null;
     }
 
+    /**Like NeoPlums, PlumFactories never level up.*/
     protected int nextConvertUpNeeds() {
         return 0x7fffffff;
     }
@@ -158,9 +157,5 @@ extends RedPlumMonster {
                 .add(Attributes.FOLLOW_RANGE, 52)
                 .add(Attributes.MAX_HEALTH, 120).add(Attributes.ATTACK_DAMAGE, 2)
                 .add(Attributes.MOVEMENT_SPEED, 0.1).build();
-    }
-
-    static {
-        DATA_LEVEL = SynchedEntityData.defineId(PlumFactory.class, EntityDataSerializers.INT);
     }
 }

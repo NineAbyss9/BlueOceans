@@ -56,6 +56,8 @@ public class ClientInitEvents {
         event.registerLayerDefinition(HuntingVillagerArmorModel.LOC, HuntingVillagerArmorModel::createOuterArmorLayer);
         event.registerLayerDefinition(HuntingVillagerModel.LOCATION, HuntingVillagerModel::createBodyLayer);
         event.registerLayerDefinition(PlumFactoryModel.LAYER_LOCATION, PlumFactoryModel::createBodyLayer);
+        event.registerLayerDefinition(PlumSpreaderModel.LAYER_LOCATION, PlumSpreaderModel::createBodyLayer);
+        event.registerLayerDefinition(NeoFighterModel.LAYER_LOCATION, NeoFighterModel::createBodyLayer);
         event.registerLayerDefinition(NeoPlumModel.NEO_PLUM, NeoPlumModel::createBodyLayer);
         event.registerLayerDefinition(ParameciumModel.LAYER_LOCATION, ParameciumModel::createBodyLayer);
         event.registerLayerDefinition(RedPlumGirlModel.LAYER_LOCATION, RedPlumGirlModel::createBodyLayer);
@@ -78,9 +80,11 @@ public class ClientInitEvents {
         event.registerEntityRenderer(BlueOceansEntities.HEART_OF_HORROR.get(), HeartOfHorrorRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.HUNTING_VILLAGER.get(), HuntingVillagerRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.NATURAL_ENVOY.get(), NaturalEnvoyRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.NEO_FIGHTER.get(), NeoFighterRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.NEO_PLUM.get(), NeoPlumRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.PARAMECIUM.get(), ParameciumRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.PLUM_FACTORY.get(), PlumFactoryRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.PLUM_SPREADER.get(), PlumSpreaderRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.RED_PLUMS_COW.get(), RedPlumsCowRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.RED_PLUM_GIRL.get(), RedPlumGirlRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.RED_PLUM_HUMAN.get(), RedPlumHumanRenderer::new);

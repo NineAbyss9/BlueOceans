@@ -4,6 +4,7 @@ package com.bilibili.player_ix.blue_oceans.common.blocks;
 import com.bilibili.player_ix.blue_oceans.common.blocks.be.RedPlumCatalystEntity;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlocks;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansGameRules;
+import com.bilibili.player_ix.blue_oceans.init.BoTags;
 import com.github.player_ix.ix_api.api.annotation.ServerOnly;
 import com.github.player_ix.ix_api.util.Maths;
 import net.minecraft.core.BlockPos;
@@ -114,7 +115,7 @@ extends RedPlumBlock {
         BlockState blockstate = pLevel.getBlockState(pPos);
         if (checkOtherRules(blockstate) || checkBlock(blockstate.getBlock(), newBlock)) {
             int i = 0;
-            for(BlockPos blockpos : BlockPos.betweenClosed(pPos.offset(-4, 0, -4), pPos.offset(4,
+            for (BlockPos blockpos : BlockPos.betweenClosed(pPos.offset(-4, 0, -4), pPos.offset(4,
                     2, 4))) {
                 BlockState blockstate1 = pLevel.getBlockState(blockpos);
                 if (blockstate1.is(BlueOceansBlocks.RED_PLUM_CATALYST.get())) {
@@ -143,9 +144,12 @@ extends RedPlumBlock {
     }
 
     private static void spreadPlumTop(BlockState pState, BlockPos pPos, ServerLevel pLevel) {
-        if (checkOtherRules(pState) && pLevel.random.nextInt(3) == 0) {
+        if (pLevel.getBlockState(pPos.below()).is(BlueOceansBlocks.RED_PLUM_BLOCK.get())
+            && !pLevel.getBlockState(pPos).is(BoTags.RED_PLUM_BLOCKS)) {
+            pLevel.setBlock(pPos, BlueOceansBlocks.RED_PLUM_VEIN.get().defaultBlockState(), 3);
+        } else if (checkOtherRules(pState) && pLevel.random.nextInt(3) == 0) {
             pLevel.setBlock(pPos, BlueOceansBlocks.RED_PLUM_GRASS.get().defaultBlockState(),
-                    0);
+                    3);
         }
     }
 }

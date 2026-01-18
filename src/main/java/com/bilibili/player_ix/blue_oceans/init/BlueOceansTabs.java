@@ -50,9 +50,11 @@ public class BlueOceansTabs {
                         output.accept(BlueOceansItems.FARMER_SPAWN_EGG.get());
                         output.accept(BlueOceansItems.FREAK_SPAWN_EGG.get());
                         output.accept(BlueOceansItems.HUNTING_VILLAGER_SPAWN_EGG.get());
+                        output.accept(BlueOceansItems.NEO_FIGHTER_SPAWN_EGG.get());
                         output.accept(BlueOceansItems.NEO_PLUM_SPAWN_EGG.get());
                         output.accept(BlueOceansItems.PARAMECIUM_SPAWN_EGG.get());
                         output.accept(BlueOceansItems.PLUM_FACTORY_SPAWN_EGG.get());
+                        output.accept(BlueOceansItems.PLUM_SPREADER_SPAWN_EGG.get());
                         output.accept(BlueOceansItems.RED_PLUM_GIRL_SPAWN_EGG.get());
                         output.accept(BlueOceansItems.RED_PLUM_HUMAN_SPAWN_EGG.get());
                         output.accept(BlueOceansItems.RED_PLUM_SKELETON_SPAWN_EGG.get());
@@ -73,6 +75,7 @@ public class BlueOceansTabs {
                         output.accept(BlueOceansItems.RED_PLUM_CATALYST.get());
                         output.accept(BlueOceansItems.RED_PLUM_GRASS.get());
                         output.accept(BlueOceansItems.RED_PLUM_TRAP.get());
+                        output.accept(BlueOceansItems.RED_PLUM_VEIN.get());
                         output.accept(BlueOceansItems.ROPE.get());
                         output.accept(BlueOceansItems.SALT_ORE.get());
                         output.accept(BlueOceansItems.WOODEN_SUPPORT.get());

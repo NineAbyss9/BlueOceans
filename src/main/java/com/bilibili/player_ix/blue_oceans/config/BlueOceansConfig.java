@@ -29,7 +29,7 @@ public class BlueOceansConfig {
                     3.0, 0.1, Double.MAX_VALUE);
             PLUM_INVADE_LEVEL = builder.comment("The level of PlumInvade mobs will affect you, Default:3")
                     .defineInRange("PlumInvadeLevel", 1, 0, 254);
-            SPAWN_NEO_PLUM = builder.comment("Will neo plums spawn?Default:true").define("SpawnNeoPlum",
+            SPAWN_NEO_PLUM = builder.comment("Will NeoPlums&NeoFighters spawn?Default:true").define("SpawnNeoPlum",
                     true);
             SPEC = builder.build();
         }

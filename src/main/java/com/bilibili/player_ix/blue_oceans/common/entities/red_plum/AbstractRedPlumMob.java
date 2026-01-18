@@ -59,12 +59,15 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
 
     public void aiStep() {
         super.aiStep();
-        if (this.getInfectLevel() > 2 && this.level().isClientSide) {
-            BlueOceansParticleTypes.addRedSpell(this.level(), this.getRandomX(0.8), this.getRandomY(),
-                    this.getRandomZ(0.8), 0.2);
-        }
         if (this.getFeetBlockState().is(BlueOceansBlocks.RED_PLUM_BLOCK.get())) {
             this.standOnPlumTick();
+        }
+    }
+
+    protected void clientAiStep() {
+        if (this.shouldLevelUp()) {
+            BlueOceansParticleTypes.addRedSpell(this.level(), this.getRandomX(0.8), this.getRandomY(),
+                    this.getRandomZ(0.8), 0.2);
         }
     }
 
@@ -95,9 +98,9 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
     }
 
     public void checkAndPlusInfectLevel(LivingEntity living) {
-        if (this.shouldUpLevel() && !this.level().isClientSide
+        if (this.shouldLevelUp() && !this.level().isClientSide
                 && this.getType() != this.getNextLevelConvert()) {
-            ServerLevel serverLevel = this.getServerLevel();
+            ServerLevel serverLevel = this.serverLevel();
             var entityType = this.getNextLevelConvert();
             AbstractRedPlumMob mob = null;
             if (entityType != null) {
@@ -137,8 +140,12 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
         return RedPlumUtil.PLUM_PLUS_KILLS.intValue(this.getLevel() - 1);
     }
 
-    protected boolean shouldUpLevel() {
+    protected boolean shouldLevelUp() {
         return this.getInfectLevel() >= this.nextConvertUpNeeds();
+    }
+
+    public float spawnFighterChance() {
+        return 0.1F;
     }
 
     protected void setInfectLevel(int pLevel) {
@@ -240,12 +247,14 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
 
     public void spawnBreedMob(LivingEntity pEntity) {
         if (!this.level().isClientSide) {
-            ParticleUtil.sendParticles(this.getServerLevel(), BlueOceansParticleTypes.RED_PLUM_SPELL.get(),
+            AbstractRedPlumMob entity = this.random.nextFloat() <= this.spawnFighterChance() ?
+                    BlueOceansEntities.NEO_FIGHTER.get().create(this.serverLevel()) :
+                    BlueOceansEntities.NEO_PLUM.get().create(this.serverLevel());
+            ParticleUtil.sendParticles(this.serverLevel(), BlueOceansParticleTypes.RED_PLUM_SPELL.get(),
                     pEntity.position(), 12, 0.7, 0.7, 0.7, 0);
-            NeoPlum neoPlum = BlueOceansEntities.NEO_PLUM.get().create(this.getServerLevel());
-            if (neoPlum != null) {
-                neoPlum.moveTo(pEntity.position());
-                this.getServerLevel().addFreshEntity(neoPlum);
+            if (entity != null) {
+                entity.moveTo(pEntity.position());
+                this.serverLevel().addFreshEntity(entity);
             }
         }
     }
@@ -304,8 +313,8 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
             extends NearestAttackableTargetGoal<LivingEntity> {
         protected final AbstractRedPlumMob mobs;
 
-        public RedPlumMobsNearestAttackableTargetGoal(AbstractRedPlumMob p_26060_, boolean p_26062_) {
-            super(p_26060_, LivingEntity.class, p_26062_, entity -> {
+        public RedPlumMobsNearestAttackableTargetGoal(AbstractRedPlumMob pMob, boolean mustSee) {
+            super(pMob, LivingEntity.class, mustSee, entity -> {
                 try {
                     if (entity.getType().getDescriptionId().equals("noixmodapi.entity.apostle") &&
                             entity.getClass().getMethod("getTitleNumber").getDefaultValue() instanceof Integer i) {
@@ -315,7 +324,7 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
                 }
                 return  !(entity instanceof RedPlumMob);
             });
-            this.mobs = p_26060_;
+            this.mobs = pMob;
         }
 
         public boolean canUse() {
