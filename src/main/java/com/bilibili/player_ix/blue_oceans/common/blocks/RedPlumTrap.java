@@ -2,6 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.common.blocks;
 
 import com.bilibili.player_ix.blue_oceans.api.mob.RedPlumMob;
+import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.AbstractRedPlumMob;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansMobEffects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -12,6 +13,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
 
 public class RedPlumTrap
 extends RedPlumBlock {
@@ -31,6 +33,11 @@ extends RedPlumBlock {
                 }
             }
         }
+    }
+
+    public float getFriction(BlockState state, LevelReader level, BlockPos pos, @Nullable Entity entity) {
+        return entity instanceof AbstractRedPlumMob ? super.getFriction(state, level, pos, entity)
+                : 0.95F;
     }
 
     public int getExpDrop(BlockState state, LevelReader level, RandomSource randomSource, BlockPos pos, int fortuneLevel,

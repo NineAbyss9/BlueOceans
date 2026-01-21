@@ -9,4 +9,6 @@ public class BoBlockProperties {
     public static final IntegerProperty CAPACITY = IntegerProperty.create("capacity",
             0, 8);
     public static final BooleanProperty BURNING = BooleanProperty.create("burning");
+    public static final BooleanProperty TOP = BooleanProperty.create("top");
+    public static final BooleanProperty END = BooleanProperty.create("end");
 }

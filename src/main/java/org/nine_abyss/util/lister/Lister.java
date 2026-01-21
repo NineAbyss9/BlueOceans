@@ -41,6 +41,10 @@ public interface Lister<E> extends List<E>, Deque<E>, IXUtilUser {
         return new ImmutableSubLister<>(this);
     }
 
+    default SubLister<E> mutable() {
+        return new SubLister<>(this);
+    }
+
     default Optional<E> checkedOptional(int index) {
         return Optional.ofNullable(this.get(index));
     }

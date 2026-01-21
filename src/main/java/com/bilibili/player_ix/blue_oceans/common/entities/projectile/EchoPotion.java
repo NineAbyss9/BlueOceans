@@ -1,16 +1,23 @@
 
 package com.bilibili.player_ix.blue_oceans.common.entities.projectile;
 
+import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.AbstractRedPlumMob;
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
 import com.bilibili.player_ix.blue_oceans.init.BoTags;
 import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.List;
 
 public class EchoPotion
 extends ThrowableItemProjectile {
@@ -18,29 +25,43 @@ extends ThrowableItemProjectile {
         super(pEntityType, pLevel);
     }
 
-    public EchoPotion(EntityType<? extends EchoPotion> pEntityType, double pX, double pY, double pZ, Level pLevel) {
-        super(pEntityType, pX, pY, pZ, pLevel);
+    public EchoPotion(double pX, double pY, double pZ, Level pLevel) {
+        super(BlueOceansEntities.ECHO_POTION.get(), pX, pY, pZ, pLevel);
     }
 
-    public EchoPotion(EntityType<? extends EchoPotion> pEntityType, LivingEntity pShooter, Level pLevel) {
-        super(pEntityType, pShooter, pLevel);
+    public EchoPotion(LivingEntity pShooter, Level pLevel) {
+        super(BlueOceansEntities.ECHO_POTION.get(), pShooter, pLevel);
     }
 
     protected void onHit(HitResult pResult) {
         super.onHit(pResult);
-        this.clearPlumBlocks(pResult.getLocation());
+        if (!this.level().isClientSide) {
+            this.playSound(SoundEvents.SPLASH_POTION_BREAK);
+            this.hurtPlums();
+            this.removePlumBlocks(pResult.getLocation());
+            this.level().levelEvent(2002, this.blockPosition(), PotionUtils.getColor(Potions.LUCK));
+            this.discard();
+        }
     }
 
-    protected void clearPlumBlocks(Vec3 pos) {
+    protected void hurtPlums() {
+        List<AbstractRedPlumMob> list = this.level().getEntitiesOfClass(AbstractRedPlumMob.class, this.getBoundingBox()
+                .inflate(4, 1, 4));
+        if (!list.isEmpty()) {
+            list.forEach(mob->mob.hurt(this.damageSources().magic(), 10.0F));
+        }
+    }
+
+    protected void removePlumBlocks(Vec3 pos) {
         BlockPos blockPos = BlockPos.containing(pos);
-        //for (int j = 0; j < 3;j++) {
+        for (int j = 0; j < 2;j++) {
             for (int i = 0;i < 3;i++) {
-                BlockPos blockPos1 = blockPos.below().offset(i, 0, 0);
-                BlockPos blockPos2 = blockPos.below().offset(0, 0, i);
-                BlockPos blockPos3 = blockPos.below().offset(i, 0, i);
-                BlockPos blockPos4 = blockPos.below().offset(-i, 0, 0);
-                BlockPos blockPos5 = blockPos.below().offset(-i, 0, -i);
-                BlockPos blockPos6 = blockPos.below().offset(0, 0, -i);
+                BlockPos blockPos1 = blockPos.below().offset(i, j, 0);
+                BlockPos blockPos2 = blockPos.below().offset(j, 0, i);
+                BlockPos blockPos3 = blockPos.below().offset(i, j, i);
+                BlockPos blockPos4 = blockPos.below().offset(-i, j, 0);
+                BlockPos blockPos5 = blockPos.below().offset(-i, j, -i);
+                BlockPos blockPos6 = blockPos.below().offset(0, j, -i);
                 if (checkIsPlum(blockPos1))
                     this.level().destroyBlock(blockPos1, false, this.getOwner());
                 if (checkIsPlum(blockPos2))
@@ -54,7 +75,7 @@ extends ThrowableItemProjectile {
                 if (checkIsPlum(blockPos6))
                     this.level().destroyBlock(blockPos6, false, this.getOwner());
             }
-        //}
+        }
     }
 
     private boolean checkIsPlum(BlockPos pos) {
@@ -62,6 +83,6 @@ extends ThrowableItemProjectile {
     }
 
     protected Item getDefaultItem() {
-        return Items.ITEM_FRAME;
+        return BlueOceansItems.ECHO_POTION.get();
     }
 }

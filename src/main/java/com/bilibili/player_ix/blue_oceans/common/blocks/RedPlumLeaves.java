@@ -8,7 +8,6 @@ public class RedPlumLeaves
 extends Block
 implements IPlumBlock {
     public RedPlumLeaves() {
-        super(Properties.of().strength(20F, 10F)
-                .mapColor(DyeColor.RED));
+        super(Properties.of().strength(20F, 10F).mapColor(DyeColor.RED));
     }
 }

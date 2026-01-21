@@ -155,9 +155,6 @@ implements ICreeper {
         }
     }
 
-    /**
-     * Creates an explosion as determined by this creeper's power and explosion radius.
-     */
     private void explodeCreeper() {
         if (!this.level().isClientSide) {
             this.dead = true;
@@ -182,7 +179,6 @@ implements ICreeper {
             }
             this.level().addFreshEntity(areaeffectcloud);
         }
-
     }
 
     public boolean isIgnited() {

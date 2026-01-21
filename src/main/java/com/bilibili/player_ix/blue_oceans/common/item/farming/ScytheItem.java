@@ -1,5 +1,5 @@
 
-package com.bilibili.player_ix.blue_oceans.common.item.util;
+package com.bilibili.player_ix.blue_oceans.common.item.farming;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;

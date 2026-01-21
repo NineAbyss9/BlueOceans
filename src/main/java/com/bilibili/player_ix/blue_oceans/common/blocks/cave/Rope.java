@@ -1,6 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.blocks.cave;
 
+import com.bilibili.player_ix.blue_oceans.common.blocks.BoBlockProperties;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlocks;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
 import com.github.player_ix.ix_api.util.ItemUtil;
@@ -116,10 +117,11 @@ implements SimpleWaterloggedBlock {
         ItemStack stack = pPlayer.getItemInHand(pHand);
         if (pPlayer.isCrouching()) {
             if (isTop(pLevel, pPos)) {
-                for (int i = 0;i < 39;) {
-                    BlockState belowState = pLevel.getBlockState(pPos.below(i + 1));
+                int i = 0;
+                while (i < 39) {
+                    BlockState belowState = pLevel.getBlockState(pPos.above(i + 1));
                     if (!belowState.is(this)) {
-                        pLevel.destroyBlock(pPos.below(i), false);
+                        pLevel.destroyBlock(pPos.above(i), false);
                         if (!ItemUtil.instabuild(pPlayer))
                             pPlayer.addItem(new ItemStack(BlueOceansItems.ROPE.get()));
                         break;
@@ -128,11 +130,10 @@ implements SimpleWaterloggedBlock {
                 }
                 return InteractionResult.sidedSuccess(pLevel.isClientSide);
             } else if (isEnd(pLevel, pPos)) {
-                int i = 0;
-                while (i < 39) {
-                    BlockState belowState = pLevel.getBlockState(pPos.above(i + 1));
+                for (int i = 0;i < 39;) {
+                    BlockState belowState = pLevel.getBlockState(pPos.below(i + 1));
                     if (!belowState.is(this)) {
-                        pLevel.destroyBlock(pPos.above(i), false);
+                        pLevel.destroyBlock(pPos.below(i), false);
                         if (!ItemUtil.instabuild(pPlayer))
                             pPlayer.addItem(new ItemStack(BlueOceansItems.ROPE.get()));
                         break;
@@ -160,8 +161,8 @@ implements SimpleWaterloggedBlock {
     }
 
     static {
-        TOP = BooleanProperty.create("top");
-        END = BooleanProperty.create("end");
+        TOP = BoBlockProperties.TOP;
+        END = BoBlockProperties.END;
         WATERLOGGED = BlockStateProperties.WATERLOGGED;
         SHAPE = box(6, 0, 6, 10, 16, 10);
     }

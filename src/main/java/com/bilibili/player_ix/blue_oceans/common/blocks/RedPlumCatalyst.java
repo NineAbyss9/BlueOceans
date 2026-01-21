@@ -8,6 +8,7 @@ import com.bilibili.player_ix.blue_oceans.init.BoTags;
 import com.github.player_ix.ix_api.api.annotation.ServerOnly;
 import com.github.player_ix.ix_api.util.Maths;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -75,12 +76,15 @@ extends RedPlumBlock {
     @SuppressWarnings("deprecation")
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer,
                                  InteractionHand pHand, BlockHitResult pHit) {
-        if (!pLevel.isClientSide && pPlayer.getItemInHand(pHand).is(Items.EXPERIENCE_BOTTLE)) {
-            for (int i = 0; i < 5;i++) {
-                spreadPlum((ServerLevel)pLevel, pPos);
+        if (pPlayer.getItemInHand(pHand).is(Items.EXPERIENCE_BOTTLE)) {
+            if (!pLevel.isClientSide) {
+                for (int i = 0;i < 5;i++) {
+                    spreadPlum((ServerLevel)pLevel, pPos);
+                }
             }
+            return InteractionResult.sidedSuccess(pLevel.isClientSide);
         }
-        return InteractionResult.sidedSuccess(pLevel.isClientSide);
+        return InteractionResult.PASS;
     }
 
     @ServerOnly
@@ -144,12 +148,18 @@ extends RedPlumBlock {
     }
 
     private static void spreadPlumTop(BlockState pState, BlockPos pPos, ServerLevel pLevel) {
+        boolean flag = false;
         if (pLevel.getBlockState(pPos.below()).is(BlueOceansBlocks.RED_PLUM_BLOCK.get())
             && !pLevel.getBlockState(pPos).is(BoTags.RED_PLUM_BLOCKS)) {
-            pLevel.setBlock(pPos, BlueOceansBlocks.RED_PLUM_VEIN.get().defaultBlockState(), 3);
-        } else if (checkOtherRules(pState) && pLevel.random.nextInt(3) == 0) {
-            pLevel.setBlock(pPos, BlueOceansBlocks.RED_PLUM_GRASS.get().defaultBlockState(),
-                    3);
+            RedPlumVein vein = (RedPlumVein)BlueOceansBlocks.RED_PLUM_VEIN.get();
+            BlockState state = vein.getStateForPlacement(pState, pLevel, pPos, Direction.DOWN);
+            if (state != null)
+                pLevel.setBlock(pPos, state, 3);
+            else
+                flag = checkOtherRules(pState) && pLevel.random.nextInt(3) == 0;
+        }
+        if (flag) {
+            pLevel.setBlock(pPos, BlueOceansBlocks.RED_PLUM_GRASS.get().defaultBlockState(), 3);
         }
     }
 }

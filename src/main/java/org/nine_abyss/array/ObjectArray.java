@@ -45,11 +45,11 @@ implements Iterable<E>, IXUtilUser //, java.io.Serializable
         this.array[pIndex] = pElement;
     }
 
-    public E getFirst() {
+    public E first() {
         return this.array[0];
     }
 
-    public E getLast() {
+    public E last() {
         return this.array[this.array.length - 1];
     }
 
@@ -62,7 +62,7 @@ implements Iterable<E>, IXUtilUser //, java.io.Serializable
         return this.size;
     }
 
-    protected <V> V convert(int pIndex) {
+    public <V> V convert(int pIndex) {
         return IXUtil.c.convert(this.get(pIndex));
     }
 
@@ -71,7 +71,7 @@ implements Iterable<E>, IXUtilUser //, java.io.Serializable
     }
 
     public Map<Integer, E> map() {
-        Map<Integer, E> map = new HashMap<>();
+        Map<Integer, E> map = new TreeMap<>();
         for (int i = 0; i < length(); i++)
             map.put(i, this.get(i));
         return map;

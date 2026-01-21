@@ -9,6 +9,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
@@ -24,6 +26,7 @@ public class BlueOceansTabs {
                     .title(Component.translatable("item_group.blue_oceans.blue_oceans")
                             .withStyle(ChatFormatting.BLUE)).displayItems((parameters, output) -> {
                         output.accept(BlueOceansItems.BANDAGE.get());
+                        output.accept(BlueOceansItems.ECHO_POTION.get());
                         output.accept(BlueOceansItems.ENTITY_KILLER.get());
                         output.accept(BlueOceansItems.FREAKY_AXE.get());
                         output.accept(BlueOceansItems.RED_PLUM_SWORD.get());
@@ -88,6 +91,9 @@ public class BlueOceansTabs {
                     ChatFormatting.BLUE)).displayItems((parameter, output) -> {
                 output.accept(BlueOceansItems.GRAVY_BOTTLE.get());
                 output.accept(BlueOceansItems.TEST_TUBE.get());
+                ItemStack stack = new ItemStack(Items.SPLASH_POTION);
+                PotionUtils.setPotion(stack, BlueOceansMobEffects.Potions.PLUM_INVADE_POTION.get());
+                output.accept(stack);
             }).build());
     public static final RegistryObject<CreativeModeTab> BO_CHEMISTRY = TABS
             .register("blue_oceans_chemistry", () -> CreativeModeTab.builder().icon(() ->

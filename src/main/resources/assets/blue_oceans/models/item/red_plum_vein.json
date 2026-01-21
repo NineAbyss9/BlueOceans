@@ -1,3 +1,6 @@
 {
-  "parent": "blue_oceans:block/red_plum_vein"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "blue_oceans:block/red_plum_vein"
+  }
 }

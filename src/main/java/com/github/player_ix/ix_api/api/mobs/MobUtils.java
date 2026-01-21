@@ -370,7 +370,8 @@ public record MobUtils(Entity entity) {
     public static HitResult rayTrace(Entity entity) {
         Vec3 startPos = new Vec3(entity.getX(), entity.getY(), entity.getZ());
         Vec3 endPos = new Vec3(entity.getX(), entity.level().getMinBuildHeight(), entity.getZ());
-        return entity.level().clip(new ClipContext(startPos, endPos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
+        return entity.level().clip(new ClipContext(startPos, endPos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE,
+                entity));
     }
 
     public static BlockHitResult rayTrace(Entity mob, double distance, boolean fluids) {

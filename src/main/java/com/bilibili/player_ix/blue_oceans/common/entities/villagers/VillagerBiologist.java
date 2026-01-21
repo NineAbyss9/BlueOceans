@@ -3,11 +3,12 @@ package com.bilibili.player_ix.blue_oceans.common.entities.villagers;
 
 import com.bilibili.player_ix.blue_oceans.api.mob.IBONeutralMob;
 import com.bilibili.player_ix.blue_oceans.api.mob.IBOMob;
+import com.bilibili.player_ix.blue_oceans.api.mob.Profession;
 import com.bilibili.player_ix.blue_oceans.common.entities.ai.goal.AvoidTargetGoal;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
-import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
 import com.github.player_ix.ix_api.api.ApiPose;
 import com.github.player_ix.ix_api.api.mobs.ApiVillager;
+import com.github.player_ix.ix_api.api.mobs.ai.goal.ApiTradeWithPlayerGoal;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -15,11 +16,8 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.stats.Stats;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -42,7 +40,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
-import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -51,7 +48,7 @@ import java.util.*;
 import java.util.function.Predicate;
 
 public class VillagerBiologist
-extends AbstractVillager
+extends BaseVillager
 implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
     private static final UUID SPEED_MODIFIER_DRINKING_UUID = UUID.fromString(
             "5CD17E52-A79A-43D3-A529-90BDE04B181A");
@@ -76,6 +73,9 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
         this.entityData.define(DATA_USING_ITEM, false);
     }
 
+    public void registerBehaviors() {
+    }
+
     protected void registerGoals() {
         this.healFriendsGoal = new NearestHealableFriendTargetGoal<>(this, AbstractVillager.class,
                 true, l->true);
@@ -89,7 +89,7 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
         this.goalSelector.addGoal(2, new RangedAttackGoal(this, 0.8,
                 60, 10.0F));
         this.goalSelector.addGoal(2, new WaterAvoidingRandomStrollGoal(this, 1.0));
-        this.goalSelector.addGoal(3, new TradeWithPlayerGoal(this));
+        this.goalSelector.addGoal(3, new ApiTradeWithPlayerGoal(this));
         this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this, AbstractVillager.class));
@@ -140,31 +140,17 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
         this.level().addFreshEntity($$8);
     }
 
-    public void setUsingItem(boolean p_34164_) {
-        this.getEntityData().set(DATA_USING_ITEM, p_34164_);
+    @Nullable
+    public VillagerTrades.ItemListing[] getTradeLists() {
+        return BoVillagerTrades.BIOLOGIST_TRADES;
+    }
+
+    public void setUsingItem(boolean pUsing) {
+        this.getEntityData().set(DATA_USING_ITEM, pUsing);
     }
 
     public boolean isDrinkingPotion() {
         return this.getEntityData().get(DATA_USING_ITEM);
-    }
-
-    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-        ItemStack itemstack = player.getItemInHand(hand);
-        if (itemstack.getItem() != BlueOceansItems.VILLAGER_BIOLOGIST_SPAWN_EGG.get() && this.isAlive()
-                && !this.isTrading() && !this.isSleeping() && !player.isSecondaryUseActive()) {
-            boolean flag = this.getOffers().isEmpty();
-            if (hand == InteractionHand.MAIN_HAND) {
-                player.awardStat(Stats.TALKED_TO_VILLAGER);
-            }
-            if (!flag) {
-                if (!this.level().isClientSide) {
-                    this.startTrading(player);
-                }
-            }
-            return InteractionResult.sidedSuccess(this.level().isClientSide);
-        } else {
-            return super.mobInteract(player, hand);
-        }
     }
 
     @SuppressWarnings("deprecation")
@@ -226,11 +212,6 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
         super.aiStep();
     }
 
-    public void startTrading(Player player) {
-        this.setTradingPlayer(player);
-        this.openTradingScreen(player, this.getDisplayName(), 1);
-    }
-
     public void handleEntityEvent(byte pId) {
         if (pId == 15) {
             for(int $$1 = 0; $$1 < this.random.nextInt(35) + 10; ++$$1) {
@@ -241,10 +222,6 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
             }
         } else
             super.handleEntityEvent(pId);
-    }
-
-    public SoundEvent getTradeUpdatedSound(boolean pIsYes) {
-        return ApiVillager.super.getTradeUpdatedSound(pIsYes);
     }
 
     public boolean canBeAffected(MobEffectInstance p_21197_) {
@@ -278,28 +255,20 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
         return false;
     }
 
-    public float getSpeed() {
-        return isTrading() ? 0.0F : super.getSpeed();
-    }
-
-    public void rewardTradeXp(MerchantOffer merchantOffer) {}
-
-    public void updateTrades() {
-        VillagerTrades.ItemListing[] listings = BoVillagerTrades.BIOLOGIST_TRADES;
-        this.addOffersFromItemListings(this.getOffers(), listings, 5);
-    }
-
     public int getVillagerXp() {
         return 1;
     }
 
+    @Deprecated(since = "1.1.1a")
     @Nullable
-    @Override
     public VillagerBiologist getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
         return new VillagerBiologist(BlueOceansEntities.VILLAGER_BIOLOGIST.get(), serverLevel);
     }
 
-    @Override
+    public Profession getProfession() {
+        return Profession.BIOLOGIST;
+    }
+
     public ApiPose getArmPose() {
         return ApiPose.CROSSED;
     }

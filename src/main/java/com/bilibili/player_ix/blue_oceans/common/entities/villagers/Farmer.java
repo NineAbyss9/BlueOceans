@@ -3,7 +3,7 @@ package com.bilibili.player_ix.blue_oceans.common.entities.villagers;
 
 import com.bilibili.player_ix.blue_oceans.api.mob.Profession;
 import com.bilibili.player_ix.blue_oceans.api.task.Task;
-import com.bilibili.player_ix.blue_oceans.common.item.util.ScytheItem;
+import com.bilibili.player_ix.blue_oceans.common.item.farming.ScytheItem;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
 import com.github.player_ix.ix_api.api.ApiPose;
 import com.github.player_ix.ix_api.api.item.ItemStacks;

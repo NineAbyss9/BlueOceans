@@ -11,13 +11,12 @@ import java.util.EnumSet;
 public class ApiTradeWithPlayerGoal extends Goal {
     protected final Mob mob;
     protected final Merchant merchant;
-    public ApiTradeWithPlayerGoal(Merchant p_25958_) {
-        this.mob = (Mob)p_25958_;
-        this.merchant = p_25958_;
+    public ApiTradeWithPlayerGoal(Merchant pMob) {
+        this.mob = (Mob)pMob;
+        this.merchant = pMob;
         this.setFlags(EnumSet.of(Flag.JUMP, Flag.MOVE));
     }
 
-    @Override
     public boolean canUse() {
         if (!this.mob.isAlive()) {
             return false;
@@ -37,17 +36,14 @@ public class ApiTradeWithPlayerGoal extends Goal {
         }
     }
 
-    @Override
     public boolean canContinueToUse() {
         return super.canContinueToUse();
     }
 
-    @Override
     public void start() {
         this.mob.getNavigation().stop();
     }
 
-    @Override
     public void tick() {
         Player player = this.merchant.getTradingPlayer();
         if (player != null) {
@@ -55,7 +51,6 @@ public class ApiTradeWithPlayerGoal extends Goal {
         }
     }
 
-    @Override
     public void stop() {
         this.merchant.setTradingPlayer(null);
     }

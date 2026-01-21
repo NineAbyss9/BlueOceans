@@ -12,7 +12,8 @@ public enum Task {
     FIND_HELP(4),
     FARM(5),
     FOLLOW(6),
-    WORK(7);
+    WORK(7),
+    DEFECATION(8);
     public final int id;
     public final ItemHolder item;
     Task(int pId, ItemHolder pHolder) {

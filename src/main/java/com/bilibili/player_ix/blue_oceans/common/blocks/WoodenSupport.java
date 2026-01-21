@@ -7,7 +7,6 @@ import com.github.player_ix.ix_api.util.ItemUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -97,7 +96,7 @@ extends BaseEntityBlock {
         if (!pState.is(pNewState.getBlock())) {
             BlockEntity blockentity = pLevel.getBlockEntity(pPos);
             if (blockentity instanceof WoodenSupportBlockEntity) {
-                if (pLevel instanceof ServerLevel) {
+                if (!pLevel.isClientSide) {
                     Containers.dropContents(pLevel, pPos, (WoodenSupportBlockEntity)blockentity);
                 }
                 pLevel.updateNeighbourForOutputSignal(pPos, this);

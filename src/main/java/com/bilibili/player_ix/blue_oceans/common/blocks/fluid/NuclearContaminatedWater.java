@@ -29,7 +29,7 @@ extends BaseFlowingFluid {
                                   Direction pDirection, BlockPos pToPos, BlockState pToBlockState, FluidState pToFluidState, Fluid pFluid) {
         return pToBlockState.isAir() && super.canSpreadTo(pLevel, pFromPos, pFromBlockState, pDirection, pToPos,
                 pToBlockState, pToFluidState, pFluid);
-        }
+    }
 
     public Fluid getFlowing() {
         return BlueOceansFluids.NCW_FLOWING.get();

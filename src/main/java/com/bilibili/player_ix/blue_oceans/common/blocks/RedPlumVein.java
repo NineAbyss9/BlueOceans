@@ -11,6 +11,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
@@ -36,6 +37,18 @@ implements SimpleWaterloggedBlock, IPlumBlock {
 
     public MultifaceSpreader getSpreader() {
         return this.veinSpreader;
+    }
+
+    public BlockState getSupportBlock(Level pLevel, BlockPos pVeinPos) {
+        return pLevel.getBlockState(pVeinPos.relative(this.getFacing(pLevel.getBlockState(pVeinPos))));
+    }
+
+    public Direction getFacing(BlockState pState) {
+        for (Direction direction : DIRECTIONS) {
+            if (hasFace(pState, direction))
+                return direction;
+        }
+        return Direction.UP;
     }
 
     /*public void onDischarged(LevelAccessor pLevel, BlockState pState, BlockPos pPos, RandomSource pRandom) {
@@ -68,12 +81,12 @@ implements SimpleWaterloggedBlock, IPlumBlock {
 
     private boolean attemptPlaceSculk(SculkSpreader pSpreader, LevelAccessor pLevel, BlockPos pPos, RandomSource pRandom) {
         BlockState blockstate = pLevel.getBlockState(pPos);
-        TagKey<Block> tagkey = pSpreader.replaceableBlocks();
+        TagKey<Block> key = pSpreader.replaceableBlocks();
         for (Direction direction : Direction.allShuffled(pRandom)) {
             if (hasFace(blockstate, direction)) {
                 BlockPos blockpos = pPos.relative(direction);
                 BlockState blockstate1 = pLevel.getBlockState(blockpos);
-                if (blockstate1.is(tagkey)) {
+                if (blockstate1.is(key)) {
                     BlockState blockstate2 = Blocks.SCULK.defaultBlockState();
                     pLevel.setBlock(blockpos, blockstate2, 3);
                     Block.pushEntitiesUp(blockstate1, blockstate2, pLevel, blockpos);
@@ -122,14 +135,16 @@ implements SimpleWaterloggedBlock, IPlumBlock {
                 } else {
                     pos = pPos.offset(0, 0, -1);
                 }
+                BlockPos belowPos = pos.below();
                 if (!pLevel.getBlockState(pos).is(BoTags.RED_PLUM_BLOCKS) &&
-                        pLevel.getBlockState(pos.below()).isCollisionShapeFullBlock(pLevel, pPos))
+                        Block.isFaceFull(pLevel.getBlockState(belowPos).getBlockSupportShape(pLevel, belowPos),
+                                Direction.UP))
                     pLevel.setBlockAndUpdate(pos, BlueOceansBlocks.RED_PLUM_VEIN.get().defaultBlockState());
             }
-            BlockPos below = pPos.below();
+            BlockPos below = pPos.relative(this.getFacing(pState));
             if (!pLevel.getBlockState(below).is(BoTags.RED_PLUM_BLOCKS)) {
                 pLevel.setBlockAndUpdate(below, BlueOceansBlocks.RED_PLUM_BLOCK.get().defaultBlockState());
-                if (pLevel.getBlockState(pPos).is(this))
+                if (pLevel.getBlockState(pPos).is(BlueOceansBlocks.RED_PLUM_VEIN.get()))
                     pLevel.destroyBlock(pPos, false);
             }
         }

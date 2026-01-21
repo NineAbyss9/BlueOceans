@@ -133,10 +133,6 @@ implements IPlumSpreader {
         this.setInfectLevel(pLevel);
     }
 
-    public void setLevelPlus() {
-        this.setLevel(this.getLevel() + 1);
-    }
-
     @Nullable
     protected EntityType<? extends AbstractRedPlumMob> getNextLevelConvert() {
         return null;

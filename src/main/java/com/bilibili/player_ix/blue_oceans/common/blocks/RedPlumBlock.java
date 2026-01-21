@@ -50,15 +50,16 @@ public class RedPlumBlock extends BaseEntityBlock implements IPlumBlock {
     }
 
     public float getFriction(BlockState state, LevelReader level, BlockPos pos, @Nullable Entity entity) {
-        return entity instanceof AbstractRedPlumMob ? super.getFriction(state, level, pos, entity)
-                : 0.75F;
+        return entity instanceof AbstractRedPlumMob ? 0.5F : 0.8F;
     }
 
     @SuppressWarnings("deprecation")
     public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
         this.spawnPlum(pLevel, pPos, pRandom);
         if (pRandom.nextInt(10) == 0) {
-            ParticleUtil.serverAddParticle(pLevel, BlueOceansParticleTypes.RED_SPELL.get(), Vec9.of(pPos.above()));
+            BlockPos above = pPos.above();
+            ParticleUtil.serverAddParticle(pLevel, BlueOceansParticleTypes.RED_PLUM_SPELL.get(),
+                    Vec9.of(above));
         }
         if (this.getLevel() == 1 && pRandom.nextInt(25) == 0) {
             pLevel.setBlock(pPos, BlueOceansBlocks.RED_PLUM_CATALYST.get().defaultBlockState(), 0);

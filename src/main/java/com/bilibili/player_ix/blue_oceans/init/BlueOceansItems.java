@@ -18,6 +18,7 @@ import com.bilibili.player_ix.blue_oceans.common.item.food.PeaPod;
 import com.bilibili.player_ix.blue_oceans.common.item.food.Peach;
 import com.bilibili.player_ix.blue_oceans.common.item.gun.AbstractGun;
 import com.bilibili.player_ix.blue_oceans.common.item.gun.SniperRifle;
+import com.bilibili.player_ix.blue_oceans.common.item.plum.EchoPotionItem;
 import com.bilibili.player_ix.blue_oceans.common.item.plum.RedPlum;
 import com.bilibili.player_ix.blue_oceans.common.item.plum.RedPlumFlesh;
 import com.bilibili.player_ix.blue_oceans.common.item.ts.IceAxe;
@@ -26,7 +27,7 @@ import com.bilibili.player_ix.blue_oceans.common.item.ts.IceSword;
 import com.bilibili.player_ix.blue_oceans.common.item.util.Bandage;
 import com.bilibili.player_ix.blue_oceans.common.item.util.EntityKiller;
 import com.bilibili.player_ix.blue_oceans.common.item.util.HammerItem;
-import com.bilibili.player_ix.blue_oceans.common.item.util.ScytheItem;
+import com.bilibili.player_ix.blue_oceans.common.item.farming.ScytheItem;
 import com.bilibili.player_ix.blue_oceans.common.item.util.axe.ElementAxe;
 import com.bilibili.player_ix.blue_oceans.common.item.util.pickaxe.ElementPickaxe;
 import com.bilibili.player_ix.blue_oceans.common.item.weapon.FreakyAxe;
@@ -149,6 +150,8 @@ public class BlueOceansItems {
     //CIEnd
 
     //Plum
+    public static final RegistryObject<Item> ECHO_POTION = ITEMS.register("echo_potion",
+            () -> new EchoPotionItem(properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> RED_PLUM = ITEMS.register("red_plum",
             RedPlum::new);
     //PEnd

@@ -50,7 +50,7 @@ public class BlueOceans implements ModOfNineAbyss {
         BlueOceansEntities.REGISTRY.register(bus);
         BlueOceansBlockEntities.BLOCK_ENTITIES.register(bus);
         BlueOceansBlocks.BLOCKS.register(bus);
-        BlueOceansMobEffects.REGISTER.register(bus);
+        BlueOceansMobEffects.register(bus);
         BlueOceansParticleTypes.REGISTRY.register(bus);
         BlueOceansItems.ITEMS.register(bus);
         BlueOceansSounds.SOUNDS.register(bus);

@@ -106,6 +106,42 @@ public class AbyssMath {
         return randomBetween(random, min, max);
     }
 
+    public static float average(float... values) {
+        float cache = 0;
+        for (float f : values)
+            cache += f;
+        return cache / values.length;
+    }
+
+    public static double average(double... values) {
+        double cache = 0;
+        for (double d : values)
+            cache += d;
+        return cache / values.length;
+    }
+
+    public static int average(int... values) {
+        int cache = 0;
+        for (int f : values)
+            cache += f;
+        return cache / values.length;
+    }
+
+    public static void validNumberNotZero(int value) {
+        if (value == 0)
+            throw new InvalidNumberException();
+    }
+
+    public static void validNumberNotZero(float value) {
+        if (value == 0)
+            throw new InvalidNumberException();
+    }
+
+    public static void validNumberNotZero(double value) {
+        if (value == 0)
+            throw new InvalidNumberException();
+    }
+
     public static float random(@Message("value should be positive") float value) {
         return randomBetween(-value, value);
     }

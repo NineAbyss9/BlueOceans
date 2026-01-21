@@ -75,6 +75,7 @@ public class ClientInitEvents {
         event.registerEntityRenderer(BlueOceansEntities.DEATH.get(), DeathRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.DICTATOR.get(), DictatorRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.DUMPLING_MONSTER.get(), DumplingMonsterRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.ECHO_POTION.get(), EchoPotionRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.FARMER.get(), FarmerRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.FREAK.get(), FreakerRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.HEART_OF_HORROR.get(), HeartOfHorrorRenderer::new);
