@@ -7,6 +7,10 @@ extends NumberArray<Double> {
         super(pTs);
     }
 
+    public double getDouble(int index) {
+        return this.get(index);
+    }
+
     public DoubleArray of(Double... pDoubles) {
         return new DoubleArray(pDoubles);
     }

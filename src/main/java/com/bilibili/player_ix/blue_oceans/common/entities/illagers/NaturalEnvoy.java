@@ -79,7 +79,8 @@ extends ModSpellcasterIllager {
                 lie.hurt(this.damageSources().indirectMagic(this, this), 8f);
                 this.knockBack(lie);
                 double d = 0.75;
-                if (this.level() instanceof ServerLevel serverLevel) {
+                if (!this.level().isClientSide) {
+                    ServerLevel serverLevel = (ServerLevel)this.level();
                     serverLevel.sendParticles(ParticleTypes.ENCHANTED_HIT, lie.getX(), lie.getY()
                             + 1, lie.getZ(), 10, d, d, d, 0.1);
                     serverLevel.sendParticles(ParticleTypes.LARGE_SMOKE, this.getX(), this.getY()
@@ -205,9 +206,9 @@ extends ModSpellcasterIllager {
 
     private class WololoGoal
     extends UseSpellGoal {
-        private final TargetingConditions wololoTargeting = TargetingConditions.forNonCombat().range(16.0).selector((p_32710_) -> ((Sheep) p_32710_).getColor() != DyeColor.GREEN);
+        private final TargetingConditions wololoTargeting = TargetingConditions.forNonCombat().range(16.0)
+                .selector((p_32710_) -> ((Sheep) p_32710_).getColor() != DyeColor.GREEN);
 
-        @Override
         protected void castSpell() {
             Sheep sheep = NaturalEnvoy.this.getWololoTarget();
             if (sheep != null && sheep.isAlive()) {
@@ -215,7 +216,6 @@ extends ModSpellcasterIllager {
             }
         }
 
-        @Override
         public void stop() {
             super.stop();
             NaturalEnvoy.this.setWololoTarget(null);
@@ -249,7 +249,8 @@ extends ModSpellcasterIllager {
             } else if (illager.isCastingSpell()) {
                 return false;
             } else {
-                List<Sheep> list = illager.level().getNearbyEntities(Sheep.class, this.wololoTargeting, illager, illager.getBoundingBox().inflate(16.0, 4.0, 16.0));
+                List<Sheep> list = illager.level().getNearbyEntities(Sheep.class, this.wololoTargeting, illager, illager
+                        .getBoundingBox().inflate(16.0, 4.0, 16.0));
                 if (list.isEmpty()) {
                     return false;
                 } else {
@@ -269,7 +270,6 @@ extends ModSpellcasterIllager {
         NaturalEnvoyCastingSpellGoal() {
         }
 
-        @Override
         public void tick() {
             Sheep sheep = NaturalEnvoy.this.getWololoTarget();
             if (NaturalEnvoy.this.getTarget() != null) {

@@ -1,0 +1,10 @@
+{
+  "package": "com.bilibili.player_ix.blue_oceans.mixin",
+  "mixins": [
+    "BushBlockMixin",
+    "CropBlockMixin"
+  ],
+  "required": true,
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_17"
+}

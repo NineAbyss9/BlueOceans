@@ -4,7 +4,7 @@ license="GPL License"
 
 [[mods]]
 modId="blue_oceans"
-version="1.1.0a"
+version="1.1.1a"
 displayName="Blue Oceans"
 displayURL="https://github.com/noixmod"
 logoFile="logo.png"

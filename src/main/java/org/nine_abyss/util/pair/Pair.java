@@ -3,13 +3,12 @@ package org.nine_abyss.util.pair;
 
 import org.nine_abyss.util.Option;
 
-import java.io.Serial;
 import java.util.Map;
 import java.util.Objects;
 
 public abstract class Pair<L, R>
 implements Map.Entry<L, R>, Comparable<Pair<L, R>>, java.io.Serializable {
-    @Serial
+    @java.io.Serial
     private static final long serialVersionUID = 8947688449640458794L;
     Pair() {
     }
@@ -30,6 +29,10 @@ implements Map.Entry<L, R>, Comparable<Pair<L, R>>, java.io.Serializable {
         return of(right(), left());
     }
 
+    public Pair<L, R> mutable() {
+        return mutable(left(), right());
+    }
+
     public Option<L> leftOption() {
         return Option.ofNullable(left());
     }
@@ -37,6 +40,8 @@ implements Map.Entry<L, R>, Comparable<Pair<L, R>>, java.io.Serializable {
     public Option<R> rightOption() {
         return Option.ofNullable(right());
     }
+
+    public abstract L setKey(L key);
 
     public int compareTo(Pair<L, R> o) {
         boolean leftEquals = Objects.equals(left(), o.left());
@@ -63,6 +68,11 @@ implements Map.Entry<L, R>, Comparable<Pair<L, R>>, java.io.Serializable {
                 '}';
     }
 
+    public static <L, R> Pair<L, R> mutable(L left, R right) {
+        return MutablePair.of(left, right);
+    }
+
+    @SuppressWarnings("unchecked")
     public static <K, V> Pair<K, V> empty() {
         return new EmptyPair<>();
     }
@@ -73,21 +83,5 @@ implements Map.Entry<L, R>, Comparable<Pair<L, R>>, java.io.Serializable {
 
     public static <L, R> Pair<L, R> of(Map.Entry<L, R> entry) {
         return ImmutablePair.of(entry);
-    }
-
-    private static final class EmptyPair<L, R> extends Pair<L, R> {
-        @Serial
-        private static final long serialVersionUID = 1L;
-        public L left() {
-            return null;
-        }
-
-        public R right() {
-            return null;
-        }
-
-        public R setValue(R value) {
-            return null;
-        }
     }
 }

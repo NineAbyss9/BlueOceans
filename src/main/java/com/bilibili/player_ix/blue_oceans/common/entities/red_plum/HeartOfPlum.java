@@ -9,4 +9,8 @@ extends RedPlumMonster {
     public HeartOfPlum(EntityType<? extends HeartOfPlum> type, Level level) {
         super(type, level);
     }
+
+    public void aiStep() {
+        super.aiStep();
+    }
 }

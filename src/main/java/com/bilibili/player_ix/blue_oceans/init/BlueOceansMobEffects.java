@@ -2,6 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.init;
 
 import com.bilibili.player_ix.blue_oceans.BlueOceans;
+import com.bilibili.player_ix.blue_oceans.common.mob_effect.Comfortable;
 import com.bilibili.player_ix.blue_oceans.common.mob_effect.ConfigurableDamageBoost;
 import com.bilibili.player_ix.blue_oceans.common.mob_effect.PlumInvade;
 import com.bilibili.player_ix.blue_oceans.common.mob_effect.StunEffect;
@@ -19,6 +20,7 @@ public class BlueOceansMobEffects {
     public static final DeferredRegister<MobEffect> REGISTER = DeferredRegister.create(
             ForgeRegistries.MOB_EFFECTS, BlueOceans.MOD_ID);
     //MobEffects
+    public static final RegistryObject<MobEffect> COMFORTABLE;
     public static final RegistryObject<MobEffect> CONFIGURABLE_DAMAGE_BOOST;
     public static final RegistryObject<MobEffect> PLUM_INVADE;
     public static final RegistryObject<MobEffect> STUN;
@@ -29,6 +31,7 @@ public class BlueOceansMobEffects {
     }
 
     static {
+        COMFORTABLE = REGISTER.register("comfortable", Comfortable::new);
         CONFIGURABLE_DAMAGE_BOOST = REGISTER.register("mod_strength", () ->
                 new ConfigurableDamageBoost().addAttributeModifier(Attributes.ATTACK_DAMAGE,
                         "F00097C1-83A1-EAC6-6E15-A75AA831B987", 0,

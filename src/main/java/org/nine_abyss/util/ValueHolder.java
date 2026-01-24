@@ -1,6 +1,8 @@
 
 package org.nine_abyss.util;
 
+import javax.annotation.Nullable;
+
 public class ValueHolder {
     public static final String EMPTY = "";
     public static final Integer ZERO = 0;
@@ -10,7 +12,7 @@ public class ValueHolder {
      *@see Option#orElse(Object)
      *
      * @return {@code mayNull} if it is not null, otherwise returns {@code other}*/
-    public static <R> R nullToOther(R mayNull, R other) {
+    public static <R> R nullToOther(@Nullable R mayNull, R other) {
         return mayNull == null ? other : mayNull;
     }
 

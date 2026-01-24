@@ -27,9 +27,7 @@ extends DiggerItem {
             if (state.getBlock().defaultDestroyTime() < 8.0F && isCorrectToolForDrops(stack, state)) {
                 level.destroyBlock(pos, true, pContext.getPlayer());
                 Option.ofNullable(pContext.getPlayer()).ifPresent(player -> stack.hurtAndBreak(
-                        1,
-                        player,
-                        a -> a.broadcastBreakEvent(pContext.getHand())));
+                        1, player, a -> a.broadcastBreakEvent(pContext.getHand())));
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
         }

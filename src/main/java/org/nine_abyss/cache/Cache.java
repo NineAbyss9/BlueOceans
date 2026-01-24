@@ -1,8 +1,6 @@
 
 package org.nine_abyss.cache;
 
-import org.nine_abyss.NineAbyssBase;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 

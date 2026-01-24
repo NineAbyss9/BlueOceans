@@ -31,7 +31,7 @@ implements NumberProvider<Float> {
         return max;
     }
 
-    public static RangedFloat of(Float pMin, Float pMax) {
+    public static RangedFloat of(float pMin, float pMax) {
         if (pMin > pMax)
             throw new IllegalArgumentException("max must be greater than min");
         return new Instance(pMin, pMax);

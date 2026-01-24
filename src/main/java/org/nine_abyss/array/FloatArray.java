@@ -7,6 +7,10 @@ extends NumberArray<Float> {
         super(pTs);
     }
 
+    public float getFloat(int index) {
+        return this.get(index);
+    }
+
     public static FloatArray of(Float... pFloats) {
         return new FloatArray(pFloats);
     }

@@ -25,6 +25,7 @@ implements Code {
     }
 
     public void write(String code) {
+        this.hashCode = Integer.valueOf(code);
     }
 
     public int strangeHashCode() {

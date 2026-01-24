@@ -26,12 +26,12 @@ public class RedPlumVein
 extends MultifaceBlock
 implements SimpleWaterloggedBlock, IPlumBlock {
     private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    private final MultifaceSpreader veinSpreader =
-            new MultifaceSpreader(new SpreaderConfig(MultifaceSpreader.DEFAULT_SPREAD_ORDER));
+    private final MultifaceSpreader veinSpreader;
     //private final MultifaceSpreader sameSpaceSpreader =
     //        new MultifaceSpreader(new SpreaderConfig(MultifaceSpreader.SpreadType.SAME_POSITION));
     public RedPlumVein(Properties properties) {
         super(properties);
+        veinSpreader = new MultifaceSpreader(new SpreaderConfig(this, MultifaceSpreader.DEFAULT_SPREAD_ORDER));
         this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, Boolean.FALSE));
     }
 
@@ -40,86 +40,15 @@ implements SimpleWaterloggedBlock, IPlumBlock {
     }
 
     public BlockState getSupportBlock(Level pLevel, BlockPos pVeinPos) {
-        return pLevel.getBlockState(pVeinPos.relative(this.getFacing(pLevel.getBlockState(pVeinPos))));
+        return pLevel.getBlockState(pVeinPos.relative(getFacing(pLevel.getBlockState(pVeinPos))));
     }
 
-    public Direction getFacing(BlockState pState) {
+    public static Direction getFacing(BlockState pState) {
         for (Direction direction : DIRECTIONS) {
             if (hasFace(pState, direction))
                 return direction;
         }
         return Direction.UP;
-    }
-
-    /*public void onDischarged(LevelAccessor pLevel, BlockState pState, BlockPos pPos, RandomSource pRandom) {
-        if (pState.is(this)) {
-            for (Direction direction : DIRECTIONS) {
-                BooleanProperty booleanproperty = getFaceProperty(direction);
-                if (pState.getValue(booleanproperty) && pLevel.getBlockState(pPos.relative(direction))
-                        .is(BlueOceansBlocks.RED_PLUM_BLOCK.get())) {
-                    pState = pState.setValue(booleanproperty, Boolean.valueOf(false));
-                }
-            }
-            if (!hasAnyFace(pState)) {
-                FluidState fluidstate = pLevel.getFluidState(pPos);
-                pState = (fluidstate.isEmpty() ? Blocks.AIR : Blocks.WATER).defaultBlockState();
-            }
-            pLevel.setBlock(pPos, pState, 3);
-            SculkBehaviour.super.onDischarged(pLevel, pState, pPos, pRandom);
-        }
-    }
-
-    public int attemptUseCharge(SculkSpreader.ChargeCursor pCursor, LevelAccessor pLevel, BlockPos pPos,
-                                RandomSource pRandom, SculkSpreader pSpreader, boolean pShouldConvertBlocks) {
-        if (pShouldConvertBlocks && this.attemptPlaceSculk(pSpreader, pLevel, pCursor.getPos(), pRandom)) {
-            return pCursor.getCharge() - 1;
-        } else {
-            return pRandom.nextInt(pSpreader.chargeDecayRate()) == 0 ? Mth.floor((float)pCursor.getCharge()
-                    * 0.5F) : pCursor.getCharge();
-        }
-    }
-
-    private boolean attemptPlaceSculk(SculkSpreader pSpreader, LevelAccessor pLevel, BlockPos pPos, RandomSource pRandom) {
-        BlockState blockstate = pLevel.getBlockState(pPos);
-        TagKey<Block> key = pSpreader.replaceableBlocks();
-        for (Direction direction : Direction.allShuffled(pRandom)) {
-            if (hasFace(blockstate, direction)) {
-                BlockPos blockpos = pPos.relative(direction);
-                BlockState blockstate1 = pLevel.getBlockState(blockpos);
-                if (blockstate1.is(key)) {
-                    BlockState blockstate2 = Blocks.SCULK.defaultBlockState();
-                    pLevel.setBlock(blockpos, blockstate2, 3);
-                    Block.pushEntitiesUp(blockstate1, blockstate2, pLevel, blockpos);
-                    pLevel.playSound(null, blockpos, SoundEvents.SCULK_BLOCK_SPREAD, SoundSource.BLOCKS,
-                            1.0F, 1.0F);
-                    this.veinSpreader.spreadAll(blockstate2, pLevel, blockpos, pSpreader.isWorldGeneration());
-                    Direction direction1 = direction.getOpposite();
-                    for (Direction direction2 : DIRECTIONS) {
-                        if (direction2 != direction1) {
-                            BlockPos blockpos1 = blockpos.relative(direction2);
-                            BlockState blockstate3 = pLevel.getBlockState(blockpos1);
-                            if (blockstate3.is(this)) {
-                                this.onDischarged(pLevel, blockstate3, blockpos1, pRandom);
-                            }
-                        }
-                    }
-                    return true;
-                }
-            }
-        }
-        return false;
-    }*/
-
-    public static boolean hasSubstrateAccess(LevelAccessor pLevel, BlockState pState, BlockPos pPos) {
-        if (pState.is(Blocks.SCULK_VEIN)) {
-            for (Direction direction : DIRECTIONS) {
-                if (hasFace(pState, direction) && pLevel.getBlockState(pPos.relative(direction))
-                        .is(BlockTags.SCULK_REPLACEABLE)) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
@@ -136,14 +65,19 @@ implements SimpleWaterloggedBlock, IPlumBlock {
                     pos = pPos.offset(0, 0, -1);
                 }
                 BlockPos belowPos = pos.below();
-                if (!pLevel.getBlockState(pos).is(BoTags.RED_PLUM_BLOCKS) &&
-                        Block.isFaceFull(pLevel.getBlockState(belowPos).getBlockSupportShape(pLevel, belowPos),
-                                Direction.UP))
-                    pLevel.setBlockAndUpdate(pos, BlueOceansBlocks.RED_PLUM_VEIN.get().defaultBlockState());
+                BlockState state = pLevel.getBlockState(pos);
+                BlockState belowState = pLevel.getBlockState(belowPos);
+                if (state.canBeReplaced() && Block.isFaceFull(belowState
+                        .getBlockSupportShape(pLevel, belowPos), Direction.UP)) {
+                    MultifaceBlock block = (MultifaceBlock)BlueOceansBlocks.RED_PLUM_VEIN.get();
+                    BlockState state1 = block.getStateForPlacement(state, pLevel, pPos, Direction.DOWN);
+                    if (state1 != null)
+                        pLevel.setBlockAndUpdate(pos, state1);
+                }
             }
-            BlockPos below = pPos.relative(this.getFacing(pState));
-            if (!pLevel.getBlockState(below).is(BoTags.RED_PLUM_BLOCKS)) {
-                pLevel.setBlockAndUpdate(below, BlueOceansBlocks.RED_PLUM_BLOCK.get().defaultBlockState());
+            BlockPos relative = pPos.relative(getFacing(pState));
+            if (!pLevel.getBlockState(relative).is(BoTags.RED_PLUM_BLOCKS)) {
+                pLevel.setBlockAndUpdate(relative, BlueOceansBlocks.RED_PLUM_BLOCK.get().defaultBlockState());
                 if (pLevel.getBlockState(pPos).is(BlueOceansBlocks.RED_PLUM_VEIN.get()))
                     pLevel.destroyBlock(pPos, false);
             }
@@ -176,20 +110,17 @@ implements SimpleWaterloggedBlock, IPlumBlock {
         return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
     }
 
-    class SpreaderConfig extends MultifaceSpreader.DefaultSpreaderConfig {
+    public static class SpreaderConfig extends MultifaceSpreader.DefaultSpreaderConfig {
         private final MultifaceSpreader.SpreadType[] spreadTypes;
-
-        public SpreaderConfig(MultifaceSpreader.SpreadType... pSpreadTypes) {
-            super(RedPlumVein.this);
+        public SpreaderConfig(MultifaceBlock pBlock, MultifaceSpreader.SpreadType... pSpreadTypes) {
+            super(pBlock);
             this.spreadTypes = pSpreadTypes;
         }
 
         public boolean stateCanBeReplaced(BlockGetter pLevel, BlockPos pPos, BlockPos pSpreadPos, Direction pDirection,
                                           BlockState pState) {
             BlockState blockstate = pLevel.getBlockState(pSpreadPos.relative(pDirection));
-            if (!blockstate.is(BlueOceansBlocks.RED_PLUM_BLOCK.get()) &&
-                    !blockstate.is(BlueOceansBlocks.RED_PLUM_CATALYST.get()) &&
-                    !blockstate.is(BlueOceansBlocks.RED_PLUM_TRAP.get()) && !blockstate.is(Blocks.MOVING_PISTON)) {
+            if (!blockstate.is(BoTags.RED_PLUM_BLOCKS) && !blockstate.is(Blocks.MOVING_PISTON)) {
                 if (pPos.distManhattan(pSpreadPos) == 2) {
                     BlockPos blockpos = pPos.relative(pDirection.getOpposite());
                     if (pLevel.getBlockState(blockpos).isFaceSturdy(pLevel, blockpos, pDirection)) {
@@ -215,7 +146,7 @@ implements SimpleWaterloggedBlock, IPlumBlock {
         }
 
         public boolean isOtherBlockValidAsSource(BlockState pOtherBlock) {
-            return !pOtherBlock.is(Blocks.SCULK_VEIN);
+            return !pOtherBlock.is(BlueOceansBlocks.RED_PLUM_VEIN.get());
         }
     }
 }

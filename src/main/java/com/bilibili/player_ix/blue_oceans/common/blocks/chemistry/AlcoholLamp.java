@@ -3,6 +3,7 @@ package com.bilibili.player_ix.blue_oceans.common.blocks.chemistry;
 
 import com.bilibili.player_ix.blue_oceans.common.blocks.BoBlockProperties;
 import com.bilibili.player_ix.blue_oceans.common.chemistry.IChemical;
+import com.bilibili.player_ix.blue_oceans.config.BoCommonConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
@@ -82,7 +83,7 @@ implements IChemical {
 
     public void entityInside(BlockState pState, Level pLevel, BlockPos pPos, Entity pEntity) {
         if (pState.getValue(BURNING)) {
-            pEntity.hurt(pLevel.damageSources().inFire(), FIRE_DAMAGE);
+            pEntity.hurt(pLevel.damageSources().inFire(), BoCommonConfig.ALCOHOL_LAMP_DAMAGE.get().floatValue());
         }
     }
 
@@ -92,9 +93,5 @@ implements IChemical {
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         pBuilder.add(COVERED, CAPACITY, BURNING);
-    }
-
-    public static void setFireDamage(float f) {
-        FIRE_DAMAGE = f;
     }
 }

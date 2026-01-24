@@ -59,13 +59,13 @@ extends DiggerItem {
         return stack.getEnchantmentLevel(Enchantments.UNBREAKING) < 1;
     }
 
-    public boolean mineBlock(ItemStack pStack, Level pLevel, BlockState pState, BlockPos pPos, LivingEntity pEntityLiving) {
-        dropResources(pState, pLevel, pPos, pEntityLiving, pStack);
+    public boolean mineBlock(ItemStack pStack, Level pLevel, BlockState pState, BlockPos pPos, LivingEntity pEntity) {
+        dropResources(pState, pLevel, pPos, pEntity, pStack);
         if (pState.getBlock().defaultDestroyTime() <= 0.0F
                 && pState.getBlock() instanceof CropBlock && shouldDamage(pStack))
-            pStack.hurtAndBreak(1, pEntityLiving, entity -> entity.broadcastBreakEvent(
+            pStack.hurtAndBreak(1, pEntity, entity -> entity.broadcastBreakEvent(
                     InteractionHand.MAIN_HAND));
-        return super.mineBlock(pStack, pLevel, pState, pPos, pEntityLiving);
+        return super.mineBlock(pStack, pLevel, pState, pPos, pEntity);
     }
 
     public InteractionResult useOn(UseOnContext pContext) {

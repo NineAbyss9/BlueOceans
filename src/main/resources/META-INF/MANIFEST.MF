@@ -6,4 +6,5 @@ Implementation-Title: Blue Oceans 1.1.0a
 Implementation-Version: 1.3
 Implementation-Vendor: Player_IX
 Implementation-Timestamp: 2025-10-19T13:03:03+0800
+MixinConfigs: blue_oceans.mixin.json
 

@@ -1,5 +1,5 @@
 
-package com.bilibili.player_ix.blue_oceans.common.blocks.chemistry;
+package com.bilibili.player_ix.blue_oceans.common.blocks.ore;
 
 import com.bilibili.player_ix.blue_oceans.common.blocks.OreBlock;
 import com.bilibili.player_ix.blue_oceans.common.chemistry.Element;

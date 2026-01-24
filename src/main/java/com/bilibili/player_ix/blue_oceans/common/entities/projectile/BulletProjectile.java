@@ -21,8 +21,8 @@ extends AbstractHurtingProjectile {
         super(pEntityType, pLevel);
     }
 
-    public BulletProjectile(double pX,
-                            double pY, double pZ, double pOffsetX, double pOffsetY, double pOffsetZ, Level pLevel) {
+    public BulletProjectile(double pX, double pY, double pZ, double pOffsetX, double pOffsetY,
+                            double pOffsetZ, Level pLevel) {
         super(BlueOceansEntities.BULLET.get(), pX, pY, pZ, pOffsetX, pOffsetY, pOffsetZ, pLevel);
     }
 

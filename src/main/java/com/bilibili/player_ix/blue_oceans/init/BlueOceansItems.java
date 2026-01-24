@@ -197,6 +197,10 @@ public class BlueOceansItems {
     //MEnd
 
     //Block
+    public static final RegistryObject<Item> BLACK_SOIL = block(BlueOceansBlocks.BLACK_SOIL);
+    public static final RegistryObject<Item> BLACK_SOIL_FARMLAND = block(BlueOceansBlocks
+            .BLACK_SOIL_FARMLAND);
+    public static final RegistryObject<Item> BUDDING_NEO_PLUM = block(BlueOceansBlocks.BUDDING_NEO_PLUM);
     public static final RegistryObject<Item> FLAG = ITEMS.register("flag", FlagItem::new);
     public static final RegistryObject<Item> LEEK_SEEDS = ITEMS.register("leek_seeds", () ->
             new ItemNameBlockItem(BlueOceansBlocks.LEEK.get(), properties().stacksTo(64)));

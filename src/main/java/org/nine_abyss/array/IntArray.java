@@ -7,6 +7,10 @@ extends NumberArray<Integer> {
         super(pTs);
     }
 
+    public int getInt(int index) {
+        return this.get(index);
+    }
+
     public static IntArray of(Integer... pIntegers) {
         return new IntArray(pIntegers);
     }

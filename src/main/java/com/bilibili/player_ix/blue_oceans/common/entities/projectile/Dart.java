@@ -2,6 +2,9 @@
 package com.bilibili.player_ix.blue_oceans.common.entities.projectile;
 
 import com.github.player_ix.ix_api.util.Maths;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
@@ -14,7 +17,7 @@ public class Dart
 extends AbstractHurtingProjectile {
     private int life;
     private boolean inGround;
-    private boolean isToxic;
+    private boolean toxic;
     public Dart(EntityType<? extends Dart> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
@@ -40,11 +43,11 @@ extends AbstractHurtingProjectile {
     }
 
     public boolean isToxic() {
-        return isToxic;
+        return toxic;
     }
 
-    public void setToxic(boolean toxic) {
-        isToxic = toxic;
+    public void setToxic(boolean pToxic) {
+        this.toxic = pToxic;
     }
 
     protected void onHitBlock(BlockHitResult pResult) {
@@ -55,5 +58,9 @@ extends AbstractHurtingProjectile {
 
     protected void onHitEntity(EntityHitResult pResult) {
         super.onHitEntity(pResult);
+        Entity entity = pResult.getEntity();
+        if (entity instanceof LivingEntity living && this.isToxic()) {
+            living.addEffect(new MobEffectInstance(MobEffects.POISON, 200, 0));
+        }
     }
 }

@@ -30,7 +30,7 @@ public class PlumInvade extends MobEffect {
                         BlockPos pos = pLivingEntity.blockPosition();
                         BlockState state = level.getBlockState(pos);
                         if (!state.is(BoTags.RED_PLUM_BLOCKS)) {
-                            MultifaceBlock block = (MultifaceBlock)BlueOceansBlocks.RED_PLUM_VEIN.get();
+                            MultifaceBlock block = (MultifaceBlock)BlueOceansBlocks.BUDDING_NEO_PLUM.get();
                             BlockState newState = block.getStateForPlacement(state, level, pos, Direction.DOWN);
                             if (newState != null)
                                 level.setBlockAndUpdate(pos, newState);

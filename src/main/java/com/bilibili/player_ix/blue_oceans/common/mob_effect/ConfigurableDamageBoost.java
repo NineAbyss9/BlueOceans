@@ -1,6 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.mob_effect;
 
+import com.bilibili.player_ix.blue_oceans.config.BoCommonConfig;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -13,6 +14,6 @@ extends MobEffect {
     }
 
     public double getAttributeModifierValue(int pAmplifier, AttributeModifier pModifier) {
-        return value * (pAmplifier + 1);
+        return BoCommonConfig.DAMAGE_BOOST_PLUS_VALUE.get() * (pAmplifier + 1);
     }
 }

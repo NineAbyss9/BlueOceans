@@ -9,10 +9,11 @@ import org.nine_abyss.event.EventContainer;
 /**The base of {@code NineAbyss}
  *
  * @author NineAbyss*/
-public class NineAbyssBase implements AutoCloseable
+public class NineAbyssBase //implements AutoCloseable
 {
     public static EventContainer eventContainer;
     private NineAbyssBase() {
+        throw new AssertionError();
     }
 
     public static void setup() {

@@ -4,7 +4,7 @@ package com.bilibili.player_ix.blue_oceans.common.blocks;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.AbstractRedPlumMob;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.NeoPlum;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.RedPlumMonster;
-import com.bilibili.player_ix.blue_oceans.config.BlueOceansConfig;
+import com.bilibili.player_ix.blue_oceans.config.BoCommonConfig;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlocks;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansParticleTypes;
@@ -67,7 +67,7 @@ public class RedPlumBlock extends BaseEntityBlock implements IPlumBlock {
     }
 
     protected void spawnPlum(ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
-        if (pRandom.nextInt(20) == 0 && BlueOceansConfig.Common.SPAWN_NEO_PLUM.get()
+        if (pRandom.nextInt(20) == 0 && BoCommonConfig.SPAWN_NEO_PLUM.get()
             && NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND,
                 pLevel, pPos.above(), BlueOceansEntities.NEO_PLUM.get())
             && pLevel.getEntitiesOfClass(RedPlumMonster.class, new AABB(pPos).inflate(6)).size() < 10) {

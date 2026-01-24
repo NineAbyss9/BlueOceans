@@ -2,18 +2,12 @@
 package com.bilibili.player_ix.blue_oceans.init;
 
 import com.bilibili.player_ix.blue_oceans.BlueOceans;
-import com.bilibili.player_ix.blue_oceans.common.blocks.chemistry.AlcoholLamp;
 import com.bilibili.player_ix.blue_oceans.common.entities.ai.goal.AttackModVillagersGoal;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.AbstractRedPlumMob;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.IPlumSpreader;
-import com.bilibili.player_ix.blue_oceans.common.mob_effect.ConfigurableDamageBoost;
-import com.bilibili.player_ix.blue_oceans.config.BlueOceansConfig;
-import com.bilibili.player_ix.blue_oceans.events.HandleConfigValueEvent;
 import com.bilibili.player_ix.blue_oceans.government.Government;
-import com.bilibili.player_ix.blue_oceans.util.RedPlumUtil;
 import com.google.common.collect.Sets;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.AbstractIllager;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.TickEvent;
@@ -31,7 +25,7 @@ public class BlueOceansEvents {
     @SubscribeEvent
     public static void onLivingDeath(LivingDeathEvent event) {
         Entity attacker = event.getSource().getEntity();
-        LivingEntity entity = event.getEntity();
+        //LivingEntity entity = event.getEntity();
         if (attacker != null) {
             Level level = attacker.level();
             if (attacker instanceof AbstractRedPlumMob) {
@@ -61,11 +55,11 @@ public class BlueOceansEvents {
         }
     }
 
-    @SubscribeEvent
-    public static void onHandleConfigValues(HandleConfigValueEvent event) {
-        AlcoholLamp.setFireDamage(BlueOceansConfig.Common.ALCOHOL_LAMP_DAMAGE.get().floatValue());
-        ConfigurableDamageBoost.value = BlueOceansConfig.Common.DAMAGE_BOOST_PLUS_VALUE.get()
-                .doubleValue();
-        RedPlumUtil.plumInvadeLevel = BlueOceansConfig.Common.PLUM_INVADE_LEVEL.get().intValue();
-    }
+    /*@SubscribeEvent
+    public static void onCropGrow(BlockEvent.CropGrowEvent.Pre event) {
+        if (event.getLevel().getBlockState(event.getPos().below()).is(BoTags.BARREN_FARMLANDS)
+                && MathSupport.random.nextFloat() < 0.3F) {
+            event.setResult(Event.Result.DENY);
+        }
+    }*/
 }

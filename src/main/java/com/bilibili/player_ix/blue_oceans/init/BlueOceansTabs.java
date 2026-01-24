@@ -73,6 +73,7 @@ public class BlueOceansTabs {
                     ItemStacks.of(BlueOceansItems.RED_PLUM_BLOCK)).title(Component.translatable(
                             "item_group.blue_oceans.blue_oceans_block").withStyle(
                             ChatFormatting.GRAY)).displayItems((parameters, output) -> {
+                        output.accept(BlueOceansItems.BUDDING_NEO_PLUM.get());
                         output.accept(BlueOceansItems.MINING_LAMP.get());
                         output.accept(BlueOceansItems.RED_PLUM_BLOCK.get());
                         output.accept(BlueOceansItems.RED_PLUM_CATALYST.get());
@@ -115,6 +116,8 @@ public class BlueOceansTabs {
                     "item_group.blue_oceans.blue_oceans_farming"
             ).withStyle(
                     ChatFormatting.GOLD)).displayItems((parameter, output) -> {
+                output.accept(BlueOceansItems.BLACK_SOIL.get());
+                output.accept(BlueOceansItems.BLACK_SOIL_FARMLAND.get());
                 output.accept(BlueOceansItems.IRON_SCYTHE.get());
                 output.accept(BlueOceansItems.LEEK_SEEDS.get());
                 output.accept(BlueOceansItems.RICE_SEEDS.get());

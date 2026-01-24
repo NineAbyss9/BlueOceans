@@ -13,7 +13,8 @@ public enum Task {
     FARM(5),
     FOLLOW(6),
     WORK(7),
-    DEFECATION(8);
+    DEFECATION(8),
+    WEAVE_WEB(9);
     public final int id;
     public final ItemHolder item;
     Task(int pId, ItemHolder pHolder) {

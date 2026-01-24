@@ -35,7 +35,7 @@ public class ApiEntityDataSerializers {
             }
         };
         DOUBLE = EntityDataSerializer.simple(FriendlyByteBuf::writeDouble, FriendlyByteBuf::readDouble);
-        VEC3 = new EntityDataSerializer.ForValueType<Vec3>() {
+        VEC3 = new EntityDataSerializer.ForValueType<>() {
             public void write(FriendlyByteBuf pBuffer, Vec3 pValue) {
                 pBuffer.writeDouble(pValue.x);
                 pBuffer.writeDouble(pValue.y);

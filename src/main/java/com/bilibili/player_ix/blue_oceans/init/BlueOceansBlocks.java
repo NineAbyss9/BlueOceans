@@ -6,15 +6,19 @@ import com.bilibili.player_ix.blue_oceans.common.blocks.*;
 import com.bilibili.player_ix.blue_oceans.common.blocks.cave.MiningLamp;
 import com.bilibili.player_ix.blue_oceans.common.blocks.cave.Rope;
 import com.bilibili.player_ix.blue_oceans.common.blocks.chemistry.AlcoholLamp;
+import com.bilibili.player_ix.blue_oceans.common.blocks.farming.BlackSoil;
+import com.bilibili.player_ix.blue_oceans.common.blocks.farming.BlackSoilFarmland;
 import com.bilibili.player_ix.blue_oceans.common.blocks.food.Leek;
 import com.bilibili.player_ix.blue_oceans.common.blocks.food.RiceBlock;
 import com.bilibili.player_ix.blue_oceans.common.blocks.food.RiceEars;
+import com.bilibili.player_ix.blue_oceans.common.blocks.plum.BuddingNeoPlum;
 import com.bilibili.player_ix.blue_oceans.common.item.FlagItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -33,6 +37,14 @@ import java.util.function.ToIntFunction;
 public class BlueOceansBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,
             BlueOceans.MOD_ID);
+
+    private static boolean always(BlockState p_50775_, BlockGetter p_50776_, BlockPos p_50777_) {
+        return true;
+    }
+
+    private static boolean never(BlockState p_50806_, BlockGetter p_50807_, BlockPos p_50808_) {
+        return false;
+    }
 
     public static ToIntFunction<BlockState> light(BooleanProperty pFlag, int pLightLevel) {
         return state -> state.getValue(pFlag) ? pLightLevel : 0;
@@ -55,9 +67,15 @@ public class BlueOceansBlocks {
                     4F, 10F).lightLevel(light(AlcoholLamp.BURNING, 10))
                     .noOcclusion().emissiveRendering((pState, pLevel, pPos) ->
                             isLit(AlcoholLamp.BURNING, pState, pLevel, pPos))));
+    //public static final RegistryObject<Block> BARREN_SOIL = B
+    public static final RegistryObject<Block> BLACK_SOIL = BLOCKS.register("black_soil", () ->
+            new BlackSoil(BlockBehaviour.Properties.copy(Blocks.DIRT)));
+    public static final RegistryObject<Block> BLACK_SOIL_FARMLAND = BLOCKS.register("black_soil_farmland",
+            () -> new BlackSoilFarmland(BlockBehaviour.Properties.of().mapColor(MapColor.DIRT).randomTicks()
+                    .strength(0.6F).sound(SoundType.GRAVEL).isViewBlocking(BlueOceansBlocks::always)
+                    .isSuffocating(BlueOceansBlocks::always)));
     public static final RegistryObject<Block> MINING_LAMP = BLOCKS.register("mining_lamp",
-        () -> new MiningLamp(
-            BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).strength(1.0F,
+        () -> new MiningLamp(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).strength(1.0F,
                     6F).sound(SoundType.LANTERN).lightLevel(light(15))
                     .emissiveRendering(BlueOceansBlocks::isLit)));
     public static final RegistryObject<FlagBlock> FLAG_BLOCK = BLOCKS.register("flag",
@@ -75,7 +93,11 @@ public class BlueOceansBlocks {
             RedPlumTrap::new);
     public static final RegistryObject<Block> RED_PLUM_VEIN = BLOCKS.register("red_plum_vein",
             () -> new RedPlumVein(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).forceSolidOn()
-                    .noCollission().strength(0.2F).sound(SoundType.SCULK_VEIN)
+                    .noCollission().strength(0.3F).sound(SoundType.SCULK_VEIN)
+                    .pushReaction(PushReaction.DESTROY).randomTicks()));
+    public static final RegistryObject<Block> BUDDING_NEO_PLUM = BLOCKS.register("budding_neo_plum",
+            () -> new BuddingNeoPlum(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).forceSolidOn()
+                    .noCollission().strength(0.1F).sound(SoundType.SCULK_VEIN)
                     .pushReaction(PushReaction.DESTROY).randomTicks()));
     public static final RegistryObject<Block> RICE = BLOCKS.register("rice",
             () -> new RiceBlock(Block.Properties.of().noCollission().randomTicks().instabreak().sound(SoundType.CROP)

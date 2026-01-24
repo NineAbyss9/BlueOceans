@@ -10,9 +10,10 @@ public class AbyssMath {
     @org.nine_abyss.annotation.NotCheck
     public static final int TRUTH = 9;
     /**Holds the Pi value.*/
-    public static final Float PI = 3.1415926535897932384626F;
+    public static final float PI = 3.1415926535897932384626F;
     /**@see Math#E*/
-    public static final Float E = (float)Math.E;
+    public static final float E = 2.7182818284590452354F;
+    /**Holds a {@linkplain Random}*/
     public static final Random random = new Random();
 
     //Base
@@ -186,46 +187,15 @@ public class AbyssMath {
         return Math.min(Math.max(value, min), max);
     }
 
-    public static Lerp lerp() {
-        return new Lerp();
+    public static MathSupport.Lerp lerp() {
+        return new MathSupport.Lerp();
     }
 
     public static float lerp(float delta, float start, float end) {
-        return new Lerp(delta, start, end).floatValue();
+        return new MathSupport.Lerp(delta, start, end).floatValue();
     }
 
     public static double lerp(double delta, double start, double end) {
-        return new Lerp(delta, start, end).doubleValue();
-    }
-
-    public static class Lerp {
-        private Float value;
-        private Double doubleValue;
-        public Lerp() {
-        }
-
-        public Lerp(float delta, float start, float end) {
-            run(delta, start, end);
-        }
-
-        public Lerp(double delta, double start, double end) {
-            run(delta, start, end);
-        }
-
-        public void run(float delta, float start, float end) {
-            value = start + delta * (end - start);
-        }
-
-        public void run(double delta, double start, double end) {
-            doubleValue = start + delta * (end - start);
-        }
-
-        public Float floatValue() {
-            return value;
-        }
-
-        public Double doubleValue() {
-            return doubleValue;
-        }
+        return new MathSupport.Lerp(delta, start, end).doubleValue();
     }
 }

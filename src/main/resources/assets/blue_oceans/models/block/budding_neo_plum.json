@@ -1,0 +1,8 @@
+{
+  "render_type": "translucent",
+  "parent": "minecraft:block/sculk_vein",
+  "textures": {
+    "particle": "blue_oceans:block/budding_neo_plum",
+    "sculk_vein": "blue_oceans:block/budding_neo_plum"
+  }
+}

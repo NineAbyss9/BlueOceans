@@ -6,7 +6,6 @@ import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
 import com.bilibili.player_ix.blue_oceans.init.BoTags;
 import net.minecraft.core.BlockPos;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
@@ -36,7 +35,6 @@ extends ThrowableItemProjectile {
     protected void onHit(HitResult pResult) {
         super.onHit(pResult);
         if (!this.level().isClientSide) {
-            this.playSound(SoundEvents.SPLASH_POTION_BREAK);
             this.hurtPlums();
             this.removePlumBlocks(pResult.getLocation());
             this.level().levelEvent(2002, this.blockPosition(), PotionUtils.getColor(Potions.LUCK));

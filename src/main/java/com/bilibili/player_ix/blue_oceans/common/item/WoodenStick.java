@@ -9,7 +9,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -19,7 +18,7 @@ import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import org.nine_abyss.util.Option;
+import org.nine_abyss.util.ValueHolder;
 
 public class WoodenStick
 extends PickaxeItem {
@@ -28,9 +27,8 @@ extends PickaxeItem {
     }
 
     public boolean hurtEnemy(ItemStack pStack, LivingEntity pTarget, LivingEntity pAttacker) {
-        Option<MobEffect> option = Option.ofNullable(NoIXApiCompat.getApiEffect("stun"));
-        pTarget.addEffect(new MobEffectInstance(option.orElse(BlueOceansMobEffects.STUN.get()),
-                Maths.toTick(2), 0));
+        pTarget.addEffect(new MobEffectInstance(ValueHolder.nullToOther(NoIXApiCompat.getApiEffect("stun"),
+                BlueOceansMobEffects.STUN.get()), Maths.toTick(2), 0));
         return super.hurtEnemy(pStack, pTarget, pAttacker);
     }
 

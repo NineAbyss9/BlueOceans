@@ -24,4 +24,8 @@ public interface IAcceptTask {
     default void resetTask() {
         this.setTask(Task.EMPTY);
     }
+
+    default boolean isIdle() {
+        return this.getTask().equals(Task.EMPTY);
+    }
 }

@@ -17,6 +17,10 @@ public class BoTags {
             = entityTypeTag("red_plum_mobs");
 
     //Blocks
+    //public static TagKey<Block> BARREN_FARMLANDS
+    //        = blockTagKey("barren_farmlands");
+    public static TagKey<Block> BUSHES_MAY_PLACE_ON
+            = blockTagKey("bushes_may_place_on");
     public static TagKey<Block> FUELS
             = blockTagKey("fuels");
     public static TagKey<Block> RED_PLUM_BLOCKS

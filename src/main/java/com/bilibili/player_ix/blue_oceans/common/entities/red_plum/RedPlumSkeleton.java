@@ -53,7 +53,6 @@ implements ApiRangedAttackMob {
             return ApiPose.NATURAL;
     }
 
-
     protected SoundEvent getAmbientSound() {
         return SoundEvents.SKELETON_AMBIENT;
     }

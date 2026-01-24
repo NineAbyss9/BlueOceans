@@ -7,6 +7,7 @@ import com.bilibili.player_ix.blue_oceans.common.entities.ai.behavior.BehaviorSe
 import com.bilibili.player_ix.blue_oceans.common.entities.ai.behavior.MoveToBlockBehavior;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.red_plum_girl.AbstractGirl;
 import com.bilibili.player_ix.blue_oceans.api.mob.RedPlumMob;
+import com.bilibili.player_ix.blue_oceans.config.BoCommonConfig;
 import com.bilibili.player_ix.blue_oceans.init.*;
 import com.bilibili.player_ix.blue_oceans.util.MobUtil;
 import com.bilibili.player_ix.blue_oceans.util.RedPlumUtil;
@@ -282,7 +283,7 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
     protected void doAttackTarget(Entity pEntity) {
         if (pEntity instanceof LivingEntity entity) {
             entity.addEffect(EffectInstance.create(BlueOceansMobEffects.PLUM_INVADE,
-                    300, RedPlumUtil.plumInvadeLevel));
+                    300, BoCommonConfig.PLUM_INVADE_LEVEL.get()));
         }
     }
 

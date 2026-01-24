@@ -1,9 +1,11 @@
 
 package com.bilibili.player_ix.blue_oceans.common.event;
 
-public class WorldEventWrapper {
+public class WorldEventWrapper
+extends WorldEvent {
     private final WorldEvent event;
     public WorldEventWrapper(WorldEvent pEvent) {
+        super(pEvent.type, pEvent.happenChance, pEvent.name);
         this.event = pEvent;
     }
 

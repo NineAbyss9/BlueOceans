@@ -1,7 +1,9 @@
 
 package com.bilibili.player_ix.blue_oceans.common.entities.projectile;
 
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.github.player_ix.ix_api.api.mobs.ApiEntityDataSerializers;
+import com.github.player_ix.ix_api.util.Vec9;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -18,6 +20,11 @@ extends Entity {
     private static final EntityDataAccessor<Vec3> DATA_RANGE;
     public Chlorine(EntityType<? extends Chlorine> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+    }
+
+    public Chlorine(Level pLevel, Vec3 pRange) {
+        this(BlueOceansEntities.CHLORINE.get(), pLevel);
+        this.setRange(pRange);
     }
 
     protected void defineSynchedData() {
@@ -42,9 +49,12 @@ extends Entity {
     }
 
     protected void readAdditionalSaveData(CompoundTag pCompound) {
+        pCompound.put("Range", Vec9.createVec3Tag(this.getRange(), "Range"));
     }
 
     protected void addAdditionalSaveData(CompoundTag pCompound) {
+        if (pCompound.contains("Range"))
+            this.setRange(Vec9.readVec3Tag((CompoundTag)pCompound.get("Range"), "Range"));
     }
 
     static {

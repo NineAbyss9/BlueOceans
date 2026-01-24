@@ -12,6 +12,7 @@ import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlockEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansParticleTypes;
+import com.github.player_ix.ix_api.api.renderer.BaseEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -72,6 +73,7 @@ public class ClientInitEvents {
         event.registerEntityRenderer(BlueOceansEntities.BEAR.get(), BearRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.BIKE.get(), BikeRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.BULLET.get(), BulletRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.CHLORINE.get(), BaseEntityRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.DEATH.get(), DeathRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.DICTATOR.get(), DictatorRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.DUMPLING_MONSTER.get(), DumplingMonsterRenderer::new);

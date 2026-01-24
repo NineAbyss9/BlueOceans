@@ -2,7 +2,7 @@
 package com.bilibili.player_ix.blue_oceans;
 
 //import com.bilibili.player_ix.blue_oceans.api.crafting.BoRecipes;
-import com.bilibili.player_ix.blue_oceans.config.BlueOceansConfig;
+import com.bilibili.player_ix.blue_oceans.config.BoCommonConfig;
 import com.bilibili.player_ix.blue_oceans.init.*;
 import com.bilibili.player_ix.blue_oceans.network.BoNetwork;
 import com.github.player_ix.ix_api.api.ModOfNineAbyss;
@@ -17,16 +17,16 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.nine_abyss.NineAbyssBase;
+import net.minecraftforge.fml.loading.FMLPaths;
 import org.slf4j.Logger;
 
 import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**The main class of BlueOceans Mod.*/
-@ParametersAreNonnullByDefault
 @Mod("blue_oceans")
 public class BlueOceans implements ModOfNineAbyss {
     /**The id of the mod.*/
@@ -34,10 +34,9 @@ public class BlueOceans implements ModOfNineAbyss {
     public static final Logger LOGGER = LogUtils.getLogger();
     /**The agent of the mod.*/
     public static BoAgent agent;
-    public static Set<Comparable<?>> configs = new LinkedHashSet<>();
 
-    /*Constructor
-    @SuppressWarnings("removal")*/
+    /*Constructor*/
+    @SuppressWarnings("removal")
     public BlueOceans(FMLJavaModLoadingContext context) {
         agent = DistExecutor.unsafeRunForDist(() -> ClientAgent::new, () -> ServerAgent::new);
         IEventBus bus = context.getModEventBus();
@@ -45,7 +44,6 @@ public class BlueOceans implements ModOfNineAbyss {
         bus.addListener(BlueOceansEntities::registerAttributes);
         bus.addListener(BlueOceansEntities::registerSpawns);
         BoTags.register();
-        context.registerConfig(ModConfig.Type.COMMON, BlueOceansConfig.COMMON_SPEC);
         //BoRecipes.RECIPES.register(bus);
         BlueOceansEntities.REGISTRY.register(bus);
         BlueOceansBlockEntities.BLOCK_ENTITIES.register(bus);
@@ -55,16 +53,16 @@ public class BlueOceans implements ModOfNineAbyss {
         BlueOceansItems.ITEMS.register(bus);
         BlueOceansSounds.SOUNDS.register(bus);
         BlueOceansTabs.TABS.register(bus);
+        createFiles(FMLPaths.CONFIGDIR.get().resolve(MOD_ID), MOD_ID);
+        context.registerConfig(ModConfig.Type.COMMON, BoCommonConfig.SPEC,
+                "blue_oceans/blue_oceans-common_config.toml");
+        BoCommonConfig.load(BoCommonConfig.SPEC, FMLPaths.CONFIGDIR.get()
+                .resolve("blue_oceans/blue_oceans-common_config.toml").toString());
         MinecraftForge.EVENT_BUS.register(this);
-        BlueOceansHooks.onHandleConfigValue();
-    }
-
-    public String getVersion() {
-        return "1.0.9a";
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
-        NineAbyssBase.setup();
+        //NineAbyssBase.setup();
         BoNetwork.register();
     }
 
@@ -112,5 +110,28 @@ public class BlueOceans implements ModOfNineAbyss {
     public static ResourceLocation entityWithCheck(String path) {
         return location("textures/entities/" + path.replace(".png", "")
                 .replace("blue_oceans:", "") + ".png");
+    }
+
+    /**Code from
+     *<a href="https://github.com/Polarice3/Goety-2/blob/1.20/src/main/java/com/Polarice3/Goety/Goety.java">...</a>*/
+    private static void createFiles(@Nonnull Path dirPath, String dirLabel) {
+        if (!Files.isDirectory(dirPath.getParent())) {
+            createFiles(dirPath.getParent(), "parent of " + dirLabel);
+        }
+        if (!Files.isDirectory(dirPath)) {
+            LOGGER.debug("Try create file {}......", dirPath);
+            try {
+                Files.createDirectory(dirPath);
+            } catch (IOException e) {
+                if (e instanceof FileAlreadyExistsException) {
+                    LOGGER.error("Try to create file {}, but the file already exists.", dirPath);
+                } else {
+                    LOGGER.error("Try to create file {}, but failed.", dirPath);
+                }
+                net.minecraft.Util.throwAsRuntime(e);
+            }
+        } else {
+            LOGGER.debug("Found {} successful.Label: {}", dirPath, dirLabel);
+        }
     }
 }
