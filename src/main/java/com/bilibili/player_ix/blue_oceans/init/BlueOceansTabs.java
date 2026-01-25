@@ -116,6 +116,8 @@ public class BlueOceansTabs {
                     "item_group.blue_oceans.blue_oceans_farming"
             ).withStyle(
                     ChatFormatting.GOLD)).displayItems((parameter, output) -> {
+                output.accept(BlueOceansItems.BARREN_SOIL.get());
+                output.accept(BlueOceansItems.BARREN_SOIL_FARMLAND.get());
                 output.accept(BlueOceansItems.BLACK_SOIL.get());
                 output.accept(BlueOceansItems.BLACK_SOIL_FARMLAND.get());
                 output.accept(BlueOceansItems.IRON_SCYTHE.get());

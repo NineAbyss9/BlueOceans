@@ -35,7 +35,7 @@ implements Radioactive {
             List<LivingEntity> entities = pLevel.getEntitiesOfClass(LivingEntity.class,
                     new AABB(pPos).inflate(4));
             if (!entities.isEmpty()) {
-                entities.forEach(entity -> entity.heal(9));
+                entities.forEach(entity -> entity.addEffect(null));
             }
         }
     }

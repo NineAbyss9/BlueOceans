@@ -3,6 +3,8 @@
   "values": [
     "minecraft:dirt",
     "minecraft:farmland",
+    "blue_oceans:barren_soil",
+    "blue_oceans:barren_soil_farmland",
     "blue_oceans:black_soil",
     "blue_oceans:black_soil_farmland"
   ]

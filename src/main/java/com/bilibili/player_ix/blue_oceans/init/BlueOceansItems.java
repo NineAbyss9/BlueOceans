@@ -197,6 +197,8 @@ public class BlueOceansItems {
     //MEnd
 
     //Block
+    public static final RegistryObject<Item> BARREN_SOIL = block(BlueOceansBlocks.BARREN_SOIL);
+    public static final RegistryObject<Item> BARREN_SOIL_FARMLAND = block(BlueOceansBlocks.BARREN_SOIL_FARMLAND);
     public static final RegistryObject<Item> BLACK_SOIL = block(BlueOceansBlocks.BLACK_SOIL);
     public static final RegistryObject<Item> BLACK_SOIL_FARMLAND = block(BlueOceansBlocks
             .BLACK_SOIL_FARMLAND);

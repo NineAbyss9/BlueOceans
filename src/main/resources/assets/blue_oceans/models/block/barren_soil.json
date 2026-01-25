@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "blue_oceans:block/farming/black_soil"
+    "all": "blue_oceans:block/farming/barren_soil"
   }
 }

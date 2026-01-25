@@ -42,6 +42,10 @@ public class FunctionCollector {
         return () -> value;
     }
 
+    public static Runnable emptyAction() {
+        return () -> {};
+    }
+
     private enum BooleanSupplierInstance implements BooleanSupplier {
         TRUE(true),
         FALSE(false);

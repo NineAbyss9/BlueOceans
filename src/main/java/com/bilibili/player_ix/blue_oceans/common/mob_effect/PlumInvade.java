@@ -15,6 +15,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.level.block.MultifaceBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import org.nine_abyss.math.MathSupport;
 
 public class PlumInvade extends MobEffect {
     public PlumInvade() {
@@ -25,7 +26,7 @@ public class PlumInvade extends MobEffect {
         if (!(pLivingEntity instanceof RedPlumMob)) {
             if (pLivingEntity.isAlive()) {
                 if (pLivingEntity.hurt(pLivingEntity.damageSources().magic(), 1 + pAmplifier)) {
-                    if (!pLivingEntity.level().isClientSide) {
+                    if (!pLivingEntity.level().isClientSide && MathSupport.random.nextInt(5) == 0) {
                         ServerLevel level = (ServerLevel)pLivingEntity.level();
                         BlockPos pos = pLivingEntity.blockPosition();
                         BlockState state = level.getBlockState(pos);

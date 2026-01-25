@@ -4,13 +4,13 @@ package com.bilibili.player_ix.blue_oceans.common.chemistry;
 import com.google.common.collect.Maps;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Element {
-    private static final Map<Integer, Element> ATOMIC_NUMBER_MAP;
-    private static final Map<Float, Element> RELATIVE_ATOMIC_MASS_MAP;
-    private static final Map<String, Element> ELEMENT_SYMBOL_MAP;
+    private static final Map<Integer, List<Object>> ELEMENT_MAP;
     private static int staticId = 0;
     public static final Element H;
     public static final Element He;
@@ -144,22 +144,26 @@ public class Element {
     }
 
     public static Element fromAtomicNumber(int pAtomicNumber) {
-        if (ATOMIC_NUMBER_MAP.containsKey(pAtomicNumber))
-            return ATOMIC_NUMBER_MAP.get(pAtomicNumber);
+        if (ELEMENT_MAP.containsKey(pAtomicNumber))
+            return (Element)ELEMENT_MAP.get(pAtomicNumber).get(0);
         else
             throw new NoSuchElementException(pAtomicNumber);
     }
 
     public static Element fromRelativeAtomicMass(float pRelativeAtomicMass) {
-        if (RELATIVE_ATOMIC_MASS_MAP.containsKey(pRelativeAtomicMass))
-            return RELATIVE_ATOMIC_MASS_MAP.get(pRelativeAtomicMass);
+        Optional<List<Object>> optional = ELEMENT_MAP.values().stream().filter(list->
+                Float.compare((float)(list.get(1)), pRelativeAtomicMass) == 0).findFirst();
+        if (optional.isPresent())
+            return (Element)optional.get().get(0);
         else
             throw new NoSuchElementException(pRelativeAtomicMass);
     }
 
     public static Element fromElementSymbol(String pElementSymbol) {
-        if (ELEMENT_SYMBOL_MAP.containsKey(pElementSymbol))
-            return ELEMENT_SYMBOL_MAP.get(pElementSymbol);
+        Optional<List<Object>> optional = ELEMENT_MAP.values().stream().filter(list->
+                Objects.equals(list.get(2), pElementSymbol)).findFirst();
+        if (optional.isPresent())
+            return (Element)optional.get().get(0);
         else
             throw new NoSuchElementException();
     }
@@ -169,9 +173,7 @@ public class Element {
         float vF = (float)pRelativeAtomicMass;
         staticId++;
         Element element = new Element(staticId, vF, pElementSymbol);
-        ATOMIC_NUMBER_MAP.put(staticId, element);
-        RELATIVE_ATOMIC_MASS_MAP.put(vF, element);
-        ELEMENT_SYMBOL_MAP.put(pElementSymbol, element);
+        ELEMENT_MAP.put(staticId, List.of(element, vF, pElementSymbol));
         return element;
     }
 
@@ -202,9 +204,7 @@ public class Element {
     }
 
     static {
-        ATOMIC_NUMBER_MAP = Maps.newHashMap();
-        RELATIVE_ATOMIC_MASS_MAP = Maps.newHashMap();
-        ELEMENT_SYMBOL_MAP = Maps.newHashMap();
+        ELEMENT_MAP = Maps.newTreeMap();
         H = register(1.008, "H");
         He = register(4.0026, "He");
         Li = register(6.94, "Li");

@@ -9,4 +9,5 @@ public class ElementSymbols {
     public static final String WATER = "H₂O";
     public static final String H2O2 = "H₂O₂";
     public static final String CH4 = "CH₄";
+    public static final String H2 = "H₂";
 }

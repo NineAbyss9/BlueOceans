@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_farmland",
+  "textures": {
+    "dirt": "blue_oceans:block/farming/barren_soil",
+    "top": "blue_oceans:block/farming/barren_soil_farmland_moist"
+  }
+}

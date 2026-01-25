@@ -32,6 +32,8 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import org.nine_abyss.util.Action;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -239,6 +241,15 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
             this.setInfectLevel(tag.getInt("InfectLevel"));
         }
         super.readAdditionalSaveData(tag);
+    }
+
+    public void die(DamageSource pDamageSource) {
+        if (!this.level().isClientSide) {
+            BlockState state = this.level().getBlockState(blockPosition());
+            Action.emptyTrue(() -> this.level().setBlockAndUpdate(blockPosition(), BlueOceansBlocks.BUDDING_NEO_PLUM.get()
+                    .defaultBlockState())).run(state.is(BoTags.RED_PLUM_BLOCKS));
+        }
+        super.die(pDamageSource);
     }
 
     public void doKillEntity(LivingEntity pEntity) {

@@ -1,6 +1,8 @@
 {
   "block.blue_oceans.agaric": "Agaric",
   "block.blue_oceans.alcohol_lamp": "Alcohol Lamp",
+  "block.blue_oceans.barren_soil": "Barren Soil",
+  "block.blue_oceans.barren_soil_farmland": "Barren Soil Farmland",
   "block.blue_oceans.black_soil": "Black Soil",
   "block.blue_oceans.black_soil_farmland": "Black Soil Farmland",
   "block.blue_oceans.budding_neo_plum": "Budding Neo Plum",
@@ -68,6 +70,7 @@
   "item.blue_oceans.death_spawn_egg": "Death Spawn Egg",
   "item.blue_oceans.dictator_spawn_egg": "Dictator Spawn Egg",
   "item.blue_oceans.echo_potion": "Echo Potion",
+  "item.blue_oceans.entity_killer": "Entity Killer",
   "item.blue_oceans.farmer_spawn_egg": "Farmer Spawn Egg",
   "item.blue_oceans.flint_axe": "Flint Axe",
   "item.blue_oceans.flint_pickaxe": "Flint Pickaxe",
