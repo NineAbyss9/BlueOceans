@@ -3,12 +3,12 @@ package com.bilibili.player_ix.blue_oceans.common.entities.traffic;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
 
 public class Car
 extends AbstractTrafficUtil {
@@ -16,13 +16,17 @@ extends AbstractTrafficUtil {
         super(type, level);
     }
 
-    @Nullable
     public SoundEvent getStepSound() {
-        return super.getStepSound();
+        return SoundEvents.AMETHYST_BLOCK_STEP;
     }
 
     protected void playStepSound(BlockPos pPos, BlockState pState) {
-        super.playStepSound(pPos, pState);
+        if (this.tickCount % 5 == 0)
+            this.playSound(this.getStepSound(), this.getSoundVolume() * 0.5F, this.getVoicePitch());
+    }
+
+    protected void dropItems() {
+        super.dropItems();
     }
 
     public static AttributeSupplier createAttributes() {

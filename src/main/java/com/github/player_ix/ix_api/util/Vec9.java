@@ -51,7 +51,7 @@ public final class Vec9 extends Vec3 {
     }
 
     public static Vec9 of(BlockPos pos) {
-        return new Vec9(pos.getX(), pos.getY(), pos.getZ());
+        return new Vec9(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
     }
 
     public static Vec9 of(MutableVec3 vec3) {

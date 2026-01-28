@@ -7,6 +7,14 @@ public interface IAcceptTask {
     /**Gets the current task.*/
     Task getTask();
 
+    default boolean hasTask(Task pTask) {
+        return this.getTask() == pTask;
+    }
+
+    default boolean hasTask(int pTask) {
+        return this.getTaskId() == pTask;
+    }
+
     /**@see Task#getId()*/
     default int getTaskId() {
         return this.getTask().id;

@@ -27,6 +27,7 @@ public class Profession {
     public static final Profession FISHMAN;
     public static final Profession SOLIDER;
     public static final Profession BIOLOGIST;
+    public static final Profession MINER;
     @Nullable
     private final VillagerProfession villagerProfession;
     public final String name;
@@ -69,5 +70,7 @@ public class Profession {
         BIOLOGIST = new Profession(null, "Biologist", site->site
                 .is(PoiTypeTags.VILLAGE), aqSite -> aqSite.is(PoiTypes.MEETING),
                 Set.of(BlueOceansItems.ECHO_POTION.get(), Items.POTION), Set.of(), SoundEvents.BREWING_STAND_BREW);
+        MINER = new Profession(null, "Miner", aq->true, aqq->true,
+                Set.of(), Set.of(), SoundEvents.STONE_BREAK);
     }
 }

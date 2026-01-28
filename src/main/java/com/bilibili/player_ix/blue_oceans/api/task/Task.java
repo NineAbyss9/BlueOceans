@@ -14,7 +14,10 @@ public enum Task {
     FOLLOW(6),
     WORK(7),
     DEFECATION(8),
-    WEAVE_WEB(9);
+    WEAVE_WEB(9),
+    DIG(10),
+    HIDE(11),
+    WAKE(12);
     public final int id;
     public final ItemHolder item;
     Task(int pId, ItemHolder pHolder) {

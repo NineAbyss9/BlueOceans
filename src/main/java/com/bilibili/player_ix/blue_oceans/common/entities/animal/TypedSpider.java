@@ -66,12 +66,12 @@ implements VariantHolder<TypedSpider.SpiderType>, IAnimatedMob, IFlagMob, TypedM
         this.entityData.set(DATA_FLAGS, flag);
     }
 
-    public int getAttackTick() {
+    public int getAnimTick() {
         return this.entityData.get(DATA_ATTACK_TICK);
     }
 
-    public void setAttackTick(int attackTick) {
-        this.entityData.set(DATA_ATTACK_TICK, attackTick);
+    public void setAnimTick(int animTick) {
+        this.entityData.set(DATA_ATTACK_TICK, animTick);
     }
 
     public List<AnimationState> getAllAnimations() {

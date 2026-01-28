@@ -31,11 +31,11 @@ extends AbstractHurtingProjectile {
         this.entityData.define(DATA_LIFE, 600);
     }
 
-    public Integer getLife() {
+    public int getLife() {
         return this.entityData.get(DATA_LIFE);
     }
 
-    public void setLife(Integer pLife) {
+    public void setLife(int pLife) {
         this.entityData.set(DATA_LIFE, pLife);
     }
 

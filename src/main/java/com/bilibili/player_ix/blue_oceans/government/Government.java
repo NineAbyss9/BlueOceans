@@ -5,6 +5,8 @@ import com.bilibili.player_ix.blue_oceans.government.effect.Effect;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.entity.LivingEntity;
+import org.nine_abyss.util.lister.Lister;
+import org.nine_abyss.util.lister.SubLister;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -14,7 +16,7 @@ import java.util.Set;
 public class Government {
     private Country country;
     private Party mainParty;
-    private final List<Party> allParties;
+    private final Lister<Party> allParties;
     private final Set<Effect> effects;
     private final List<LivingEntity> followers;
     private final StabilityHandler stability;
@@ -25,8 +27,7 @@ public class Government {
     public Government(Country pCountry, Ideology pIdeology, LivingEntity pLeader, String pName) {
         this.country = pCountry;
         this.mainParty = new Party(pIdeology, pLeader);
-        this.allParties = new ArrayList<>();
-        this.allParties.add(this.mainParty);
+        this.allParties = SubLister.of(this.mainParty);
         this.effects = new HashSet<>();
         this.followers = new ArrayList<>();
         this.followers.add(pLeader);

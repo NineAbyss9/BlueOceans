@@ -1,0 +1,148 @@
+
+package com.bilibili.player_ix.blue_oceans.common.entities.animal.farm;
+
+import com.bilibili.player_ix.blue_oceans.api.mob.IAnimatedMob;
+import com.bilibili.player_ix.blue_oceans.api.task.Task;
+import com.bilibili.player_ix.blue_oceans.common.entities.animal.BoAnimal;
+import com.github.player_ix.ix_api.api.mobs.IFlagMob;
+import com.github.player_ix.ix_api.util.ParticleUtil;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.AnimationState;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import org.nine_abyss.math.MathSupport;
+
+import java.util.EnumSet;
+import java.util.List;
+
+public class Earthworm
+extends BoAnimal
+implements IFlagMob, IAnimatedMob {
+    private static final EntityDataAccessor<Integer> DATA_ANIM_TICK;
+    private static final EntityDataAccessor<Integer> DATA_FLAGS;
+    public AnimationState idle = new AnimationState();
+    public AnimationState dig = new AnimationState();
+    public AnimationState wake = new AnimationState();
+    public Earthworm(EntityType<? extends Earthworm> pEntityType, Level pLevel) {
+        super(pEntityType, pLevel);
+    }
+
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(DATA_FLAGS, 0);
+    }
+
+    public void tick() {
+        super.tick();
+    }
+
+    protected void clientAiStep() {
+        if (this.isIdle()) {
+            this.idle.startIfStopped(tickCount);
+        } else if (this.isDigging()) {
+            ParticleUtil.addBlockParticle(level(), blockPosition().below(), getX(), getY(), getZ());
+        }
+    }
+
+    protected void customServerAiStep() {
+        super.customServerAiStep();
+        if (this.isHiding() && this.level().random.nextInt(13) == 0) {
+            BlockState state = this.level().getBlockState(blockPosition());
+            Block block = state.getBlock();
+            if (block instanceof CropBlock crop && !crop.isMaxAge(state)) {
+                crop.performBonemeal((ServerLevel)level(), level().random, blockPosition(), state);
+            }
+        }
+    }
+
+    public void onSyncedDataUpdated(EntityDataAccessor<?> pKey) {
+        if (DATA_FLAGS.equals(pKey)) {
+            int i = this.getFlag();
+            if (i == 1) {
+                this.stopAllAnimations();
+                this.dig.startIfStopped(tickCount);
+            } else if (i == 3) {
+                this.stopAllAnimations();
+                this.wake.startIfStopped(tickCount);
+            }
+        }
+        super.onSyncedDataUpdated(pKey);
+    }
+
+    protected void registerGoals() {
+        this.goalSelector.addGoal(2, new EarthwormDoTasksGoal());
+        this.goalSelector.addGoal(2, new RandomStrollGoal(this, 0.8));
+    }
+
+    public int getFlag() {
+        return this.entityData.get(DATA_FLAGS);
+    }
+
+    public void setFlag(int flag) {
+        this.entityData.set(DATA_FLAGS, flag);
+    }
+
+    public int getAnimTick() {
+        return this.entityData.get(DATA_ANIM_TICK);
+    }
+
+    public void setAnimTick(int animTick) {
+        this.entityData.set(DATA_ANIM_TICK, animTick);
+    }
+
+    public boolean isDigging() {
+        return this.getFlag() == 1;
+    }
+
+    public boolean isHiding() {
+        return this.getFlag() == 2;
+    }
+
+    public void resetState() {
+        this.resetTask();
+        IFlagMob.super.resetState();
+    }
+
+    public List<AnimationState> getAllAnimations() {
+        return List.of(idle, dig, wake);
+    }
+
+    static {
+        DATA_ANIM_TICK = SynchedEntityData.defineId(Earthworm.class, EntityDataSerializers.INT);
+        DATA_FLAGS = SynchedEntityData.defineId(Earthworm.class, EntityDataSerializers.INT);
+    }
+
+    protected class EarthwormDoTasksGoal extends Goal {
+        public EarthwormDoTasksGoal() {
+            this.setFlags(EnumSet.of(Flag.MOVE));
+        }
+
+        public boolean canUse() {
+            return true;
+        }
+
+        public void tick() {
+            if (Earthworm.this.isIdle() && MathSupport.random.nextFloat() < 0.05F) {
+                Earthworm.this.setTask(Task.DIG);
+                Earthworm.this.setFlag(1);
+            } else if (Earthworm.this.hasTask(Task.DIG) && Earthworm.this.animTick(40)) {
+                Earthworm.this.setTask(Task.HIDE);
+                Earthworm.this.setFlag(2);
+            } else if (Earthworm.this.hasTask(Task.HIDE) && Earthworm.this.tickCount % 20 == 0 &&
+                    MathSupport.random.nextInt(8) == 0) {
+                Earthworm.this.setTask(Task.WAKE);
+                Earthworm.this.setFlag(3);
+            } else if (Earthworm.this.hasTask(Task.WAKE) && Earthworm.this.animTick(20)) {
+                Earthworm.this.resetState();
+            }
+        }
+    }
+}

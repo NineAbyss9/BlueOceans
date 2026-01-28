@@ -6,11 +6,11 @@ public interface IFlagMob {
 
     void setFlag(int flag);
 
-    default int getAttackTick() {
+    default int getAnimTick() {
         return 0;
     }
 
-    default void setAttackTick(int attackTick) {
+    default void setAnimTick(int animTick) {
     }
 
     default boolean isFlag(int flag) {
@@ -22,23 +22,23 @@ public interface IFlagMob {
     }
 
     default void resetState() {
-        this.resetAttackTick();
+        this.resetAnimTick();
         this.resetFlag();
     }
 
-    default void plusAttackTick() {
-        this.setAttackTick(this.getAttackTick() + 1);
+    default void increaseAnimTick() {
+        this.setAnimTick(this.getAnimTick() + 1);
     }
 
-    default boolean attackTickEquals(int pAttackTick) {
-        return this.getAttackTick() == pAttackTick;
+    default boolean animTickEquals(int pAttackTick) {
+        return this.getAnimTick() == pAttackTick;
     }
 
-    default boolean attackTick(int pAttackTick) {
-        return this.getAttackTick() >= pAttackTick;
+    default boolean animTick(int pAttackTick) {
+        return this.getAnimTick() >= pAttackTick;
     }
 
-    default void resetAttackTick() {
-        this.setAttackTick(0);
+    default void resetAnimTick() {
+        this.setAnimTick(0);
     }
 }

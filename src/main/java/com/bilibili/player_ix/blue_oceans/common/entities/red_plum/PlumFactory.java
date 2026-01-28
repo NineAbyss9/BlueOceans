@@ -59,11 +59,11 @@ implements IPlumSpreader {
             }
             this.spreadCooldown = Maths.toTick(15);
         }
-        if (!this.level().isClientSide &&
+        if (this.isServerSide() &&
                 this.getRandomUtil().nextFloat(1F) < this.getSpawnChance() &&
-                this.tickCount % 20 == 0
-                && this.level().getEntitiesOfClass(RedPlumMonster.class, this.getBoundingBox().inflate(6),
-                e -> e != this).size() < 15) {
+                this.tickCount % 20 == 0 &&
+                this.level().getEntitiesOfClass(RedPlumMonster.class, this.getBoundingBox().inflate(6),
+                        e -> e != this).size() < 15) {
             summonPlum(this.level(), this.position().add(Maths.randomInt(3), 0, Maths.randomInt(3)));
         }
     }
@@ -106,19 +106,19 @@ implements IPlumSpreader {
     private float getSpawnChance() {
         switch (this.getLevel()) {
             case 3 -> {
-                return 0.1F;
+                return 0.03F;
             }
             case 4 -> {
-                return 0.2F;
+                return 0.07F;
             }
             case 5 -> {
-                return 0.3F;
+                return 0.1F;
             }
             case 6 -> {
-                return 0.5F;
+                return 0.2F;
             }
             default -> {
-                return 0.55F;
+                return 0.3F;
             }
         }
     }

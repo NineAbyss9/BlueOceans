@@ -21,9 +21,19 @@ extends Animal
 implements FoodDataUser, IAcceptTask {
     protected static final EntityDataAccessor<Integer> DATA_TASK;
     protected final MobFoodData foodData;
-    protected BoAnimal(EntityType<? extends Animal> pEntityType, Level pLevel) {
+    protected BoAnimal(EntityType<? extends BoAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.foodData = this.createFoodData();
+    }
+
+    public void aiStep() {
+        super.aiStep();
+        if (this.level().isClientSide) {
+            this.clientAiStep();
+        }
+    }
+
+    protected void clientAiStep() {
     }
 
     protected void defineSynchedData() {

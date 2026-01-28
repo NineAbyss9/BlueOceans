@@ -58,8 +58,6 @@ implements IFlagMob, ApiBoss, IAnimatedMob {
 
     public void readAdditionalSaveData(CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
-        if (pCompound.getBoolean("isWu1Wu2"))
-            this.setWu1Wu2(true);
     }
 
     public void addAdditionalSaveData(CompoundTag pCompound) {
@@ -80,22 +78,21 @@ implements IFlagMob, ApiBoss, IAnimatedMob {
         this.entityData.set(DATA_FLAGS, flag);
     }
 
-    public int getAttackTick() {
+    public int getAnimTick() {
         return this.entityData.get(DATA_ATTACK_TICK);
     }
 
-    public void setAttackTick(int attackTick) {
-        this.entityData.set(DATA_ATTACK_TICK, attackTick);
+    public void setAnimTick(int animTick) {
+        this.entityData.set(DATA_ATTACK_TICK, animTick);
     }
 
     private void selectFlag() {
     }
 
     private void flag1() {
-        plusAttackTick();
-        if (this.getAttackTick() > 40) {
-            resetFlag();
-            resetAttackTick();
+        increaseAnimTick();
+        if (this.getAnimTick() > 40) {
+            resetState();
         }
     }
 

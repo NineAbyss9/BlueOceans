@@ -151,8 +151,8 @@ implements IFlagMob, IAnimatedMob {
     }
 
     private void flag1() {
-        plusAttackTick();
-        if (this.attackTickEquals(15)) {
+        increaseAnimTick();
+        if (this.animTickEquals(15)) {
             AABB aabb = MobUtil.getRange(this, 2, 2, 2, 2, 2, 2, 2);
             List<LivingEntity> entities = this.level().getEntitiesOfClass(LivingEntity.class, aabb, this::canAttack);
             if (!entities.isEmpty()) {
@@ -162,16 +162,16 @@ implements IFlagMob, IAnimatedMob {
             }
             this.playSound(SoundEvents.PLAYER_ATTACK_SWEEP);
         }
-        if (this.attackTick(25)) {
+        if (this.animTick(25)) {
             this.resetFlag();
-            this.resetAttackTick();
+            this.resetAnimTick();
         }
     }
 
     private void flag2() {
-        plusAttackTick();
-        if (this.attackTickEquals(10) || this.attackTickEquals(15)
-                || this.attackTickEquals(20)) {
+        increaseAnimTick();
+        if (this.animTickEquals(10) || this.animTickEquals(15)
+                || this.animTickEquals(20)) {
             this.playSound(SoundEvents.PLAYER_ATTACK_SWEEP);
             List<LivingEntity> entities = this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox()
                     .inflate(3), this::canAttack);
@@ -180,15 +180,15 @@ implements IFlagMob, IAnimatedMob {
                     this.doHurtTarget(living);
             }
         }
-        if (this.attackTick(30)) {
+        if (this.animTick(30)) {
             this.resetFlag();
-            this.resetAttackTick();
+            this.resetAnimTick();
         }
     }
 
     private void flag3() {
-        plusAttackTick();
-        if (this.attackTickEquals(25)) {
+        increaseAnimTick();
+        if (this.animTickEquals(25)) {
             List<LivingEntity> entities = this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox()
                     .inflate(4), this::canAttack);
             if (!entities.isEmpty()) {
@@ -207,9 +207,9 @@ implements IFlagMob, IAnimatedMob {
                 }
             }
         }
-        if (this.attackTick(30)) {
+        if (this.animTick(30)) {
             this.resetFlag();
-            this.resetAttackTick();
+            this.resetAnimTick();
         }
     }
 
@@ -229,12 +229,12 @@ implements IFlagMob, IAnimatedMob {
         return super.canDisableShield() || this.getRandomUtil().nextInt(3) == 0;
     }
 
-    public int getAttackTick() {
+    public int getAnimTick() {
         return this.entityData.get(DATA_ATTACK_TICK);
     }
 
-    public void setAttackTick(int attackTick) {
-        this.entityData.set(DATA_ATTACK_TICK, attackTick);
+    public void setAnimTick(int animTick) {
+        this.entityData.set(DATA_ATTACK_TICK, animTick);
     }
 
     public static AttributeSupplier.Builder createAttributes() {

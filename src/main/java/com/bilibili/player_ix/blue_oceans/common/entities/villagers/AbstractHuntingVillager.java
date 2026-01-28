@@ -58,7 +58,7 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
     protected static final EntityDataAccessor<Integer> DATA_TARGET_ID;
     protected AbstractHuntingVillager(EntityType<? extends AbstractHuntingVillager> pType, Level level) {
         super(pType, level);
-        this.behaviorSelector = new BehaviorSelector(level::getProfiler);
+        this.behaviorSelector = new BehaviorSelector(level.getProfilerSupplier());
         this.registerBehaviors();
         this.restockAll();
         this.updateTrades();
@@ -79,7 +79,7 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
     }
 
     public void makeParticleAroundSelf() {
-        if (this.isServerSide()) {
+        if (this.isEffectiveAi()) {
             this.serverLevel().sendParticles(ParticleTypes.ANGRY_VILLAGER, this.getX(), this.getY() + 1,
                     this.getZ(), 8,  0.5, 0.5, 0.5, 0.1);
         }
@@ -364,7 +364,8 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
     }
 
     static {
-        FOOD_POINTS = ImmutableMap.of(Items.BREAD, 4, Items.POTATO, 1, Items.CARROT, 1, Items.BEETROOT, 1);
+        FOOD_POINTS = ImmutableMap.of(Items.BREAD, 4, Items.POTATO, 1, Items.CARROT, 1, Items.BEETROOT,
+                1);
         WANTED_ITEMS = ImmutableSet.of(Items.BREAD, Items.POTATO, Items.CARROT,
                 Items.WHEAT, Items.WHEAT_SEEDS, Items.BEETROOT, Items.BEETROOT_SEEDS,
                 Items.TORCHFLOWER_SEEDS, Items.PITCHER_POD);

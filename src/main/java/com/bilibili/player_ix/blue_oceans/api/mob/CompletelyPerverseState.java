@@ -12,19 +12,19 @@ public enum CompletelyPerverseState {
     }
 
     public boolean isEgg() {
-        return this.equals(EGG);
+        return this == EGG;
     }
 
     public boolean isLarva() {
-        return this.equals(LARVA);
+        return this ==LARVA;
     }
 
     public boolean isPupa() {
-        return this.equals(PUPA);
+        return this == PUPA;
     }
 
     public boolean isAdult() {
-        return this.equals(ADULT);
+        return this == ADULT;
     }
 
     public static CompletelyPerverseState of(int pId) {

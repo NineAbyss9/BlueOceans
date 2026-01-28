@@ -3,6 +3,7 @@ package com.bilibili.player_ix.blue_oceans.common.entities.villagers;
 
 import com.bilibili.player_ix.blue_oceans.api.mob.IAcceptTask;
 import com.bilibili.player_ix.blue_oceans.api.mob.ICitizen;
+import com.bilibili.player_ix.blue_oceans.api.mob.IMiner;
 import com.bilibili.player_ix.blue_oceans.api.mob.Profession;
 import com.bilibili.player_ix.blue_oceans.api.task.Task;
 import com.bilibili.player_ix.blue_oceans.common.entities.ai.behavior.Behavior;
@@ -47,6 +48,7 @@ import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.pathfinder.Node;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.ForgeMod;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
@@ -57,13 +59,14 @@ import java.util.function.BooleanSupplier;
 
 public class BaseVillager
 extends AbstractHuntingVillager
-implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser {
+implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser, IMiner {
     private Profession profession = Profession.EMPTY;
     private Government government;
     private final MobFoodData foodData;
     private final GossipContainer gossips = new GossipContainer();
     private static final EntityDataAccessor<Integer> DATA_TASK;
     private static final EntityDataAccessor<Boolean> DATA_IS_AGENT;
+    private static final EntityDataAccessor<Optional<BlockPos>> DATA_TARGET_POS;
     public BaseVillager(EntityType<? extends BaseVillager> pType, Level level) {
         super(pType, level);
         this.government = Government.empty();
@@ -76,6 +79,7 @@ implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser {
         super.defineSynchedData();
         this.entityData.define(DATA_TASK, 0);
         this.entityData.define(DATA_IS_AGENT, false);
+        this.entityData.define(DATA_TARGET_POS, Optional.empty());
     }
 
     public void registerBehaviors() {
@@ -177,11 +181,20 @@ implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser {
     }
 
     public boolean isWorking() {
-        return this.getTask().equals(Task.WORK);
+        return this.getTask() == Task.WORK;
     }
 
     public void setTask(int pTask) {
         this.entityData.set(DATA_TASK, pTask);
+    }
+
+    @Nullable
+    public BlockPos targetPos() {
+        return this.entityData.get(DATA_TARGET_POS).orElse(null);
+    }
+
+    public void setTargetPos(@Nullable BlockPos pPos) {
+        this.entityData.set(DATA_TARGET_POS, Optional.ofNullable(pPos));
     }
 
     /**Gets the profession of a {@linkplain BaseVillager}*/
@@ -225,12 +238,14 @@ implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser {
         return createPathAttributes().add(Attributes.MOVEMENT_SPEED, 0.3)
                 .add(Attributes.ATTACK_DAMAGE, 4)
                 .add(Attributes.MAX_HEALTH, 20)
-                .add(Attributes.FOLLOW_RANGE, 64);
+                .add(Attributes.FOLLOW_RANGE, 64)
+                .add(ForgeMod.BLOCK_REACH.get(), 4);
     }
 
     static {
         DATA_TASK = SynchedEntityData.defineId(BaseVillager.class, EntityDataSerializers.INT);
         DATA_IS_AGENT = SynchedEntityData.defineId(BaseVillager.class, EntityDataSerializers.BOOLEAN);
+        DATA_TARGET_POS = SynchedEntityData.defineId(BaseVillager.class, EntityDataSerializers.OPTIONAL_BLOCK_POS);
     }
 
     private static class AttackTargetGoal extends NearestAttackableTargetGoal<LivingEntity> {

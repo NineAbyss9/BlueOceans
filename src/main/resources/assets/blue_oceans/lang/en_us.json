@@ -50,6 +50,7 @@
   "entity.blue_oceans.red_plums_cow": "Red Plums Cow",
   "entity.blue_oceans.villager_biologist": "Villager Biologist",
   "entity.blue_oceans.villager_chief": "Villager Chief",
+  "gamerule.plumSpread": "Plum Spread",
   "gui.blue_oceans.blue_book": "Blue Book",
   "gui.blue_oceans.forging": "Forging",
   "info.blue_oceans.entity_killer": "Right click to remove entities.",

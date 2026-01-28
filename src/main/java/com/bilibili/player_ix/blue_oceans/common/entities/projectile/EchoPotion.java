@@ -60,6 +60,7 @@ extends ThrowableItemProjectile {
                 BlockPos blockPos4 = blockPos.below().offset(-i, j, 0);
                 BlockPos blockPos5 = blockPos.below().offset(-i, j, -i);
                 BlockPos blockPos6 = blockPos.below().offset(0, j, -i);
+                BlockPos blockPos7 = blockPos.below().offset(0, j, i);
                 if (checkIsPlum(blockPos1))
                     this.level().destroyBlock(blockPos1, false, this.getOwner());
                 if (checkIsPlum(blockPos2))
@@ -72,6 +73,8 @@ extends ThrowableItemProjectile {
                     this.level().destroyBlock(blockPos5, false, this.getOwner());
                 if (checkIsPlum(blockPos6))
                     this.level().destroyBlock(blockPos6, false, this.getOwner());
+                if (checkIsPlum(blockPos7))
+                    this.level().destroyBlock(blockPos7, false, this.getOwner());
             }
         }
     }

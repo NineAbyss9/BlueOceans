@@ -49,12 +49,12 @@ implements IAnimatedMob, IFlagMob {
         this.entityData.set(DATA_FLAGS, flag);
     }
 
-    public int getAttackTick() {
+    public int getAnimTick() {
         return attackTick;
     }
 
-    public void setAttackTick(int attackTick) {
-        this.attackTick = attackTick;
+    public void setAnimTick(int animTick) {
+        this.attackTick = animTick;
     }
 
     public List<AnimationState> getAllAnimations() {

@@ -30,6 +30,10 @@ extends NeoPlum {
         return 1;
     }
 
+    protected boolean shouldLevelUp() {
+        return this.getInfectLevel() >= this.nextConvertUpNeeds();
+    }
+
     public void spawnBreedMob(LivingEntity pEntity) {
     }
 
