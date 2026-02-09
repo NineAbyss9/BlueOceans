@@ -5,6 +5,7 @@ import com.github.player_ix.ix_api.util.Colors;
 import com.github.player_ix.ix_api.util.Maths;
 import com.github.player_ix.ix_api.util.ParticleUtil;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
 
@@ -42,5 +43,13 @@ public interface IConversion {
         if (this.getConversionTick() == 0) {
             this.performConvert();
         }
+    }
+
+    default void addConversionSavedData(CompoundTag pTag) {
+        pTag.putInt("ConversionTick", this.getConversionTick());
+    }
+
+    default void readConversionSavedData(CompoundTag pTag) {
+        this.setConversionTick(pTag.getInt("ConversionTick"));
     }
 }

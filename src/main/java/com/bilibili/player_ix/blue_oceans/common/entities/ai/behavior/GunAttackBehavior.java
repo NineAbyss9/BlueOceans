@@ -26,7 +26,7 @@ public class GunAttackBehavior extends Behavior {
         this.setFlags(EnumSet.of(BehaviorFlag.MOVE, BehaviorFlag.LOOK));
     }
 
-    private boolean isHoldingGun() {
+    protected boolean isHoldingGun() {
         return this.mob.isHolding(itemStack -> itemStack.getItem() instanceof AbstractGun);
     }
 

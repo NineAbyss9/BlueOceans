@@ -89,12 +89,12 @@ extends Item {
         return super.finishUsingItem(pStack, pLevel, pLivingEntity);
     }
 
-    @SuppressWarnings("all")
+    @SuppressWarnings("deprecation")
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents,
                                 TooltipFlag pIsAdvanced) {
-        FoodProperties properties = this.getFoodProperties();
-        if (!properties.getEffects().isEmpty()) {
-            List list = new ArrayList();
+        FoodProperties properties = getFoodProperties();
+        if (properties != null && !properties.getEffects().isEmpty()) {
+            List<MobEffectInstance> list = new ArrayList<>();
             for (Pair<MobEffectInstance, Float> pair : properties.getEffects()) {
                 list.add(pair.getFirst());
             }

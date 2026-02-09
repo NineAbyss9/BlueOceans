@@ -14,6 +14,7 @@ import com.bilibili.player_ix.blue_oceans.common.blocks.food.Leek;
 import com.bilibili.player_ix.blue_oceans.common.blocks.food.RiceBlock;
 import com.bilibili.player_ix.blue_oceans.common.blocks.food.RiceEars;
 import com.bilibili.player_ix.blue_oceans.common.blocks.plum.BuddingNeoPlum;
+import com.bilibili.player_ix.blue_oceans.common.blocks.plum.ScleroticPlumBlock;
 import com.bilibili.player_ix.blue_oceans.common.item.FlagItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -21,6 +22,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+//import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -95,6 +97,9 @@ public class BlueOceansBlocks {
     public static final RegistryObject<Block> GANODERMA_LUCIDUM = BLOCKS.register("ganoderma_lucidum",
             GanodermaLucidum::new);
     public static final RegistryObject<Block> LEEK = BLOCKS.register("leek", Leek::new);
+    /*public static final RegistryObject<Block> ORANGE_SAPLING = BLOCKS.register("orange_sapling",
+            () -> new SaplingBlock(BoSaplings.orange(), BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission()
+                    .randomTicks().instabreak().sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)));*/
     public static final RegistryObject<Block> RED_PLUM_BLOCK = BLOCKS.register("red_plum_block",
             RedPlumBlock::new);
     public static final RegistryObject<Block> RED_PLUM_CATALYST = BLOCKS.register("red_plum_catalyst",
@@ -120,6 +125,8 @@ public class BlueOceansBlocks {
     public static final RegistryObject<Block> SALT_ORE = BLOCKS.register("salt_ore",
             () -> new OreBlock(Block.Properties.of().requiresCorrectToolForDrops()
                     .strength(2.0F, 20F), UniformInt.of(1, 2)));
+    public static final RegistryObject<Block> SCLEROTIC_RED_PLUM_BLOCK = BLOCKS.register(
+            "sclerotic_red_plum_block", ScleroticPlumBlock::new);
     public static final RegistryObject<Block> WOODEN_SUPPORT = BLOCKS.register("wooden_support",
             () -> new WoodenSupport(BlockBehaviour.Properties.of().strength(1.5F)
                     .instrument(NoteBlockInstrument.BASS).mapColor(MapColor.WOOD).sound(SoundType.WOOD)

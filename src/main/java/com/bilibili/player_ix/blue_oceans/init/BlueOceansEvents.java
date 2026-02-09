@@ -35,7 +35,8 @@ public class BlueOceansEvents {
                 var spreaders = level.getEntitiesOfClass(AbstractRedPlumMob.class, attacker.getBoundingBox()
                         .inflate(10), entity1 -> entity1 instanceof IPlumSpreader);
                 if (!spreaders.isEmpty()) {
-                    spreaders.forEach(AbstractRedPlumMob::setInfectLevelPlus);
+                    spreaders.stream().filter(spreader -> spreader.getInfectLevel() < 6)
+                            .findAny().ifPresent(AbstractRedPlumMob::setInfectLevelPlus);
                 }
             }
         }

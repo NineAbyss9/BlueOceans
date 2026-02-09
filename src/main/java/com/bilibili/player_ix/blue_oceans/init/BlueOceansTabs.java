@@ -47,42 +47,16 @@ public class BlueOceansTabs {
                         output.accept(BlueOceansItems.STEEL_SWORD.get());
                         output.accept(BlueOceansItems.WOODEN_STICK.get());
                         output.accept(BlueOceansItems.BIKE_EGG.get());
-                        output.accept(BlueOceansItems.BASE_VILLAGER_SPAWN_EGG.get());
-                        output.accept(BlueOceansItems.DEATH_SPAWN_EGG.get());
-                        output.accept(BlueOceansItems.DICTATOR_SPAWN_EGG.get());
-                        output.accept(BlueOceansItems.FARMER_SPAWN_EGG.get());
-                        output.accept(BlueOceansItems.FREAK_SPAWN_EGG.get());
-                        output.accept(BlueOceansItems.HUNTING_VILLAGER_SPAWN_EGG.get());
-                        output.accept(BlueOceansItems.NEO_FIGHTER_SPAWN_EGG.get());
-                        output.accept(BlueOceansItems.NEO_PLUM_SPAWN_EGG.get());
-                        output.accept(BlueOceansItems.PARAMECIUM_SPAWN_EGG.get());
-                        output.accept(BlueOceansItems.PLUM_FACTORY_SPAWN_EGG.get());
-                        output.accept(BlueOceansItems.PLUM_SPREADER_SPAWN_EGG.get());
-                        output.accept(BlueOceansItems.RED_PLUM_GIRL_SPAWN_EGG.get());
-                        output.accept(BlueOceansItems.RED_PLUM_HUMAN_SPAWN_EGG.get());
-                        output.accept(BlueOceansItems.RED_PLUM_SKELETON_SPAWN_EGG.get());
-                        output.accept(BlueOceansItems.RED_PLUM_SLAYER.get());
-                        output.accept(BlueOceansItems.RED_PLUM_SPIDER_SPAWN_EGG.get());
-                        output.accept(BlueOceansItems.RED_PLUMS_COW_SPAWN_EGG.get());
-                        output.accept(BlueOceansItems.NATURAL_ENVOY_SPAWN_EGG.get());
-                        output.accept(BlueOceansItems.VILLAGER_BIOLOGIST_SPAWN_EGG.get());
-                        output.accept(BlueOceansItems.VILLAGER_CHIEF_SPAWN_EGG.get());
+                        for (RegistryObject<? extends Item> obj : BlueOceansItems.SPAWN_EGGS)
+                            output.accept(obj.get());
                     }).build());
     public static final RegistryObject<CreativeModeTab> BO_BLOCK = TABS
             .register("blue_oceans_block", ()-> CreativeModeTab.builder().icon(()->
                     ItemStacks.of(BlueOceansItems.RED_PLUM_BLOCK)).title(Component.translatable(
                             "item_group.blue_oceans.blue_oceans_block").withStyle(
                             ChatFormatting.GRAY)).displayItems((parameters, output) -> {
-                        output.accept(BlueOceansItems.BUDDING_NEO_PLUM.get());
-                        output.accept(BlueOceansItems.MINING_LAMP.get());
-                        output.accept(BlueOceansItems.RED_PLUM_BLOCK.get());
-                        output.accept(BlueOceansItems.RED_PLUM_CATALYST.get());
-                        output.accept(BlueOceansItems.RED_PLUM_GRASS.get());
-                        output.accept(BlueOceansItems.RED_PLUM_TRAP.get());
-                        output.accept(BlueOceansItems.RED_PLUM_VEIN.get());
-                        output.accept(BlueOceansItems.ROPE.get());
-                        output.accept(BlueOceansItems.SALT_ORE.get());
-                        output.accept(BlueOceansItems.WOODEN_SUPPORT.get());
+                        for (RegistryObject<? extends Item> obj : BlueOceansItems.BLOCKS)
+                            output.accept(obj.get());
             }).build());
     public static final RegistryObject<CreativeModeTab> BO_BIOLOGY = TABS
             .register("blue_oceans_biology", () -> CreativeModeTab.builder().icon(() ->
@@ -124,10 +98,13 @@ public class BlueOceansTabs {
                 output.accept(BlueOceansItems.LEEK_SEEDS.get());
                 output.accept(BlueOceansItems.RICE_SEEDS.get());
                 output.accept(BlueOceansItems.GANODERMA_LUCIDUM.get());
+                output.accept(BlueOceansItems.COFFEE.get());
                 output.accept(BlueOceansItems.CORN.get());
                 output.accept(BlueOceansItems.GINKGO.get());
                 output.accept(BlueOceansItems.GRAPE.get());
                 output.accept(BlueOceansItems.LEEK.get());
+                output.accept(BlueOceansItems.ORANGE.get());
+                output.accept(BlueOceansItems.ORANGE_FLESH.get());
                 output.accept(BlueOceansItems.PEA_POD.get());
                 output.accept(BlueOceansItems.PEACH.get());
                 output.accept(BlueOceansItems.PEAR.get());

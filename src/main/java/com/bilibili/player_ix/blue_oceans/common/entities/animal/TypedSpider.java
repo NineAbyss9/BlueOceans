@@ -10,16 +10,16 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobType;
-import net.minecraft.world.entity.VariantHolder;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 import java.util.List;
 
 public class TypedSpider
 extends BoAnimal
-implements VariantHolder<TypedSpider.SpiderType>, IAnimatedMob, IFlagMob, TypedMob<TypedSpider.SpiderType> {
+implements IAnimatedMob, IFlagMob, TypedMob<TypedSpider.SpiderType> {
     protected static final EntityDataAccessor<Integer> DATA_ATTACK_TICK;
     protected static final EntityDataAccessor<Integer> DATA_FLAGS;
     protected static final EntityDataAccessor<Integer> DATA_TYPE;
@@ -50,12 +50,12 @@ implements VariantHolder<TypedSpider.SpiderType>, IAnimatedMob, IFlagMob, TypedM
         this.entityData.set(DATA_TYPE, pVariant.id);
     }
 
-    public SpiderType getVariant() {
+    public SpiderType getKind() {
         return SpiderType.of(this.entityData.get(DATA_TYPE));
     }
 
-    public SpiderType getKind() {
-        return getVariant();
+    public Vec3 getSize() {
+        return Vec3.ZERO;
     }
 
     public int getFlag() {
@@ -66,12 +66,12 @@ implements VariantHolder<TypedSpider.SpiderType>, IAnimatedMob, IFlagMob, TypedM
         this.entityData.set(DATA_FLAGS, flag);
     }
 
-    public int getAnimTick() {
+    public int getAniTick() {
         return this.entityData.get(DATA_ATTACK_TICK);
     }
 
-    public void setAnimTick(int animTick) {
-        this.entityData.set(DATA_ATTACK_TICK, animTick);
+    public void setAniTick(int aniTick) {
+        this.entityData.set(DATA_ATTACK_TICK, aniTick);
     }
 
     public List<AnimationState> getAllAnimations() {

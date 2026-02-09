@@ -1,7 +1,6 @@
 
 package com.bilibili.player_ix.blue_oceans.common.blocks;
 
-import com.bilibili.player_ix.blue_oceans.init.BoTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
@@ -30,7 +29,7 @@ implements IPlumBlock {
     }
 
     protected boolean mayPlaceOn(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
-        return pState.is(BoTags.RED_PLUM_BLOCKS);
+        return !pState.isAir();
     }
 
     static {

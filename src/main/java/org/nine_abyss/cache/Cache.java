@@ -32,11 +32,15 @@ public class Cache {
         return caches.get(key);
     }
 
-    public static void add(Object obj) {
-        instance.caches.put(next(), obj);
+    public static Object put(int key, Object value) {
+        return instance.caches.put(key, value);
     }
 
-    public static void remove(Integer obj) {
-        instance.caches.remove(obj);
+    public static Object add(Object value) {
+        return instance.caches.put(next(), value);
+    }
+
+    public static Object remove(Integer key) {
+        return instance.caches.remove(key);
     }
 }

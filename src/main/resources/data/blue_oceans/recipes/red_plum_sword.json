@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "i",
+    "i",
+    "i"
+  ],
+  "key": {
+    "i": {
+      "item": "blue_oceans:red_plum_flesh"
+    }
+  },
+  "result": {
+    "item": "blue_oceans:red_plum_sword",
+    "count": 1
+  }
+}

@@ -18,15 +18,14 @@ implements IPlumSpreader {
 
     public void aiStep() {
         super.aiStep();
-        if (this.getRandomUtil().nextInt(16) == 0
-            && checkConditions(this) && this.tickCount % 20 == 0
-            && !this.level().isClientSide) {
+        if (!this.level().isClientSide && this.tickCount % 20 == 0 && this.getRandomUtil().nextFloat() < 0.07F
+            && checkConditions(this)) {
             spreadPlum(this);
         }
     }
 
     protected int nextConvertUpNeeds() {
-        return 5;
+        return 8;
     }
 
     public void setInfectLevelPlus() {
@@ -34,9 +33,8 @@ implements IPlumSpreader {
         if (this.shouldLevelUp()) {
             var entity = this.getNextLevelConvert().create(this.level());
             if (entity != null) {
-                entity.moveTo(this.position());
-                this.level().addFreshEntity(entity);
-                this.discard();
+                if (this.copyTo(entity) && this.level().addFreshEntity(entity))
+                    this.discard();
             }
         }
     }
@@ -46,7 +44,7 @@ implements IPlumSpreader {
     }
 
     public static boolean checkConditions(Entity pEntity) {
-        return RedPlumUtil.canSpreadPlum(pEntity.level()) && pEntity.fallDistance < 1F;
+        return RedPlumUtil.canSpreadPlum(pEntity.level());
     }
 
     public static void spreadPlum(Entity pEntity) {

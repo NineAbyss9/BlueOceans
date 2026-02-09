@@ -60,7 +60,8 @@ extends DiggerItem {
     }
 
     public boolean mineBlock(ItemStack pStack, Level pLevel, BlockState pState, BlockPos pPos, LivingEntity pEntity) {
-        dropResources(pState, pLevel, pPos, pEntity, pStack);
+        if (!pLevel.isClientSide)
+            dropResources(pState, pLevel, pPos, pEntity, pStack);
         if (pState.getBlock().defaultDestroyTime() <= 0.0F
                 && pState.getBlock() instanceof CropBlock && shouldDamage(pStack))
             pStack.hurtAndBreak(1, pEntity, entity -> entity.broadcastBreakEvent(
@@ -74,11 +75,11 @@ extends DiggerItem {
         BlockState state = level.getBlockState(pos);
         Player player = pContext.getPlayer();
         ItemStack stack = pContext.getItemInHand();
-        if (dropResources(state, level, pos, player, stack)) {
+        if (!level.isClientSide && dropResources(state, level, pos, player, stack)) {
             if (shouldDamage(stack) && player != null)
                 stack.hurtAndBreak(1, player, entity -> entity.broadcastBreakEvent(pContext.getHand()));
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.CONSUME;
         }
-        return super.useOn(pContext);
+        return InteractionResult.SUCCESS;
     }
 }

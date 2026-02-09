@@ -13,6 +13,7 @@ import net.minecraft.network.FriendlyByteBuf;
 
 @SuppressWarnings("deprecation")
 public record ImpartParticleOption(float size, float finalSize, float speed) implements ParticleOptions {
+    public static final float MAX_SIZE = 120.0F;
     public static final Codec<ImpartParticleOption> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
                     Codec.FLOAT.fieldOf("size").forGetter(d -> d.size),
@@ -23,9 +24,9 @@ public record ImpartParticleOption(float size, float finalSize, float speed) imp
         public ImpartParticleOption fromCommand(ParticleType<ImpartParticleOption> pParticleType, StringReader pReader)
                 throws CommandSyntaxException {
             pReader.expect(' ');
-            float size = pReader.readFloat();
+            float size = validSize(pReader.readFloat());
             pReader.expect(' ');
-            float finalSize = pReader.readFloat();
+            float finalSize = validSize(pReader.readFloat());
             pReader.expect(' ');
             float speed = pReader.readFloat();
             return new ImpartParticleOption(size, finalSize, speed);
@@ -41,13 +42,17 @@ public record ImpartParticleOption(float size, float finalSize, float speed) imp
     }
 
     public void writeToNetwork(FriendlyByteBuf pBuffer) {
-        pBuffer.writeFloat(size);
-        pBuffer.writeFloat(finalSize);
+        pBuffer.writeFloat(validSize(size));
+        pBuffer.writeFloat(validSize(finalSize));
         pBuffer.writeFloat(speed);
     }
 
     public String writeToString() {
         return String.format(java.util.Locale.ROOT, "%s %s %f %s",
                 BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()), size, finalSize, speed);
+    }
+
+    public static float validSize(float pSize) {
+        return Math.min(MAX_SIZE, pSize);
     }
 }

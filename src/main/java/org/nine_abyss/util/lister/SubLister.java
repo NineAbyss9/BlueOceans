@@ -3,6 +3,7 @@ package org.nine_abyss.util.lister;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class SubLister<E>
 extends LinkedList<E>
@@ -17,10 +18,13 @@ implements Lister<E> {
         super(c);
     }
 
-    public boolean apply(int index, Consumer<? super E> action) {
-        E element = this.get(index);
-        action.accept(element);
+    public boolean accept(int index, Consumer<? super E> action) {
+        action.accept(this.get(index));
         return true;
+    }
+
+    public <R> R apply(int index, Function<E, R> fun) {
+        return fun.apply(this.get(index));
     }
 
     public boolean ifPresent(int index, Consumer<? super E> action) {

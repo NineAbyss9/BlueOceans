@@ -78,7 +78,7 @@ public class AbyssMath {
         return Math.min(Math.abs(a), Math.abs(b));
     }
 
-    //Q
+    //Upgrade
     public static float random() {
         return random.nextFloat();
     }
@@ -91,16 +91,16 @@ public class AbyssMath {
         return randomBetween(random, min, max);
     }
 
-    public static double randomBetween(Random ran, double min, double max) {
-        return ran.nextDouble(max - min + 1) + min;
+    public static double randomBetween(Random rand, double min, double max) {
+        return rand.nextDouble(max - min + 1) + min;
     }
 
     public static double randomBetween(double min, double max) {
         return randomBetween(random, min, max);
     }
 
-    public static int randomBetween(Random ran, int min, int max) {
-        return ran.nextInt(max - min + 1) + min;
+    public static int randomBetween(Random rand, int min, int max) {
+        return rand.nextInt(max - min + 1) + min;
     }
 
     public static int randomBetween(int min, int max) {
@@ -153,6 +153,15 @@ public class AbyssMath {
 
     public static int random(@Message("value should be positive") int value) {
         return randomBetween(-value, value);
+    }
+
+    public static double randomMax(double pValue, double max) {
+        double value = random(pValue);
+        if (value < 0) {
+            return Math.min(value, -max);
+        } else {
+            return Math.max(value, max);
+        }
     }
 
     public static int aliveOrNull() {

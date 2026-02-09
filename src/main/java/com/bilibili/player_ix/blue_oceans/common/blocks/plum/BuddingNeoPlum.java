@@ -27,7 +27,11 @@ extends RedPlumVein {
     }
 
     public boolean grow(RandomSource pRandom) {
-        return pRandom.nextInt(5) == 0;
+        return pRandom.nextFloat() < 0.2F;
+    }
+
+    public int getLevel() {
+        return -1;
     }
 
     @Nullable

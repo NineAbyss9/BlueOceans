@@ -5,6 +5,7 @@ import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.github.player_ix.ix_api.api.mobs.ai.goal.ApiMeleeAttackGoal;
 import com.github.player_ix.ix_api.util.Vec9;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -23,7 +24,10 @@ extends NeoPlum {
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new ApiMeleeAttackGoal(this, 0.8));
         super.registerGoals();
-        this.targetSelector.addGoal(1, new RedPlumMobsNearestAttackableTargetGoal(this, true));
+    }
+
+    protected void addHostileGoal(int t) {
+        this.targetSelector.addGoal(t, new RedPlumMobsNearestAttackableTargetGoal(this, true));
     }
 
     protected int nextConvertUpNeeds() {
@@ -35,6 +39,23 @@ extends NeoPlum {
     }
 
     public void spawnBreedMob(LivingEntity pEntity) {
+    }
+
+    public void doKillEntity(LivingEntity pEntity) {
+        if (!this.level().isClientSide) {
+            ServerLevel serverLevel = this.serverLevel();
+            var entityType = this.getNextLevelConvert();
+            AbstractRedPlumMob mob = null;
+            if (entityType != null) {
+                mob = entityType.create(serverLevel);
+            }
+            if (mob != null) {
+                mob.moveTo(this.position());
+                if (serverLevel.addFreshEntity(mob)) {
+                    this.discard();
+                }
+            }
+        }
     }
 
     @Nullable

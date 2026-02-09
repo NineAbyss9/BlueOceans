@@ -1,10 +1,10 @@
 
 package com.bilibili.player_ix.blue_oceans.common.blocks;
 
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 
 public abstract class AbstractLog
-extends Block {
+extends RotatedPillarBlock {
     public AbstractLog(Properties pProperties) {
         super(pProperties);
     }

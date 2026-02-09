@@ -30,7 +30,8 @@ implements Enemy {
         this.addBehaviorGoal(5, 1, 10F);
         this.targetSelector.addGoal(1, new RedPlumsMobsHurtByTargetGoal(this,
                 RedPlumMonster.class).setAlertOthers());
-        this.addHostileGoal(1);
+        if (shouldAttackOtherMobs())
+            this.addHostileGoal(1);
     }
 
     protected void addMeleeAttackGoal(int $int, double $double, float $float) {

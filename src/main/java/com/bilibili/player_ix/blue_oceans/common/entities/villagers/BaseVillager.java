@@ -9,6 +9,7 @@ import com.bilibili.player_ix.blue_oceans.api.task.Task;
 import com.bilibili.player_ix.blue_oceans.common.entities.ai.behavior.Behavior;
 import com.bilibili.player_ix.blue_oceans.common.entities.ai.behavior.BehaviorFlag;
 import com.bilibili.player_ix.blue_oceans.government.Government;
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.github.player_ix.ix_api.api.ApiPose;
 import com.github.player_ix.ix_api.api.item.ItemStacks;
 import com.github.player_ix.ix_api.api.mobs.FoodDataUser;
@@ -49,6 +50,7 @@ import net.minecraft.world.level.pathfinder.Node;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
+import org.nine_abyss.util.function.FunctionCollector;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
@@ -167,13 +169,23 @@ implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser, IMiner {
     }
 
     public void copyTo(BaseVillager other) {
-        other.setUUID(this.getUUID());
-        other.setId(this.getId());
         other.setPos(this.position());
         other.setAgent(this.isAgent());
         other.setGovernment(this.getGovernment());
         ListTag list = this.getInventory().createTag();
         other.getInventory().fromTag(list);
+    }
+
+    public void spawnBaby() {
+        if (!level().isClientSide) {
+            BaseVillager villager = BlueOceansEntities.BASE_VILLAGER.get().create(level());
+            FunctionCollector.accept(villager, pVillager -> {
+                pVillager.moveTo(this.position());
+                pVillager.setGovernment(this.getGovernment());
+                if (!level().addFreshEntity(pVillager))
+                    pVillager.discard();
+            });
+        }
     }
 
     public Task getTask() {
@@ -226,6 +238,10 @@ implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser, IMiner {
         return ItemStacks.of(Items.IRON_AXE);
     }
 
+    public boolean canAttackEvenBaby() {
+        return false;
+    }
+
     public boolean isAgent() {
         return this.entityData.get(DATA_IS_AGENT);
     }
@@ -252,6 +268,14 @@ implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser, IMiner {
         public AttackTargetGoal(Mob pMob) {
             super(pMob, LivingEntity.class, true, MobSelector.isEnemy());
         }
+
+        public boolean canUse() {
+            if (this.mob instanceof BaseVillager villager
+                && villager.isBaby()) {
+                return villager.canAttackEvenBaby() && super.canUse();
+            }
+            return super.canUse();
+        }
     }
 
     protected class AgentAttackTargetGoal extends NearestAttackableTargetGoal<LivingEntity> {
@@ -265,10 +289,10 @@ implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser, IMiner {
         }
 
         public boolean canUse() {
-            if (!super.canUse()) {
+            if (!BaseVillager.this.isAgent() || BaseVillager.this.isBaby() && !BaseVillager.this.canAttackEvenBaby()) {
                 return false;
             }
-            if (BaseVillager.this.getRandom().nextInt(9) != 0) {
+            if (BaseVillager.this.getRandom().nextFloat() < 0.1F) {
                 return false;
             }
             List<AbstractVillager> villagers = BaseVillager.this.level().getEntitiesOfClass(AbstractVillager.class,
@@ -278,7 +302,7 @@ implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser, IMiner {
             if (villagers.isEmpty() || entities.size() > 3) {
                 return false;
             }
-            return BaseVillager.this.isAgent();
+            return super.canUse();
         }
     }
 
@@ -401,6 +425,12 @@ implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser, IMiner {
             if (this.visited.size() > 15) {
                 this.visited.remove(0);
             }
+        }
+    }
+
+    public static class VillagerBreedBehavior extends Behavior {
+        public VillagerBreedBehavior(BaseVillager pVillager) {
+
         }
     }
 }

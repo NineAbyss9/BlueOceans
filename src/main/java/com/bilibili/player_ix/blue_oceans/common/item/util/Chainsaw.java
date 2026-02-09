@@ -82,9 +82,6 @@ extends DiggerItem {
 
     public static int getAndPlusUseTime(ItemStack stack) {
         setUseTime(stack, getUseTime(stack) + 1);
-        //Waiting...
-
-
         return getUseTime(stack);
     }
 }

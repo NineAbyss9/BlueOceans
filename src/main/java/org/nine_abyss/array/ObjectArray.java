@@ -62,12 +62,22 @@ implements Iterable<E>, IXUtilUser //, java.io.Serializable
         return this.size;
     }
 
-    public <V> V convert(int pIndex) {
+    /**
+     *
+     * @param <V> the target value type.*/
+    public <V> V convert(int pIndex) throws ClassCastException {System.out.println();
         return IXUtil.c.convert(this.get(pIndex));
     }
 
     public Stream<E> stream() {
         return Stream.of(array);
+    }
+
+    public Map<Integer, E> hashmap() {
+        Map<Integer, E> map = new HashMap<>();
+        for (int i = 0;i < length();i++)
+            map.put(i, this.get(i));
+        return map;
     }
 
     public Map<Integer, E> map() {

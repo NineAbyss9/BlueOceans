@@ -1,8 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.chemistry;
 
-/**Class for storing element symbols.*/
-public class ElementSymbols {
+public class ChemicalFormula {
     public static final String CO2 = "CO₂";
     public static final String CO = "CO";
     public static final String O2 = "O₂";

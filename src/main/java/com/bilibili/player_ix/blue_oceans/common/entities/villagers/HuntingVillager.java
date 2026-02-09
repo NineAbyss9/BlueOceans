@@ -56,12 +56,8 @@ extends BaseVillager {
                 false, (lie) -> lie instanceof Enemy));
     }
 
-    public static AttributeSupplier.Builder createAttributes() {
-        return HuntingVillager.createMobAttributes()
-                .add(Attributes.ARMOR, 10).add(Attributes.ATTACK_DAMAGE, 5)
-                .add(Attributes.ATTACK_KNOCKBACK, 2)
-                .add(Attributes.MAX_HEALTH, 40).add(Attributes.MOVEMENT_SPEED, 0.35)
-                .add(Attributes.FOLLOW_RANGE, 90);
+    public boolean canAttackEvenBaby() {
+        return true;
     }
 
     public ApiPose getArmPose() {
@@ -75,5 +71,13 @@ extends BaseVillager {
     @Nullable
     public VillagerTrades.ItemListing[] getTradeLists() {
         return BoVillagerTrades.HUNTER_TRADES;
+    }
+
+    public static AttributeSupplier.Builder createAttributes() {
+        return HuntingVillager.createMobAttributes()
+                .add(Attributes.ARMOR, 10).add(Attributes.ATTACK_DAMAGE, 5)
+                .add(Attributes.ATTACK_KNOCKBACK, 2)
+                .add(Attributes.MAX_HEALTH, 40).add(Attributes.MOVEMENT_SPEED, 0.35)
+                .add(Attributes.FOLLOW_RANGE, 90);
     }
 }

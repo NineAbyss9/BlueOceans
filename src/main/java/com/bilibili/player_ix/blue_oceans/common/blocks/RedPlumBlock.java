@@ -16,6 +16,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -25,7 +26,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
@@ -35,7 +35,7 @@ public class RedPlumBlock extends BaseEntityBlock implements IPlumBlock {
     }
 
     public RedPlumBlock() {
-        this(Properties.of().strength(1F, 40F).mapColor(DyeColor.RED)
+        this(Properties.of().strength(0.9F, 1F).mapColor(DyeColor.RED)
                 .instrument(NoteBlockInstrument.BASEDRUM).sound(SoundType.SCULK)
                 .randomTicks());
     }
@@ -49,6 +49,10 @@ public class RedPlumBlock extends BaseEntityBlock implements IPlumBlock {
         return RenderShape.MODEL;
     }
 
+    public boolean triggerEvent(BlockState pState, Level pLevel, BlockPos pPos, int pId, int pParam) {
+        return false;
+    }
+
     public float getFriction(BlockState state, LevelReader level, BlockPos pos, @Nullable Entity entity) {
         return entity instanceof AbstractRedPlumMob ? 0.5F : 0.8F;
     }
@@ -56,23 +60,28 @@ public class RedPlumBlock extends BaseEntityBlock implements IPlumBlock {
     @SuppressWarnings("deprecation")
     public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
         this.spawnPlum(pLevel, pPos, pRandom);
-        if (pRandom.nextInt(10) == 0) {
+        if (pRandom.nextFloat() < 0.1F) {
             BlockPos above = pPos.above();
             ParticleUtil.serverAddParticle(pLevel, BlueOceansParticleTypes.RED_PLUM_SPELL.get(),
                     Vec9.of(above));
         }
-        if (this.getLevel() == 1 && pRandom.nextInt(25) == 0) {
+        if (pRandom.nextFloat() < 0.04F) {
+            this.random25Action(pState, pLevel, pPos);
+        }
+    }
+
+    protected void random25Action(BlockState pState, ServerLevel pLevel, BlockPos pPos) {
+        if (this.getLevel() == 1) {
             pLevel.setBlock(pPos, BlueOceansBlocks.RED_PLUM_CATALYST.get().defaultBlockState(), 0);
         }
     }
 
     protected void spawnPlum(ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
-        if (pRandom.nextInt(20) == 0 && BoCommonConfig.SPAWN_NEO_PLUM.get()
+        if (BoCommonConfig.SPAWN_NEO_PLUM.get() && pRandom.nextFloat() < 0.05F
             && NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND,
                 pLevel, pPos.above(), BlueOceansEntities.NEO_PLUM.get())
-            && pLevel.getEntitiesOfClass(RedPlumMonster.class, new AABB(pPos).inflate(6)).size() < 10) {
-            Vec3 pos = Vec9.of(pPos.above()).add(0.5, 0, 0.5);
-            AbstractRedPlumMob plum = NeoPlum.createRandom(pos, pLevel);
+            && pLevel.getEntitiesOfClass(RedPlumMonster.class, new AABB(pPos).inflate(8)).size() < 8) {
+            AbstractRedPlumMob plum = NeoPlum.createRandom(pPos.above(), pLevel);
             if (plum != null) {
                 NeoPlum.addParticleAroundPlum(plum);
             }

@@ -41,9 +41,21 @@ public class MutableVec3 implements Position {
         return this;
     }
 
+    public MutableVec3 add(double px, double pz) {
+        this.x += px;
+        this.z += pz;
+        return this;
+    }
+
     public MutableVec3 set(double px, double py, double pz) {
         this.x = px;
         this.y = py;
+        this.z = pz;
+        return this;
+    }
+
+    public MutableVec3 set(double px, double pz) {
+        this.x = px;
         this.z = pz;
         return this;
     }

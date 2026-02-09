@@ -39,6 +39,10 @@ extends BaseVillager {
         });
     }
 
+    public boolean canAttackEvenBaby() {
+        return true;
+    }
+
     static {
         ATTRIBUTE_SUPPLIER = createBaseVillagerAttributes().build();
     }

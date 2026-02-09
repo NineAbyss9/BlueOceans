@@ -29,7 +29,7 @@ extends RedPlumBlock {
                 livingEntity.addEffect(mobEffectInstance);
             else {
                 if (livingEntity.isAlive()) {
-                    livingEntity.hurt(pLevel.damageSources().magic(), 1F);
+                    livingEntity.hurt(pLevel.damageSources().dryOut(), 1F);
                 }
             }
         }

@@ -3,6 +3,7 @@ package com.bilibili.player_ix.blue_oceans.common.blocks;
 
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlocks;
 import com.bilibili.player_ix.blue_oceans.init.BoTags;
+import com.bilibili.player_ix.blue_oceans.util.RedPlumUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -54,7 +55,7 @@ implements SimpleWaterloggedBlock, IPlumBlock {
     }
 
     public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
-        if (grow(pRandom)) {
+        if (RedPlumUtil.canSpreadPlum(pLevel) && grow(pRandom)) {
             BlockPos pos;
             for (int i = 0;i<4;i++) {
                 if (i == 0) {
@@ -71,6 +72,7 @@ implements SimpleWaterloggedBlock, IPlumBlock {
                 BlockState belowState = pLevel.getBlockState(belowPos);
                 if (state.canBeReplaced() && Block.isFaceFull(belowState
                         .getBlockSupportShape(pLevel, belowPos), Direction.UP)) {
+                    pLevel.destroyBlock(pos, false);
                     BlockState state1 = this.getGrowState(state, pLevel, pPos);
                     if (state1 != null)
                         pLevel.setBlockAndUpdate(pos, state1);
@@ -83,7 +85,7 @@ implements SimpleWaterloggedBlock, IPlumBlock {
             {
                 BlockPos relative = pPos.relative(getFacing(pState));
                 if (!pLevel.getBlockState(relative).is(BoTags.RED_PLUM_BLOCKS)) {
-                    pLevel.setBlockAndUpdate(relative, BlueOceansBlocks.RED_PLUM_BLOCK.get().defaultBlockState());
+                    pLevel.setBlockAndUpdate(relative, RedPlumCatalyst.getRandomGrowthState(pLevel, relative));
                     if (pLevel.getBlockState(pPos).is(BlueOceansBlocks.RED_PLUM_VEIN.get()))
                         pLevel.destroyBlock(pPos, false);
                 }
@@ -92,7 +94,7 @@ implements SimpleWaterloggedBlock, IPlumBlock {
     }
 
     public boolean grow(RandomSource pRandom) {
-        return pRandom.nextInt(10) == 0;
+        return pRandom.nextFloat() < 0.1F;
     }
 
     @Nullable
@@ -167,6 +169,8 @@ implements SimpleWaterloggedBlock, IPlumBlock {
         }
 
         public boolean isOtherBlockValidAsSource(BlockState pOtherBlock) {
+            if (RedPlumVein.this.isNeoPlum())
+                return !pOtherBlock.is(BlueOceansBlocks.BUDDING_NEO_PLUM.get());
             return !pOtherBlock.is(BlueOceansBlocks.RED_PLUM_VEIN.get());
         }
     }

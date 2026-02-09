@@ -43,7 +43,7 @@ public class BehaviorSelector {
                 return false;
             }
             $$2 = var2.next();
-        } while(!pFlag.contains($$2));
+        } while (!pFlag.contains($$2));
         return true;
     }
 
@@ -73,8 +73,8 @@ public class BehaviorSelector {
                         return;
                     }
                     $$2 = (BehaviorWrapper)var3.next();
-                } while(!$$2.isRunning());
-            } while(!pTickAllRunning && !$$2.requiresUpdateEveryTick());
+                } while (!$$2.isRunning());
+            } while (!pTickAllRunning && !$$2.requiresUpdateEveryTick());
             $$2.tick();
         }
     }
@@ -111,10 +111,10 @@ public class BehaviorSelector {
                                                 return;
                                             }
                                             wrapper = (BehaviorWrapper)$$2.next();
-                                        } while(wrapper.isRunning());
-                                    } while(containsAnyFlags(wrapper, this.disabledFlags));
-                                } while(!canBeReplacedForAllFlags(wrapper, this.lockedFlags));
-                            } while(!wrapper.canUse());
+                                        } while (wrapper.isRunning());
+                                    } while (containsAnyFlags(wrapper, this.disabledFlags));
+                                } while (!canBeReplacedForAllFlags(wrapper, this.lockedFlags));
+                            } while (!wrapper.canUse());
                             for (BehaviorFlag $$5 : wrapper.getFlags()) {
                                 BehaviorWrapper $$6 = this.lockedFlags.getOrDefault($$5, NO_BEHAVIOR);
                                 $$6.stop();

@@ -23,6 +23,8 @@ public class BoTags {
             = blockTagKey("bushes_may_place_on");
     public static TagKey<Block> FUELS
             = blockTagKey("fuels");
+    public static TagKey<Block> PLUMS_CAN_UPGRADE
+            = blockTagKey("plums_can_upgrade");
     public static TagKey<Block> RED_PLUM_BLOCKS
             = blockTagKey("red_plum_blocks");
 

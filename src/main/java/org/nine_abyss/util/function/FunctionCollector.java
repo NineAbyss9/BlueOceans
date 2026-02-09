@@ -10,6 +10,7 @@ public class FunctionCollector {
         throw new AssertionError();
     }
 
+    /**{@linkplain Predicate}*/
     public static <T> Predicate<T> alwaysTrue() {
         return PredicateInstance.ALWAYS_TRUE.convert();
     }
@@ -26,6 +27,7 @@ public class FunctionCollector {
         return PredicateInstance.IS_NULL.convert();
     }
 
+    /**{@linkplain Supplier}*/
     public static BooleanSupplier positiveSupplier() {
         return BooleanSupplierInstance.TRUE;
     }
@@ -42,8 +44,19 @@ public class FunctionCollector {
         return () -> value;
     }
 
+    /**{@linkplain Runnable}*/
     public static Runnable emptyAction() {
         return () -> {};
+    }
+
+    /**{@linkplain Consumer}*/
+    public static <T> Consumer<T> accept() {
+        return obj -> {};
+    }
+
+    public static <T> void accept(T obj, Consumer<T> action) {
+        if (obj != null)
+            action.accept(obj);
     }
 
     private enum BooleanSupplierInstance implements BooleanSupplier {

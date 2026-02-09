@@ -1,11 +1,17 @@
 
 package org.nine_abyss.math;
 
+import org.nine_abyss.annotation.doc.ThreadSafe;
+
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**Class to solve math classes.*/
 public class MathSupport {
     public static Random random = new Random();
+    @ThreadSafe
+    public static ThreadLocalRandom threadSafeRandom = ThreadLocalRandom.current();
+    public static float rand = threadSafeRandom.nextFloat();
 
     public static class Cos {
     }

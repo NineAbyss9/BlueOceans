@@ -56,6 +56,9 @@ extends ApiPathfinderMob {
         this.entityData.set(DATA_ARMOR, pArmor);
     }
 
+    /**0 -> Car
+     * 1 -> Bike
+     * @return the type of the traffic util*/
     public int getTrafficType() {
         return 1;
     }

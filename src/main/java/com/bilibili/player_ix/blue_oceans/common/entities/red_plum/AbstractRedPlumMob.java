@@ -7,16 +7,21 @@ import com.bilibili.player_ix.blue_oceans.common.entities.ai.behavior.BehaviorSe
 import com.bilibili.player_ix.blue_oceans.common.entities.ai.behavior.MoveToBlockBehavior;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.red_plum_girl.AbstractGirl;
 import com.bilibili.player_ix.blue_oceans.api.mob.RedPlumMob;
+import com.bilibili.player_ix.blue_oceans.compat.noixapi.NoIXApiCompat;
 import com.bilibili.player_ix.blue_oceans.config.BoCommonConfig;
 import com.bilibili.player_ix.blue_oceans.init.*;
 import com.bilibili.player_ix.blue_oceans.util.MobUtil;
 import com.bilibili.player_ix.blue_oceans.util.RedPlumUtil;
 import com.github.player_ix.ix_api.api.ApiPose;
+import com.github.player_ix.ix_api.api.mobs.ApiEntityDataSerializers;
 import com.github.player_ix.ix_api.api.mobs.ApiPoseMob;
 import com.github.player_ix.ix_api.api.mobs.MobUtils;
 import com.github.player_ix.ix_api.api.mobs.OwnableMob;
 import com.github.player_ix.ix_api.api.mobs.effect.EffectInstance;
 import com.github.player_ix.ix_api.util.ParticleUtil;
+import com.github.player_ix.ix_api.util.Vec9;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -32,7 +37,9 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.MultifaceBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.nine_abyss.util.Action;
 
 import javax.annotation.Nullable;
@@ -48,6 +55,8 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
             SynchedEntityData.defineId(AbstractRedPlumMob.class, EntityDataSerializers.INT);
     protected static final EntityDataAccessor<Boolean> DATA_IS_CONTROLLED_BY_GIRL =
             SynchedEntityData.defineId(AbstractRedPlumMob.class, EntityDataSerializers.BOOLEAN);
+    protected static final EntityDataAccessor<Vec9> DATA_TARGET_POS;
+    protected static final EntityDataAccessor<Integer> DATA_PLUM_FLAGS;
     protected final BehaviorSelector behaviorSelector;
     protected boolean isException;
     protected AbstractRedPlumMob(EntityType<? extends AbstractRedPlumMob> type, Level level) {
@@ -60,9 +69,16 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
         this.addMoveToPlumBehavior(4, 1.0);
     }
 
+    public void tick() {
+        super.tick();
+        if (this.isMovingToBuilder()) {
+            this.moveToBuilderTick();
+        }
+    }
+
     public void aiStep() {
         super.aiStep();
-        if (this.getFeetBlockState().is(BlueOceansBlocks.RED_PLUM_BLOCK.get())) {
+        if (this.getFeetBlockState().is(BoTags.PLUMS_CAN_UPGRADE)) {
             this.standOnPlumTick();
         }
     }
@@ -100,9 +116,16 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
         return this.entityData.get(DATA_INFECT_LEVEL);
     }
 
-    public void checkAndPlusInfectLevel(LivingEntity living) {
-        if (this.shouldLevelUp() && !this.level().isClientSide
-                && this.getType() != this.getNextLevelConvert()) {
+    public void checkAndPlusInfectLevel(LivingEntity pEntity) {
+        if (this.tryConvert(pEntity))
+            return;
+        if (this.getRandomUtil().nextFloat() <= this.getPlusLevelChance() || pEntity.getMaxHealth() >= 50) {
+            this.setInfectLevelPlus();
+        }
+    }
+
+    public boolean tryConvert(LivingEntity pEntity) {
+        if (!this.level().isClientSide && this.shouldLevelUp() && this.getType() != this.getNextLevelConvert()) {
             ServerLevel serverLevel = this.serverLevel();
             var entityType = this.getNextLevelConvert();
             AbstractRedPlumMob mob = null;
@@ -113,17 +136,15 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
                 mob.moveTo(this.position());
                 if (serverLevel.addFreshEntity(mob)) {
                     this.discard();
-                    return;
+                    return true;
                 }
             }
         }
-        if (this.getRandom().nextFloat() <= this.getPlusLevelChance() || living.getMaxHealth() >= 50) {
-            this.setInfectLevelPlus();
-        }
+        return false;
     }
 
     public void standOnPlumTick() {
-        if (this.getRandomUtil().nextInt(25) == 0) {
+        if (this.tickCount % 20 == 0 && this.getRandomUtil().nextFloat() < 0.01F) {
             this.setInfectLevelPlus();
         }
     }
@@ -172,7 +193,7 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
     }
 
     protected void addHostileGoal(int t) {
-        this.targetSelector.addGoal(t, new RedPlumMobsNearestAttackableTargetGoal(this, false));
+        this.targetSelector.addGoal(t, new RedPlumMobsNearestAttackableTargetGoal(this, true));
     }
 
     protected void addFriendlyGoal(int $int, boolean $boolean) {
@@ -195,6 +216,11 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
         }
         if (!MobUtil.canHurt(this, entity)) {
             return false;
+        }
+        if (this.getKills() > 4 //&& (!(entity instanceof LivingEntity living) ||
+                //living.getItemInHand(InteractionHand.MAIN_HAND).getEnchantmentLevel())
+        ) {
+            pAmount /= 2.0F;
         }
         return super.hurt(pSource, pAmount);
     }
@@ -225,12 +251,16 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
         this.entityData.define(DATA_KILLS, 0);
         this.entityData.define(DATA_INFECT_LEVEL, 1);
         this.entityData.define(DATA_IS_CONTROLLED_BY_GIRL, false);
+        this.entityData.define(DATA_TARGET_POS, Vec9.of());
+        this.entityData.define(DATA_PLUM_FLAGS, 0);
     }
 
     public void addAdditionalSaveData(CompoundTag tag) {
         tag.putInt("Kills", this.getKills());
         tag.putInt("InfectLevel", this.getInfectLevel());
+        tag.putInt("PlumFlag", this.getPlumFlag());
         super.addAdditionalSaveData(tag);
+        tag.put("TargetPos", Vec9.createVec3Tag(this.getTargetPos(), "TargetPos"));
     }
 
     public void readAdditionalSaveData(CompoundTag tag) {
@@ -240,19 +270,54 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
         if (tag.contains("InfectLevel")) {
             this.setInfectLevel(tag.getInt("InfectLevel"));
         }
+        this.setPlumFlag(tag.getInt("PlumFlag"));
         super.readAdditionalSaveData(tag);
+        this.setTargetPos(Vec9.readVec3Tag(tag, "TargetPos"));
+    }
+
+    public boolean isMovingToBuilder() {
+        return this.isPlumFlag(1);
+    }
+
+    public void moveToBuilderTick() {
+        Vec9 vec9 = this.getTargetPos();
+        this.getNavigation().moveTo(vec9.x, vec9.y, vec9.z, 0.8);
+        if (this.closeThan(this.getTargetPos(), 2)) {
+            new Action(() -> ((PlumBuilder)this.getOwner()).anotherJoin(this), () -> {
+                this.setOwner(null);
+                this.setTargetPos(null);
+                this.setPlumFlag(0);
+            }).run(this.getOwner() instanceof PlumBuilder);
+        }
+    }
+
+    public boolean copyTo(AbstractRedPlumMob pOther) {
+        pOther.moveTo(position());
+        pOther.setOwner(this.getOwner());
+        return true;
     }
 
     public void die(DamageSource pDamageSource) {
         if (!this.level().isClientSide) {
-            BlockState state = this.level().getBlockState(blockPosition());
-            Action.emptyTrue(() -> this.level().setBlockAndUpdate(blockPosition(), BlueOceansBlocks.BUDDING_NEO_PLUM.get()
-                    .defaultBlockState())).run(state.is(BoTags.RED_PLUM_BLOCKS));
+            BlockPos currentPos = blockPosition();
+            BlockState state = this.level().getBlockState(currentPos);
+            BlockState neoPlum = ((MultifaceBlock)BlueOceansBlocks.BUDDING_NEO_PLUM.get())
+                    .getStateForPlacement(state, level(), currentPos, Direction.DOWN);
+            if (neoPlum != null) {
+                Action.emptyTrue(() -> this.level().setBlockAndUpdate(currentPos, neoPlum))
+                        .run(state.is(BoTags.RED_PLUM_BLOCKS) || !state.canBeReplaced()
+                                || fallDistance > 0.25F);
+            }
         }
         super.die(pDamageSource);
     }
 
     public void doKillEntity(LivingEntity pEntity) {
+        if (pEntity.getMaxHealth() < 30.0F) {
+            this.setKillsPlus();
+        } else {
+            this.setKills(this.getKills() + 3);
+        }
         this.checkAndPlusInfectLevel(pEntity);
         this.spawnBreedMob(pEntity);
     }
@@ -291,6 +356,33 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
         return MobUtils.isHalfHealth(this);
     }
 
+    public int getPlumFlag() {
+        return this.entityData.get(DATA_PLUM_FLAGS);
+    }
+
+    public boolean isPlumFlag(int pFlag) {
+        return this.getPlumFlag() == pFlag;
+    }
+
+    public void setPlumFlag(int pFlag) {
+        this.entityData.set(DATA_PLUM_FLAGS, pFlag);
+    }
+
+    public Vec9 getTargetPos() {
+        return this.entityData.get(DATA_TARGET_POS);
+    }
+
+    public boolean isEmptyTarget() {
+        return this.getTargetPos().equals(Vec3.ZERO);
+    }
+
+    public void setTargetPos(@Nullable Vec3 pPos) {
+        if (pPos instanceof Vec9 vec9)
+            this.entityData.set(DATA_TARGET_POS, vec9);
+        else
+            this.entityData.set(DATA_TARGET_POS, pPos == null ? Vec9.of() : Vec9.of(pPos));
+    }
+
     protected void doAttackTarget(Entity pEntity) {
         if (pEntity instanceof LivingEntity entity) {
             entity.addEffect(EffectInstance.create(BlueOceansMobEffects.PLUM_INVADE,
@@ -311,14 +403,16 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
     }
 
     public boolean killedEntity(ServerLevel pLevel, LivingEntity pEntity) {
-        if (pEntity.getMaxHealth() < 30) {
-            this.setKills(this.getKills() + 1);
-        } else {
-            this.setKills(this.getKills() + 3);
-        }
         this.doKillEntity(pEntity);
         this.heal(this.getHealAmount());
         return super.killedEntity(pLevel, pEntity);
+    }
+
+    static {
+        DATA_TARGET_POS = SynchedEntityData.defineId(AbstractRedPlumMob.class,
+                ApiEntityDataSerializers.VEC9);
+        DATA_PLUM_FLAGS = SynchedEntityData.defineId(AbstractRedPlumMob.class,
+                EntityDataSerializers.INT);
     }
 
     protected static class RedPlumMobsNearestAttackableTargetGoal
@@ -327,6 +421,8 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
 
         public RedPlumMobsNearestAttackableTargetGoal(AbstractRedPlumMob pMob, boolean mustSee) {
             super(pMob, LivingEntity.class, mustSee, entity -> {
+                if (!NoIXApiCompat.isApiLoaded())
+                    return !(entity instanceof RedPlumMob);
                 try {
                     if (entity.getType().getDescriptionId().equals("noixmodapi.entity.apostle") &&
                             entity.getClass().getMethod("getTitleNumber").getDefaultValue() instanceof Integer i) {
@@ -340,6 +436,8 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
         }
 
         public boolean canUse() {
+            if (this.mobs.isMovingToBuilder())
+                return false;
             return this.mobs.getMobTypes().isHostile() && super.canUse();
         }
 
@@ -373,13 +471,15 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
 
     protected static class MoveToPlumBehavior extends MoveToBlockBehavior {
         public MoveToPlumBehavior(PathfinderMob pMob, double pSpeed) {
-            super(pMob, pSpeed, 20, BoTags.RED_PLUM_BLOCKS);
+            super(pMob, pSpeed, 20, BoTags.PLUMS_CAN_UPGRADE);
         }
 
         public boolean canUse() {
             if (this.mob.getTarget() != null) {
                 return false;
             }
+            if (((AbstractRedPlumMob)this.convert()).isMovingToBuilder())
+                return false;
             return super.canUse();
         }
 
@@ -387,6 +487,8 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
             if (this.mob.getTarget() != null) {
                 return false;
             }
+            if (((AbstractRedPlumMob)this.convert()).isMovingToBuilder())
+                return false;
             return super.canContinueToUse();
         }
     }

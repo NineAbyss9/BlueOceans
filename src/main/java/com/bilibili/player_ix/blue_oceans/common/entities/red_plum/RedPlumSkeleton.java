@@ -44,12 +44,12 @@ implements ApiRangedAttackMob {
     }
 
     public ApiPose getPoses() {
-        if (this.isAggressive())
+        if (this.isAggressive()) {
             if (this.isHoldingBow())
                 return ApiPose.BOW_AND_ARROW;
             else
                 return ApiPose.ZOMBIE_ATTACKING;
-        else
+        } else
             return ApiPose.NATURAL;
     }
 

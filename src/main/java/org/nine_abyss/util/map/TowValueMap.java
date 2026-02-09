@@ -91,16 +91,12 @@ public interface TowValueMap<K, V, V1> {
 
     default V getOrDefault(K key, V defaultValue) {
         V v;
-        return (((v = get(key)) != null) || containsKey(key))
-                ? v
-                : defaultValue;
+        return (((v = get(key)) != null) || containsKey(key)) ? v : defaultValue;
     }
 
     default V1 getOrDefaultV1(K key, V1 defaultValue) {
         V1 v;
-        return (((v = getV1(key)) != null) || containsKey(key))
-                ? v
-                : defaultValue;
+        return (((v = getV1(key)) != null) || containsKey(key)) ? v : defaultValue;
     }
 
     default void forEach(Decomposer<? super K, ? super V, ? super V1> action) {

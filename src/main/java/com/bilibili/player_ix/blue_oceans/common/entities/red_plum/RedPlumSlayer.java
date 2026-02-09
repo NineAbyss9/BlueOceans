@@ -117,6 +117,10 @@ implements IFlagMob, IAnimatedMob {
         return 2;
     }
 
+    public float spawnFighterChance() {
+        return 0.5F;
+    }
+
     protected void doAttackTarget(Entity pEntity) {
         super.doAttackTarget(pEntity);
         this.heal(0.5F);
@@ -151,8 +155,8 @@ implements IFlagMob, IAnimatedMob {
     }
 
     private void flag1() {
-        increaseAnimTick();
-        if (this.animTickEquals(15)) {
+        increaseAniTick();
+        if (this.aniTickEquals(15)) {
             AABB aabb = MobUtil.getRange(this, 2, 2, 2, 2, 2, 2, 2);
             List<LivingEntity> entities = this.level().getEntitiesOfClass(LivingEntity.class, aabb, this::canAttack);
             if (!entities.isEmpty()) {
@@ -162,16 +166,16 @@ implements IFlagMob, IAnimatedMob {
             }
             this.playSound(SoundEvents.PLAYER_ATTACK_SWEEP);
         }
-        if (this.animTick(25)) {
+        if (this.aniTick(25)) {
             this.resetFlag();
-            this.resetAnimTick();
+            this.resetAniTick();
         }
     }
 
     private void flag2() {
-        increaseAnimTick();
-        if (this.animTickEquals(10) || this.animTickEquals(15)
-                || this.animTickEquals(20)) {
+        increaseAniTick();
+        if (this.aniTickEquals(10) || this.aniTickEquals(15)
+                || this.aniTickEquals(20)) {
             this.playSound(SoundEvents.PLAYER_ATTACK_SWEEP);
             List<LivingEntity> entities = this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox()
                     .inflate(3), this::canAttack);
@@ -180,15 +184,15 @@ implements IFlagMob, IAnimatedMob {
                     this.doHurtTarget(living);
             }
         }
-        if (this.animTick(30)) {
+        if (this.aniTick(30)) {
             this.resetFlag();
-            this.resetAnimTick();
+            this.resetAniTick();
         }
     }
 
     private void flag3() {
-        increaseAnimTick();
-        if (this.animTickEquals(25)) {
+        increaseAniTick();
+        if (this.aniTickEquals(25)) {
             List<LivingEntity> entities = this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox()
                     .inflate(4), this::canAttack);
             if (!entities.isEmpty()) {
@@ -201,15 +205,15 @@ implements IFlagMob, IAnimatedMob {
             }
             this.playSound(SoundEvents.SCULK_SHRIEKER_SHRIEK);
             if (!this.level().isClientSide) {
-                var plum = NeoPlum.create(this.position(), this.level());
+                var plum = NeoPlum.createRandom(this.position(), this.level());
                 if (plum != null) {
                     NeoPlum.addParticleAroundPlum(plum);
                 }
             }
         }
-        if (this.animTick(30)) {
+        if (this.aniTick(30)) {
             this.resetFlag();
-            this.resetAnimTick();
+            this.resetAniTick();
         }
     }
 
@@ -229,12 +233,12 @@ implements IFlagMob, IAnimatedMob {
         return super.canDisableShield() || this.getRandomUtil().nextInt(3) == 0;
     }
 
-    public int getAnimTick() {
+    public int getAniTick() {
         return this.entityData.get(DATA_ATTACK_TICK);
     }
 
-    public void setAnimTick(int animTick) {
-        this.entityData.set(DATA_ATTACK_TICK, animTick);
+    public void setAniTick(int aniTick) {
+        this.entityData.set(DATA_ATTACK_TICK, aniTick);
     }
 
     public static AttributeSupplier.Builder createAttributes() {

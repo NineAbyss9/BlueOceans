@@ -90,12 +90,12 @@ implements IFlagMob, IAnimatedMob {
         this.entityData.set(DATA_FLAGS, flag);
     }
 
-    public int getAnimTick() {
+    public int getAniTick() {
         return this.entityData.get(DATA_ANIM_TICK);
     }
 
-    public void setAnimTick(int animTick) {
-        this.entityData.set(DATA_ANIM_TICK, animTick);
+    public void setAniTick(int aniTick) {
+        this.entityData.set(DATA_ANIM_TICK, aniTick);
     }
 
     public boolean isDigging() {
@@ -133,14 +133,14 @@ implements IFlagMob, IAnimatedMob {
             if (Earthworm.this.isIdle() && MathSupport.random.nextFloat() < 0.05F) {
                 Earthworm.this.setTask(Task.DIG);
                 Earthworm.this.setFlag(1);
-            } else if (Earthworm.this.hasTask(Task.DIG) && Earthworm.this.animTick(40)) {
+            } else if (Earthworm.this.hasTask(Task.DIG) && Earthworm.this.aniTick(40)) {
                 Earthworm.this.setTask(Task.HIDE);
                 Earthworm.this.setFlag(2);
             } else if (Earthworm.this.hasTask(Task.HIDE) && Earthworm.this.tickCount % 20 == 0 &&
                     MathSupport.random.nextInt(8) == 0) {
                 Earthworm.this.setTask(Task.WAKE);
                 Earthworm.this.setFlag(3);
-            } else if (Earthworm.this.hasTask(Task.WAKE) && Earthworm.this.animTick(20)) {
+            } else if (Earthworm.this.hasTask(Task.WAKE) && Earthworm.this.aniTick(20)) {
                 Earthworm.this.resetState();
             }
         }

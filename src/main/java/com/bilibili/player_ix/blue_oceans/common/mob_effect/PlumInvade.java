@@ -25,8 +25,8 @@ public class PlumInvade extends MobEffect {
     public void applyEffectTick(LivingEntity pLivingEntity, int pAmplifier) {
         if (!(pLivingEntity instanceof RedPlumMob)) {
             if (pLivingEntity.isAlive()) {
-                if (pLivingEntity.hurt(pLivingEntity.damageSources().magic(), 1 + pAmplifier)) {
-                    if (!pLivingEntity.level().isClientSide && MathSupport.random.nextInt(5) == 0) {
+                if (pLivingEntity.hurt(pLivingEntity.damageSources().dryOut(), 1 + pAmplifier)) {
+                    if (MathSupport.random.nextFloat() < 0.2F) {
                         ServerLevel level = (ServerLevel)pLivingEntity.level();
                         BlockPos pos = pLivingEntity.blockPosition();
                         BlockState state = level.getBlockState(pos);
@@ -53,6 +53,9 @@ public class PlumInvade extends MobEffect {
                     }
                 }
             }
+        } else {
+            if (pLivingEntity.tickCount % 40 == 0)
+                pLivingEntity.heal(1.0F);
         }
     }
 

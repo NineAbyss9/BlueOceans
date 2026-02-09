@@ -15,8 +15,10 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.nine_abyss.annotation.doc.Message;
+import org.nine_abyss.math.MathSupport;
 
 import javax.annotation.Nullable;
 
@@ -52,7 +54,7 @@ implements IPlumSpreader {
         super.aiStep();
         if (this.spreadCooldown > 0)
             --this.spreadCooldown;
-        if ((this.spreadCooldown <= 0 || this.getRandomUtil().nextInt(15) == 0)
+        if ((this.spreadCooldown <= 0 || this.getRandomUtil().nextFloat() < 0.06F)
             && PlumSpreader.checkConditions(this)) {
             if (this.isServerSide()) {
                 spreadPlum(this.level(), this.blockPosition());
@@ -60,23 +62,22 @@ implements IPlumSpreader {
             this.spreadCooldown = Maths.toTick(15);
         }
         if (this.isServerSide() &&
-                this.getRandomUtil().nextFloat(1F) < this.getSpawnChance() &&
-                this.tickCount % 20 == 0 &&
-                this.level().getEntitiesOfClass(RedPlumMonster.class, this.getBoundingBox().inflate(6),
-                        e -> e != this).size() < 15) {
+                this.getRandomUtil().nextFloat() < this.getSpawnChance() &&
+                this.tickCount % 30 == 0 && checkPlums(level(), getBoundingBox().inflate(12))) {
             summonPlum(this.level(), this.position().add(Maths.randomInt(3), 0, Maths.randomInt(3)));
         }
     }
 
     protected void clientAiStep() {
         this.idle.startIfStopped(this.tickCount);
-        BlueOceansParticleTypes.addRedSpell(this.level(), this.getRandomX(0.8),
-                this.getRandomY(), this.getRandomZ(0.8), 0.2);
+        if (MathSupport.random.nextBoolean())
+            BlueOceansParticleTypes.addRedSpell(this.level(), this.getRandomX(0.8),
+                    this.getRandomY(), this.getRandomZ(0.8), 0.2);
     }
 
     protected void customServerAiStep() {
         super.customServerAiStep();
-        if (this.getLevel() == 6 && this.tickCount % 20 == 0) {
+        if (this.getLevel() >= 6 && this.tickCount % 20 == 0) {
             this.heal(1F);
         }
     }
@@ -91,6 +92,14 @@ implements IPlumSpreader {
         this.spreadCooldown = tag.getInt("SpreadCooldown");
     }
 
+    public static boolean checkPlums(Level pLevel, AABB pBound) {
+        return checkPlums(pLevel, pBound, 10);
+    }
+
+    public static boolean checkPlums(Level pLevel, AABB pBound, int maxSize) {
+        return pLevel.getEntitiesOfClass(RedPlumMonster.class, pBound).size() < maxSize;
+    }
+
     public static void summonPlum(Level pLevel, Vec3 position) {
         List<EntityType<? extends AbstractRedPlumMob>> list = RedPlumUtil.MAP.get(1);
         if (list != null) {
@@ -98,29 +107,19 @@ implements IPlumSpreader {
             if (plumMob != null) {
                 plumMob.moveTo(position);
                 pLevel.addFreshEntity(plumMob);
-                ParticleUtil.spawnAnim(plumMob, BlueOceansParticleTypes.RED_SPELL.get());
+                ParticleUtil.spawnAnim(plumMob, BlueOceansParticleTypes.RED_SPELL.get(), 8);
             }
         }
     }
 
     private float getSpawnChance() {
-        switch (this.getLevel()) {
-            case 3 -> {
-                return 0.03F;
-            }
-            case 4 -> {
-                return 0.07F;
-            }
-            case 5 -> {
-                return 0.1F;
-            }
-            case 6 -> {
-                return 0.2F;
-            }
-            default -> {
-                return 0.3F;
-            }
-        }
+        return switch (this.getLevel()) {
+            case 3 -> 0.03F;
+            case 4 -> 0.07F;
+            case 5 -> 0.1F;
+            case 6 -> 0.2F;
+            default -> 0.02F;
+        };
     }
 
     public int getLevel() {
@@ -131,6 +130,12 @@ implements IPlumSpreader {
         if (pLevel > 6)
             return;
         this.setInfectLevel(pLevel);
+    }
+
+    protected void setInfectLevel(int pLevel) {
+        if (pLevel > 6)
+            return;
+        super.setInfectLevel(pLevel);
     }
 
     @Nullable

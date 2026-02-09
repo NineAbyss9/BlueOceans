@@ -116,9 +116,14 @@ public record ParticleUtil(Entity entity) {
 
     @ServerOnly
     public static void spawnAnim(Entity entity, ParticleOptions options) {
+        spawnAnim(entity, options, 20);
+    }
+
+    public static void spawnAnim(Entity entity, ParticleOptions options, int count) {
         AABB aabb = entity.getBoundingBox();
-        sendParticles((ServerLevel)entity.level(), options, entity.position(), 20,
-                aabb.getXsize() - 0.2, aabb.getYsize(), aabb.getZsize() - 0.2, MathSupport.random.nextGaussian() * 0.02);
+        sendParticles((ServerLevel)entity.level(), options, entity.position(), count,
+                aabb.getXsize() - 0.2, aabb.getYsize(), aabb.getZsize() - 0.2,
+                MathSupport.random.nextGaussian() * 0.02);
     }
 
     @ClientOnly

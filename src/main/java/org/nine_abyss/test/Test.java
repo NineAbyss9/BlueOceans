@@ -2,6 +2,11 @@
 package org.nine_abyss.test;
 
 public class Test {
-    //public static void main(String[] args) {
-    //}
+    /*static void a() {
+        a();
+    }
+
+    public static void main(String[] args) {
+        a();
+    }*/
 }

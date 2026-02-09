@@ -1,8 +1,13 @@
 {
   "replace": false,
   "values": [
+    "blue_oceans:plum_builder",
+    "blue_oceans:plum_factory",
+    "blue_oceans:plum_spreader",
     "blue_oceans:neo_plum",
+    "blue_oceans:neo_fighter",
     "blue_oceans:red_plum_girl",
+    "blue_oceans:red_plum_creeper",
     "blue_oceans:red_plum_human",
     "blue_oceans:red_plum_skeleton",
     "blue_oceans:red_plum_slayer",

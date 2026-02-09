@@ -322,6 +322,8 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
         return this.level().isClientSide;
     }
 
+    public abstract boolean canAttackEvenBaby();
+
     public abstract Profession getProfession();
 
     protected abstract ItemStack getAttackItem();

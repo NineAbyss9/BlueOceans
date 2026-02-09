@@ -48,15 +48,15 @@ public class WorldEvent {
         }
 
         public boolean isBeneficial() {
-            return this.equals(BENEFICIAL);
+            return this.level == 0;
         }
 
         public boolean isNeutral() {
-            return this.equals(NEUTRAL);
+            return this.level == 1;
         }
 
         public boolean isHarmful() {
-            return this.equals(HARMFUL);
+            return this.level == 2;
         }
 
         public int getLevel() {

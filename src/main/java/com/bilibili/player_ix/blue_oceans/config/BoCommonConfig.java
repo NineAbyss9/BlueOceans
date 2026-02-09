@@ -1,3 +1,4 @@
+
 package com.bilibili.player_ix.blue_oceans.config;
 
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
@@ -6,7 +7,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.io.File;
 
-/**learn from
+/**Learn from
  *<a href="https://github.com/Polarice3/Goety-2/blob/1.20/src/main/java/com/Polarice3/Goety/config/AttributesConfig.java">...</a>*/
 public class BoCommonConfig {
     public static final ForgeConfigSpec.DoubleValue ALCOHOL_LAMP_DAMAGE;
@@ -42,7 +43,7 @@ public class BoCommonConfig {
         PLUM_INVADE_LEVEL = builder.comment("The level of PlumInvade mobs will affect you, Default:3")
                 .defineInRange("PlumInvadeLevel", 1, 0, 254);
         SPAWN_NEO_PLUM = builder.comment("Will NeoPlums&NeoFighters spawn?Default:true").define("SpawnNeoPlum",
-                true);
+                false);
         builder.pop();
         builder.pop();
         SPEC = builder.build();

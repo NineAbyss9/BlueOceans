@@ -4,29 +4,52 @@ package com.bilibili.player_ix.blue_oceans.common.chemistry;
 import com.bilibili.player_ix.blue_oceans.common.blocks.chemistry.AbstractContainer;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Block;
 import org.nine_abyss.util.Nothing;
-import org.nine_abyss.util.function.ConditionalConsumer;
+import org.nine_abyss.util.function.FunctionCollector;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class Content {
     public final int id;
+    public final String name;
     public final Consumer<Block> consumer;
     private static final Int2ObjectMap<Content> MAP;
     public static final Content EMPTY;
     public static final Content WATER;
     public static final Content LAVA;
-    public Content(int pId, Consumer<Block> pConsumer) {
+    public Content(int pId, String pSt, Consumer<Block> pConsumer) {
         this.id  = pId;
+        name = pSt;
         this.consumer = pConsumer;
     }
 
-    public static Content register(int pId, Consumer<Block> blockConsumer) {
-        Content content = new Content(pId, blockConsumer);
-        MAP.put(pId, content);
-        return content;
+    public boolean isEmpty() {
+        return EMPTY.equals(this);
+    }
+
+    public Component description() {
+        return Component.translatable("content." + name);
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!(obj instanceof Content content))
+            return false;
+        return id == content.id && name.equals(content.name);
+    }
+
+    public int hashCode() {
+        return Objects.hash(id, name, consumer);
+    }
+
+    public static Content register(int pId, String pName, Consumer<Block> blockConsumer) {
+        Content content = new Content(pId, pName, blockConsumer);
+        return MAP.put(pId, content);
     }
 
     public static Content of(int pId) {
@@ -47,11 +70,10 @@ public class Content {
 
     static {
         MAP = new Int2ObjectOpenHashMap<>();
-        EMPTY = register(0, block -> {
-        });
-        WATER = register(1, block -> ifContainer(block,
-                ConditionalConsumer.empty()));
-        LAVA = register(2, block -> ifContainer(block, container -> {
+        EMPTY = register(0, "Empty", FunctionCollector.accept());
+        WATER = register(1, "Water", block -> ifContainer(block,
+                FunctionCollector.accept()));
+        LAVA = register(2, "Lava", block -> ifContainer(block, container -> {
             if (water(container)) {
                 if (container.fill(EMPTY)) {
                     Nothing.getInstance().noting();

@@ -26,6 +26,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeHooks;
 import org.jetbrains.annotations.Nullable;
 
@@ -51,9 +52,9 @@ extends PathfinderMob {
 
     public void tick() {
         super.tick();
-        if (this.level().isClientSide) {
-            this.clientTick();
-        }
+        //if (this.level().isClientSide) {
+       //     this.clientTick();
+        //}
     }
 
     public void aiStep() {
@@ -67,8 +68,8 @@ extends PathfinderMob {
         }
     }
 
-    public void clientTick() {
-    }
+    //public void clientTick() {
+    //}
 
     protected void clientAiStep() {
     }
@@ -113,13 +114,17 @@ extends PathfinderMob {
             attribute.removeModifier(pM);
     }
 
+    public boolean closeThan(Vec3 pPos, double pRange) {
+        return this.distanceToSqr(pPos) <= pRange * pRange;
+    }
+
     public boolean isServerSide() {
         return !this.level().isClientSide;
     }
 
     public void sendSystemMessage(Component pMessage) {
-        if (this.level() instanceof ServerLevel level) {
-            level.getServer().getPlayerList().broadcastSystemMessage(pMessage, false);
+        if (this.isServerSide()) {
+            serverLevel().getServer().getPlayerList().broadcastSystemMessage(pMessage, false);
         } else {
             Minecraft.getInstance().gui.getChat().addMessage(pMessage);
         }

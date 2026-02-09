@@ -71,8 +71,8 @@ implements IXUtilUser {
     }
 
     protected void moveMobToBlock() {
-        this.mob.getNavigation().moveTo(this.blockPos.getX(),
-                this.blockPos.getY() + 1, this.blockPos.getZ(), this.speedModifier);
+        this.mob.getNavigation().moveTo(this.blockPos.getX() + 0.5,
+                this.blockPos.getY() + 1, this.blockPos.getZ() + 0.5, this.speedModifier);
     }
 
     public double acceptedDistance() {

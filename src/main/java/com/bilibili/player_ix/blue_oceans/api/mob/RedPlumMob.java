@@ -13,6 +13,10 @@ public interface RedPlumMob {
         return 1;
     }
 
+    default boolean shouldAttackOtherMobs() {
+        return true;
+    }
+
     default boolean isException() {
         return false;
     }

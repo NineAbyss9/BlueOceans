@@ -1,0 +1,6 @@
+{
+  "parent": "blue_oceans:item/coffee",
+  "textures": {
+    "layer0": "blue_oceans:item/food/coffee_java"
+  }
+}

@@ -1,9 +1,10 @@
 
 package com.bilibili.player_ix.blue_oceans.common.entities.projectile;
 
-import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.AbstractRedPlumMob;
+import com.bilibili.player_ix.blue_oceans.api.mob.RedPlumMob;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansMobEffects;
 import com.bilibili.player_ix.blue_oceans.init.BoTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
@@ -43,10 +44,18 @@ extends ThrowableItemProjectile {
     }
 
     protected void hurtPlums() {
-        List<AbstractRedPlumMob> list = this.level().getEntitiesOfClass(AbstractRedPlumMob.class, this.getBoundingBox()
+        List<LivingEntity> list = this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox()
                 .inflate(4, 1, 4));
         if (!list.isEmpty()) {
-            list.forEach(mob->mob.hurt(this.damageSources().magic(), 10.0F));
+            list.forEach(mob-> {
+                if (mob instanceof RedPlumMob)
+                    mob.hurt(this.damageSources().magic(), 10.0F);
+                else if (mob.hasEffect(BlueOceansMobEffects.PLUM_INFECTION.get()) ||
+                        mob.hasEffect(BlueOceansMobEffects.PLUM_INVADE.get())) {
+                    mob.removeEffect(BlueOceansMobEffects.PLUM_INFECTION.get());
+                    mob.removeEffect(BlueOceansMobEffects.PLUM_INVADE.get());
+                }
+            });
         }
     }
 

@@ -1,14 +1,18 @@
 
 package org.nine_abyss.util.lister;
 
+import org.nine_abyss.math.MathSupport;
 import org.nine_abyss.util.*;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.random.RandomGenerator;
 
 public interface Lister<E> extends List<E>, Deque<E>, IXUtilUser {
-    boolean apply(int index, Consumer<? super E> action);
+    boolean accept(int index, Consumer<? super E> action);
+
+    <R> R apply(int index, Function<E, R> fun);
 
     boolean ifPresent(int index, Consumer<? super E> action);
 
@@ -24,7 +28,17 @@ public interface Lister<E> extends List<E>, Deque<E>, IXUtilUser {
 
     E peekFirst();
 
+    boolean isEmpty();
+
     int size();
+
+    default void ifNotEmpty(Consumer<? super E> pAction) {
+        if (!isEmpty()) {
+            Iterator<E> iterator = iterator();
+            while (iterator.hasNext())
+                pAction.accept(iterator.next());
+        }
+    }
 
     boolean contains(Object obj);
 
@@ -34,7 +48,7 @@ public interface Lister<E> extends List<E>, Deque<E>, IXUtilUser {
     }
 
     default E sample() {
-        return sample(new Random());
+        return sample(MathSupport.random);
     }
 
     default ImmutableSubLister<E> immutable() {

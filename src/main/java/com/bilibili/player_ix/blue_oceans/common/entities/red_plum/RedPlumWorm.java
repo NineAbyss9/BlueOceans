@@ -1,7 +1,6 @@
 
 package com.bilibili.player_ix.blue_oceans.common.entities.red_plum;
 
-import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -17,16 +16,11 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
 
 public class RedPlumWorm extends RedPlumMonster {
     public RedPlumWorm(EntityType<? extends RedPlumMonster > p_21683_, Level p_21684_) {
         super(p_21683_, p_21684_);
         this.xpReward = 1;
-    }
-
-    public RedPlumWorm(PlayMessages.SpawnEntity entity, Level world) {
-        this(BlueOceansEntities.RED_PLUM_WORM.get(), world);
     }
 
     public Packet<ClientGamePacketListener> getAddEntityPacket() {

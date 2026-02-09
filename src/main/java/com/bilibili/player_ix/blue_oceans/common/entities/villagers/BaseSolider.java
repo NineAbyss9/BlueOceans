@@ -32,6 +32,10 @@ extends BaseVillager {
                 true, 10, FunctionCollector.positiveSupplier()));
     }
 
+    public boolean canAttackEvenBaby() {
+        return true;
+    }
+
     public Profession getProfession() {
         return Profession.SOLIDER;
     }

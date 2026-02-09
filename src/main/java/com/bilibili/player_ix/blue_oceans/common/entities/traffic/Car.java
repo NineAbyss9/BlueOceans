@@ -7,6 +7,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -26,7 +27,7 @@ extends AbstractTrafficUtil {
     }
 
     protected void dropItems() {
-        super.dropItems();
+        this.spawnAtLocation(ItemStack.EMPTY);
     }
 
     public static AttributeSupplier createAttributes() {

@@ -23,13 +23,11 @@ extends DiggerItem {
         BlockPos pos = pContext.getClickedPos();
         BlockState state = level.getBlockState(pos);
         ItemStack stack = pContext.getItemInHand();
-        if (!state.isAir()) {
-            if (state.getBlock().defaultDestroyTime() < 8.0F && isCorrectToolForDrops(stack, state)) {
-                level.destroyBlock(pos, true, pContext.getPlayer());
-                Option.ofNullable(pContext.getPlayer()).ifPresent(player -> stack.hurtAndBreak(
-                        1, player, a -> a.broadcastBreakEvent(pContext.getHand())));
-                return InteractionResult.sidedSuccess(level.isClientSide);
-            }
+        if (!state.isAir() && state.getBlock().defaultDestroyTime() < 8.0F && isCorrectToolForDrops(stack, state)) {
+            level.destroyBlock(pos, true, pContext.getPlayer());
+            Option.ofNullable(pContext.getPlayer()).ifPresent(player -> stack.hurtAndBreak(
+                    1, player, a -> a.broadcastBreakEvent(pContext.getHand())));
+            return InteractionResult.sidedSuccess(level.isClientSide);
         }
         return super.useOn(pContext);
     }

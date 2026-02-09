@@ -78,20 +78,20 @@ implements IFlagMob, ApiBoss, IAnimatedMob {
         this.entityData.set(DATA_FLAGS, flag);
     }
 
-    public int getAnimTick() {
+    public int getAniTick() {
         return this.entityData.get(DATA_ATTACK_TICK);
     }
 
-    public void setAnimTick(int animTick) {
-        this.entityData.set(DATA_ATTACK_TICK, animTick);
+    public void setAniTick(int aniTick) {
+        this.entityData.set(DATA_ATTACK_TICK, aniTick);
     }
 
     private void selectFlag() {
     }
 
     private void flag1() {
-        increaseAnimTick();
-        if (this.getAnimTick() > 40) {
+        increaseAniTick();
+        if (this.getAniTick() > 40) {
             resetState();
         }
     }

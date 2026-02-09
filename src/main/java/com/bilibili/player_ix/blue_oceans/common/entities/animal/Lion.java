@@ -96,12 +96,12 @@ implements IFlagMob, IAnimatedMob {
         this.entityData.set(DATA_FLAGS, flag);
     }
 
-    public int getAnimTick() {
+    public int getAniTick() {
         return this.entityData.get(DATA_ATTACK_TICK);
     }
 
-    public void setAnimTick(int animTick) {
-        this.entityData.set(DATA_ATTACK_TICK, animTick);
+    public void setAniTick(int aniTick) {
+        this.entityData.set(DATA_ATTACK_TICK, aniTick);
     }
 
     public List<AnimationState> getAllAnimations() {
@@ -111,27 +111,27 @@ implements IFlagMob, IAnimatedMob {
     private void doFlags(LivingEntity pTarget) {
         switch (this.getFlag()) {
             case 1: {
-                increaseAnimTick();
-                if (this.animTickEquals(12)) {
+                increaseAniTick();
+                if (this.aniTickEquals(12)) {
                     if (this.closerThan(pTarget, 2.3D)) {
                         this.doHurtTarget(pTarget);
                     }
                 }
-                if (this.animTick(25)) {
+                if (this.aniTick(25)) {
                     this.resetState();
                     break;
                 }
                 break;
             }
             case 2: {
-                increaseAnimTick();
-                if (this.animTick(26)) {
+                increaseAniTick();
+                if (this.aniTick(26)) {
                     this.resetState();
                 }
                 break;
             }
             case 3: {
-                increaseAnimTick();
+                increaseAniTick();
                 break;
             }
             default: {

@@ -9,6 +9,7 @@ import com.github.player_ix.ix_api.api.mobs.OwnableMob;
 import com.github.player_ix.ix_api.util.Colors;
 import com.github.player_ix.ix_api.util.Vec9;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -21,7 +22,9 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.phys.Vec3;
+import org.nine_abyss.math.AbyssMath;
 
 import javax.annotation.Nullable;
 
@@ -39,8 +42,14 @@ implements IConversion {
         this.entityData.define(DATA_CONVERT_TICK, 1200);
     }
 
+    protected void addHostileGoal(int t) {
+    }
+
     public void aiStep() {
         super.aiStep();
+        if (this.isInFluid()) {
+            this.reduceConvertTick();
+        }
         if (this.getConversionTick() >= 600) {
             this.reduceConvertTick();
         }
@@ -48,15 +57,24 @@ implements IConversion {
     }
 
     protected void clientAiStep() {
-        if (this.isConverting()) {
-            this.clientLevel().addParticle(BlueOceansParticleTypes.RED_SPELL.get(),
-                    this.getRandomX(0.8), this.getRandomY(), this.getRandomZ(0.8),
-                    0, 0, 0);
-        }
+    }
+
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        this.addConversionSavedData(tag);
+    }
+
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        this.readConversionSavedData(tag);
     }
 
     public void standOnPlumTick() {
         this.reduceConvertTick();
+    }
+
+    private boolean isInFluid() {
+        return this.level().getBlockState(blockPosition()).getBlock() instanceof LiquidBlock;
     }
 
     public void registerBehaviors() {
@@ -104,6 +122,11 @@ implements IConversion {
     }
 
     @Nullable
+    public static NeoPlum createRandom(BlockPos pos, Level pLevel) {
+        return pLevel.getRandom().nextFloat() < 0.1F ? NeoFighter.create(pos, pLevel) : create(pos, pLevel);
+    }
+
+    @Nullable
     public static NeoPlum createRandom(Vec3 vec3, Level pLevel) {
         return pLevel.getRandom().nextFloat() < 0.1F ? NeoFighter.create(vec3, pLevel) : create(vec3, pLevel);
     }
@@ -112,23 +135,34 @@ implements IConversion {
         if (!entity.level().isClientSide) {
             ServerLevel serverLevel = (ServerLevel)entity.level();
             serverLevel.sendParticles(BlueOceansParticleTypes.RED_SPELL.get(), entity.getX(), entity.getY(),
-                    entity.getZ(), 12, 0.7, 0.7, 0.7, 0);
+                    entity.getZ(), 10, 0.7, 0.7, 0.7, 0);
         }
     }
 
-    @SuppressWarnings("all")
     public void performConvert() {
         if (!this.level().isClientSide) {
             ServerLevel serverLevel = this.serverLevel();
             int chance = this.getRandomUtil().nextInt(5);
             AbstractRedPlumMob monster;
-            if (this.random.nextInt(3) != 0)
+            float f = this.randomUtil.nextFloat();
+            if (f < 0.75F)
                 monster = RedPlumUtil.MAP.get(1).get(chance).create(serverLevel);
-            else
+            else if (f < 0.875F)
                 monster = BlueOceansEntities.PLUM_SPREADER.get().create(serverLevel);
+            else
+                monster = BlueOceansEntities.PLUM_BUILDER.get().create(serverLevel);
             if (monster != null) {
-                monster.moveTo(this.position());
+                Vec3 pos = this.position();
+                monster.moveTo(pos);
                 serverLevel.addFreshEntity(monster);
+                if (monster instanceof PlumBuilder builder) {
+                    if (this.level().getEntitiesOfClass(AbstractRedPlumMob.class, this.getBoundingBox().inflate(10))
+                            .size() > 12 ||
+                            !this.level().getEntitiesOfClass(PlumBuilder.class, this.getBoundingBox().inflate(12)).isEmpty()) {
+                        builder.setTargetPos(pos.add(AbyssMath.random(50), 0,
+                                AbyssMath.random(50)));
+                    }
+                }
             }
             this.playSound(SoundEvents.ZOMBIE_VILLAGER_CONVERTED);
             this.discard();

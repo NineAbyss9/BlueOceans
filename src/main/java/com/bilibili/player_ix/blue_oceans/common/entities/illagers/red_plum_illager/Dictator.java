@@ -26,7 +26,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
 
 import java.util.List;
 
@@ -107,10 +106,6 @@ public class Dictator extends SpellcasterRedPlumIllager {
                         freak.getY(), freak.getZ(), 50, 0.1, 0.1, 0.1, 0.1);
             }
         }
-    }
-
-    public Dictator(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        super(BlueOceansEntities.DICTATOR.get(), world);
     }
 
     public Packet<ClientGamePacketListener> getAddEntityPacket() {

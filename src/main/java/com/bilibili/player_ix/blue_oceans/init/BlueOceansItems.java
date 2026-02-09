@@ -12,10 +12,7 @@ import com.bilibili.player_ix.blue_oceans.common.item.biology.TestTube;
 import com.bilibili.player_ix.blue_oceans.common.item.block.RiceItem;
 import com.bilibili.player_ix.blue_oceans.common.item.chemistry.ElementItem;
 import com.bilibili.player_ix.blue_oceans.common.item.equipment.ElementArmor;
-import com.bilibili.player_ix.blue_oceans.common.item.food.FoodItem;
-import com.bilibili.player_ix.blue_oceans.common.item.food.MushroomItem;
-import com.bilibili.player_ix.blue_oceans.common.item.food.PeaPod;
-import com.bilibili.player_ix.blue_oceans.common.item.food.Peach;
+import com.bilibili.player_ix.blue_oceans.common.item.food.*;
 import com.bilibili.player_ix.blue_oceans.common.item.gun.AbstractGun;
 import com.bilibili.player_ix.blue_oceans.common.item.gun.SniperRifle;
 import com.bilibili.player_ix.blue_oceans.common.item.plum.EchoPotionItem;
@@ -32,6 +29,7 @@ import com.bilibili.player_ix.blue_oceans.common.item.util.axe.ElementAxe;
 import com.bilibili.player_ix.blue_oceans.common.item.util.pickaxe.ElementPickaxe;
 import com.bilibili.player_ix.blue_oceans.common.item.weapon.FreakyAxe;
 import com.bilibili.player_ix.blue_oceans.common.item.weapon.red_plum.RedPlumSword;
+import com.github.player_ix.ix_api.api.item.ApiSpawnEgg;
 import com.github.player_ix.ix_api.api.item.BaseItem;
 import com.google.common.collect.Sets;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -68,16 +66,40 @@ public class BlueOceansItems {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS,  BlueOceans.MOD_ID);
     public static Set<RegistryObject<? extends Item>> MAIN_CREATIVE_ITEMS = Sets.newLinkedHashSet();
+    public static Set<RegistryObject<? extends Item>> SPAWN_EGGS = Sets.newLinkedHashSet();
+    public static Set<RegistryObject<? extends Item>> BLOCKS = Sets.newLinkedHashSet();
     public static Set<RegistryObject<? extends Item>> ELEMENT_CREATIVE_ITEMS = Sets.newLinkedHashSet();
     private BlueOceansItems() {
     }
 
-    public static RegistryObject<Item> spawnEgg(String name, Supplier<? extends EntityType<? extends Mob>> object, int b, int g, Rarity rarity) {
-        return ITEMS.register(name+"_spawn_egg", ()-> new ForgeSpawnEggItem(object, b, g, properties().rarity(rarity)));
+    public static RegistryObject<Item> spawnEgg(String name, Supplier<? extends EntityType<? extends Mob>> object, int b,
+                                                int g, Rarity rarity) {
+        RegistryObject<Item> obj = ITEMS.register(name+"_spawn_egg", ()-> new ForgeSpawnEggItem(object, b, g,
+                properties().rarity(rarity)));
+        SPAWN_EGGS.add(obj);
+        return obj;
     }
 
-    public static RegistryObject<Item> spawnEgg(String name, Supplier<? extends EntityType<? extends Mob>> object, int b, int g) {
-        return ITEMS.register(name+"_spawn_egg", ()-> new ForgeSpawnEggItem(object, b, g, properties()));
+    public static RegistryObject<Item> spawnEgg(String name, Supplier<? extends EntityType<? extends Mob>> object, int b,
+                                                int g) {
+        RegistryObject<Item> obj = ITEMS.register(name+"_spawn_egg", ()-> new ForgeSpawnEggItem(object, b, g,
+                properties()));
+        SPAWN_EGGS.add(obj);
+        return obj;
+    }
+
+    public static RegistryObject<Item> noAddToCreativeSpawnEgg(String name,
+                                                               Supplier<? extends EntityType<? extends Mob>> object, int b, int g) {
+        return ITEMS.register(name+"_spawn_egg", ()-> new ForgeSpawnEggItem(object, b, g,
+                properties()));
+    }
+
+    public static RegistryObject<Item> apiSpawnEgg(String name, Supplier<? extends EntityType<? extends Mob>> object,
+                                                   int b, int g) {
+        RegistryObject<Item> obj = ITEMS.register(name+"_spawn_egg", ()-> new ApiSpawnEgg(object, b, g,
+                properties()));
+        SPAWN_EGGS.add(obj);
+        return obj;
     }
 
     @SuppressWarnings("all")
@@ -90,7 +112,9 @@ public class BlueOceansItems {
     }
 
     public static RegistryObject<Item> block(String name, RegistryObject<Block> block, Item.Properties properties) {
-        return ITEMS.register(name, ()-> new BlockItem(block.get(), properties));
+        RegistryObject<Item> obj = ITEMS.register(name, ()-> new BlockItem(block.get(), properties));
+        BLOCKS.add(obj);
+        return obj;
     }
 
     public static RegistryObject<Item> mushroom(String name, Supplier<Block> supplier, Item.Properties properties) {
@@ -171,6 +195,10 @@ public class BlueOceansItems {
             0xf32fdc0, 0x4c0000);
     public static final RegistryObject<Item> PARAMECIUM_SPAWN_EGG = spawnEgg("paramecium", BlueOceansEntities.PARAMECIUM,
             0x1aB654, 0x3CBB33);
+    public static final RegistryObject<Item> RED_PLUM_CREEPER_SPAWN_EGG = spawnEgg("red_plum_creeper", BlueOceansEntities.RED_PLUM_CREEPER,
+            355000009, 324000000);
+    public static final RegistryObject<Item> PLUM_BUILDER_SPAWN_EGG = spawnEgg("plum_builder", BlueOceansEntities.PLUM_BUILDER,
+            355000000, 325000000);
     public static final RegistryObject<Item> PLUM_FACTORY_SPAWN_EGG = spawnEgg("plum_factory", BlueOceansEntities.PLUM_FACTORY,
             355000000, 325000000);
     public static final RegistryObject<Item> PLUM_SPREADER_SPAWN_EGG = spawnEgg("plum_spreader", BlueOceansEntities.PLUM_SPREADER,
@@ -188,8 +216,8 @@ public class BlueOceansItems {
     public static final RegistryObject<Item> NATURAL_ENVOY_SPAWN_EGG = ITEMS.register("natural_envoy_spawn_egg", ()-> new ForgeSpawnEggItem(BlueOceansEntities.NATURAL_ENVOY, -13434880, -16777216, new Item.Properties()));
     public static final RegistryObject<Item> VILLAGER_BIOLOGIST_SPAWN_EGG = spawnEgg("villager_biologist", BlueOceansEntities.VILLAGER_BIOLOGIST,
             5651507, 12422002);
-    public static final RegistryObject<Item> VILLAGER_CHIEF_SPAWN_EGG = spawnEgg("villager_chief", BlueOceansEntities.VILLAGER_CHIEF,
-            5651507, 12422002);
+    public static final RegistryObject<Item> VILLAGER_CHIEF_SPAWN_EGG = apiSpawnEgg("villager_chief",
+            BlueOceansEntities.VILLAGER_CHIEF, 5651507, 12422002);
     //SEnd
 
     //Material
@@ -216,10 +244,13 @@ public class BlueOceansItems {
             new RiceItem(BlueOceansBlocks.RICE.get(), properties()));
     public static final RegistryObject<Item> ROPE = block(BlueOceansBlocks.ROPE);
     public static final RegistryObject<Item> SALT_ORE = block(BlueOceansBlocks.SALT_ORE);
+    public static final RegistryObject<Item> SCLEROTIC_RED_PLUM_BLOCK =
+            block(BlueOceansBlocks.SCLEROTIC_RED_PLUM_BLOCK);
     public static final RegistryObject<Item> WOODEN_SUPPORT = block(BlueOceansBlocks.WOODEN_SUPPORT);
     //BEnd
 
     //Food
+    public static final RegistryObject<Item> COFFEE = ITEMS.register("coffee", Coffee::new);
     public static final RegistryObject<Item> CORN = ITEMS.register("corn",
             ()-> new FoodItem(2, 1.5F));
     //public static final RegistryObject<Item> EdibleSalt = ITEMS.register("edible_salt", () -> new Item(properties()));
@@ -252,6 +283,9 @@ public class BlueOceansItems {
             () -> new FoodItem(1, 1.5F));
     public static final RegistryObject<Item> LEEK = ITEMS.register("leek", () -> new FoodItem(2, 1.0F));
     public static final RegistryObject<Item> GRAPE = ITEMS.register("grape", ()-> new FoodItem(2, 1.0F));
+    public static final RegistryObject<Item> ORANGE_FLESH = ITEMS.register("orange_flesh", () ->
+            new FoodItem(2, 0.5F));
+    public static final RegistryObject<Item> ORANGE = ITEMS.register("orange", Orange::new);
     public static final RegistryObject<Item> PEA_POD = ITEMS.register("pea_pod", PeaPod::new);
     public static final RegistryObject<Item> PEACH = ITEMS.register("peach", Peach::new);
     public static final RegistryObject<Item> PEAR = ITEMS.register("pear", ()-> new FoodItem(2, 1.0F));
@@ -308,8 +342,8 @@ public class BlueOceansItems {
     public static final RegistryObject<Item> STEEL_SHOVEL = ITEMS.register("steel_shovel",
             () -> new ShovelItem(BoTier.STEEL, 1, -3.0F, properties()));
     //Traffic
-    public static final RegistryObject<Item> BIKE_EGG = spawnEgg("bike", BlueOceansEntities.BIKE,
-            1001033, 1001033);
+    public static final RegistryObject<Item> BIKE_EGG = noAddToCreativeSpawnEgg("bike",
+            BlueOceansEntities.BIKE, 1001033, 1001033);
     //UEnd
 
     //Misc

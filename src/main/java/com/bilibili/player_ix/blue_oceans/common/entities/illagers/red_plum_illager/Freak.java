@@ -30,7 +30,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
 
 import javax.annotation.Nullable;
 
@@ -42,11 +41,6 @@ extends SpellcasterRedPlumIllager {
         this.xpReward = 25;
         this.setMaxUpStep(2f);
         this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(BlueOceansItems.FREAKY_AXE.get()));
-    }
-
-    @SuppressWarnings("unused")
-    public Freak(PlayMessages.SpawnEntity spawnEntity, Level level) {
-        this(BlueOceansEntities.FREAK.get(), level);
     }
 
     protected void registerGoals() {

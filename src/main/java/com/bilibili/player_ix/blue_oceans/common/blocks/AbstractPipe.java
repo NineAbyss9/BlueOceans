@@ -18,7 +18,7 @@ implements SimpleWaterloggedBlock {
     }
 
     public Content getContent() {
-        return null;
+        return Content.EMPTY;
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {

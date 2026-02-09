@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class TestTube extends Item {
@@ -23,10 +24,15 @@ public class TestTube extends Item {
 
     public void appendHoverText(ItemStack pStack, Level pLevel, List<Component> pTooltipComponents,
                                 TooltipFlag pIsAdvanced) {
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+        CompoundTag tag = pStack.getTag();
+        Content content = getContent(tag);
+        if (tag != null && !content.isEmpty())
+            pTooltipComponents.add(content.description());
     }
 
-    public static Content getContent(CompoundTag pTag) {
+    public static Content getContent(@Nullable CompoundTag pTag) {
+        if (pTag == null)
+            return Content.EMPTY;
         return Content.of(pTag.getInt(CONTENT_TAG));
     }
 

@@ -8,12 +8,15 @@ import com.bilibili.player_ix.blue_oceans.client.particles.RedPlumSpell;
 import com.bilibili.player_ix.blue_oceans.client.particles.SparkParticle;
 import com.bilibili.player_ix.blue_oceans.client.renderer.*;
 import com.bilibili.player_ix.blue_oceans.client.renderer.block.WoodenSupportRenderer;
+import com.bilibili.player_ix.blue_oceans.client.renderer.plum.PlumBuilderRenderer;
+import com.bilibili.player_ix.blue_oceans.common.item.food.Coffee;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlockEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansParticleTypes;
 import com.github.player_ix.ix_api.api.renderer.BaseEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -56,6 +59,7 @@ public class ClientInitEvents {
         event.registerLayerDefinition(HuntingVillagerArmorModel.LOCATION, HuntingVillagerArmorModel::createInnerArmorLayer);
         event.registerLayerDefinition(HuntingVillagerArmorModel.LOC, HuntingVillagerArmorModel::createOuterArmorLayer);
         event.registerLayerDefinition(HuntingVillagerModel.LOCATION, HuntingVillagerModel::createBodyLayer);
+        event.registerLayerDefinition(PlumBuilderModel.LAYER_LOCATION, PlumBuilderModel::createBodyLayer);
         event.registerLayerDefinition(PlumFactoryModel.LAYER_LOCATION, PlumFactoryModel::createBodyLayer);
         event.registerLayerDefinition(PlumSpreaderModel.LAYER_LOCATION, PlumSpreaderModel::createBodyLayer);
         event.registerLayerDefinition(NeoFighterModel.LAYER_LOCATION, NeoFighterModel::createBodyLayer);
@@ -86,6 +90,8 @@ public class ClientInitEvents {
         event.registerEntityRenderer(BlueOceansEntities.NEO_FIGHTER.get(), NeoFighterRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.NEO_PLUM.get(), NeoPlumRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.PARAMECIUM.get(), ParameciumRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.RED_PLUM_CREEPER.get(), RPCreeperRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.PLUM_BUILDER.get(), PlumBuilderRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.PLUM_FACTORY.get(), PlumFactoryRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.PLUM_SPREADER.get(), PlumSpreaderRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.RED_PLUMS_COW.get(), RedPlumsCowRenderer::new);
@@ -103,7 +109,7 @@ public class ClientInitEvents {
 
     @SubscribeEvent
     public static void registerItemDecorations(RegisterItemDecorationsEvent event) {
-        event.register(BlueOceansItems.RED_PLUM_SWORD.get(),
+        event.register(BlueOceansItems.STEEL_AXE.get(),
                 (guiGraphics, font, stack, xOffset, yOffset) -> {
                     guiGraphics.blit(LOCKED, xOffset, yOffset, 8, 8, 8,
                             8, 8, 8);
@@ -114,10 +120,11 @@ public class ClientInitEvents {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         BlockEntityRenderers.register(BlueOceansBlockEntities.WOODEN_SUPPORT.get(), WoodenSupportRenderer::new);
-        //registerItemStates();
+        registerItemStates();
     }
 
     public static void registerItemStates() {
-        //ItemProperties.register();
+        ItemProperties.register(BlueOceansItems.COFFEE.get(), new ResourceLocation("java"),
+                (pStack, pLevel, pEntity, pSeed) -> Coffee.isJava(pStack) ? 1.0F : 0.0F);
     }
 }

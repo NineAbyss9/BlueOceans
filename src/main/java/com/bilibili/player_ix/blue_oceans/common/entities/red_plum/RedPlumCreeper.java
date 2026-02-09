@@ -2,7 +2,10 @@
 package com.bilibili.player_ix.blue_oceans.common.entities.red_plum;
 
 import com.bilibili.player_ix.blue_oceans.api.mob.ai.ApiSwellGoal;
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansMobEffects;
 import com.github.player_ix.ix_api.api.mobs.ICreeper;
+import com.github.player_ix.ix_api.api.mobs.ai.goal.MeleeGoal;
+import com.github.player_ix.ix_api.util.Maths;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -49,6 +52,7 @@ implements ICreeper {
 
     protected void registerGoals() {
         this.goalSelector.addGoal(2, new ApiSwellGoal<>(this));
+        this.goalSelector.addGoal(3, new MeleeGoal(this, 0.8));
         super.registerGoals();
     }
 
@@ -157,11 +161,10 @@ implements ICreeper {
 
     private void explodeCreeper() {
         if (!this.level().isClientSide) {
+            this.playSound(SoundEvents.GENERIC_EXPLODE, 2, 1);
             this.dead = true;
-            this.level().explode(this, this.getX(), this.getY(), this.getZ(), this.explosionRadius,
-                    Level.ExplosionInteraction.MOB);
-            this.discard();
             this.spawnLingeringCloud();
+            this.discard();
         }
     }
 
@@ -174,6 +177,8 @@ implements ICreeper {
             areaeffectcloud.setWaitTime(10);
             areaeffectcloud.setDuration(areaeffectcloud.getDuration() / 2);
             areaeffectcloud.setRadiusPerTick(-areaeffectcloud.getRadius() / (float)areaeffectcloud.getDuration());
+            areaeffectcloud.addEffect(new MobEffectInstance(BlueOceansMobEffects.PLUM_INFECTION.get(),
+                    Maths.minuteToTick(1), 1));
             for (MobEffectInstance mobeffectinstance : collection) {
                 areaeffectcloud.addEffect(new MobEffectInstance(mobeffectinstance));
             }

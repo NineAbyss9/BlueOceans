@@ -17,7 +17,6 @@ implements ICompatable {
     }
 
     public void setup(FMLCommonSetupEvent event) {
-
     }
 
     public static MobEffect getApiEffect(String name) {

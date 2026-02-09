@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -54,7 +55,7 @@ public class BlueOceans implements ModOfNineAbyss {
         BlueOceansSounds.SOUNDS.register(bus);
         BlueOceansTabs.TABS.register(bus);
         createFiles(FMLPaths.CONFIGDIR.get().resolve(MOD_ID), MOD_ID);
-        context.registerConfig(ModConfig.Type.COMMON, BoCommonConfig.SPEC,
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, BoCommonConfig.SPEC,
                 "blue_oceans/blue_oceans-common_config.toml");
         BoCommonConfig.load(BoCommonConfig.SPEC, FMLPaths.CONFIGDIR.get()
                 .resolve("blue_oceans/blue_oceans-common_config.toml").toString());
@@ -64,6 +65,7 @@ public class BlueOceans implements ModOfNineAbyss {
     private void commonSetup(FMLCommonSetupEvent event) {
         //NineAbyssBase.setup();
         BoNetwork.register();
+        BoBrews.addBrews();
     }
 
     @Nonnull
@@ -112,7 +114,7 @@ public class BlueOceans implements ModOfNineAbyss {
                 .replace("blue_oceans:", "") + ".png");
     }
 
-    /**Code from
+    /**Based on
      *<a href="https://github.com/Polarice3/Goety-2/blob/1.20/src/main/java/com/Polarice3/Goety/Goety.java">...</a>*/
     private static void createFiles(@Nonnull Path dirPath, String dirLabel) {
         if (!Files.isDirectory(dirPath.getParent())) {
