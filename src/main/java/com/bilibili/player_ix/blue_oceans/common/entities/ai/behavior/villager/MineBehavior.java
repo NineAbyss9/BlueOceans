@@ -9,14 +9,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
-import org.nine_abyss.util.IXUtil;
-import org.nine_abyss.util.IXUtilUser;
+import org.NineAbyss9.util.IXUtil;
+import org.NineAbyss9.util.IXUtilUser;
 
 public class MineBehavior<E extends BaseVillager>
 extends Behavior
 implements IXUtilUser {
     private final E mob;
-    protected int destroyBlockProgress;
+    protected int breakTime;
     public MineBehavior(E pMob) {
         mob = pMob;
     }
@@ -29,6 +29,10 @@ implements IXUtilUser {
         return this.mob.targetPosOptional().isPresent() && this.isPickaxeReady();
     }
 
+    protected int getBreakTime() {
+        return Math.max(240, this.breakTime);
+    }
+
     public boolean isPickaxeReady() {
         return this.mob.isHolding(stack -> stack.is(ItemTags.PICKAXES));
     }
@@ -39,11 +43,15 @@ implements IXUtilUser {
     }
 
     public void tick() {
-        @SuppressWarnings("all")
         BlockPos pos = this.mob.targetPosOptional().get();
         if (canReach(pos)) {
+            ++this.breakTime;
+            int i = (int)((float)this.breakTime / (float)this.getBreakTime() * 10.0F);
             this.mob.getNavigation().stop();
-            mob.level().destroyBlockProgress(0, pos, 0);
+            mob.level().destroyBlockProgress(this.mob.getId(), pos, i);
+            if (this.breakTime == this.getBreakTime()) {
+                this.mob.level().destroyBlock(pos, true, this.mob);
+            }
         } else {
             Vec3 truePos = BlockUtil.getTruePos(pos);
             this.mob.getNavigation().moveTo(truePos.x, truePos.y, truePos.z, 1.0);

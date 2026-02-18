@@ -25,6 +25,7 @@ extends ThrowableItemProjectile {
         super(pEntityType, pLevel);
     }
 
+    @SuppressWarnings("unused")
     public EchoPotion(double pX, double pY, double pZ, Level pLevel) {
         super(BlueOceansEntities.ECHO_POTION.get(), pX, pY, pZ, pLevel);
     }
@@ -61,8 +62,8 @@ extends ThrowableItemProjectile {
 
     protected void removePlumBlocks(Vec3 pos) {
         BlockPos blockPos = BlockPos.containing(pos);
-        for (int j = 0; j < 2;j++) {
-            for (int i = 0;i < 3;i++) {
+        for (int j = 1; j < 3;j++) {
+            for (int i = 1;i < 3;i++) {
                 BlockPos blockPos1 = blockPos.below().offset(i, j, 0);
                 BlockPos blockPos2 = blockPos.below().offset(j, 0, i);
                 BlockPos blockPos3 = blockPos.below().offset(i, j, i);

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "i"
+  ],
+  "key": {
+    "i": {
+      "item": "blue_oceans:plum_tissue"
+    }
+  },
+  "result": {
+    "item": "blue_oceans:plum_cell_cluster",
+    "count": 4
+  }
+}

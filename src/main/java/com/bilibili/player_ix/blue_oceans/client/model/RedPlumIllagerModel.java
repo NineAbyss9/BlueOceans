@@ -1,7 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.client.model;
 
-import com.bilibili.player_ix.blue_oceans.common.entities.illagers.red_plum_illager.RedPlumIllager;
+import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.RedPlumMonster;
 import com.github.player_ix.ix_api.api.ApiPose;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.AnimationUtils;
@@ -16,7 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
 
-public class RedPlumIllagerModel<T extends RedPlumIllager> extends HierarchicalModel<T>
+public class RedPlumIllagerModel<T extends RedPlumMonster> extends HierarchicalModel<T>
         implements HeadedModel, ArmedModel {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(
             new ResourceLocation("blue_oceans", "redplumillagermodel"), "main");
@@ -116,7 +116,7 @@ public class RedPlumIllagerModel<T extends RedPlumIllager> extends HierarchicalM
             this.leftLeg.yRot = 0.0F;
             this.leftLeg.zRot = 0.0F;
         }
-        ApiPose pose = p_102928_.getArmPose();
+        ApiPose pose = p_102928_.getPoses();
         switch (pose) {
             case ATTACKING: {
                 if (p_102928_.getMainHandItem().isEmpty()) {
@@ -143,8 +143,14 @@ public class RedPlumIllagerModel<T extends RedPlumIllager> extends HierarchicalM
                 this.leftArm.yRot = Mth.PI;
                 break;
             }
+            case ZOMBIE_ATTACKING:{
+                AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, true, this.attackTime, p_102931_);
+                break;
+            }
+            default:
+                break;
         }
-        boolean o = p_102928_.getArmPose() == ApiPose.CROSSED;
+        boolean o = p_102928_.getPoses() == ApiPose.CROSSED;
         this.arms.visible = o;
         this.leftArm.visible = !o;
         this.rightArm.visible = !o;

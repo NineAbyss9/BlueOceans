@@ -9,7 +9,7 @@ import net.minecraft.world.item.Item;
 public class RedPlumFlesh extends Item {
     public RedPlumFlesh() {
         super(new Properties().stacksTo(64).food(new FoodProperties.Builder().meat().fast()
-                .nutrition(4).saturationMod(2.5f).effect(
+                .nutrition(4).saturationMod(1.25f).effect(
                         ()-> new MobEffectInstance(BlueOceansMobEffects.PLUM_INVADE.get(), 300,
                                 0), 1).build()));
     }

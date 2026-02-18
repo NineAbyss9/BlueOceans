@@ -7,6 +7,10 @@ import net.minecraft.world.entity.LivingEntity;
 
 public interface IPlumItem {
     default void addPlumEffect(LivingEntity pTarget) {
-        pTarget.addEffect(EffectInstance.create(BlueOceansMobEffects.PLUM_INVADE, 140, 1));
+        pTarget.addEffect(EffectInstance.create(BlueOceansMobEffects.FRIENDLY_PLUM_INVADE, 140, 1));
+    }
+
+    default void addPlumEffect(LivingEntity pTarget, int pLevel) {
+        pTarget.addEffect(EffectInstance.create(BlueOceansMobEffects.FRIENDLY_PLUM_INVADE, 140, pLevel));
     }
 }

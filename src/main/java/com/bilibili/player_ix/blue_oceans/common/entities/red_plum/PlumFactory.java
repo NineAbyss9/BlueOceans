@@ -1,7 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.entities.red_plum;
 
-import com.bilibili.player_ix.blue_oceans.common.blocks.RedPlumCatalyst;
+import com.bilibili.player_ix.blue_oceans.common.blocks.plum.RedPlumCatalyst;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansParticleTypes;
 import com.bilibili.player_ix.blue_oceans.util.RedPlumUtil;
 import com.github.player_ix.ix_api.api.annotation.ServerOnly;
@@ -17,8 +17,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.nine_abyss.annotation.doc.Message;
-import org.nine_abyss.math.MathSupport;
+import org.NineAbyss9.annotation.doc.Message;
+import org.NineAbyss9.math.MathSupport;
 
 import javax.annotation.Nullable;
 

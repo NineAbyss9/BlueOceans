@@ -3,8 +3,8 @@ package com.bilibili.player_ix.blue_oceans.book;
 
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.FormattedCharSequence;
-import org.nine_abyss.util.lister.Lister;
-import org.nine_abyss.util.lister.SubLister;
+import org.NineAbyss9.util.lister.Lister;
+import org.NineAbyss9.util.lister.SubLister;
 
 public class BlueBook {
     private final Lister<Page> pages;

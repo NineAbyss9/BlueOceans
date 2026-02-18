@@ -124,11 +124,7 @@ extends SpellcasterRedPlumIllager {
         return this.getHealth() <= this.getMaxHealth() / 2;
     }
 
-    public MobType getMobType() {
-        return MobType.ILLAGER;
-    }
-
-    public ApiPose getArmPose() {
+    public ApiPose getPoses() {
         if (this.isCastingSpell()) {
             return ApiPose.SPELL_CASTING;
         }

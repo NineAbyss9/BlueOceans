@@ -12,7 +12,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.Level;
-import org.nine_abyss.util.ValueHolder;
+import org.NineAbyss9.util.ValueHolder;
 
 import javax.annotation.Nullable;
 import java.util.UUID;

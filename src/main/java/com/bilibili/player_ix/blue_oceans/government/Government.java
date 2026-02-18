@@ -5,8 +5,8 @@ import com.bilibili.player_ix.blue_oceans.government.effect.Effect;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.entity.LivingEntity;
-import org.nine_abyss.util.lister.Lister;
-import org.nine_abyss.util.lister.SubLister;
+import org.NineAbyss9.util.lister.Lister;
+import org.NineAbyss9.util.lister.SubLister;
 
 import java.util.ArrayList;
 import java.util.HashSet;

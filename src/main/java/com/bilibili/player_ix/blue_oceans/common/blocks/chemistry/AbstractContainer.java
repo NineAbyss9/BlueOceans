@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.Fluids;
+import org.NineAbyss9.value_holder.BooleanValueHolder;
 
 @SuppressWarnings("deprecation")
 public abstract class AbstractContainer
@@ -34,7 +35,7 @@ extends BaseEntityBlock {
         return super.updateShape(pState, pDirection, pNeighborState, pLevel, pPos, pNeighborPos);
     }
 
-    public boolean fill(Content c) {
+    public BooleanValueHolder<Content> fill(Content c) {
         return this.holder().fill(c);
     }
 

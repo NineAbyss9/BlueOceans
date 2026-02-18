@@ -1,7 +1,7 @@
 
 package com.github.player_ix.ix_api.init;
 
-import org.nine_abyss.annotation.PAMAreNonnullByDefault;
+import org.NineAbyss9.annotation.PAMAreNonnullByDefault;
 import com.github.player_ix.ix_api.commands.APICommand;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;

@@ -10,7 +10,7 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import org.nine_abyss.util.Option;
+import org.NineAbyss9.util.Option;
 
 public class HammerItem
 extends DiggerItem {

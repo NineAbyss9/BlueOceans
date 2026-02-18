@@ -1,7 +1,7 @@
 
 package com.github.player_ix.ix_api.api.mobs;
 
-import org.nine_abyss.annotation.PAMAreNonnullByDefault;
+import org.NineAbyss9.annotation.PAMAreNonnullByDefault;
 import com.github.player_ix.ix_api.util.ObjectUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

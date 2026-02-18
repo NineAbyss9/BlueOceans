@@ -18,7 +18,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import org.nine_abyss.math.MathSupport;
+import org.NineAbyss9.math.MathSupport;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -54,7 +54,7 @@ implements IFlagMob, IAnimatedMob {
 
     protected void customServerAiStep() {
         super.customServerAiStep();
-        if (this.isHiding() && this.level().random.nextInt(13) == 0) {
+        if (this.isHiding() && this.level().random.nextFloat() < 0.07F) {
             BlockState state = this.level().getBlockState(blockPosition());
             Block block = state.getBlock();
             if (block instanceof CropBlock crop && !crop.isMaxAge(state)) {
@@ -137,7 +137,7 @@ implements IFlagMob, IAnimatedMob {
                 Earthworm.this.setTask(Task.HIDE);
                 Earthworm.this.setFlag(2);
             } else if (Earthworm.this.hasTask(Task.HIDE) && Earthworm.this.tickCount % 20 == 0 &&
-                    MathSupport.random.nextInt(8) == 0) {
+                    MathSupport.random.nextFloat() < 0.125F) {
                 Earthworm.this.setTask(Task.WAKE);
                 Earthworm.this.setFlag(3);
             } else if (Earthworm.this.hasTask(Task.WAKE) && Earthworm.this.aniTick(20)) {

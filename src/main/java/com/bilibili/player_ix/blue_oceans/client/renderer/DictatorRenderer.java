@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
 
 public class DictatorRenderer<T extends Dictator> extends RedPlumIllagerRenderer<T> {
     private static final ResourceLocation DICTATOR = new ResourceLocation("blue_oceans:textures/entities/red_plum_mobs/dictator.png");
@@ -24,8 +23,7 @@ public class DictatorRenderer<T extends Dictator> extends RedPlumIllagerRenderer
         });
     }
 
-    @Override
-    public @NotNull ResourceLocation getTextureLocation(@NotNull T entity) {
+    public ResourceLocation getTextureLocation(T entity) {
         return DICTATOR;
     }
 }

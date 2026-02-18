@@ -3,7 +3,7 @@ package com.bilibili.player_ix.blue_oceans.util;
 
 import com.bilibili.player_ix.blue_oceans.api.potion.PlumDishPotion;
 import com.bilibili.player_ix.blue_oceans.api.potion.PlumDishPotions;
-import org.nine_abyss.annotation.PAMAreNonnullByDefault;
+import org.NineAbyss9.annotation.PAMAreNonnullByDefault;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;

@@ -9,7 +9,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 
-import static org.nine_abyss.math.AbyssMath.random;
+import static org.NineAbyss9.math.AbyssMath.random;
 
 public class RedPlumFish
 extends WaterPlumMob {

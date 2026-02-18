@@ -27,6 +27,7 @@ extends Block {
         if (pPlayer.getItemInHand(pHand).is(ItemTags.HOES)) {
             pLevel.playSound(pPlayer, pPos, SoundEvents.HOE_TILL, SoundSource.BLOCKS);
             pLevel.setBlockAndUpdate(pPos, this.getFarmland().defaultBlockState());
+            return InteractionResult.sidedSuccess(pLevel.isClientSide);
         }
         return InteractionResult.PASS;
     }

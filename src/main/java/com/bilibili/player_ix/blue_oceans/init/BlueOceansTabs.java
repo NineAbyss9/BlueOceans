@@ -29,6 +29,8 @@ public class BlueOceansTabs {
                         output.accept(BlueOceansItems.ECHO_POTION.get());
                         output.accept(BlueOceansItems.ENTITY_KILLER.get());
                         output.accept(BlueOceansItems.FREAKY_AXE.get());
+                        output.accept(BlueOceansItems.PLUM_CELL_CLUSTER.get());
+                        output.accept(BlueOceansItems.PLUM_TISSUE.get());
                         output.accept(BlueOceansItems.RED_PLUM_SWORD.get());
                         output.accept(BlueOceansItems.RED_PLUM.get());
                         output.accept(BlueOceansItems.STEEL_INGOT.get());
@@ -50,6 +52,14 @@ public class BlueOceansTabs {
                         for (RegistryObject<? extends Item> obj : BlueOceansItems.SPAWN_EGGS)
                             output.accept(obj.get());
                     }).build());
+    public static final RegistryObject<CreativeModeTab> PLUM = TABS.register("blue_oceans_plum", () ->
+            CreativeModeTab.builder().title(Component.translatable("item_group.blue_oceans.blue_oceans_plum")
+                            .withStyle(ChatFormatting.RED))
+                    .icon(() -> (BlueOceansItems.PLUM_CELL_CLUSTER.get().getDefaultInstance()))
+                    .displayItems((parameter, output) -> {
+                        for (RegistryObject<? extends Item> obj : BlueOceansItems.PLUM_ITEMS)
+                            output.accept(obj.get());
+                    }).build());
     public static final RegistryObject<CreativeModeTab> BO_BLOCK = TABS
             .register("blue_oceans_block", ()-> CreativeModeTab.builder().icon(()->
                     ItemStacks.of(BlueOceansItems.RED_PLUM_BLOCK)).title(Component.translatable(
@@ -69,6 +79,8 @@ public class BlueOceansTabs {
                 ItemStack stack = new ItemStack(Items.SPLASH_POTION);
                 PotionUtils.setPotion(stack, BlueOceansMobEffects.Potions.PLUM_INVADE_POTION.get());
                 output.accept(stack);
+                for (RegistryObject<? extends Item> obj : BlueOceansItems.BIOLOGY_ITEMS)
+                    output.accept(obj.get());
             }).build());
     public static final RegistryObject<CreativeModeTab> BO_CHEMISTRY = TABS
             .register("blue_oceans_chemistry", () -> CreativeModeTab.builder().icon(() ->

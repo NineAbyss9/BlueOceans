@@ -1,7 +1,9 @@
 
 package com.bilibili.player_ix.blue_oceans.util;
 
-import org.nine_abyss.annotation.PAMAreNonnullByDefault;
+import com.github.player_ix.ix_api.api.mobs.IShieldUser;
+import net.minecraft.world.damagesource.DamageSource;
+import org.NineAbyss9.annotation.PAMAreNonnullByDefault;
 import com.github.player_ix.ix_api.api.mobs.Ownable;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -20,8 +22,11 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.Team;
+import org.NineAbyss9.math.AbyssMath;
 
 import javax.annotation.Nullable;
+import java.util.List;
+import java.util.function.Consumer;
 
 /**Copy from No.IXApi*/
 @PAMAreNonnullByDefault
@@ -150,4 +155,93 @@ public record MobUtil(Entity pEntity)
         return new AABB(center.x - x / 2, center.y - y / 2, center.z - z / 2,
                 center.x + x1 / 2, center.y + y1 / 2, center.z + z1 / 2);
     }
+
+    public static void disableShield(double x, double y, double z, Entity mob) {
+        List<Entity> players = mob.level().getEntitiesOfClass(Entity.class, mob.getBoundingBox().inflate(x, y, z));
+        if (!players.isEmpty()) {
+            for (Entity entityIn : players) {
+                if (entityIn instanceof Player player) {
+                    player.disableShield(true);
+                } else if (entityIn instanceof IShieldUser user) {
+                    user.disableShield(true);
+                }
+            }
+        }
+    }
+
+    public static void disableShield(Entity pEntity, int pTicks) {
+        if (pEntity instanceof Player player && player.isBlocking()) {
+            if (!player.level().isClientSide) {
+                player.getCooldowns().addCooldown(player.getUseItem().getItem(), pTicks);
+                player.stopUsingItem();
+                player.level().broadcastEntityEvent(player, AbyssMath.toByte(30));
+            }
+        } else if (pEntity instanceof IShieldUser user) {
+            user.disableShield(true);
+        }
+    }
+
+    /**From here, the code comes from
+     *<a href="https://github.com/Polarice3/Goety-2/blob/1.20/src/main/java/com/Polarice3/Goety/utils/MobUtil.java">...</a>*/
+    public static List<LivingEntity> getEntityLivingBaseNearby(LivingEntity livingEntity, double distanceX, double distanceY, double distanceZ, double radius) {
+        return getEntitiesNearby(livingEntity, LivingEntity.class, distanceX, distanceY, distanceZ, radius);
+    }
+
+    public static  <T extends Entity> List<T> getEntitiesNearby(LivingEntity livingEntity, Class<T> entityClass, double dX, double dY, double dZ, double r) {
+        return livingEntity.level().getEntitiesOfClass(entityClass, livingEntity.getBoundingBox().inflate(dX, dY, dZ), e -> e != livingEntity && livingEntity.distanceTo(e) <= r + e.getBbWidth() / 2.0F && e.getY() <= livingEntity.getY() + dY);
+    }
+
+    public static void areaAttack(LivingEntity attacker, float range, float height, float arc, DamageSource source, float damage) {
+        areaAttack(attacker, range, height, arc, damage, 0, 0, source, true);
+    }
+
+    public static void areaAttack(LivingEntity attacker, float range, float height, float arc, float damage, float hpDamage, int shieldBreak, DamageSource damageSource, boolean knockback) {
+        areaAttack(attacker, range, height, arc, damage, hpDamage, shieldBreak, damageSource, knockback, null);
+    }
+
+    public static void areaAttack(LivingEntity attacker, float range, float height, float arc, float damage, float hpDamage,
+                                  int shieldBreak, DamageSource source, boolean knockback, @Nullable Consumer<LivingEntity> attackEffect) {
+        List<LivingEntity> entitiesHit = getEntityLivingBaseNearby(attacker, range, height, range, range);
+        if (!attacker.level().isClientSide) {
+            for (LivingEntity entityHit : entitiesHit) {
+                float entityRelativeAngle = getRelativeAngle(attacker, entityHit);
+                float entityHitDistance = (float)Math.sqrt((entityHit.getZ() - attacker.getZ()) *
+                        (entityHit.getZ() - attacker.getZ()) + (entityHit.getX() - attacker.getX()) * (entityHit.getX() - attacker.getX()));
+                if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2)
+                        || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
+                    if (canHurt(entityHit, attacker)) {
+                        boolean flag = entityHit.hurt(source, damage + (entityHit.getMaxHealth() * hpDamage));
+                        if (entityHit.isDamageSourceBlocked(source) && shieldBreak > 0) {
+                            disableShield(entityHit, shieldBreak);
+                        }
+                        if (flag) {
+                            double d0 = entityHit.getX() - attacker.getX();
+                            double d1 = entityHit.getZ() - attacker.getZ();
+                            double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
+                            if (knockback) {
+                                entityHit.push(d0 / d2 * 2.0D, 0.18D, d1 / d2 * 2.0D);
+                            }
+                            if (attackEffect != null) {
+                                attackEffect.accept(entityHit);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public static float getRelativeAngle(LivingEntity attacker, LivingEntity entityHit) {
+        float entityHitAngle = (float)((Math.atan2(entityHit.getZ() - attacker.getZ(), entityHit.getX() - attacker.getX()) * (180 / Math.PI) - 90) % 360);
+        float entityAttackingAngle = attacker.yBodyRot % 360;
+        if (entityHitAngle < 0) {
+            entityHitAngle += 360;
+        }
+        if (entityAttackingAngle < 0) {
+            entityAttackingAngle += 360;
+        }
+        return entityHitAngle - entityAttackingAngle;
+    }
+
+    //To here
 }

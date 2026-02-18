@@ -23,6 +23,7 @@ public class BlueOceansSounds {
     public static final RegistryObject<SoundEvent> RedPlumWormHurt = register("red_plum_worm_hurts", "red_plum_worm_hurt");
     public static final RegistryObject<SoundEvent> RedPlumWormDie = register("red_plum_worm_dies", "red_plum_worm_die");
     public static final RegistryObject<SoundEvent> RedPlumWormStep = register("red_plum_worm_step", "red_plum_worm_step");
+    public static final RegistryObject<SoundEvent> PUFF = register("puff", "puff");
     public static final RegistryObject<SoundEvent> SNIPER_RIFLE_FIRE = register("sniper_rifle_fire", "sniper_rifle_fire");
 
     private static RegistryObject<SoundEvent> register(String name, String location) {

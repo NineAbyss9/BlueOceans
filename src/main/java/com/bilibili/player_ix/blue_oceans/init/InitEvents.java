@@ -6,7 +6,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.fml.common.Mod;
 
 //@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class InitEvents {
@@ -21,7 +20,7 @@ public class InitEvents {
 
     public static void registerEntityCapabilities(AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof LivingEntity living) {
-            org.nine_abyss.util.Nothing.getInstance().noting();
+            org.NineAbyss9.util.Nothing.getInstance().noting();
         }
     }
 }

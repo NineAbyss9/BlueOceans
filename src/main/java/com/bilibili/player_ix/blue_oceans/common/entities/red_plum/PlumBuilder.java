@@ -3,10 +3,11 @@ package com.bilibili.player_ix.blue_oceans.common.entities.red_plum;
 
 import com.bilibili.player_ix.blue_oceans.api.mob.IAnimatedMob;
 import com.bilibili.player_ix.blue_oceans.api.mob.Immobile;
-import com.bilibili.player_ix.blue_oceans.common.blocks.RedPlumCatalyst;
+import com.bilibili.player_ix.blue_oceans.common.blocks.plum.RedPlumCatalyst;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansMobEffects;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansParticleTypes;
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansSounds;
 import com.bilibili.player_ix.blue_oceans.util.RedPlumUtil;
 import com.github.player_ix.ix_api.api.annotation.ServerOnly;
 import com.github.player_ix.ix_api.api.mobs.IFlagMob;
@@ -25,10 +26,12 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
-import org.nine_abyss.math.AbyssMath;
+import org.NineAbyss9.math.AbyssMath;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -40,16 +43,19 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
     private static final EntityDataAccessor<Boolean> DATA_BUILDING;
     private static final EntityDataAccessor<Integer> DATA_AGE;
     private static final EntityDataAccessor<Integer> DATA_FLAGS;
+    private static final int MAX_AGE = 8;
     private static final int NEXT_AGE = Maths.minuteToTick(2);
     private static final int SPREAD_COOLDOWN = Maths.toTick(30);
     private int lostTargetTime;
     private int spreadTimer;
+    private int tryCount;
     public AnimationState idle = new AnimationState();
     public AnimationState spread = new AnimationState();
     public PlumBuilder(EntityType<? extends PlumBuilder> type, Level level) {
         super(type, level);
         this.lostTargetTime = 120;
         this.setHealth(this.getHealthByAge());
+        this.refreshDimensions();
     }
 
     protected void defineSynchedData() {
@@ -61,66 +67,89 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
 
     public void aiStep() {
         super.aiStep();
-        if (this.lostTargetTime > 0)
-            --this.lostTargetTime;
-        if (this.lostTargetTime <= 0 && this.isEmptyTarget() && !this.isBuilding()) {
-            this.setBuilding(true);
-        }
-        if (this.isBuilding()) {
-            --this.spreadTimer;
-            if (this.tickCount % NEXT_AGE == 0) {
-                this.increaseAge();
-                if (this.getAge() > 4) {
-                    this.sendNewBuilder();
-                }
+        if (!this.level().isClientSide) {
+            if (this.lostTargetTime <= 0 && this.isEmptyTarget() && !this.isBuilding()) {
+                this.startBuilding();
             }
-            if (this.spreadTimer == 15) {
-                this.setFlag(1);
-            } else if (this.spreadTimer <= 0) {
-                if (this.isServerSide()) {
-                    this.spread();
-                    if (PlumFactory.checkPlums(level(), this.getBoundingBox().inflate(16), 20))
-                        for (int counterNA = 0;counterNA < this.getAge() + this.getSummonedLevel();counterNA++)
-                            this.spawnPlums();
-                    else if (this.getAge() > 1) {
-                        List<AbstractRedPlumMob> mobs = this.level().getEntitiesOfClass(AbstractRedPlumMob.class,
-                                this.getBoundingBox().inflate(16), pMob->pMob.getLevel() <
-                                        this.getLevel() && pMob.getOwner() != this && pMob.getKills() > 0);
-                        if (!mobs.isEmpty())
-                            mobs.stream().findAny().ifPresent(pMob ->
-                            {
-                                pMob.setOwner(this);
-                                pMob.setTargetPos(this.position());
-                                pMob.setPlumFlag(1);
-                            });
+            if (this.isBuilding()) {
+                if (!isMaxAge() && this.tickCount % NEXT_AGE == 0) {
+                    this.increaseAge();
+                    if (this.getAge() > 4) {
+                        this.sendNewBuilder();
                     }
                 }
-                this.setFlag(0);
-                this.spreadTimer = SPREAD_COOLDOWN;
-            }
-        } else if (!this.isEmptyTarget()) {
-            this.moveToTargetPos();
-            Vec3 vec3 = this.getTargetPos();
-            if (Math.abs(this.x() - vec3.x) < 3 && Math.abs(this.z() - vec3.z) < 3) {
-                this.getNavigation().stop();
-                this.setBuilding(true);
-                this.setXRot(0);
-                this.setYRot(0);
+                if (this.spreadTimer == 15) {
+                    this.setFlag(1);
+                }
+                if (this.spreadTimer <= 0) {
+                    this.puffSound();
+                    this.spread();
+                    if (PlumFactory.checkPlums(level(), this.getBoundingBox().inflate(16), 20))
+                        for (int counterNA = 0;counterNA < this.getSpawnCountByAge();counterNA++)
+                            this.spawnPlums();
+                    else {
+                        if (this.isMaxAge()) {
+                            this.sendNewBuilder();
+                        }
+                        if (this.getHealth() < this.getHealthByAge()) {
+                            List<AbstractRedPlumMob> mobs = this.level().getEntitiesOfClass(AbstractRedPlumMob.class,
+                                    this.getBoundingBox().inflate(16), pMob ->
+                                            pMob.getLevel() < 2 && pMob.getOwner() != this && pMob.getKills() > 0);
+                            if (!mobs.isEmpty())
+                                mobs.stream().findAny().ifPresent(pMob ->
+                                {
+                                    pMob.setOwner(this);
+                                    pMob.setTargetPos(this.position());
+                                    pMob.setPlumFlag(1);
+                                });
+                        }
+                    }
+                    this.setFlag(0);
+                    this.spreadTimer = SPREAD_COOLDOWN;
+                }
+            } else if (!this.isEmptyTarget()) {
+                if (this.tickCount % 40 == 0 && this.navigation.isDone()) {
+                    if (this.moveToTargetPos())
+                        tryCount = 0;
+                    else
+                        tryCount++;
+                }
+                if (this.tryCount > 5) {
+                    this.startBuilding();
+                    return;
+                }
+                Vec3 vec3 = this.getTargetPos();
+                if (Math.abs(this.x() - vec3.x) < 3 && Math.abs(this.z() - vec3.z) < 3) {
+                    this.startBuilding();
+                }
             }
         }
-    }
-
-    protected void clientAiStep() {
-        if (this.getFlag() == 0) {
+        if (this.level().isClientSide && this.getFlag() == 0)
             this.idle.startIfStopped(tickCount);
-        }
     }
 
     protected void customServerAiStep() {
         super.customServerAiStep();
-        if (this.getInfectLevel() >= 6 && this.tickCount % 20 == 0) {
+        if (this.lostTargetTime > 0)
+            --this.lostTargetTime;
+        if (this.spreadTimer > 0)
+            --this.spreadTimer;
+        if (this.tickCount % 20 == 0 && (this.getAge() >= 2 || this.getKills() > 10)) {
             heal(this, 0.5F);
         }
+    }
+
+    public void travel(Vec3 pTravelVector) {
+        if (this.isEffectiveAi() && this.isInWater()) {
+            this.moveRelative(0.1F, pTravelVector);
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.setDeltaMovement(this.getDeltaMovement());
+        } else
+            super.travel(pTravelVector);
+    }
+
+    protected PathNavigation createNavigation(Level pLevel) {
+        return new WallClimberNavigation(this, pLevel);
     }
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> pKey) {
@@ -134,9 +163,22 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
         super.onSyncedDataUpdated(pKey);
     }
 
-    public void moveToTargetPos() {
+    public boolean moveToTargetPos() {
         Vec3 vec3 = this.getTargetPos();
-        this.getNavigation().moveTo(vec3.x, vec3.y, vec3.z, 0.8);
+        return this.navigation.moveTo(vec3.x, vec3.y, vec3.z, 0.8);
+    }
+
+    public void startBuilding() {
+        this.setTargetPos(this.position());
+        this.setBuilding(true);
+        this.moveControl.setWantedPosition(x(), y(), z(), 0);
+        this.navigation.stop();
+        this.setXRot(0);
+        this.setYRot(0);
+    }
+
+    public void puffSound() {
+        this.playSound(BlueOceansSounds.PUFF.get());
     }
 
     @ServerOnly
@@ -165,7 +207,7 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
     //}
 
     public void anotherJoin(AbstractRedPlumMob pMob) {
-        heal(this, 5.0F);
+        heal(this, (float)pMob.getKills());
         this.setKills(this.getKills() + pMob.getKills());
         pMob.discard();
     }
@@ -175,9 +217,10 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
         if (flag && this.level().getEntitiesOfClass(AreaEffectCloud.class,
                 this.getBoundingBox().inflate(6), cloud ->
                 cloud.getOwner() == this).size() < 2) {
+            this.puffSound();
             AreaEffectCloud areaeffectcloud = new AreaEffectCloud(this.level(), this.getX(), this.getY(), this.getZ());
             areaeffectcloud.setOwner(this);
-            areaeffectcloud.setRadius(2.5F);
+            areaeffectcloud.setRadius(2.0F);
             areaeffectcloud.setRadiusOnUse(-0.5F);
             areaeffectcloud.setWaitTime(20);
             areaeffectcloud.setDuration(areaeffectcloud.getDuration() / 2);
@@ -223,6 +266,10 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
         return this.entityData.get(DATA_AGE);
     }
 
+    public boolean isMaxAge() {
+        return this.getAge() >= MAX_AGE;
+    }
+
     public void setAge(int pAge) {
         this.entityData.set(DATA_AGE, pAge);
     }
@@ -266,12 +313,21 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
     }
 
     public int getSummonedLevel() {
-        //if (this.getKills() < 15)
+        int age = this.getAge();
+        if (age == 0)
+            return 0;
+        else
             return 1;
-        //else if (this.getKills() < 30)
-        //    return 2;
-        //else
-        //    return 4;
+    }
+
+    public int getSpawnCountByAge() {
+        int age = this.getAge();
+        if (age < 2)
+            return 3;
+        else if (age < 4)
+            return 5;
+        else
+            return 7;
     }
 
     public float getHealthByAge() {
@@ -293,8 +349,8 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
         Optional.ofNullable(newBuilder).ifPresent(builder -> {
             Vec3 pos = this.position();
             builder.moveTo(pos);
-            builder.setTargetPos(pos.add((AbyssMath.randomMax(50, 20)), 0,
-                    AbyssMath.randomMax(50, 20)));
+            builder.setTargetPos(pos.add((AbyssMath.randomMax(40, 20)), 0,
+                    AbyssMath.randomMax(40, 20)));
             if (!this.level().addFreshEntity(builder))
                 builder.discard();
         });
@@ -307,8 +363,10 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
             AbstractRedPlumMob plumMob = list.get(Maths.random.nextInt(list.size())).create(level());
             if (plumMob != null) {
                 plumMob.moveTo(position().add(AbyssMath.random(1.5), 0, AbyssMath.random(1.5)));
-                level().addFreshEntity(plumMob);
-                ParticleUtil.spawnAnim(plumMob, BlueOceansParticleTypes.RED_SPELL.get(), 8);
+                if (level().addFreshEntity(plumMob))
+                    ParticleUtil.spawnAnim(plumMob, BlueOceansParticleTypes.RED_SPELL.get(), 8);
+                else
+                    plumMob.discard();
             }
         }
     }
@@ -331,23 +389,24 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
     public void push(Entity pEntity) {
     }
 
+    public boolean isControlledByLocalInstance() {
+        return this.isEffectiveAi();
+    }
+
     public static AttributeSupplier createAttributes() {
         return createPathAttributes().add(Attributes.MAX_HEALTH, 150).add(Attributes.ATTACK_DAMAGE, 2)
                 .add(Attributes.FOLLOW_RANGE, 64).add(Attributes.ARMOR, 4)
-                .add(Attributes.MOVEMENT_SPEED, 0.2).build();
+                .add(Attributes.MOVEMENT_SPEED, 0.2).add(Attributes.KNOCKBACK_RESISTANCE, 1)
+                .build();
     }
 
-    public static void heal(LivingEntity pMob) {
+    public static void heal(PlumBuilder pMob) {
         heal(pMob, 1.0F);
     }
 
-    public static void heal(LivingEntity pMob, float amount) {
-        if (pMob instanceof PlumBuilder builder) {
-            if (builder.getHealth() < builder.getHealthByAge()) {
-                float f = builder.getHealthByAge() - builder.getHealth();
-                builder.heal(Math.min(f, amount));
-            }
-        }
+    public static void heal(PlumBuilder pMob, float amount) {
+        if (pMob.getHealth() < pMob.getHealthByAge())
+            pMob.heal(Math.min(pMob.getHealthByAge() - pMob.getHealth(), amount));
     }
 
     static {

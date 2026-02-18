@@ -13,8 +13,7 @@ import com.bilibili.player_ix.blue_oceans.common.blocks.farming.BlackSoilFarmlan
 import com.bilibili.player_ix.blue_oceans.common.blocks.food.Leek;
 import com.bilibili.player_ix.blue_oceans.common.blocks.food.RiceBlock;
 import com.bilibili.player_ix.blue_oceans.common.blocks.food.RiceEars;
-import com.bilibili.player_ix.blue_oceans.common.blocks.plum.BuddingNeoPlum;
-import com.bilibili.player_ix.blue_oceans.common.blocks.plum.ScleroticPlumBlock;
+import com.bilibili.player_ix.blue_oceans.common.blocks.plum.*;
 import com.bilibili.player_ix.blue_oceans.common.item.FlagItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -100,6 +99,10 @@ public class BlueOceansBlocks {
     /*public static final RegistryObject<Block> ORANGE_SAPLING = BLOCKS.register("orange_sapling",
             () -> new SaplingBlock(BoSaplings.orange(), BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission()
                     .randomTicks().instabreak().sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)));*/
+    public static final RegistryObject<Block> PLUM_CELL_CLUSTER = BLOCKS.register("plum_cell_cluster",
+            PlumCellClusterBlock::new);
+    public static final RegistryObject<Block> PLUM_TISSUE = BLOCKS.register("plum_tissue",
+            PlumTissueBlock::new);
     public static final RegistryObject<Block> RED_PLUM_BLOCK = BLOCKS.register("red_plum_block",
             RedPlumBlock::new);
     public static final RegistryObject<Block> RED_PLUM_CATALYST = BLOCKS.register("red_plum_catalyst",

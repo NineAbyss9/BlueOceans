@@ -16,7 +16,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
-import org.nine_abyss.util.function.CiFunction;
+import org.NineAbyss9.util.function.CiFunction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +81,7 @@ extends Item {
     public ItemStack finishUsingItem(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity) {
         if (pLivingEntity instanceof Player player) {
             ItemStack result = function.apply(pStack, pLevel, player);
-            if (result == pStack)
+            if (result.equals(pStack))
                 return super.finishUsingItem(pStack, pLevel, pLivingEntity);
             else
                 return result;

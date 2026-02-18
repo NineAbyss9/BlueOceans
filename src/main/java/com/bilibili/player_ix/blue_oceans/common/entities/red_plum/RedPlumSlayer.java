@@ -3,6 +3,7 @@ package com.bilibili.player_ix.blue_oceans.common.entities.red_plum;
 
 import com.bilibili.player_ix.blue_oceans.BlueOceans;
 import com.bilibili.player_ix.blue_oceans.api.mob.IAnimatedMob;
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
 import com.bilibili.player_ix.blue_oceans.util.MobUtil;
 import com.github.player_ix.ix_api.api.mobs.IFlagMob;
 import com.github.player_ix.ix_api.api.mobs.IShieldUser;
@@ -102,6 +103,10 @@ implements IFlagMob, IAnimatedMob {
         super.registerGoals();
     }
 
+    protected void populateDefaultItems() {
+        this.setMainHandItem(BlueOceansItems.RED_PLUM_SCYTHE.get());
+    }
+
     //Empty now
     protected int nextConvertUpNeeds() {
         return 0x7fffffff;
@@ -126,7 +131,7 @@ implements IFlagMob, IAnimatedMob {
         this.heal(0.5F);
     }
 
-    protected float getPlusLevelChance() {
+    protected float getUpgradeChance() {
         return 0.15F;
     }
 
@@ -167,8 +172,7 @@ implements IFlagMob, IAnimatedMob {
             this.playSound(SoundEvents.PLAYER_ATTACK_SWEEP);
         }
         if (this.aniTick(25)) {
-            this.resetFlag();
-            this.resetAniTick();
+            this.resetState();
         }
     }
 
@@ -185,8 +189,7 @@ implements IFlagMob, IAnimatedMob {
             }
         }
         if (this.aniTick(30)) {
-            this.resetFlag();
-            this.resetAniTick();
+            this.resetState();
         }
     }
 
@@ -197,7 +200,8 @@ implements IFlagMob, IAnimatedMob {
                     .inflate(4), this::canAttack);
             if (!entities.isEmpty()) {
                 for (LivingEntity living : entities) {
-                    if (living.hurt(this.damageSources().mobAttack(this), 20F)) {
+                    if (living.hurt(this.damageSources().mobAttack(this), 10 +
+                            living.getMaxHealth() / 10)) {
                         this.heal(1.0F);
                         IShieldUser.hurtShield(living, 15);
                     }
@@ -205,16 +209,16 @@ implements IFlagMob, IAnimatedMob {
             }
             this.playSound(SoundEvents.SCULK_SHRIEKER_SHRIEK);
             if (!this.level().isClientSide) {
-                var plum = NeoPlum.createRandom(this.position(), this.level());
-                if (plum != null) {
-                    NeoPlum.addParticleAroundPlum(plum);
-                }
+                this.spawnBreedMob(this);
             }
         }
         if (this.aniTick(30)) {
-            this.resetFlag();
-            this.resetAniTick();
+            this.resetState();
         }
+    }
+
+    protected int getPlumInvadeLevel() {
+        return 4;
     }
 
     protected SoundEvent getAmbientSound() {
@@ -243,8 +247,8 @@ implements IFlagMob, IAnimatedMob {
 
     public static AttributeSupplier.Builder createAttributes() {
         return createPathAttributes().add(Attributes.MAX_HEALTH, 55).add(Attributes.ARMOR, 4)
-                .add(Attributes.ATTACK_KNOCKBACK, 1).add(Attributes.KNOCKBACK_RESISTANCE,
-                        0.25).add(Attributes.ATTACK_DAMAGE, 15)
+                .add(Attributes.ATTACK_KNOCKBACK, 1).add(Attributes.KNOCKBACK_RESISTANCE, 0.25)
+                .add(Attributes.ATTACK_DAMAGE, 6)
                 .add(Attributes.MOVEMENT_SPEED, 0.27);
     }
 

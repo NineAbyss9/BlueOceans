@@ -6,18 +6,18 @@ import com.bilibili.player_ix.blue_oceans.client.AnimationUtil;
 import com.github.player_ix.ix_api.api.ApiPose;
 import com.github.player_ix.ix_api.api.mobs.ApiPoseMob;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.model.AnimationUtils;
+//import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
+//import net.minecraft.util.Mth;
+//import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+//import net.minecraft.world.item.ItemStack;
+//import net.minecraft.world.item.Items;
 
 public class AbstractSkeletonModel<T extends Mob & ApiPoseMob>
 extends HumanoidModel<T> {
@@ -46,6 +46,9 @@ extends HumanoidModel<T> {
     public void setupAnim(T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks,
                           float pNetHeadYaw, float pHeadPitch) {
         super.setupAnim(pEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
+    }
+
+    protected void setupAttackAnimation(T pEntity, float pAgeInTicks) {
         ApiPose pose = pEntity.getPoses();
         switch (pose) {
             case ATTACKING:{
@@ -64,7 +67,7 @@ extends HumanoidModel<T> {
         }
     }
 
-    public void prepareMobModel(T p_103793_, float p_103794_, float p_103795_, float p_103796_) {
+    /*public void prepareMobModel(T p_103793_, float p_103794_, float p_103795_, float p_103796_) {
         this.rightArmPose = ArmPose.EMPTY;
         this.leftArmPose = ArmPose.EMPTY;
         ItemStack $$4 = p_103793_.getItemInHand(InteractionHand.MAIN_HAND);
@@ -96,7 +99,7 @@ extends HumanoidModel<T> {
             var10000.xRot -= $$7 * 1.2F - $$8 * 0.4F;
             AnimationUtils.bobArms(this.rightArm, this.leftArm, p_103801_);
         }
-    }
+    }*/
 
     public void translateToHand(HumanoidArm p_103778_, PoseStack p_103779_) {
         float $$2 = p_103778_ == HumanoidArm.RIGHT ? 1.0F : -1.0F;

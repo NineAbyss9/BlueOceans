@@ -33,6 +33,6 @@ extends Screen {
         int i = this.leftPos;
         int j = this.topPos;
         InventoryScreen.renderEntityInInventoryFollowsMouse(pGuiGraphics, i + 51, j + 75, 30,
-                i + 51 - this.xMouse, j + 75 - 50 - this.yMouse, this.minecraft.player);
+                i + 51 - this.xMouse, j + 75 - 50 - this.yMouse, entity);
     }
 }

@@ -5,7 +5,7 @@ import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.animation.Keyframe;
 import net.minecraft.client.animation.KeyframeAnimations;
-import org.nine_abyss.annotation.Unused;
+import org.NineAbyss9.annotation.Unused;
 
 @Unused
 public class BikeModelAnimation {

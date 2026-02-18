@@ -31,7 +31,7 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
-import org.nine_abyss.util.*;
+import org.NineAbyss9.util.*;
 
 import javax.annotation.Nullable;
 import java.util.List;

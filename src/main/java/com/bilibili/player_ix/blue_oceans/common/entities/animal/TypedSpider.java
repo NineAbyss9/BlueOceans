@@ -18,10 +18,9 @@ import java.util.EnumSet;
 import java.util.List;
 
 public class TypedSpider
-extends BoAnimal
-implements IAnimatedMob, IFlagMob, TypedMob<TypedSpider.SpiderType> {
+extends ClimbableAnimal
+implements IAnimatedMob, TypedMob<TypedSpider.SpiderType> {
     protected static final EntityDataAccessor<Integer> DATA_ATTACK_TICK;
-    protected static final EntityDataAccessor<Integer> DATA_FLAGS;
     protected static final EntityDataAccessor<Integer> DATA_TYPE;
     public TypedSpider(EntityType<? extends TypedSpider> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -58,14 +57,6 @@ implements IAnimatedMob, IFlagMob, TypedMob<TypedSpider.SpiderType> {
         return Vec3.ZERO;
     }
 
-    public int getFlag() {
-        return this.entityData.get(DATA_FLAGS);
-    }
-
-    public void setFlag(int flag) {
-        this.entityData.set(DATA_FLAGS, flag);
-    }
-
     public int getAniTick() {
         return this.entityData.get(DATA_ATTACK_TICK);
     }
@@ -80,7 +71,6 @@ implements IAnimatedMob, IFlagMob, TypedMob<TypedSpider.SpiderType> {
 
     static {
         DATA_ATTACK_TICK = SynchedEntityData.defineId(TypedSpider.class, EntityDataSerializers.INT);
-        DATA_FLAGS = SynchedEntityData.defineId(TypedSpider.class, EntityDataSerializers.INT);
         DATA_TYPE = SynchedEntityData.defineId(TypedSpider.class, EntityDataSerializers.INT);
     }
 

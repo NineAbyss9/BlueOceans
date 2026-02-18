@@ -2,7 +2,7 @@
 package com.github.player_ix.ix_api.api.mobs;
 
 import com.github.player_ix.ix_api.api.Synchronizer;
-import org.nine_abyss.annotation.Unused;
+import org.NineAbyss9.annotation.Unused;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Difficulty;

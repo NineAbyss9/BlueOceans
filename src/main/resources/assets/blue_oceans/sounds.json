@@ -67,6 +67,14 @@
       }
     ]
   },
+  "puff": {
+    "subtitle": "subtitles.puff",
+    "sounds": [
+      {
+        "name": "blue_oceans:plum/puff"
+      }
+    ]
+  },
   "red_plum_girl_cast_spell": {
     "subtitle": "subtitles.red_plum_girl_cast_spell",
     "sounds": [

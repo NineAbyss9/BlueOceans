@@ -79,7 +79,7 @@ public class Dictator extends SpellcasterRedPlumIllager {
         this.addHostileGoal(6);
     }
 
-    public ApiPose getArmPose() {
+    public ApiPose getPoses() {
         if (this.isCastingSpell()) {
             return ApiPose.SPELL_CASTING;
         }

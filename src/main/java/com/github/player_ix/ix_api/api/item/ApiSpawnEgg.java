@@ -15,7 +15,12 @@ extends ForgeSpawnEggItem {
         super(type, backgroundColor, highlightColor, props);
     }
 
+    public String getDescriptionId() {
+        return this.getDefaultType().getDescriptionId();
+    }
+
     public Component getDescription() {
-        return Component.translatable("item.blue_oceans.spawn_egg", this.getDefaultType().getDescription());
+        return Component.translatable("item.blue_oceans.spawn_egg",
+                this.getDefaultType().getDescription());
     }
 }

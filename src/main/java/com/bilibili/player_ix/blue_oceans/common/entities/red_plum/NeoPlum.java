@@ -24,7 +24,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.phys.Vec3;
-import org.nine_abyss.math.AbyssMath;
+import org.NineAbyss9.math.AbyssMath;
+import org.NineAbyss9.math.MathSupport;
 
 import javax.annotation.Nullable;
 
@@ -42,16 +43,13 @@ implements IConversion {
         this.entityData.define(DATA_CONVERT_TICK, 1200);
     }
 
-    protected void addHostileGoal(int t) {
-    }
-
     public void aiStep() {
         super.aiStep();
         if (this.isInFluid()) {
-            this.reduceConvertTick();
+            this.decreaseConvertTick();
         }
         if (this.getConversionTick() >= 600) {
-            this.reduceConvertTick();
+            this.decreaseConvertTick();
         }
         this.convertTick();
     }
@@ -70,11 +68,15 @@ implements IConversion {
     }
 
     public void standOnPlumTick() {
-        this.reduceConvertTick();
+        this.decreaseConvertTick();
     }
 
     private boolean isInFluid() {
         return this.level().getBlockState(blockPosition()).getBlock() instanceof LiquidBlock;
+    }
+
+    public boolean shouldAttackOtherMobs() {
+        return false;
     }
 
     public void registerBehaviors() {
@@ -123,12 +125,12 @@ implements IConversion {
 
     @Nullable
     public static NeoPlum createRandom(BlockPos pos, Level pLevel) {
-        return pLevel.getRandom().nextFloat() < 0.1F ? NeoFighter.create(pos, pLevel) : create(pos, pLevel);
+        return MathSupport.random.nextFloat() < 0.1F ? NeoFighter.create(pos, pLevel) : create(pos, pLevel);
     }
 
     @Nullable
     public static NeoPlum createRandom(Vec3 vec3, Level pLevel) {
-        return pLevel.getRandom().nextFloat() < 0.1F ? NeoFighter.create(vec3, pLevel) : create(vec3, pLevel);
+        return MathSupport.random.nextFloat() < 0.1F ? NeoFighter.create(vec3, pLevel) : create(vec3, pLevel);
     }
 
     public static void addParticleAroundPlum(Entity entity) {
@@ -142,15 +144,17 @@ implements IConversion {
     public void performConvert() {
         if (!this.level().isClientSide) {
             ServerLevel serverLevel = this.serverLevel();
-            int chance = this.getRandomUtil().nextInt(5);
+            int chance = this.getRandomUtil().nextInt(RedPlumUtil.BASE_PLUM_RANDOM_POOL);
             AbstractRedPlumMob monster;
             float f = this.randomUtil.nextFloat();
-            if (f < 0.75F)
-                monster = RedPlumUtil.MAP.get(1).get(chance).create(serverLevel);
-            else if (f < 0.875F)
+            if (f > 0.875F && this.level().getEntitiesOfClass(PlumBuilder.class, this.getBoundingBox()
+                    .inflate(20)).isEmpty() && this.level().getEntitiesOfClass(RedPlumMonster.class,
+                    this.getBoundingBox().inflate(20)).size() < 10)
+                monster = BlueOceansEntities.PLUM_BUILDER.get().create(serverLevel);
+            else if (f > 0.75F)
                 monster = BlueOceansEntities.PLUM_SPREADER.get().create(serverLevel);
             else
-                monster = BlueOceansEntities.PLUM_BUILDER.get().create(serverLevel);
+                monster = RedPlumUtil.MAP.get(1).get(chance).create(serverLevel);
             if (monster != null) {
                 Vec3 pos = this.position();
                 monster.moveTo(pos);
@@ -158,9 +162,10 @@ implements IConversion {
                 if (monster instanceof PlumBuilder builder) {
                     if (this.level().getEntitiesOfClass(AbstractRedPlumMob.class, this.getBoundingBox().inflate(10))
                             .size() > 12 ||
-                            !this.level().getEntitiesOfClass(PlumBuilder.class, this.getBoundingBox().inflate(12)).isEmpty()) {
-                        builder.setTargetPos(pos.add(AbyssMath.random(50), 0,
-                                AbyssMath.random(50)));
+                            !this.level().getEntitiesOfClass(PlumBuilder.class, this.getBoundingBox().inflate(12),
+                                    builder1 -> !builder1.equals(monster)).isEmpty()) {
+                        builder.setTargetPos(pos.add(AbyssMath.random(40), 0,
+                                AbyssMath.random(40)));
                     }
                 }
             }

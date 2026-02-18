@@ -12,7 +12,16 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "blue_oceans:red_plum_flesh"
+          "name": "blue_oceans:plum_cell_cluster",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
         }
       ]
     }

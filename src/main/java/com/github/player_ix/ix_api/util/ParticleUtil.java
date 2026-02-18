@@ -4,7 +4,7 @@ package com.github.player_ix.ix_api.util;
 import com.github.player_ix.ix_api.api.annotation.ClientOnly;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.*;
-import org.nine_abyss.annotation.PAMAreNonnullByDefault;
+import org.NineAbyss9.annotation.PAMAreNonnullByDefault;
 import com.github.player_ix.ix_api.api.annotation.ServerOnly;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -12,8 +12,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.nine_abyss.math.AbyssMath;
-import org.nine_abyss.math.MathSupport;
+import org.NineAbyss9.math.AbyssMath;
+import org.NineAbyss9.math.MathSupport;
 
 @PAMAreNonnullByDefault
 public record ParticleUtil(Entity entity) {
@@ -88,6 +88,10 @@ public record ParticleUtil(Entity entity) {
         level.sendParticles(particle, position.x(), position.y(), position.z(), count, dx, dy, dz, speed);
     }
 
+    public void sendParticles(ParticleOptions options, int count, double dx, double dy, double dz, double speed) {
+        sendParticles((ServerLevel)this.entity.level(), options, this.entity.position(), count, dx, dy, dz, speed);
+    }
+
     @ServerOnly
     public static void explode(ServerLevel level, Vec3 position) {
         level.sendParticles(ParticleTypes.EXPLOSION_EMITTER, position.x(), position.y(), position.z(), 1,
@@ -139,7 +143,8 @@ public record ParticleUtil(Entity entity) {
         spawnAnim(entity, ParticleTypes.POOF);
     }
 
-    public static void addBlockParticle(Level pLevel, BlockPos pPos, double pX, double pY, double pZ, double xz, double yz, double zz) {
+    public static void addBlockParticle(Level pLevel, BlockPos pPos, double pX, double pY, double pZ, double xz, double yz,
+                                        double zz) {
         pLevel.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, pLevel.getBlockState(pPos)), pX, pY, pZ, xz, yz, zz);
     }
 

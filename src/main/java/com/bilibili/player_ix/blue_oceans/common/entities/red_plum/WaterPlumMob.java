@@ -91,10 +91,6 @@ extends RedPlumMonster {
         return super.canDrownInFluidType(type);
     }
 
-    public MobType getMobType() {
-        return MobType.WATER;
-    }
-
     public boolean checkSpawnObstruction(LevelReader pLevel) {
         return pLevel.isUnobstructed(this);
     }

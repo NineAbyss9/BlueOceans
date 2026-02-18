@@ -5,9 +5,9 @@ import com.bilibili.player_ix.blue_oceans.common.blocks.chemistry.AbstractContai
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.block.Block;
-import org.nine_abyss.util.Nothing;
-import org.nine_abyss.util.function.FunctionCollector;
+import net.minecraft.world.level.material.FluidState;
 
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -16,19 +16,20 @@ import java.util.function.Predicate;
 public class Content {
     public final int id;
     public final String name;
-    public final Consumer<Block> consumer;
+    //public final Consumer<Block> consumer;
     private static final Int2ObjectMap<Content> MAP;
     public static final Content EMPTY;
     public static final Content WATER;
     public static final Content LAVA;
-    public Content(int pId, String pSt, Consumer<Block> pConsumer) {
+    public Content(int pId, String pSt//, Consumer<Block> pConsumer
+    ) {
         this.id  = pId;
         name = pSt;
-        this.consumer = pConsumer;
+        //this.consumer = pConsumer;
     }
 
     public boolean isEmpty() {
-        return EMPTY.equals(this);
+        return this.id == 0;
     }
 
     public Component description() {
@@ -44,16 +45,31 @@ public class Content {
     }
 
     public int hashCode() {
-        return Objects.hash(id, name, consumer);
+        return Objects.hash(id, name//, consumer
+        );
     }
 
-    public static Content register(int pId, String pName, Consumer<Block> blockConsumer) {
-        Content content = new Content(pId, pName, blockConsumer);
-        return MAP.put(pId, content);
+    public static Content register(int pId, String pName//, Consumer<Block> blockConsumer
+    ){
+        Content content = new Content(pId, pName//, blockConsumer
+        );
+        MAP.put(pId, content);
+        return content;
     }
 
     public static Content of(int pId) {
-        return MAP.getOrDefault(pId, EMPTY);
+        Content content;
+        return (content = MAP.get(pId))
+                == null ? Content.EMPTY : content;
+    }
+
+    public static Content of(FluidState pState) {
+        if (pState.isEmpty())
+            return Content.EMPTY;
+        else if (pState.is(FluidTags.WATER))
+            return Content.WATER;
+        else
+            return Content.LAVA;
     }
 
     public static void ifContainer(Block block, Consumer<AbstractContainer> c) {
@@ -70,15 +86,17 @@ public class Content {
 
     static {
         MAP = new Int2ObjectOpenHashMap<>();
-        EMPTY = register(0, "Empty", FunctionCollector.accept());
-        WATER = register(1, "Water", block -> ifContainer(block,
-                FunctionCollector.accept()));
-        LAVA = register(2, "Lava", block -> ifContainer(block, container -> {
+        EMPTY = register(0, "Empty"//, FunctionCollector.accept()
+        );
+        WATER = register(1, "Water"//, block -> ifContainer(block,
+         //       FunctionCollector.accept())
+    );
+        LAVA = register(2, "Lava"/*, block -> ifContainer(block, container -> {
             if (water(container)) {
                 if (container.fill(EMPTY)) {
                     Nothing.getInstance().noting();
                 }
             }
-        }));
+        })*/);
     }
 }

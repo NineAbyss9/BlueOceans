@@ -19,7 +19,7 @@ public interface IConversion {
 
     void performConvert();
 
-    default void reduceConvertTick() {
+    default void decreaseConvertTick() {
         this.setConversionTick(this.getConversionTick() - 1);
     }
 
@@ -38,7 +38,7 @@ public interface IConversion {
                             this.getConversionColor());
                 }
             }
-            this.reduceConvertTick();
+            this.decreaseConvertTick();
         }
         if (this.getConversionTick() == 0) {
             this.performConvert();

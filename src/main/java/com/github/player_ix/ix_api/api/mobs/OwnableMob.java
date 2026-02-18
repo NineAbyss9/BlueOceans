@@ -163,7 +163,7 @@ implements Ownable {
         super.customServerAiStep();
     }
 
-    public void tick() {
+    /*public void tick() {
         super.tick();
     }
 
@@ -185,7 +185,7 @@ implements Ownable {
         if (targetCooldown <= 0) {
             this.setTargets();
         }
-    }
+    }*/
 
     protected void registerGoals() {
         this.targetSelector.addGoal(0, new ApiOwnerTargetGoal(this));

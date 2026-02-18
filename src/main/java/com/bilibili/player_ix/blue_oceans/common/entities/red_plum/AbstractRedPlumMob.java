@@ -1,6 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.entities.red_plum;
 
+import com.bilibili.player_ix.blue_oceans.api.mob.BoMobType;
 import com.bilibili.player_ix.blue_oceans.api.mob.IBehaviorUser;
 import com.bilibili.player_ix.blue_oceans.api.mob.MobTypes;
 import com.bilibili.player_ix.blue_oceans.common.entities.ai.behavior.BehaviorSelector;
@@ -40,7 +41,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.MultifaceBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import org.nine_abyss.util.Action;
+import org.NineAbyss9.util.Action;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -119,7 +120,7 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
     public void checkAndPlusInfectLevel(LivingEntity pEntity) {
         if (this.tryConvert(pEntity))
             return;
-        if (this.getRandomUtil().nextFloat() <= this.getPlusLevelChance() || pEntity.getMaxHealth() >= 50) {
+        if (this.getRandomUtil().nextFloat() <= this.getUpgradeChance() || pEntity.getMaxHealth() >= 50) {
             this.setInfectLevelPlus();
         }
     }
@@ -151,13 +152,14 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
 
     @Nullable
     protected EntityType<? extends AbstractRedPlumMob> getNextLevelConvert() {
+        if (this.getLevel() == 1)
+            return BlueOceansEntities.RED_DEMON.get();
         List<EntityType<? extends AbstractRedPlumMob>> list = RedPlumUtil.MAP.get(
                 this.getLevel() + 1);
         if (list != null) {
             return list.get(this.getRandomUtil().nextInt(list.size()));
-        } else {
-            return null;
         }
+        return null;
     }
 
     protected int nextConvertUpNeeds() {
@@ -188,8 +190,12 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
         return this.isException;
     }
 
-    protected float getPlusLevelChance() {
+    protected float getUpgradeChance() {
         return 0.1F;
+    }
+
+    public MobType getMobType() {
+        return BoMobType.RED_PLUM;
     }
 
     protected void addHostileGoal(int t) {
@@ -221,6 +227,11 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
                 //living.getItemInHand(InteractionHand.MAIN_HAND).getEnchantmentLevel())
         ) {
             pAmount /= 2.0F;
+        }
+        if (entity instanceof LivingEntity living) {
+            if (living.getMainHandItem().isEmpty())
+                living.addEffect(EffectInstance.create(BlueOceansMobEffects.PLUM_INFECTION,
+                        170));
         }
         return super.hurt(pSource, pAmount);
     }
@@ -260,7 +271,7 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
         tag.putInt("InfectLevel", this.getInfectLevel());
         tag.putInt("PlumFlag", this.getPlumFlag());
         super.addAdditionalSaveData(tag);
-        tag.put("TargetPos", Vec9.createVec3Tag(this.getTargetPos(), "TargetPos"));
+        Vec9.createVec9Tag(tag, this.getTargetPos(), "TargetPos");
     }
 
     public void readAdditionalSaveData(CompoundTag tag) {
@@ -282,7 +293,7 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
     public void moveToBuilderTick() {
         Vec9 vec9 = this.getTargetPos();
         this.getNavigation().moveTo(vec9.x, vec9.y, vec9.z, 0.8);
-        if (this.closeThan(this.getTargetPos(), 2)) {
+        if (this.closerThan(this.getTargetPos(), 2)) {
             new Action(() -> ((PlumBuilder)this.getOwner()).anotherJoin(this), () -> {
                 this.setOwner(null);
                 this.setTargetPos(null);
@@ -320,6 +331,9 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
         }
         this.checkAndPlusInfectLevel(pEntity);
         this.spawnBreedMob(pEntity);
+        Action.emptyFalse(() -> level().setBlockAndUpdate(pEntity.blockPosition(),
+                BlueOceansBlocks.PLUM_CELL_CLUSTER.get().defaultBlockState()))
+                .run(!level().getBlockState(pEntity.blockPosition()).is(BoTags.RED_PLUM_BLOCKS));
     }
 
     public void spawnBreedMob(LivingEntity pEntity) {
@@ -385,9 +399,13 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
 
     protected void doAttackTarget(Entity pEntity) {
         if (pEntity instanceof LivingEntity entity) {
-            entity.addEffect(EffectInstance.create(BlueOceansMobEffects.PLUM_INVADE,
-                    300, BoCommonConfig.PLUM_INVADE_LEVEL.get()));
+            entity.addEffect(EffectInstance.create(BlueOceansMobEffects.PLUM_INVADE, 300,
+                    this.getPlumInvadeLevel()));
         }
+    }
+
+    protected int getPlumInvadeLevel() {
+        return BoCommonConfig.PLUM_INVADE_LEVEL.get();
     }
 
     protected void doAttackTargetAlways(Entity pEntity) {

@@ -8,16 +8,20 @@ import com.bilibili.player_ix.blue_oceans.common.chemistry.Element;
 import com.bilibili.player_ix.blue_oceans.common.item.FlagItem;
 import com.bilibili.player_ix.blue_oceans.common.item.WoodenStick;
 import com.bilibili.player_ix.blue_oceans.common.item.biology.GravyBottle;
+import com.bilibili.player_ix.blue_oceans.common.item.biology.Scalpel;
 import com.bilibili.player_ix.blue_oceans.common.item.biology.TestTube;
+import com.bilibili.player_ix.blue_oceans.common.item.biology.organ.*;
+import com.bilibili.player_ix.blue_oceans.common.item.biology.tissue.Muscle;
+import com.bilibili.player_ix.blue_oceans.common.item.biology.tissue.Nerve;
+import com.bilibili.player_ix.blue_oceans.common.item.biology.tissue.PlumMuscle;
+import com.bilibili.player_ix.blue_oceans.common.item.biology.tissue.PlumNerve;
 import com.bilibili.player_ix.blue_oceans.common.item.block.RiceItem;
 import com.bilibili.player_ix.blue_oceans.common.item.chemistry.ElementItem;
 import com.bilibili.player_ix.blue_oceans.common.item.equipment.ElementArmor;
 import com.bilibili.player_ix.blue_oceans.common.item.food.*;
 import com.bilibili.player_ix.blue_oceans.common.item.gun.AbstractGun;
 import com.bilibili.player_ix.blue_oceans.common.item.gun.SniperRifle;
-import com.bilibili.player_ix.blue_oceans.common.item.plum.EchoPotionItem;
-import com.bilibili.player_ix.blue_oceans.common.item.plum.RedPlum;
-import com.bilibili.player_ix.blue_oceans.common.item.plum.RedPlumFlesh;
+import com.bilibili.player_ix.blue_oceans.common.item.plum.*;
 import com.bilibili.player_ix.blue_oceans.common.item.ts.IceAxe;
 import com.bilibili.player_ix.blue_oceans.common.item.ts.IcePickaxe;
 import com.bilibili.player_ix.blue_oceans.common.item.ts.IceSword;
@@ -28,6 +32,7 @@ import com.bilibili.player_ix.blue_oceans.common.item.farming.ScytheItem;
 import com.bilibili.player_ix.blue_oceans.common.item.util.axe.ElementAxe;
 import com.bilibili.player_ix.blue_oceans.common.item.util.pickaxe.ElementPickaxe;
 import com.bilibili.player_ix.blue_oceans.common.item.weapon.FreakyAxe;
+import com.bilibili.player_ix.blue_oceans.common.item.weapon.red_plum.RedPlumScythe;
 import com.bilibili.player_ix.blue_oceans.common.item.weapon.red_plum.RedPlumSword;
 import com.github.player_ix.ix_api.api.item.ApiSpawnEgg;
 import com.github.player_ix.ix_api.api.item.BaseItem;
@@ -37,6 +42,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -45,7 +51,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import org.nine_abyss.annotation.PAMAreNonnullByDefault;
+import org.NineAbyss9.annotation.PAMAreNonnullByDefault;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.block.Block;
@@ -69,6 +75,8 @@ public class BlueOceansItems {
     public static Set<RegistryObject<? extends Item>> SPAWN_EGGS = Sets.newLinkedHashSet();
     public static Set<RegistryObject<? extends Item>> BLOCKS = Sets.newLinkedHashSet();
     public static Set<RegistryObject<? extends Item>> ELEMENT_CREATIVE_ITEMS = Sets.newLinkedHashSet();
+    public static Set<RegistryObject<? extends Item>> BIOLOGY_ITEMS = Sets.newLinkedHashSet();
+    public static Set<RegistryObject<? extends Item>> PLUM_ITEMS = Sets.newLinkedHashSet();
     private BlueOceansItems() {
     }
 
@@ -99,6 +107,18 @@ public class BlueOceansItems {
         RegistryObject<Item> obj = ITEMS.register(name+"_spawn_egg", ()-> new ApiSpawnEgg(object, b, g,
                 properties()));
         SPAWN_EGGS.add(obj);
+        return obj;
+    }
+
+    public static RegistryObject<Item> addBiology(String name, Supplier<Item> item) {
+        RegistryObject<Item> obj = ITEMS.register(name, item);
+        BIOLOGY_ITEMS.add(obj);
+        return obj;
+    }
+
+    public static RegistryObject<Item> addPlum(String name, Supplier<Item> item) {
+        RegistryObject<Item> obj = ITEMS.register(name, item);
+        PLUM_ITEMS.add(obj);
         return obj;
     }
 
@@ -174,10 +194,17 @@ public class BlueOceansItems {
     //CIEnd
 
     //Plum
-    public static final RegistryObject<Item> ECHO_POTION = ITEMS.register("echo_potion",
+    public static final RegistryObject<Item> ECHO_POTION = addPlum("echo_potion",
             () -> new EchoPotionItem(properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
-    public static final RegistryObject<Item> RED_PLUM = ITEMS.register("red_plum",
-            RedPlum::new);
+    public static final RegistryObject<Item> RED_PLUM = addPlum("red_plum", RedPlum::new);
+    public static final RegistryObject<Item> PLUM_CELL_CLUSTER = addPlum("plum_cell_cluster",
+            PlumCellCluster::new);
+    public static final RegistryObject<Item> PLUM_TISSUE = addPlum("plum_tissue", PlumTissue::new);
+    public static final RegistryObject<Item> PLUM_MUSCLE = addPlum("plum_muscle", PlumMuscle::new);
+    public static final RegistryObject<Item> PLUM_NERVE = addPlum("plum_nerve", PlumNerve::new);
+    public static final RegistryObject<Item> PLUM_BRAIN = addPlum("plum_brain", PlumBrain::new);
+    public static final RegistryObject<Item> PLUM_HEART = addPlum("plum_heart", PlumHeart::new);
+    public static final RegistryObject<Item> PLUM_LUNG = addPlum("plum_lung", PlumLung::new);
     //PEnd
 
     //Spawn Egg
@@ -185,10 +212,14 @@ public class BlueOceansItems {
             BlueOceansEntities.BASE_VILLAGER, 5651507, 12422002);
     public static final RegistryObject<Item> DEATH_SPAWN_EGG = ITEMS.register("death_spawn_egg", ()-> new ForgeSpawnEggItem(BlueOceansEntities.DEATH, 0x000000, 0x001000, new Item.Properties()));
     public static final RegistryObject<Item> DICTATOR_SPAWN_EGG = ITEMS.register("dictator_spawn_egg", () -> new ForgeSpawnEggItem(BlueOceansEntities.DICTATOR,-10066330, -6710887, new Item.Properties()));
+    public static final RegistryObject<Item> DUCK_SPAWN_EGG = apiSpawnEgg("duck", BlueOceansEntities.DUCK,
+            Mth.hsvToRgb(0, 0, 100), Mth.hsvToRgb(120, 100, 50));
     public static final RegistryObject<Item> FARMER_SPAWN_EGG = spawnEgg("farmer", BlueOceansEntities.FARMER,
             5651507, 12422002);
     public static final RegistryObject<Item> FREAK_SPAWN_EGG = ITEMS.register("freak_spawn_egg", () -> new ForgeSpawnEggItem(BlueOceansEntities.FREAK, 0x272727, 0xDCDCDC, new Item.Properties()));
     public static final RegistryObject<Item> HUNTING_VILLAGER_SPAWN_EGG = ITEMS.register("hunting_villager_spawn_egg", ()-> new ForgeSpawnEggItem(BlueOceansEntities.HUNTING_VILLAGER, 5651507, 12422002, new Item.Properties()));
+    public static final RegistryObject<Item> JELLYFISH_SPAWN_EGG = apiSpawnEgg("jellyfish", BlueOceansEntities.JELLYFISH,
+            0xf32fdc0, 0xf32fdc0);
     public static final RegistryObject<Item> NEO_FIGHTER_SPAWN_EGG = spawnEgg("neo_fighter", BlueOceansEntities.NEO_FIGHTER,
             0xf32fdc0, 0x4c0000);
     public static final RegistryObject<Item> NEO_PLUM_SPAWN_EGG = spawnEgg("neo_plum", BlueOceansEntities.NEO_PLUM,
@@ -197,13 +228,17 @@ public class BlueOceansItems {
             0x1aB654, 0x3CBB33);
     public static final RegistryObject<Item> RED_PLUM_CREEPER_SPAWN_EGG = spawnEgg("red_plum_creeper", BlueOceansEntities.RED_PLUM_CREEPER,
             355000009, 324000000);
+    public static final RegistryObject<Item> RED_PLUM_VILLAGER_SPAWN_EGG = apiSpawnEgg("red_plum_villager", BlueOceansEntities.RED_PLUM_VILLAGER,
+            352000009, 329000000);
     public static final RegistryObject<Item> PLUM_BUILDER_SPAWN_EGG = spawnEgg("plum_builder", BlueOceansEntities.PLUM_BUILDER,
             355000000, 325000000);
     public static final RegistryObject<Item> PLUM_FACTORY_SPAWN_EGG = spawnEgg("plum_factory", BlueOceansEntities.PLUM_FACTORY,
             355000000, 325000000);
     public static final RegistryObject<Item> PLUM_SPREADER_SPAWN_EGG = spawnEgg("plum_spreader", BlueOceansEntities.PLUM_SPREADER,
             355000000, 325000000);
-    public static final RegistryObject<Item> RED_PLUMS_COW_SPAWN_EGG = ITEMS.register("red_plums_cow_spawn_egg", () -> new ForgeSpawnEggItem(BlueOceansEntities.RED_PLUMS_COW, -3407872, -6750208, new Item.Properties()));
+    public static final RegistryObject<Item> RED_DEMON_SPAWN_EGG = apiSpawnEgg("red_demon", BlueOceansEntities.RED_DEMON,
+            -3407872, -6750208);
+    public static final RegistryObject<Item> RED_PLUMS_COW_SPAWN_EGG = spawnEgg("red_plums_cow", BlueOceansEntities.RED_PLUMS_COW, -3407872, -6750208);
     public static final RegistryObject<Item> RED_PLUM_GIRL_SPAWN_EGG = spawnEgg("red_plum_girl",
             BlueOceansEntities.RED_PLUM_GIRL, -13434880, -10092544, BORarity.RED_PLUM);
     public static final RegistryObject<Item> RED_PLUM_HUMAN_SPAWN_EGG = spawnEgg("red_plum_human", BlueOceansEntities.RED_PLUM_HUMAN, 2558751, 2558750);
@@ -367,8 +402,10 @@ public class BlueOceansItems {
     public static final RegistryObject<Item> FLINT_SWORD = ITEMS.register("flint_sword",
             () -> new SwordItem(BoTier.FLINT, 3, -2.2F, properties()));
     public static final RegistryObject<Item> ICE_SWORD = ITEMS.register("ice_sword", IceSword::new);
-    public static final RegistryObject<Item> RED_PLUM_SWORD = ITEMS.register("red_plum_sword",
+    public static final RegistryObject<Item> RED_PLUM_SWORD = addPlum("red_plum_sword",
             RedPlumSword::new);
+    public static final RegistryObject<Item> RED_PLUM_SCYTHE = addPlum("red_plum_scythe",
+            RedPlumScythe::new);
     public static final RegistryObject<Item> STEEL_SWORD = ITEMS.register("steel_sword", () -> new AxeItem(
             BoTier.STEEL, 3.5F, -2.0F, properties()));
     //WEnd
@@ -378,7 +415,22 @@ public class BlueOceansItems {
     //OEnd
 
     //Biology
-    public static final RegistryObject<Item> GRAVY_BOTTLE = ITEMS.register("gravy_bottle", GravyBottle::new);
-    public static final RegistryObject<Item> TEST_TUBE = ITEMS.register("test_tube", TestTube::new);
+    //Organ
+    public static final RegistryObject<Item> BRAIN = addBiology("brain", Brain::new);
+    public static final RegistryObject<Item> HEART = addBiology("heart", Heart::new);
+    public static final RegistryObject<Item> LUNG = addBiology("lung", Lung::new);
+    //OrEnd
+    //Tissue
+    public static final RegistryObject<Item> MUSCLE = addBiology("muscle", Muscle::new);
+    public static final RegistryObject<Item> NERVE = addBiology("nerve", Nerve::new);
+    //TiEnd
+    //Cell
+
+    //CeEnd
+    //Hospital
+    public static final RegistryObject<Item> SCALPEL = addBiology("scalpel", Scalpel::new);
+    //HoEnd
+    public static final RegistryObject<Item> GRAVY_BOTTLE = addBiology("gravy_bottle", GravyBottle::new);
+    public static final RegistryObject<Item> TEST_TUBE = addBiology("test_tube", TestTube::new);
     //BiEnd
 }

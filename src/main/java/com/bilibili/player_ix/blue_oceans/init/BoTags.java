@@ -3,7 +3,7 @@ package com.bilibili.player_ix.blue_oceans.init;
 
 import com.bilibili.player_ix.blue_oceans.BlueOceans;
 import net.minecraft.world.item.Item;
-import org.nine_abyss.annotation.PFMAreNonnullByDefault;
+import org.NineAbyss9.annotation.PFMAreNonnullByDefault;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;

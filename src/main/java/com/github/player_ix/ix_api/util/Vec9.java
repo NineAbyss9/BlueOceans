@@ -6,8 +6,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
-import org.nine_abyss.annotation.PFMAreNonnullByDefault;
-import org.nine_abyss.annotation.doc.Message;
+import org.NineAbyss9.annotation.PFMAreNonnullByDefault;
+import org.NineAbyss9.annotation.doc.Message;
 
 @PFMAreNonnullByDefault
 public final class Vec9 extends Vec3 {
@@ -35,7 +35,12 @@ public final class Vec9 extends Vec3 {
         return tag;
     }
 
-    public static Vec9 readVec3Tag(CompoundTag tag, String string) {
+    public static void createVec9Tag(CompoundTag pTag, Vec3 pVector, String main) {
+        pTag.put(main, createVec3Tag(pVector, main));
+    }
+
+    public static Vec9 readVec3Tag(CompoundTag pTag, String string) {
+        CompoundTag tag = pTag.getCompound(string);
         return new Vec9(tag.getDouble(string + "X"), tag.getDouble(string + "Y"),
                 tag.getDouble(string + "Z"));
     }

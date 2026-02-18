@@ -8,7 +8,7 @@ import net.minecraft.world.inventory.ItemCombinerMenu;
 import net.minecraft.world.inventory.ItemCombinerMenuSlotDefinition;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import org.nine_abyss.util.function.FunctionCollector;
+import org.NineAbyss9.util.function.FunctionCollector;
 
 public class ForgeMenu
 extends ItemCombinerMenu {

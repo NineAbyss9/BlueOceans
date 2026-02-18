@@ -1,7 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.government;
 
-import org.nine_abyss.math.AbyssMath;
+import org.NineAbyss9.math.AbyssMath;
 
 public class StabilityHandler {
     private float stability;

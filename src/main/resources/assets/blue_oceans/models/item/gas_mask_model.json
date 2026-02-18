@@ -1,0 +1,42 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made with Blockbench",
+	"texture_size": [32, 32],
+	"textures": {
+		"0": "blue_oceans:models/armor/gas_mask",
+		"particle": "blue_oceans:models/armor/gas_mask"
+	},
+	"elements": [
+		{
+			"from": [1, 0, 0],
+			"to": [15, 14, 4],
+			"rotation": {"angle": 0, "axis": "y", "origin": [1, 0, 0]},
+			"faces": {
+				"north": {"uv": [0, 0, 7, 7], "texture": "#0"},
+				"east": {"uv": [7, 0, 9, 7], "texture": "#0"},
+				"south": {"uv": [0, 7, 7, 14], "texture": "#0"},
+				"west": {"uv": [7, 7, 9, 14], "texture": "#0"},
+				"up": {"uv": [16, 2, 9, 0], "texture": "#0"},
+				"down": {"uv": [16, 2, 9, 4], "texture": "#0"}
+			}
+		},
+		{
+			"from": [6, -3, -1],
+			"to": [10, 5, 3],
+			"rotation": {"angle": 45, "axis": "x", "origin": [8, 5, 3]},
+			"faces": {
+				"north": {"uv": [9, 4, 11, 8], "texture": "#0"},
+				"east": {"uv": [9, 8, 11, 12], "texture": "#0"},
+				"south": {"uv": [11, 4, 13, 8], "texture": "#0"},
+				"west": {"uv": [11, 8, 13, 12], "texture": "#0"},
+				"up": {"uv": [11, 14, 9, 12], "texture": "#0"},
+				"down": {"uv": [13, 12, 11, 14], "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"head": {
+			"translation": [0, 0.75, 1]
+		}
+	}
+}

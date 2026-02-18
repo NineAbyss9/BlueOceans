@@ -1,7 +1,9 @@
 
 package com.github.player_ix.ix_api.util;
 
-import org.nine_abyss.annotation.PAMAreNonnullByDefault;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.LivingEntity;
+import org.NineAbyss9.annotation.PAMAreNonnullByDefault;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -30,6 +32,18 @@ public class ItemUtil {
 
     public static void shrink(ItemStack stack, Entity player) {
         shrink(stack, player, 1);
+    }
+
+    public static ItemStack getItemByHand(LivingEntity pEntity, InteractionHand pHand) {
+        return pEntity.getItemInHand(pHand);
+    }
+
+    public static boolean isMainHandEmpty(LivingEntity pEntity) {
+        return pEntity.getMainHandItem().isEmpty();
+    }
+
+    public static boolean isHandEmpty(LivingEntity pEntity, InteractionHand pHand) {
+        return getItemByHand(pEntity, pHand).isEmpty();
     }
 
     public static Tier getTier(int uses, float speed, float damage, int level, int EV, Ingredient ingredient) {

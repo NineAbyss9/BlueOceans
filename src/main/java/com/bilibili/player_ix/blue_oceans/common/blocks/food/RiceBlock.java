@@ -21,7 +21,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.ForgeHooks;
 import org.jetbrains.annotations.Nullable;
-import org.nine_abyss.array.ObjectArray;
+import org.NineAbyss9.array.ObjectArray;
 
 public class RiceBlock
 extends Crop

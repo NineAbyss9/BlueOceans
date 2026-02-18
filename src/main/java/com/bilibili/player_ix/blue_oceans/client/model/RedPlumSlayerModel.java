@@ -19,7 +19,6 @@ import net.minecraft.world.entity.HumanoidArm;
 public class RedPlumSlayerModel<T extends RedPlumSlayer>
 extends HierarchicalModel<T>
 implements HeadedModel, ArmedModel {
-	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(BlueOceans.location("slayers"), "main");
 	private final ModelPart root;
 	private final ModelPart head;

@@ -28,8 +28,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 
-import java.util.Collection;
-
 public class RedPlumCreeper
 extends RedPlumMonster
 implements ICreeper {
@@ -161,29 +159,23 @@ implements ICreeper {
 
     private void explodeCreeper() {
         if (!this.level().isClientSide) {
+            this.spawnLingeringCloud();
             this.playSound(SoundEvents.GENERIC_EXPLODE, 2, 1);
             this.dead = true;
-            this.spawnLingeringCloud();
             this.discard();
         }
     }
 
     private void spawnLingeringCloud() {
-        Collection<MobEffectInstance> collection = this.getActiveEffects();
-        if (!collection.isEmpty()) {
-            AreaEffectCloud areaeffectcloud = new AreaEffectCloud(this.level(), this.getX(), this.getY(), this.getZ());
-            areaeffectcloud.setRadius(2.5F);
-            areaeffectcloud.setRadiusOnUse(-0.5F);
-            areaeffectcloud.setWaitTime(10);
-            areaeffectcloud.setDuration(areaeffectcloud.getDuration() / 2);
-            areaeffectcloud.setRadiusPerTick(-areaeffectcloud.getRadius() / (float)areaeffectcloud.getDuration());
-            areaeffectcloud.addEffect(new MobEffectInstance(BlueOceansMobEffects.PLUM_INFECTION.get(),
-                    Maths.minuteToTick(1), 1));
-            for (MobEffectInstance mobeffectinstance : collection) {
-                areaeffectcloud.addEffect(new MobEffectInstance(mobeffectinstance));
-            }
-            this.level().addFreshEntity(areaeffectcloud);
-        }
+        AreaEffectCloud areaeffectcloud = new AreaEffectCloud(this.level(), this.getX(), this.getY(), this.getZ());
+        areaeffectcloud.setRadius(2.5F);
+        areaeffectcloud.setRadiusOnUse(-0.5F);
+        areaeffectcloud.setWaitTime(10);
+        areaeffectcloud.setDuration(areaeffectcloud.getDuration() / 2);
+        areaeffectcloud.setRadiusPerTick(-areaeffectcloud.getRadius() / (float)areaeffectcloud.getDuration());
+        areaeffectcloud.addEffect(new MobEffectInstance(BlueOceansMobEffects.PLUM_INFECTION.get(),
+                Maths.minuteToTick(1), 1));
+        this.level().addFreshEntity(areaeffectcloud);
     }
 
     public boolean isIgnited() {

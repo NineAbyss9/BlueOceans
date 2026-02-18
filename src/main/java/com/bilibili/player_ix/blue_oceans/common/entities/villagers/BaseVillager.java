@@ -33,6 +33,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.gossip.GossipContainer;
 import net.minecraft.world.entity.ai.gossip.GossipType;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.entity.ai.village.ReputationEventType;
@@ -46,11 +47,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.Node;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
-import org.nine_abyss.util.function.FunctionCollector;
+import org.NineAbyss9.util.function.FunctionCollector;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
@@ -75,6 +77,14 @@ implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser, IMiner {
         this.foodData = this.createFoodData();
         this.setAgent(level.getRandom().nextInt(8) == 0);
         this.setHandItemToDaily();
+        this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 16.0F);
+    }
+
+    protected PathNavigation createNavigation(Level pLevel) {
+        GroundPathNavigation base = new GroundPathNavigation(this, pLevel);
+        base.setCanFloat(true);
+        base.setCanOpenDoors(true);
+        return base;
     }
 
     protected void defineSynchedData() {
@@ -140,7 +150,7 @@ implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser, IMiner {
         tag.putInt("CurrentTask", this.getTaskId());
         villagerData.add(tag);
         pCompound.put("VillagerData", villagerData);
-        ListTag foodTag = this.foodData.integration();
+        CompoundTag foodTag = this.foodData.integration();
         pCompound.put("FoodData", foodTag);
         pCompound.put("Inventory", this.getInventory().createTag());
     }

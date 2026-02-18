@@ -18,7 +18,6 @@ public class DamageTester extends ApiPathfinderMob {
         return DAMAGE + st;
     }
 
-    @Override
     public boolean hurt(DamageSource pSource, float pAmount) {
         if (!this.level().isClientSide) {
             this.sendSystemMessage(Component.literal(this.give("hurt " + pSource.type() + " " + pAmount)));
@@ -26,14 +25,12 @@ public class DamageTester extends ApiPathfinderMob {
         return false;
     }
 
-    @Override
     protected void actuallyHurt(DamageSource p_21240_, float p_21241_) {
         if (!this.level().isClientSide) {
             this.sendSystemMessage(Component.literal(this.give("actuallyHurt " + p_21240_.type() + " " + p_21241_)));
         }
     }
 
-    @Override
     public void setHealth(float p_21154_) {
         if (!this.level().isClientSide) {
             this.sendSystemMessage(Component.literal(this.give("setHealth " + p_21154_)));
@@ -41,21 +38,18 @@ public class DamageTester extends ApiPathfinderMob {
         super.setHealth(20 + 1.0E-1F);
     }
 
-    @Override
     public void kill() {
         if (!this.level().isClientSide) {
             this.sendSystemMessage(Component.literal(this.give("kill")));
         }
     }
 
-    @Override
     public void die(DamageSource p_21014_) {
         if (!this.level().isClientSide) {
             this.sendSystemMessage(Component.literal(this.give("die " + p_21014_)));
         }
     }
 
-    @Override
     public void remove(RemovalReason p_276115_) {
         if (!this.level().isClientSide) {
             this.sendSystemMessage(Component.literal(this.give("remove " + p_276115_)));

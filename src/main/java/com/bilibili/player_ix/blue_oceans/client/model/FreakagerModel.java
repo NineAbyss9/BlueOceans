@@ -167,7 +167,7 @@ public class FreakagerModel<T extends Entity> extends HierarchicalModel<T> imple
         var10000 = this.leftFrontLeg;
         var10000.zRot += -$$16;
         if (pEntity instanceof Freak freak) {
-            ApiPose pose = freak.getArmPose();
+            ApiPose pose = freak.getPoses();
             switch (pose) {
                 case ATTACKING: {
                     if (freak.getMainHandItem().isEmpty()) {
@@ -186,7 +186,7 @@ public class FreakagerModel<T extends Entity> extends HierarchicalModel<T> imple
                     break;
                 }
             }
-            boolean o = freak.getArmPose() == ApiPose.CROSSED;
+            boolean o = freak.getPoses() == ApiPose.CROSSED;
             this.arms.visible = o;
             this.leftArm.visible = !o;
             this.rightArm.visible = !o;

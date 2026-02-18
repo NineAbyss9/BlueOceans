@@ -18,7 +18,7 @@ import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import org.nine_abyss.util.ValueHolder;
+import org.NineAbyss9.util.ValueHolder;
 
 public class WoodenStick
 extends PickaxeItem {

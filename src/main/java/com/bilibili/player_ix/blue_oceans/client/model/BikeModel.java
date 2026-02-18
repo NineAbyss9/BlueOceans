@@ -11,7 +11,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
-import org.nine_abyss.math.AbyssMath;
+import org.NineAbyss9.math.AbyssMath;
 
 @SuppressWarnings("unused")
 public class BikeModel<T extends Bike> extends HierarchicalModel<T> {

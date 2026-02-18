@@ -1,7 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.entities.ai.behavior;
 
-import org.nine_abyss.util.Nothing;
+import org.NineAbyss9.util.Nothing;
 import net.minecraft.util.Mth;
 
 import java.util.EnumSet;

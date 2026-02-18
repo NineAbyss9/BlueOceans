@@ -8,7 +8,7 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.crafting.Ingredient;
-import org.nine_abyss.math.AbyssMath;
+import org.NineAbyss9.math.AbyssMath;
 
 public class MathUtils {
     public static final float PI = 3.14159265358979323846260F;

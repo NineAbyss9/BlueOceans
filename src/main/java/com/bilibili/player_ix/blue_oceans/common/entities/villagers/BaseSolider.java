@@ -11,7 +11,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import org.nine_abyss.util.function.FunctionCollector;
+import org.NineAbyss9.util.function.FunctionCollector;
 
 public class BaseSolider
 extends BaseVillager {

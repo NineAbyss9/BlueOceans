@@ -19,6 +19,7 @@ public class BlueOceansMobEffects {
     //MobEffects
     public static final RegistryObject<MobEffect> COMFORTABLE;
     public static final RegistryObject<MobEffect> CONFIGURABLE_DAMAGE_BOOST;
+    public static final RegistryObject<MobEffect> FRIENDLY_PLUM_INVADE;
     public static final RegistryObject<MobEffect> PLUM_INFECTION;
     public static final RegistryObject<MobEffect> PLUM_INVADE;
     public static final RegistryObject<MobEffect> STUN;
@@ -34,6 +35,7 @@ public class BlueOceansMobEffects {
                 new ConfigurableDamageBoost().addAttributeModifier(Attributes.ATTACK_DAMAGE,
                         "F00097C1-83A1-EAC6-6E15-A75AA831B987", 0,
                         AttributeModifier.Operation.ADDITION));
+        FRIENDLY_PLUM_INVADE = REGISTER.register("friendly_plum_invade", FriendlyPlumInvade::new);
         PLUM_INFECTION = REGISTER.register("plum_infection", PlumInfection::new);
         PLUM_INVADE = REGISTER.register("plum_invade", PlumInvade::new);
         STUN = REGISTER.register("stun", () -> new StunEffect().addAttributeModifier(

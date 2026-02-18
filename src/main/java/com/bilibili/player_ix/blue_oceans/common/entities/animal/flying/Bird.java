@@ -20,7 +20,7 @@ import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
-import org.nine_abyss.util.Option;
+import org.NineAbyss9.util.Option;
 
 import javax.annotation.Nullable;
 

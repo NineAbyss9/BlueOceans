@@ -2,10 +2,13 @@
   "replace": false,
   "values": [
     "blue_oceans:budding_neo_plum",
+    "blue_oceans:plum_cell_cluster",
+    "blue_oceans:plum_tissue",
     "blue_oceans:red_plum_block",
     "blue_oceans:red_plum_catalyst",
     "blue_oceans:red_plum_grass",
     "blue_oceans:red_plum_trap",
-    "blue_oceans:red_plum_vein"
+    "blue_oceans:red_plum_vein",
+    "blue_oceans:sclerotic_red_plum_block"
   ]
 }

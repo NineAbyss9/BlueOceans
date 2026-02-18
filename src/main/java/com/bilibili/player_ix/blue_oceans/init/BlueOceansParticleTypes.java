@@ -4,7 +4,7 @@ package com.bilibili.player_ix.blue_oceans.init;
 import com.bilibili.player_ix.blue_oceans.BlueOceans;
 import com.bilibili.player_ix.blue_oceans.client.particles.ImpartParticleOption;
 import com.mojang.serialization.Codec;
-import org.nine_abyss.annotation.PFMAreNonnullByDefault;
+import org.NineAbyss9.annotation.PFMAreNonnullByDefault;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.level.Level;

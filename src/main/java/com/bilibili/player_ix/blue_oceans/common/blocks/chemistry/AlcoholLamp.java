@@ -25,7 +25,7 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.nine_abyss.math.AbyssMath;
+import org.NineAbyss9.math.AbyssMath;
 
 @SuppressWarnings("deprecation")
 public class AlcoholLamp
@@ -34,7 +34,6 @@ implements IChemical {
     public static final BooleanProperty COVERED = BoBlockProperties.COVERED;
     public static final IntegerProperty CAPACITY = BoBlockProperties.CAPACITY;
     public static final BooleanProperty BURNING = BoBlockProperties.BURNING;
-    private static float FIRE_DAMAGE = 4.0F;
     private static final VoxelShape SHAPE = box(3.0, 0.0, 3.0, 13.0, 10.0, 13.0);
     public AlcoholLamp(Properties pProperties) {
         super(pProperties);

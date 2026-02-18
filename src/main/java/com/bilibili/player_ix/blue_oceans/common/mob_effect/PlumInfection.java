@@ -7,7 +7,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import org.nine_abyss.math.MathSupport;
+import org.NineAbyss9.math.MathSupport;
 
 public class PlumInfection
 extends MobEffect {
@@ -23,12 +23,12 @@ extends MobEffect {
                 pLivingEntity.getItemBySlot(slot).hurtAndBreak(1, pLivingEntity, pEntity ->
                         pEntity.broadcastBreakEvent(slot));
             }
-            if (pAmplifier > 1) {
+            if (pAmplifier > 0) {
                 pLivingEntity.hurt(pLivingEntity.damageSources().dryOut(), pAmplifier * 0.5F);
             }
         } else {
-            if (pLivingEntity instanceof PlumBuilder) {
-                PlumBuilder.heal(pLivingEntity);
+            if (pLivingEntity instanceof PlumBuilder builder) {
+                PlumBuilder.heal(builder);
             } else
                 pLivingEntity.heal(1.0F);
         }

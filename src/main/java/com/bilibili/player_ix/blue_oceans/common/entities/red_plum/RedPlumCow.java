@@ -1,7 +1,6 @@
 
 package com.bilibili.player_ix.blue_oceans.common.entities.red_plum;
 
-import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.sounds.SoundEvent;
@@ -13,7 +12,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
 
 public class RedPlumCow
 extends RedPlumMonster {
@@ -22,11 +20,6 @@ extends RedPlumMonster {
         this.setMaxUpStep(1f);
         this.xpReward = 2;
         this.setNoAi(false);
-    }
-
-    @SuppressWarnings("unused")
-    public RedPlumCow(PlayMessages.SpawnEntity packet, Level level) {
-        this(BlueOceansEntities.RED_PLUMS_COW.get(), level);
     }
 
     protected SoundEvent getDeathSound() {

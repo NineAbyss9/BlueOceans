@@ -1,6 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.entities.red_plum;
 
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansMobEffects;
 import com.github.player_ix.ix_api.api.ApiPose;
 import com.github.player_ix.ix_api.api.item.ItemStacks;
@@ -12,7 +13,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -53,6 +53,10 @@ implements ApiRangedAttackMob {
             return ApiPose.NATURAL;
     }
 
+    protected EntityType<? extends AbstractRedPlumMob> getNextLevelConvert() {
+        return BlueOceansEntities.RED_PLUM_SLAYER.get();
+    }
+
     protected SoundEvent getAmbientSound() {
         return SoundEvents.SKELETON_AMBIENT;
     }
@@ -63,10 +67,6 @@ implements ApiRangedAttackMob {
 
     protected SoundEvent getDeathSound() {
         return SoundEvents.SKELETON_DEATH;
-    }
-
-    public MobType getMobType() {
-        return MobType.UNDEAD;
     }
 
     public static AttributeSupplier.Builder createAttributes() {

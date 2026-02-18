@@ -6,7 +6,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import org.nine_abyss.math.number.RangedInt;
+import org.NineAbyss9.math.number.RangedInt;
 
 import java.util.EnumSet;
 

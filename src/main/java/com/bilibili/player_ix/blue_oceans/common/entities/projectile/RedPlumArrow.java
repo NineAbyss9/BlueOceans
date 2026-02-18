@@ -22,6 +22,11 @@ extends Arrow {
         super(pLevel, pShooter);
     }
 
+    protected void tickDespawn() {
+        for (int i = 0;i < 4;i++)
+            super.tickDespawn();
+    }
+
     protected void doPostHurtEffects(LivingEntity pLiving) {
         pLiving.addEffect(new MobEffectInstance(BlueOceansMobEffects.PLUM_INVADE.get()));
         super.doPostHurtEffects(pLiving);

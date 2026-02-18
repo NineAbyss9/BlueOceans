@@ -16,7 +16,7 @@ import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.nine_abyss.math.MathSupport;
+import org.NineAbyss9.math.MathSupport;
 
 import java.util.HashSet;
 import java.util.Set;

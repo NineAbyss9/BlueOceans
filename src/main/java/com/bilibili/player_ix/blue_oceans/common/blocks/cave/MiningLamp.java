@@ -22,7 +22,7 @@ extends LanternBlock {
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     public MiningLamp(Properties pProperties) {
         super(pProperties);
-        this.registerDefaultState(this.getStateDefinition().any().setValue(LIT, Boolean.FALSE)
+        this.registerDefaultState(this.stateDefinition.any().setValue(LIT, Boolean.FALSE)
                 .setValue(HANGING, Boolean.FALSE).setValue(WATERLOGGED, Boolean.FALSE));
     }
 

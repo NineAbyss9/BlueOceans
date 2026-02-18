@@ -12,7 +12,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.level.Level;
-import org.nine_abyss.util.function.FunctionCollector;
+import org.NineAbyss9.util.function.FunctionCollector;
 
 import javax.annotation.Nullable;
 

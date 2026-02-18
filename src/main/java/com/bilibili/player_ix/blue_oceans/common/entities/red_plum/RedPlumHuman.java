@@ -2,6 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.common.entities.red_plum;
 
 import com.bilibili.player_ix.blue_oceans.api.misc.SoundCollector;
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.github.player_ix.ix_api.api.ApiPose;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
@@ -38,6 +39,11 @@ public class RedPlumHuman extends RedPlumMonster {
             return ApiPose.ZOMBIE_ATTACKING;
         }
         return ApiPose.NATURAL;
+    }
+
+
+    protected EntityType<? extends AbstractRedPlumMob> getNextLevelConvert() {
+        return BlueOceansEntities.RED_PLUM_SLAYER.get();
     }
 
     public static AttributeSupplier.Builder createAttributes() {

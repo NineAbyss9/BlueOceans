@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "blue_oceans:lung"
+    },
+    {
+      "item": "blue_oceans:plum_tissue"
+    }
+  ],
+  "result": {
+    "item": "blue_oceans:plum_lung"
+  }
+}

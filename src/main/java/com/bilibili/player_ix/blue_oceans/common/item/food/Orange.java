@@ -15,8 +15,9 @@ extends FoodItem {
     public Orange() {
         super(new Properties().stacksTo(64), (stack, pLevel, player) -> {
             player.addItem(new ItemStack(BlueOceansItems.ORANGE_FLESH.get()));
-            stack.shrink(1);
-            return stack;
+            ItemStack cache = stack.copy();
+            cache.shrink(1);
+            return cache;
         });
     }
 
@@ -25,7 +26,7 @@ extends FoodItem {
     }
 
     public int getUseDuration(ItemStack pStack) {
-        return 20;
+        return 16;
     }
 
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {

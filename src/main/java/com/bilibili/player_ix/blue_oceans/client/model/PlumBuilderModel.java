@@ -69,7 +69,6 @@ implements HeadedModel {
         this.root.getAllParts().forEach(ModelPart::resetPose);
         this.animate(entity.idle, PlumBuilderAnims.idle, ageInTicks);
         this.animate(entity.spread, PlumBuilderAnims.spread, ageInTicks);
-        this.root.xScale = this.root.yScale = this.root.zScale = entity.isBuilding() ? 1.0F : 0.5F;
         this.jet_engine.visible = entity.isBuilding();
         this.head1.visible = entity.getAge() > 1;
         this.head2.visible = entity.getAge() > 2;

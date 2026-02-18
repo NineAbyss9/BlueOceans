@@ -3,8 +3,8 @@ package com.bilibili.player_ix.blue_oceans.common.entities.ai.goal;
 
 import com.bilibili.player_ix.blue_oceans.api.magic.BOSpellType;
 import com.bilibili.player_ix.blue_oceans.api.mob.SpellEntity;
-import org.nine_abyss.util.IXUtil;
-import org.nine_abyss.util.IXUtilUser;
+import org.NineAbyss9.util.IXUtil;
+import org.NineAbyss9.util.IXUtilUser;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;

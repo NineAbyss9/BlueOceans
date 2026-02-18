@@ -4,11 +4,15 @@ package com.bilibili.player_ix.blue_oceans.common.entities.villagers;
 import com.bilibili.player_ix.blue_oceans.api.mob.IBONeutralMob;
 import com.bilibili.player_ix.blue_oceans.api.mob.IBOMob;
 import com.bilibili.player_ix.blue_oceans.api.mob.Profession;
+import com.bilibili.player_ix.blue_oceans.api.task.Task;
 import com.bilibili.player_ix.blue_oceans.common.entities.ai.goal.AvoidTargetGoal;
+import com.bilibili.player_ix.blue_oceans.common.entities.projectile.EchoPotion;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
+import com.bilibili.player_ix.blue_oceans.init.BoTags;
 import com.github.player_ix.ix_api.api.ApiPose;
 import com.github.player_ix.ix_api.api.mobs.ApiVillager;
 import com.github.player_ix.ix_api.api.mobs.ai.goal.ApiTradeWithPlayerGoal;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -43,9 +47,11 @@ import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
+import org.NineAbyss9.math.MathSupport;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.random.RandomGenerator;
 
 public class VillagerBiologist
 extends BaseVillager
@@ -84,6 +90,7 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
         this.healPlayersGoal = new NearestHealableFriendTargetGoal<>(this, Player.class, true,
                 player -> this.lastHurtByPlayer != player);
         this.attackTargetsGoal = new AttackTargetGoal<>(this, LivingEntity.class);
+        this.goalSelector.addGoal(1, new ClearPlumBlocksGoal(this));
         this.goalSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(2, new AvoidTargetGoal(this, 9f, 1.0, 1.2));
         this.goalSelector.addGoal(2, new RangedAttackGoal(this, 0.8,
@@ -140,9 +147,27 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
         this.level().addFreshEntity($$8);
     }
 
+    public void throwEchoPotion(BlockPos pPos) {
+        double $$3 = pPos.getX() - this.getX();
+        double $$4 = pPos.getY() - 1.100000023841858 - this.getY();
+        double $$5 = pPos.getZ() - this.getZ();
+        double $$6 = Math.sqrt($$3 * $$3 + $$5 * $$5);
+        EchoPotion echoPotion = new EchoPotion(this, this.level());
+        echoPotion.setXRot(echoPotion.getXRot() - 20.0F);
+        echoPotion.shoot($$3, $$4 + $$6 * 0.2, $$5, 0.75F, 8.0F);
+        if (!this.isSilent())
+            this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.WITCH_THROW,
+                    this.getSoundSource(), 1.0F, 0.8F + this.random.nextFloat() * 0.4F);
+        this.level().addFreshEntity(echoPotion);
+    }
+
     @Nullable
     public VillagerTrades.ItemListing[] getTradeLists() {
         return BoVillagerTrades.BIOLOGIST_TRADES;
+    }
+
+    public boolean isClearingPlums() {
+        return this.hasTask(Task.CLEAR_PLUMS);
     }
 
     public void setUsingItem(boolean pUsing) {
@@ -331,6 +356,58 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
 
         public boolean canUse() {
             return this.canAttack && super.canUse();
+        }
+    }
+
+    private static class ClearPlumBlocksGoal extends Goal {
+        final VillagerBiologist biologist;
+        BlockPos pos = BlockPos.ZERO;
+        int cooldown;
+        public ClearPlumBlocksGoal(VillagerBiologist pMob) {
+            this.biologist = pMob;
+        }
+
+        public boolean canUse() {
+            return findPlums();
+        }
+
+        public boolean canContinueToUse() {
+            return this.biologist.getTarget() == null && !this.pos.equals(BlockPos.ZERO)
+                    && this.biologist.level().getBlockState(pos).is(BoTags.RED_PLUM_BLOCKS);
+        }
+
+        public void start() {
+            this.biologist.navigation.moveTo(this.pos.getX(), this.pos.getY(), this.pos.getZ(), 0.8);
+        }
+
+        public void tick() {
+            if (this.cooldown <= 0) {
+                this.biologist.throwEchoPotion(this.pos);
+                this.cooldown = 50;
+            }
+            else
+                --this.cooldown;
+        }
+
+        public void stop() {
+            this.pos = BlockPos.ZERO;
+            this.cooldown = 0;
+        }
+
+        @Nullable
+        public BlockPos findPos() {
+            for (int i = 0;i < 10;i++) {
+                RandomGenerator generator = MathSupport.random;
+                BlockPos cache = this.biologist.blockPosition().offset(generator.nextInt(20) - 10,
+                        2 - generator.nextInt(5), generator.nextInt(20) - 10);
+                if (this.biologist.level().getBlockState(cache).is(BoTags.RED_PLUM_BLOCKS))
+                    return cache;
+            }
+            return null;
+        }
+
+        public boolean findPlums() {
+            return (this.pos = findPos()) != null;
         }
     }
 }

@@ -2,7 +2,6 @@
 package com.bilibili.player_ix.blue_oceans.common.blocks.plum;
 
 //import com.bilibili.player_ix.blue_oceans.common.blocks.BoBlockProperties;
-import com.bilibili.player_ix.blue_oceans.common.blocks.RedPlumVein;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

@@ -17,6 +17,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import org.NineAbyss9.math.MathSupport;
 
 import javax.annotation.Nullable;
 
@@ -26,6 +27,9 @@ extends DiggerItem {
         super(pDamageModifier, pAttackSpeed, pTier, BlockTags.CROPS, pProperties);
     }
 
+    /**0 -> shouldn't drop,<p>
+     * 1 -> is {@linkplain CropBlock} and max age,<p>
+     * 2 -> has tag CROPS*/
     public static int shouldDrop(BlockState state) {
         if (state.getBlock() instanceof CropBlock crop) {
             return crop.isMaxAge(state) ? 1 : 0;
@@ -40,9 +44,10 @@ extends DiggerItem {
                                      ItemStack stack) {
         int i = shouldDrop(state);
         if (i > 0) {
-            int dropCount = level.random.nextInt(3);
-            for (int j = 0; j < dropCount;j++)
+            int dropCount = Math.max(1, MathSupport.random.nextInt(4));
+            for (int j = 0; j < dropCount;j++) {
                 Block.dropResources(state, level, pPos, level.getBlockEntity(pPos), entity1, stack);
+            }
             if (i == 1) {
                 CropBlock crop = ((CropBlock)state.getBlock());
                 if (crop.getMaxAge() >= 1)
@@ -75,8 +80,8 @@ extends DiggerItem {
         BlockState state = level.getBlockState(pos);
         Player player = pContext.getPlayer();
         ItemStack stack = pContext.getItemInHand();
-        if (!level.isClientSide && dropResources(state, level, pos, player, stack)) {
-            if (shouldDamage(stack) && player != null)
+        if (!level.isClientSide) {
+            if (dropResources(state, level, pos, player, stack) && shouldDamage(stack) && player != null)
                 stack.hurtAndBreak(1, player, entity -> entity.broadcastBreakEvent(pContext.getHand()));
             return InteractionResult.CONSUME;
         }

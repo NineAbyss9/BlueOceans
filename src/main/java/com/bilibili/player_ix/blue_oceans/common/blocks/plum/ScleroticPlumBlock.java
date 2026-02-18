@@ -1,7 +1,6 @@
 
 package com.bilibili.player_ix.blue_oceans.common.blocks.plum;
 
-import com.bilibili.player_ix.blue_oceans.common.blocks.RedPlumBlock;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.AbstractRedPlumMob;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.NeoFighter;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.NeoPlum;
@@ -24,6 +23,10 @@ extends RedPlumBlock {
         super(Properties.of().strength(3.0F, 10.0F)
                 .mapColor(DyeColor.RED).instrument(NoteBlockInstrument.BASEDRUM).sound(SoundType.SCULK)
                 .randomTicks());
+    }
+
+    public int getLevel() {
+        return 2;
     }
 
     protected void spawnPlum(ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {

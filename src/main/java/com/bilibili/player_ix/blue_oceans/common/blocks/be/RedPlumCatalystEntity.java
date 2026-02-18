@@ -1,7 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.blocks.be;
 
-import com.bilibili.player_ix.blue_oceans.common.blocks.RedPlumCatalyst;
+import com.bilibili.player_ix.blue_oceans.common.blocks.plum.RedPlumCatalyst;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;

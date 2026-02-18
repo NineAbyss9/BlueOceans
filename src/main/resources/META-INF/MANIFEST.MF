@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Specification-Title: blue_oceans
-Specification-Vendor: Player_IX
+Specification-Vendor: NineAbyss9
 Specification-Version: 1
-Implementation-Title: Blue Oceans 1.1.2b
+Implementation-Title: Blue Oceans 1.1.4a-pre9
 Implementation-Version: 1.3
-Implementation-Vendor: Player_IX
-Implementation-Timestamp: 2025-10-19T13:03:03+0800
+Implementation-Vendor: NineAbyss9
+Implementation-Timestamp: 2026-2-9T13:03:03+0800
 MixinConfigs: blue_oceans.mixin.json
 

@@ -89,10 +89,6 @@ public class HeartOfHorror extends SpellcasterRedPlumIllager implements RangedAt
         return super.getActiveEffects();
     }
 
-    public HeartOfHorror(PlayMessages.SpawnEntity spawnEntity, Level level) {
-        this(BlueOceansEntities.HEART_OF_HORROR.get(), level);
-    }
-
     public Packet<ClientGamePacketListener> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }

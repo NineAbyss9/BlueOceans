@@ -17,7 +17,8 @@ public enum Task {
     WEAVE_WEB(9),
     DIG(10),
     HIDE(11),
-    WAKE(12);
+    WAKE(12),
+    CLEAR_PLUMS(13, BlueOceansItems.ECHO_POTION::get);
     public final int id;
     public final ItemHolder item;
     Task(int pId, ItemHolder pHolder) {

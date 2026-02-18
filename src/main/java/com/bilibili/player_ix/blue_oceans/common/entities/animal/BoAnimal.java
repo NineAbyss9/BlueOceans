@@ -5,6 +5,7 @@ import com.bilibili.player_ix.blue_oceans.api.mob.IAcceptTask;
 import com.bilibili.player_ix.blue_oceans.api.task.Task;
 import com.github.player_ix.ix_api.api.mobs.FoodDataUser;
 import com.github.player_ix.ix_api.api.mobs.MobFoodData;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -61,6 +62,16 @@ implements FoodDataUser, IAcceptTask {
 
     public void setTask(int pTask) {
         this.entityData.set(DATA_TASK, pTask);
+    }
+
+    public void addAdditionalSaveData(CompoundTag pCompound) {
+        super.addAdditionalSaveData(pCompound);
+        pCompound.put("FoodData", this.foodData.integration());
+    }
+
+    public void readAdditionalSaveData(CompoundTag pCompound) {
+        super.readAdditionalSaveData(pCompound);
+        this.foodData.readIntegration(pCompound);
     }
 
     static {

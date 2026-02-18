@@ -2,12 +2,13 @@
   "type": "minecraft:entity",
   "pools": [
     {
+      "bonus_rolls": 0.0,
       "rolls": 1,
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "blue_oceans:red_plum_flesh",
-          "weight": 1,
+          "name": "blue_oceans:plum_cell_cluster",
+          "weight": 6,
           "functions": [
             {
               "function": "set_count",
@@ -17,8 +18,52 @@
               }
             }
           ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "blue_oceans:red_plum_flesh",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "blue_oceans:plum_tissue",
+          "weight": 1
         }
       ]
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:killed_by_player"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 1.0,
+                "min": -1.0
+              },
+              "function": "minecraft:set_count"
+            },
+            {
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 1.0,
+                "min": 0.0
+              },
+              "function": "minecraft:looting_enchant"
+            }
+          ],
+          "name": "minecraft:spider_eye"
+        }
+      ],
+      "rolls": 1.0
     }
   ],
   "random_sequence": "blue_oceans:entities/red_plum_spider"

@@ -12,13 +12,13 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class SpeedUp {
-    public final boolean isSpeedUp;
+    public final boolean speedUp;
     public SpeedUp(boolean pSpeedUp) {
-        this.isSpeedUp = pSpeedUp;
+        this.speedUp = pSpeedUp;
     }
 
     public static void encode(SpeedUp speedUp, FriendlyByteBuf buffer) {
-        buffer.writeBoolean(speedUp.isSpeedUp);
+        buffer.writeBoolean(speedUp.speedUp);
     }
 
     public static SpeedUp decode(FriendlyByteBuf buffer) {
@@ -34,7 +34,7 @@ public class SpeedUp {
             if (player != null) {
                 Entity vehicle = player.getVehicle();
                 if (vehicle instanceof AbstractTrafficUtil trafficUtil) {
-                    trafficUtil.setSpeedy(speedUp.isSpeedUp);
+                    trafficUtil.setSpeedy(speedUp.speedUp);
                 }
             }
         });

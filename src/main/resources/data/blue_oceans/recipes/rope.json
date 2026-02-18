@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "i",
+    "i"
+  ],
+  "key": {
+    "i": {
+      "item": "minecraft:string"
+    }
+  },
+  "result": {
+    "item": "blue_oceans:rope",
+    "count": 1
+  }
+}

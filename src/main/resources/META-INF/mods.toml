@@ -4,12 +4,12 @@ license="GPL License"
 
 [[mods]]
 modId="blue_oceans"
-version="1.1.2b"
+version="1.1.4a-pre9"
 displayName="Blue Oceans"
-displayURL="https://github.com/noixmod"
+displayURL="https://github.com/NineAbyss9"
 logoFile="logo.png"
-credits="Player_IX"
-authors="Player_IX"
+credits="NineAbyss9"
+authors="NineAbyss9"
 description="A fun mod!"
 
 [[dependencies.blue_oceans]]

@@ -114,7 +114,7 @@ extends PathfinderMob {
             attribute.removeModifier(pM);
     }
 
-    public boolean closeThan(Vec3 pPos, double pRange) {
+    public boolean closerThan(Vec3 pPos, double pRange) {
         return this.distanceToSqr(pPos) <= pRange * pRange;
     }
 

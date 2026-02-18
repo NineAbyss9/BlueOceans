@@ -2,7 +2,6 @@
 package com.github.player_ix.ix_api.api.mobs;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -129,19 +128,15 @@ public class MobFoodData {
         pCompoundTag.putFloat("foodExhaustionLevel", this.getExhaustionLevel());
     }
 
-    public ListTag integration() {
-        ListTag tag = new ListTag();
+    public CompoundTag integration() {
         CompoundTag content = new CompoundTag();
         this.addAdditionalSaveData(content);
-        tag.add(content);
-        return tag;
+        return content;
     }
 
     public void readIntegration(CompoundTag tag) {
         if (tag.contains("FoodData")) {
-            ListTag listTag = (ListTag)tag.get("FoodData");
-            assert listTag != null : "The FoodData tag is null!";
-            CompoundTag content = (CompoundTag)listTag.get(0);
+            CompoundTag content = tag.getCompound("FoodData");
             this.readAdditionalSaveData(content);
         }
     }

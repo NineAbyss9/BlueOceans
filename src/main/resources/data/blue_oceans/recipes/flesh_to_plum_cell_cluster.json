@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "i"
+  ],
+  "key": {
+    "i": {
+      "item": "blue_oceans:red_plum_flesh"
+    }
+  },
+  "result": {
+    "item": "blue_oceans:plum_cell_cluster",
+    "count": 3
+  }
+}

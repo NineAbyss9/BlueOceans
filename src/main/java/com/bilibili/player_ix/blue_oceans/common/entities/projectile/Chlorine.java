@@ -54,7 +54,7 @@ extends Entity {
 
     protected void addAdditionalSaveData(CompoundTag pCompound) {
         if (pCompound.contains("Range"))
-            this.setRange(Vec9.readVec3Tag((CompoundTag)pCompound.get("Range"), "Range"));
+            this.setRange(Vec9.readVec3Tag(pCompound, "Range"));
     }
 
     static {

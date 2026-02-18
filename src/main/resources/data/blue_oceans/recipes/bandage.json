@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "iii",
+    "i  "
+  ],
+  "key": {
+    "i": {
+      "tag": "minecraft:wool"
+    }
+  },
+  "result": {
+    "item": "blue_oceans:bandage",
+    "count": 1
+  }
+}

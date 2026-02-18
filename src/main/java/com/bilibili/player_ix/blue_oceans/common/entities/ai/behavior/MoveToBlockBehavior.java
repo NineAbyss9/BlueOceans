@@ -1,8 +1,8 @@
 
 package com.bilibili.player_ix.blue_oceans.common.entities.ai.behavior;
 
-import org.nine_abyss.util.IXUtil;
-import org.nine_abyss.util.IXUtilUser;
+import org.NineAbyss9.util.IXUtil;
+import org.NineAbyss9.util.IXUtilUser;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.PathfinderMob;

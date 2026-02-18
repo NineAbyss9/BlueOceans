@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "  x",
+    " x ",
+    "x  "
+  ],
+  "key": {
+    "x": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "blue_oceans:scalpel",
+    "count": 1
+  }
+}

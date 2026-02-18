@@ -6,6 +6,7 @@ import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.AbstractRedPl
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.NeoPlum;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlocks;
 import com.bilibili.player_ix.blue_oceans.init.BoTags;
+import com.bilibili.player_ix.blue_oceans.util.RedPlumUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -13,9 +14,12 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.npc.AbstractVillager;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.MultifaceBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import org.nine_abyss.math.MathSupport;
+import org.NineAbyss9.math.MathSupport;
 
 public class PlumInvade extends MobEffect {
     public PlumInvade() {
@@ -44,12 +48,19 @@ public class PlumInvade extends MobEffect {
                         pLivingEntity.getY(), pLivingEntity.getZ(),
                         pLivingEntity.getBoundingBox().inflate(6));
                 if (mob != null) {
+                    mob.setKillsPlus();
                     mob.checkAndPlusInfectLevel(pLivingEntity);
                 }
                 if (pLivingEntity.removeEffect(this)) {
-                    var plum = NeoPlum.createRandom(pLivingEntity.position(), pLivingEntity.level());
-                    if (plum != null) {
-                        NeoPlum.addParticleAroundPlum(plum);
+                    if (pLivingEntity instanceof Player || pLivingEntity instanceof Zombie) {
+                        RedPlumUtil.spawnRedPlumHuman(pLivingEntity.level(), pLivingEntity);
+                    } else if (pLivingEntity instanceof AbstractVillager) {
+                        RedPlumUtil.spawnRedPlumVillager(pLivingEntity.level(), (AbstractVillager)pLivingEntity);
+                    } else {
+                        var plum = NeoPlum.createRandom(pLivingEntity.position(), pLivingEntity.level());
+                        if (plum != null) {
+                            NeoPlum.addParticleAroundPlum(plum);
+                        }
                     }
                 }
             }

@@ -62,8 +62,10 @@ implements Enemy {
         return AttackCoolDownType.INT;
     }
 
-    public boolean removeWhenFarAway(double p_21542_) {
-        return false;
+    public boolean removeWhenFarAway(double pDistanceToClosestPlayer) {
+        if (this.getLevel() > 2)
+            return pDistanceToClosestPlayer > 48 * 48;
+        return pDistanceToClosestPlayer > 36 * 36;
     }
 
     protected enum AttackCoolDownType {

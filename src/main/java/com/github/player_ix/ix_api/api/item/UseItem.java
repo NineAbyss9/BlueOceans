@@ -1,7 +1,7 @@
 
 package com.github.player_ix.ix_api.api.item;
 
-import org.nine_abyss.util.function.CiFunction;
+import org.NineAbyss9.util.function.CiFunction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;

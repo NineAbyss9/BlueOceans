@@ -5,8 +5,8 @@ import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
-import org.nine_abyss.annotation.doc.Message;
-import org.nine_abyss.annotation.doc.Since;
+import org.NineAbyss9.annotation.doc.Message;
+import org.NineAbyss9.annotation.doc.Since;
 
 import java.util.Random;
 
