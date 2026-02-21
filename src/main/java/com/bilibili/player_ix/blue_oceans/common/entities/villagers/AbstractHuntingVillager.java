@@ -238,6 +238,11 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
         return this.offers;
     }
 
+    @Nullable
+    public LivingEntity getLastHurtByMob() {
+        return super.getLastHurtByMob();
+    }
+
     public int getVillagerXp() {
         return 1;
     }

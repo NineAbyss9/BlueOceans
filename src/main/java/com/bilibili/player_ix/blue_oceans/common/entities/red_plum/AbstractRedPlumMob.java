@@ -48,6 +48,7 @@ import org.NineAbyss9.util.Action;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.UUID;
 
 /**Base Plum Class*/
 public abstract class AbstractRedPlumMob
@@ -163,6 +164,20 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
             return list.get(this.getRandomUtil().nextInt(list.size()));
         }
         return null;
+    }
+
+    @Nullable
+    public LivingEntity getOwner() {
+        return super.m_269323_();
+    }
+
+    @Nullable
+    public UUID getOwnerUUID() {
+        return super.m_21805_();
+    }
+
+    public void setOwner(@Nullable LivingEntity lie) {
+        super.setOwner(lie);
     }
 
     protected int nextConvertUpNeeds() {

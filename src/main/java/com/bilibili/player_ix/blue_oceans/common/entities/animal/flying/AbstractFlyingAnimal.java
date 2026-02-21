@@ -19,6 +19,10 @@ implements ApiFlyingAnimal {
         super(pEntityType, pLevel);
     }
 
+    public boolean isFlying() {
+        return !this.onGround();
+    }
+
     protected void addBehaviorGoals() {
         this.goalSelector.addGoal(4, new PanicGoal(this, 0.8));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));

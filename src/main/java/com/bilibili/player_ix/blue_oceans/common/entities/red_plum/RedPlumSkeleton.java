@@ -13,6 +13,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -51,6 +52,10 @@ implements ApiRangedAttackMob {
                 return ApiPose.ZOMBIE_ATTACKING;
         } else
             return ApiPose.NATURAL;
+    }
+
+    public void performRangedAttack(LivingEntity pTarget, float pVelocity) {
+        ApiRangedAttackMob.super.m_6504_(pTarget, pVelocity);
     }
 
     protected EntityType<? extends AbstractRedPlumMob> getNextLevelConvert() {

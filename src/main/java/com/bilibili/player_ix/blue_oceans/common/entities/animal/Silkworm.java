@@ -5,6 +5,7 @@ import com.bilibili.player_ix.blue_oceans.api.mob.CompletelyPerverseState;
 import com.bilibili.player_ix.blue_oceans.api.mob.IAnimatedMob;
 import com.bilibili.player_ix.blue_oceans.common.entities.animal.flying.AbstractFlyingAnimal;
 import com.github.NineAbyss9.ix_api.api.item.ItemStacks;
+import com.github.NineAbyss9.ix_api.api.mobs.ApiFlyingAnimal;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;

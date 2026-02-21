@@ -3,9 +3,11 @@ package com.bilibili.player_ix.blue_oceans.common.entities.dumplings;
 
 import com.github.NineAbyss9.ix_api.api.mobs.OwnableMob;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 
 import static net.minecraft.world.entity.monster.Enemy.XP_REWARD_SMALL;
 
@@ -14,6 +16,11 @@ extends OwnableMob {
     protected AbstractDumpling(EntityType<? extends OwnableMob> p_33002_, Level p_33003_) {
         super(p_33002_, p_33003_);
         this.xpReward = XP_REWARD_SMALL;
+    }
+
+    @Nullable
+    public LivingEntity getOwner() {
+        return super.getOwner();
     }
 
     protected static AttributeSupplier.Builder createAttributes() {

@@ -18,3 +18,10 @@ mandatory=true
 versionRange="[1.20.1]"
 ordering="AFTER"
 side="BOTH"
+
+[[dependencies.blue_oceans]]
+modId = "ix_api"
+mandatory = true
+versionRange = "[1.0.4]"
+ordering = "AFTER"
+side = "BOTH"

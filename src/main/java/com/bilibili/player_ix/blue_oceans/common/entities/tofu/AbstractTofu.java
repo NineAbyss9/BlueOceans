@@ -7,6 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractTofu extends OwnableMob {
     public AbstractTofu(EntityType<? extends AbstractTofu> type, Level level) {
@@ -18,6 +19,11 @@ public abstract class AbstractTofu extends OwnableMob {
             return false;
         }
         return super.canAttack(pTarget);
+    }
+
+    @Nullable
+    public LivingEntity getOwner() {
+        return super.getOwner();
     }
 
     public static AttributeSupplier.Builder createAttributes() {

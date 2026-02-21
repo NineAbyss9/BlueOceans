@@ -7,7 +7,6 @@ import com.bilibili.player_ix.blue_oceans.common.entities.animal.Bear;
 import com.bilibili.player_ix.blue_oceans.common.entities.animal.freshwater.Duck;
 import com.bilibili.player_ix.blue_oceans.common.entities.animal.ocean.Jellyfish;
 import com.bilibili.player_ix.blue_oceans.common.entities.projectile.*;
-import com.bilibili.player_ix.blue_oceans.common.entities.dumplings.DumplingMonster;
 import com.bilibili.player_ix.blue_oceans.common.entities.illagers.red_plum_illager.Freak;
 import com.bilibili.player_ix.blue_oceans.common.entities.projectile.plum.EchoPotion;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.*;
@@ -44,7 +43,6 @@ public class BlueOceansEntities {
     public static final RegistryObject<EntityType<Death>> DEATH = register("death", EntityType.Builder.<Death>of(Death::new, MobCategory.MONSTER).setCustomClientFactory(Death::new), 0.6f, 1.6f);
     public static final RegistryObject<EntityType<Dictator>> DICTATOR = register("dictator", EntityType.Builder.of(Dictator::new, MobCategory.MONSTER), 0.6f, 1.95f);
     public static final RegistryObject<EntityType<Duck>> DUCK = register("duck", EntityType.Builder.of(Duck::new, MobCategory.CREATURE).sized(0.4F, 0.7F).clientTrackingRange(10));
-    public static final RegistryObject<EntityType<DumplingMonster>> DUMPLING_MONSTER = register("dumpling_monster", EntityType.Builder.of(DumplingMonster::new, MobCategory.MONSTER), 0.6f,1f);
     public static final RegistryObject<EntityType<EchoPotion>> ECHO_POTION = register("echo_potion", EntityType.Builder.<EchoPotion>of(EchoPotion::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10));
     public static final RegistryObject<EntityType<Farmer>> FARMER = register("farmer", EntityType.Builder.of(Farmer::new, MobCategory.MISC), 0.6F, 1.95F);
     public static final RegistryObject<EntityType<Freak>> FREAK = register("freak", EntityType.Builder.of(Freak::new, MobCategory.MONSTER), 0.6f, 1.95f);
@@ -106,7 +104,6 @@ public class BlueOceansEntities {
         event.put(DEATH.get(), Death.createAttributes().build());
         event.put(DICTATOR.get(), Dictator.createAttributes().build());
         event.put(DUCK.get(), Duck.createAttributes().build());
-        event.put(DUMPLING_MONSTER.get(), DumplingMonster.createAttributes().build());
         event.put(FARMER.get(), BaseVillager.createBaseVillagerAttributes().build());
         event.put(FREAK.get(), Freak.createAttributes().build());
         event.put(HEART_OF_HORROR.get(), HeartOfHorror.createAttributes().build());
