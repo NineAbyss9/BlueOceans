@@ -1,7 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.compat;
 
-import com.github.player_ix.ix_api.util.ResourceLocations;
+import com.github.NineAbyss9.ix_api.util.ResourceLocations;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;

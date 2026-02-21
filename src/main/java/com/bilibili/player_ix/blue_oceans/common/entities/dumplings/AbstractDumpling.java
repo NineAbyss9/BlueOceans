@@ -1,7 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.entities.dumplings;
 
-import com.github.player_ix.ix_api.api.mobs.OwnableMob;
+import com.github.NineAbyss9.ix_api.api.mobs.OwnableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;

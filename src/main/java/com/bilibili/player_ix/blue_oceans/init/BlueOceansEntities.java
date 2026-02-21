@@ -9,6 +9,7 @@ import com.bilibili.player_ix.blue_oceans.common.entities.animal.ocean.Jellyfish
 import com.bilibili.player_ix.blue_oceans.common.entities.projectile.*;
 import com.bilibili.player_ix.blue_oceans.common.entities.dumplings.DumplingMonster;
 import com.bilibili.player_ix.blue_oceans.common.entities.illagers.red_plum_illager.Freak;
+import com.bilibili.player_ix.blue_oceans.common.entities.projectile.plum.EchoPotion;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.*;
 import com.bilibili.player_ix.blue_oceans.common.entities.illagers.red_plum_illager.Dictator;
 import com.bilibili.player_ix.blue_oceans.common.entities.illagers.NaturalEnvoy;

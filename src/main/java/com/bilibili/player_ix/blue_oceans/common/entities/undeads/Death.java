@@ -4,7 +4,7 @@ package com.bilibili.player_ix.blue_oceans.common.entities.undeads;
 import com.bilibili.player_ix.blue_oceans.api.ai.goal.BOAttackTargetGoal;
 import com.bilibili.player_ix.blue_oceans.common.entities.projectile.Venom;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
-import com.github.player_ix.ix_api.api.mobs.Ownable;
+import com.github.NineAbyss9.ix_api.api.mobs.Ownable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvent;

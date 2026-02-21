@@ -3,6 +3,7 @@ package com.bilibili.player_ix.blue_oceans.common.blocks.plum;
 
 import com.bilibili.player_ix.blue_oceans.common.blocks.be.RedPlumCatalystEntity;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.AbstractRedPlumMob;
+import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.NeoPlum;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.RedPlumMonster;
 import com.bilibili.player_ix.blue_oceans.config.BoCommonConfig;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlocks;
@@ -10,8 +11,8 @@ import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansGameRules;
 import com.bilibili.player_ix.blue_oceans.init.BoTags;
 import com.bilibili.player_ix.blue_oceans.util.RedPlumUtil;
-import com.github.player_ix.ix_api.api.annotation.ServerOnly;
-import com.github.player_ix.ix_api.util.Maths;
+import com.github.NineAbyss9.ix_api.api.annotation.ServerOnly;
+import com.github.NineAbyss9.ix_api.util.Maths;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -37,6 +38,7 @@ import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.NineAbyss9.annotation.doc.Message;
 import org.NineAbyss9.math.MathSupport;
@@ -79,12 +81,13 @@ extends RedPlumBlock {
         if (BoCommonConfig.SPAWN_NEO_PLUM.get() && pRandom.nextFloat() < 0.15F
         && NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND,
                 pLevel, pPos.above(), BlueOceansEntities.RED_PLUM_HUMAN.get())
-        && pLevel.getEntitiesOfClass(RedPlumMonster.class, new AABB(pPos).inflate(8)).size() < 4) {
+        && pLevel.getEntitiesOfClass(RedPlumMonster.class, new AABB(pPos).inflate(10)).size() < 4) {
             List<EntityType<? extends AbstractRedPlumMob>> list = RedPlumUtil.MAP.get(1);
             if (list != null) {
                 AbstractRedPlumMob mob = list.get(MathSupport.random.nextInt(5)).create(pLevel);
                 if (mob != null) {
                     mob.moveTo(pPos.above(), 0, 0);
+                    NeoPlum.addParticleAroundPlum(mob);
                     if (!pLevel.addFreshEntity(mob))
                         mob.discard();
                 }
@@ -104,6 +107,10 @@ extends RedPlumBlock {
             return InteractionResult.sidedSuccess(pLevel.isClientSide);
         }
         return InteractionResult.PASS;
+    }
+
+    public static void spreadPlum(ServerLevel pLevel, Vec3 pPos) {
+        spreadPlum(pLevel, BlockPos.containing(pPos));
     }
 
     @ServerOnly

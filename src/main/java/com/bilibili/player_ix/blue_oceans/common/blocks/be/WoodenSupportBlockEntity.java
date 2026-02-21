@@ -4,7 +4,7 @@ package com.bilibili.player_ix.blue_oceans.common.blocks.be;
 import com.bilibili.player_ix.blue_oceans.common.blocks.WoodenSupport;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlockEntities;
 import com.bilibili.player_ix.blue_oceans.init.BoTags;
-import com.github.player_ix.ix_api.util.Maths;
+import com.github.NineAbyss9.ix_api.util.Maths;
 import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;

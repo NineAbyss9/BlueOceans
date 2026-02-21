@@ -5,10 +5,10 @@ import com.bilibili.player_ix.blue_oceans.BlueOceans;
 import com.bilibili.player_ix.blue_oceans.api.mob.IAnimatedMob;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
 import com.bilibili.player_ix.blue_oceans.util.MobUtil;
-import com.github.player_ix.ix_api.api.mobs.IFlagMob;
-import com.github.player_ix.ix_api.api.mobs.IShieldUser;
-import com.github.player_ix.ix_api.api.mobs.ai.goal.MeleeGoal;
-import com.github.player_ix.ix_api.util.UnmodifiableList;
+import com.github.NineAbyss9.ix_api.api.mobs.IFlagMob;
+import com.github.NineAbyss9.ix_api.api.mobs.IShieldUser;
+import com.github.NineAbyss9.ix_api.api.mobs.ai.goal.MeleeGoal;
+import com.github.NineAbyss9.ix_api.util.UnmodifiableList;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -126,13 +126,13 @@ implements IFlagMob, IAnimatedMob {
         return 0.5F;
     }
 
-    protected void doAttackTarget(Entity pEntity) {
-        super.doAttackTarget(pEntity);
-        this.heal(0.5F);
+    protected void doAttackTargetAlways(Entity pEntity) {
+        super.doAttackTargetAlways(pEntity);
+        this.heal(1F + this.getInfectLevel() * 0.8F);
     }
 
     protected float getUpgradeChance() {
-        return 0.15F;
+        return 0.5F;
     }
 
     public int getFlag() {
@@ -208,9 +208,7 @@ implements IFlagMob, IAnimatedMob {
                 }
             }
             this.playSound(SoundEvents.SCULK_SHRIEKER_SHRIEK);
-            if (!this.level().isClientSide) {
-                this.spawnBreedMob(this);
-            }
+            this.spawnBreedMob(this);
         }
         if (this.aniTick(30)) {
             this.resetState();

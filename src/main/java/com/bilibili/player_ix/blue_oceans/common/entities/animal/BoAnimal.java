@@ -3,8 +3,8 @@ package com.bilibili.player_ix.blue_oceans.common.entities.animal;
 
 import com.bilibili.player_ix.blue_oceans.api.mob.IAcceptTask;
 import com.bilibili.player_ix.blue_oceans.api.task.Task;
-import com.github.player_ix.ix_api.api.mobs.FoodDataUser;
-import com.github.player_ix.ix_api.api.mobs.MobFoodData;
+import com.github.NineAbyss9.ix_api.api.mobs.FoodDataUser;
+import com.github.NineAbyss9.ix_api.api.mobs.MobFoodData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;

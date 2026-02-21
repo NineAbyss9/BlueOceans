@@ -1,22 +1,23 @@
 
 package com.bilibili.player_ix.blue_oceans.common.entities.red_plum;
 
+import com.github.NineAbyss9.ix_api.api.mobs.ai.goal.ApiMeleeAttackGoal;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
+/*import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.EntitySelector;*/
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.goal.Goal;
+/*import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.Goal;*/
 import net.minecraft.world.entity.monster.Enemy;
-import net.minecraft.world.entity.player.Player;
+//import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.pathfinder.Node;
+/*import net.minecraft.world.level.pathfinder.Node;
 import net.minecraft.world.level.pathfinder.Path;
 
-import java.util.EnumSet;
+import java.util.EnumSet;*/
 
 public abstract class RedPlumMonster
 extends AbstractRedPlumMob
@@ -34,9 +35,13 @@ implements Enemy {
             this.addHostileGoal(1);
     }
 
-    protected void addMeleeAttackGoal(int $int, double $double, float $float) {
-        this.goalSelector.addGoal($int, new RedPlumMonsterMeleeAttackGoal<>(this, $double,
-                true, $float));
+    protected void addMeleeAttackGoal(int $int, double $double, double pRange) {
+        this.goalSelector.addGoal($int, new ApiMeleeAttackGoal(this, $double,
+                true, pRange).better(20));
+    }
+
+    protected void addMeleeAttackGoal(int pI, double pSpeed) {
+        this.addMeleeAttackGoal(pI, pSpeed, 2.0);
     }
 
     protected int getMeleeAttackCoolDown() {
@@ -63,9 +68,9 @@ implements Enemy {
     }
 
     public boolean removeWhenFarAway(double pDistanceToClosestPlayer) {
-        if (this.getLevel() > 2)
-            return pDistanceToClosestPlayer > 48 * 48;
-        return pDistanceToClosestPlayer > 36 * 36;
+        if (this.getLevel() >= 2)
+            return false;
+        return pDistanceToClosestPlayer > 56 * 56;
     }
 
     protected enum AttackCoolDownType {
@@ -73,7 +78,7 @@ implements Enemy {
         INT
     }
 
-    protected static class RedPlumMonsterMeleeAttackGoal<T extends RedPlumMonster> extends Goal {
+    /*protected static class RedPlumMonsterMeleeAttackGoal<T extends RedPlumMonster> extends Goal {
         protected T mob;
         private final double speedModifier;
         private final boolean followingTargetEvenIfNotSeen;
@@ -225,5 +230,5 @@ implements Enemy {
         protected double getAttackReachSqr(LivingEntity p_25556_) {
             return this.mob.getBbWidth() * this.attackSqr * this.mob.getBbWidth() * this.attackSqr + p_25556_.getBbWidth();
         }
-    }
+    }*/
 }

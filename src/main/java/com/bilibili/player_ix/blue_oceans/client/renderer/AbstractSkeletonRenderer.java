@@ -2,7 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.client.renderer;
 
 import com.bilibili.player_ix.blue_oceans.client.model.AbstractSkeletonModel;
-import com.github.player_ix.ix_api.api.mobs.ApiPoseMob;
+import com.github.NineAbyss9.ix_api.api.mobs.ApiPoseMob;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.world.entity.Mob;

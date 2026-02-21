@@ -1,7 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.client.renderer.projectile;
 
-import com.bilibili.player_ix.blue_oceans.common.entities.projectile.SeedEntity;
+import com.bilibili.player_ix.blue_oceans.common.entities.projectile.farming.SeedEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;

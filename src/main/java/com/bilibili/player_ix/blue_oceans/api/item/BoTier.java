@@ -5,7 +5,7 @@ import com.bilibili.player_ix.blue_oceans.BlueOceans;
 import com.bilibili.player_ix.blue_oceans.common.chemistry.Element;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
 import com.bilibili.player_ix.blue_oceans.util.MathUtils;
-import com.github.player_ix.ix_api.util.ItemUtil;
+import com.github.NineAbyss9.ix_api.util.ItemUtil;
 import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Tier;
@@ -19,6 +19,8 @@ public enum BoTier implements Tier {
             Ingredient.of(Items.ICE, Items.PACKED_ICE, Items.BLUE_ICE)),
     IRON(550, 6.0F, 2.0F, 2, 14, Ingredient.of(Items
             .IRON_INGOT)),
+    DIAMOND(1978, 8.5F, 3.5F, 3, 12,
+            new LazyLoadedValue<>(() -> Ingredient.of(Items.DIAMOND))),
     RED_PLUM(1999, 7.9F, 5.0F, 3, 14,
             Ingredient.EMPTY),
     STEEL(3699, 8.0F, 6.9F, 3, 20,

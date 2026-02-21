@@ -2,8 +2,8 @@
 package com.bilibili.player_ix.blue_oceans.common.entities;
 
 import com.bilibili.player_ix.blue_oceans.api.mob.IBOMob;
-import com.github.player_ix.ix_api.api.ApiPose;
-import com.github.player_ix.ix_api.api.mobs.ApiPathfinderMob;
+import com.github.NineAbyss9.ix_api.api.ApiPose;
+import com.github.NineAbyss9.ix_api.api.mobs.ApiPathfinderMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 

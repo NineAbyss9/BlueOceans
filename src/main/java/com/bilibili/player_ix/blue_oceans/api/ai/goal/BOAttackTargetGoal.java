@@ -1,7 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.api.ai.goal;
 
-import com.github.player_ix.ix_api.api.mobs.ApiVillager;
+import com.github.NineAbyss9.ix_api.api.mobs.ApiVillager;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;

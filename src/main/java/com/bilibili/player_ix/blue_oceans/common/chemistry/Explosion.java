@@ -2,8 +2,8 @@
 package com.bilibili.player_ix.blue_oceans.common.chemistry;
 
 import com.bilibili.player_ix.blue_oceans.client.particles.ImpartParticleOption;
-import com.github.player_ix.ix_api.api.annotation.ClientOnly;
-import com.github.player_ix.ix_api.util.Vec9;
+import com.github.NineAbyss9.ix_api.api.annotation.ClientOnly;
+import com.github.NineAbyss9.ix_api.util.Vec9;
 import net.minecraft.world.level.Level;
 
 public class Explosion {

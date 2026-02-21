@@ -4,14 +4,17 @@ package com.bilibili.player_ix.blue_oceans.common.entities.villagers;
 import com.bilibili.player_ix.blue_oceans.api.mob.IBONeutralMob;
 import com.bilibili.player_ix.blue_oceans.api.mob.IBOMob;
 import com.bilibili.player_ix.blue_oceans.api.mob.Profession;
+import com.bilibili.player_ix.blue_oceans.api.mob.RedPlumMob;
 import com.bilibili.player_ix.blue_oceans.api.task.Task;
 import com.bilibili.player_ix.blue_oceans.common.entities.ai.goal.AvoidTargetGoal;
-import com.bilibili.player_ix.blue_oceans.common.entities.projectile.EchoPotion;
+import com.bilibili.player_ix.blue_oceans.common.entities.projectile.plum.EchoPotion;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansMobEffects;
 import com.bilibili.player_ix.blue_oceans.init.BoTags;
-import com.github.player_ix.ix_api.api.ApiPose;
-import com.github.player_ix.ix_api.api.mobs.ApiVillager;
-import com.github.player_ix.ix_api.api.mobs.ai.goal.ApiTradeWithPlayerGoal;
+import com.github.NineAbyss9.ix_api.api.ApiPose;
+import com.github.NineAbyss9.ix_api.api.mobs.ApiVillager;
+import com.github.NineAbyss9.ix_api.api.mobs.ai.goal.ApiTradeWithPlayerGoal;
+import com.github.NineAbyss9.ix_api.api.mobs.ai.goal.ConditionalMeleeAttackGoal;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -71,7 +74,6 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
     private AttackTargetGoal<LivingEntity> attackTargetsGoal;
     public VillagerBiologist(EntityType<? extends VillagerBiologist> p_35267_, Level p_35268_) {
         super(p_35267_, p_35268_);
-        this.restockAll();
     }
 
     protected void defineSynchedData() {
@@ -83,14 +85,15 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
     }
 
     protected void registerGoals() {
-        this.healFriendsGoal = new NearestHealableFriendTargetGoal<>(this, AbstractVillager.class,
-                true, l->true);
+        this.healFriendsGoal = new NearestHealableFriendTargetGoal<>(this, AbstractVillager.class, true);
         this.healVillagersGoal = new NearestHealableFriendTargetGoal<>(this, AbstractHuntingVillager.class,
-                true, v->true);
+                true);
         this.healPlayersGoal = new NearestHealableFriendTargetGoal<>(this, Player.class, true,
                 player -> this.lastHurtByPlayer != player);
         this.attackTargetsGoal = new AttackTargetGoal<>(this, LivingEntity.class);
         this.goalSelector.addGoal(1, new ClearPlumBlocksGoal(this));
+        this.goalSelector.addGoal(1, new CloseAttackGoal(this).canUse(VillagerBiologist::canAttackTarget)
+                .better(20));
         this.goalSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(2, new AvoidTargetGoal(this, 9f, 1.0, 1.2));
         this.goalSelector.addGoal(2, new RangedAttackGoal(this, 0.8,
@@ -99,7 +102,8 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
         this.goalSelector.addGoal(3, new ApiTradeWithPlayerGoal(this));
         this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this, AbstractVillager.class));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this, AbstractVillager.class,
+                AbstractHuntingVillager.class));
         this.targetSelector.addGoal(1, this.attackTargetsGoal);
         this.targetSelector.addGoal(2, this.healFriendsGoal);
         this.targetSelector.addGoal(3, this.healPlayersGoal);
@@ -111,31 +115,7 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
         double $$4 = livingEntity.getEyeY() - 1.100000023841858 - this.getY();
         double $$5 = livingEntity.getZ() + delta.z - this.getZ();
         double $$6 = Math.sqrt($$3 * $$3 + $$5 * $$5);
-        Potion $$7 = Potions.STRONG_HARMING;
-        if (livingEntity instanceof AbstractVillager) {
-            if (livingEntity.getHealth() <= 4.0F) {
-                $$7 = Potions.STRONG_HEALING;
-            } else {
-                $$7 = Potions.STRONG_REGENERATION;
-            }
-            this.setTarget(null);
-        } else if (livingEntity instanceof Player player && this.lastHurtByPlayer != player) {
-            if (livingEntity.getHealth() <= 4.0F) {
-                $$7 = Potions.STRONG_HEALING;
-            } else {
-                $$7 = Potions.STRONG_REGENERATION;
-            }
-            this.setTarget(null);
-        } else if ($$6 >= 8.0 && !livingEntity.hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
-            $$7 = Potions.STRONG_SLOWNESS;
-        } else if (livingEntity.getHealth() >= 8.0F && livingEntity.getMobType() != MobType.UNDEAD
-                && !livingEntity.hasEffect(MobEffects.POISON)) {
-            $$7 = Potions.POISON;
-        } else if ($$6 <= 3.0 && !livingEntity.hasEffect(MobEffects.WEAKNESS) && this.random.nextFloat() < 0.25F) {
-            $$7 = Potions.WEAKNESS;
-        } else if (livingEntity.getMobType().equals(MobType.UNDEAD)) {
-            $$7 = Potions.STRONG_HEALING;
-        }
+        Potion $$7 = this.getPotionWillThrow(livingEntity, $$6);
         ThrownPotion $$8 = new ThrownPotion(this.level(), this);
         $$8.setItem(PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), $$7));
         $$8.setXRot($$8.getXRot() -20.0F);
@@ -189,8 +169,8 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
             if (this.isDrinkingPotion()) {
                 if (this.usingTime-- <= 0) {
                     this.setUsingItem(false);
-                    ItemStack $$0 = this.getMainHandItem();
-                    this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
+                    ItemStack $$0 = this.getOffhandItem();
+                    this.setItemSlot(EquipmentSlot.OFFHAND, ItemStack.EMPTY);
                     if ($$0.is(Items.POTION)) {
                         List<MobEffectInstance> $$1 = PotionUtils.getMobEffects($$0);
                         for (MobEffectInstance $$2 : $$1) {
@@ -216,8 +196,8 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
                     $$3 = Potions.STRONG_SWIFTNESS;
                 }
                 if ($$3 != null) {
-                    this.setItemSlot(EquipmentSlot.MAINHAND, PotionUtils.setPotion(new ItemStack(Items.POTION), $$3));
-                    this.usingTime = this.getMainHandItem().getUseDuration();
+                    this.setOffHandItem(PotionUtils.setPotion(new ItemStack(Items.POTION), $$3));
+                    this.usingTime = this.getOffhandItem().getUseDuration();
                     this.setUsingItem(true);
                     if (!this.isSilent()) {
                         this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.WITCH_DRINK,
@@ -250,7 +230,24 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
     }
 
     public boolean canBeAffected(MobEffectInstance p_21197_) {
-        return p_21197_.getEffect().isBeneficial();
+        return p_21197_.getEffect().isBeneficial() &&
+                !BlueOceansMobEffects.PLUM_INFECTION.get().equals(p_21197_.getEffect()) &&
+                !BlueOceansMobEffects.PLUM_INVADE.get().equals(p_21197_.getEffect()) &&
+                !MobEffects.HARM.equals(p_21197_.getEffect());
+    }
+
+    protected ItemStack getAttackItem() {
+        if (this.canAttackTarget())
+            return new ItemStack(Items.IRON_AXE);
+        if (getTarget() == null)
+            return ItemStack.EMPTY;
+        LivingEntity target = getTarget();
+        return PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION),
+                this.getPotionWillThrow(target, this.getMovement(target)));
+    }
+
+    protected ItemStack getDailyItem() {
+        return ItemStack.EMPTY;
     }
 
     @Nullable
@@ -286,8 +283,52 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
 
     @Deprecated(since = "1.1.1a")
     @Nullable
-    public VillagerBiologist getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
+    public VillagerBiologist getBreedOffspring(ServerLevel serverLevel, @SuppressWarnings("unused") AgeableMob ageableMob) {
         return new VillagerBiologist(BlueOceansEntities.VILLAGER_BIOLOGIST.get(), serverLevel);
+    }
+
+    public double getMovement(LivingEntity livingEntity) {
+        Vec3 delta = livingEntity.getDeltaMovement();
+        double $$3 = livingEntity.getX() + delta.x - this.getX();
+        //double $$4 = livingEntity.getEyeY() - 1.100000023841858 - this.getY();
+        double $$5 = livingEntity.getZ() + delta.z - this.getZ();
+        return Math.sqrt($$3 * $$3 + $$5 * $$5);
+    }
+
+    public Potion getPotionWillThrow(LivingEntity livingEntity, double $$6) {
+        Potion $$7 = Potions.STRONG_HARMING;
+        if (livingEntity instanceof AbstractVillager) {
+            if (livingEntity.getHealth() <= 4.0F) {
+                $$7 = Potions.STRONG_HEALING;
+            } else {
+                $$7 = Potions.STRONG_REGENERATION;
+            }
+            this.setTarget(null);
+        } else if (livingEntity instanceof Player player && this.lastHurtByPlayer != player) {
+            if (livingEntity.getHealth() <= 4.0F) {
+                $$7 = Potions.STRONG_HEALING;
+            } else {
+                $$7 = Potions.STRONG_REGENERATION;
+            }
+            this.setTarget(null);
+        } else if ($$6 >= 8.0 && !livingEntity.hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
+            $$7 = Potions.STRONG_SLOWNESS;
+        } else if (livingEntity.getHealth() >= 8.0F && livingEntity.getMobType() != MobType.UNDEAD
+                && !livingEntity.hasEffect(MobEffects.POISON)
+                && livingEntity.canBeAffected(new MobEffectInstance(MobEffects.POISON))) {
+            $$7 = Potions.STRONG_POISON;
+        } else if ($$6 <= 3.0 && !livingEntity.hasEffect(MobEffects.WEAKNESS) && this.random.nextFloat() < 0.25F) {
+            $$7 = Potions.WEAKNESS;
+        } else if (livingEntity.getMobType().equals(MobType.UNDEAD)) {
+            $$7 = Potions.STRONG_HEALING;
+        }
+        return $$7;
+    }
+
+    public boolean canAttackTarget() {
+        if (this.getTarget() == null)
+            return false;
+        return this.closerThan(getTarget(), 3);
     }
 
     public Profession getProfession() {
@@ -295,6 +336,10 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
     }
 
     public ApiPose getArmPose() {
+        if (this.isAggressive()) {
+            if (this.canAttackTarget())
+                return ApiPose.ATTACKING;
+        }
         return ApiPose.CROSSED;
     }
 
@@ -316,6 +361,10 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
         public NearestHealableFriendTargetGoal(VillagerBiologist biologist, Class<T> p_26088_, boolean p_26089_,
                                                @Nullable Predicate<LivingEntity> p_26090_) {
             super(biologist, p_26088_, 500, p_26089_, false, p_26090_);
+        }
+
+        public NearestHealableFriendTargetGoal(VillagerBiologist biologist, Class<T> clazz, boolean bool) {
+            this(biologist, clazz, bool, null);
         }
 
         public int getCooldown() {
@@ -368,12 +417,13 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
         }
 
         public boolean canUse() {
-            return findPlums();
+            return findPlumBlock() || findPlumEntity();
         }
 
         public boolean canContinueToUse() {
-            return this.biologist.getTarget() == null && !this.pos.equals(BlockPos.ZERO)
-                    && this.biologist.level().getBlockState(pos).is(BoTags.RED_PLUM_BLOCKS);
+            return (!this.pos.equals(BlockPos.ZERO) &&
+                    this.biologist.level().getBlockState(pos).is(BoTags.RED_PLUM_BLOCKS)) ||
+                    this.findPlumEntity();
         }
 
         public void start() {
@@ -384,8 +434,7 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
             if (this.cooldown <= 0) {
                 this.biologist.throwEchoPotion(this.pos);
                 this.cooldown = 50;
-            }
-            else
+            } else
                 --this.cooldown;
         }
 
@@ -403,11 +452,48 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
                 if (this.biologist.level().getBlockState(cache).is(BoTags.RED_PLUM_BLOCKS))
                     return cache;
             }
-            return null;
+            return BlockPos.ZERO;
         }
 
-        public boolean findPlums() {
-            return (this.pos = findPos()) != null;
+        public boolean findPlumBlock() {
+            return !BlockPos.ZERO.equals((this.pos = findPos()));
+        }
+
+        public boolean findPlumEntity() {
+            if (this.biologist.getTarget() instanceof RedPlumMob mob) {
+                this.pos = ((Entity)mob).blockPosition();
+                return true;
+            } else if (this.biologist.getTarget() == null) {
+                for (LivingEntity entity : this.biologist.level().getEntitiesOfClass(LivingEntity.class,
+                        this.biologist.getBoundingBox().inflate(16), entity -> entity instanceof RedPlumMob)) {
+                    this.biologist.setTarget(entity);
+                    this.pos = entity.blockPosition();
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    private static class CloseAttackGoal extends ConditionalMeleeAttackGoal<VillagerBiologist> {
+        public CloseAttackGoal(VillagerBiologist finder) {
+            super(finder, 0.8, 2);
+        }
+
+        public void start() {
+            super.start();
+            ((VillagerBiologist)this.convert()).setHandItemToAttack();
+        }
+
+        public void stop() {
+            LivingEntity livingentity = this.mob.getTarget();
+            if (livingentity == null) {
+                this.mob.setAggressive(false);
+                ((VillagerBiologist)this.convert()).setHandItemToDaily();
+                this.mob.getNavigation().stop();
+            } else {
+                ((VillagerBiologist)this.convert()).setHandItemToAttack();
+            }
         }
     }
 }

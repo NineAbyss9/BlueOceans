@@ -1,9 +1,9 @@
 
 package com.bilibili.player_ix.blue_oceans.common.item.util;
 
-import com.github.player_ix.ix_api.api.item.UseItem;
-import com.github.player_ix.ix_api.util.ItemUtil;
-import com.github.player_ix.ix_api.util.ParticleUtil;
+import com.github.NineAbyss9.ix_api.api.item.UseItem;
+import com.github.NineAbyss9.ix_api.util.ItemUtil;
+import com.github.NineAbyss9.ix_api.util.ParticleUtil;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Rarity;

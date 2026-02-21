@@ -4,7 +4,7 @@ package com.bilibili.player_ix.blue_oceans.client.model;
 import com.bilibili.player_ix.blue_oceans.BlueOceans;
 import com.bilibili.player_ix.blue_oceans.client.animations.RedDemonAnims;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.RedDemon;
-import com.github.player_ix.ix_api.util.Maths;
+import com.github.NineAbyss9.ix_api.util.Maths;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.HeadedModel;
@@ -88,6 +88,7 @@ implements HeadedModel {
         this.head.yRot = netHeadYaw * (Maths.PI_DIVIDING_180);
         this.head.xRot = headPitch * (Maths.PI_DIVIDING_180);
         this.animateWalk(RedDemonAnims.walk, limbSwing, limbSwingAmount, 2.0F, 2.5F);
+        this.animate(entity.idle, RedDemonAnims.idle, ageInTicks);
         this.animate(entity.attack, RedDemonAnims.attack, ageInTicks);
         this.animate(entity.summon, RedDemonAnims.summon, ageInTicks);
         this.animate(entity.explode, RedDemonAnims.explode, ageInTicks);

@@ -8,13 +8,14 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 
 public class BoCommand {
-    public BoCommand() {
+    private BoCommand() {
     }
 
     public static void register(CommandDispatcher<CommandSourceStack> pD, CommandBuildContext pC) {
         LiteralArgumentBuilder<CommandSourceStack> bo = Commands.literal("blue_oceans")
                 .requires(stack -> stack.hasPermission(2));
-        PlumDishCommand.register(bo, pC);
+        //PlumDishCommand.register(bo, pC);
+        SpawnerCommand.register(bo, pC);
         pD.register(bo);
     }
 }

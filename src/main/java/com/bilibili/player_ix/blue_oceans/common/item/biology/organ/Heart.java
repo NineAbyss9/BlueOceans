@@ -1,8 +1,8 @@
 
 package com.bilibili.player_ix.blue_oceans.common.item.biology.organ;
 
-import com.github.player_ix.ix_api.api.item.BaseItem;
-import com.github.player_ix.ix_api.api.mobs.MobUtils;
+import com.github.NineAbyss9.ix_api.api.item.BaseItem;
+import com.github.NineAbyss9.ix_api.api.mobs.MobUtils;
 import net.minecraft.world.entity.LivingEntity;
 
 public class Heart

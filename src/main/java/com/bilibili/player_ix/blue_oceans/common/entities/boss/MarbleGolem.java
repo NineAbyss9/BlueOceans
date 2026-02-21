@@ -3,9 +3,9 @@ package com.bilibili.player_ix.blue_oceans.common.entities.boss;
 
 import com.bilibili.player_ix.blue_oceans.api.mob.IAnimatedMob;
 import com.bilibili.player_ix.blue_oceans.common.entities.AbstractBlueOceansMob;
-import com.github.player_ix.ix_api.api.mobs.ApiBoss;
-import com.github.player_ix.ix_api.api.mobs.IFlagMob;
-import com.github.player_ix.ix_api.util.UnmodifiableList;
+import com.github.NineAbyss9.ix_api.api.mobs.ApiBoss;
+import com.github.NineAbyss9.ix_api.api.mobs.IFlagMob;
+import com.github.NineAbyss9.ix_api.util.UnmodifiableList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;

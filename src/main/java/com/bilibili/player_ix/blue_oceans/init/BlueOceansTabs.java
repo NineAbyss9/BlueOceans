@@ -2,7 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.init;
 
 import com.bilibili.player_ix.blue_oceans.BlueOceans;
-import com.github.player_ix.ix_api.api.item.ItemStacks;
+import com.github.NineAbyss9.ix_api.api.item.ItemStacks;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -35,17 +35,11 @@ public class BlueOceansTabs {
                         output.accept(BlueOceansItems.RED_PLUM.get());
                         output.accept(BlueOceansItems.STEEL_INGOT.get());
                         output.accept(BlueOceansItems.SNIPER_RIFLE.get());
-                        output.accept(BlueOceansItems.FLINT_AXE.get());
-                        output.accept(BlueOceansItems.FLINT_PICKAXE.get());
-                        output.accept(BlueOceansItems.FLINT_SHOVEL.get());
+                        for (RegistryObject<? extends Item> obj : BlueOceansItems.UTILS)
+                            output.accept(obj.get());
                         output.accept(BlueOceansItems.FLINT_SWORD.get());
-                        output.accept(BlueOceansItems.ICE_AXE.get());
-                        output.accept(BlueOceansItems.ICE_PICKAXE.get());
                         output.accept(BlueOceansItems.ICE_SWORD.get());
                         output.accept(BlueOceansItems.IRON_HAMMER.get());
-                        output.accept(BlueOceansItems.STEEL_AXE.get());
-                        output.accept(BlueOceansItems.STEEL_PICKAXE.get());
-                        output.accept(BlueOceansItems.STEEL_SHOVEL.get());
                         output.accept(BlueOceansItems.STEEL_SWORD.get());
                         output.accept(BlueOceansItems.WOODEN_STICK.get());
                         output.accept(BlueOceansItems.BIKE_EGG.get());

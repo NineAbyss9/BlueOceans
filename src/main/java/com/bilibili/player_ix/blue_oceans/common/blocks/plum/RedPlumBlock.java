@@ -2,30 +2,30 @@
 package com.bilibili.player_ix.blue_oceans.common.blocks.plum;
 
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.AbstractRedPlumMob;
-import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.NeoPlum;
+/*import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.NeoPlum;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.RedPlumMonster;
-import com.bilibili.player_ix.blue_oceans.config.BoCommonConfig;
+import com.bilibili.player_ix.blue_oceans.config.BoCommonConfig;*/
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlocks;
-import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
+//import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansParticleTypes;
-import com.github.player_ix.ix_api.util.ParticleUtil;
-import com.github.player_ix.ix_api.util.Vec9;
+import com.github.NineAbyss9.ix_api.util.ParticleUtil;
+import com.github.NineAbyss9.ix_api.util.Vec9;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.SpawnPlacements;
+//import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.NaturalSpawner;
+//import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
-import net.minecraft.world.phys.AABB;
+//import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 import org.NineAbyss9.math.MathSupport;
 
@@ -66,7 +66,7 @@ public class RedPlumBlock extends BaseEntityBlock implements PlumBlock {
             ParticleUtil.serverAddParticle(pLevel, BlueOceansParticleTypes.RED_PLUM_SPELL.get(),
                     Vec9.of(above));
         }
-        if (pRandom.nextFloat() < 0.04F) {
+        if (pRandom.nextFloat() < 0.02F) {
             this.random25Action(pState, pLevel, pPos);
         }
     }
@@ -81,7 +81,7 @@ public class RedPlumBlock extends BaseEntityBlock implements PlumBlock {
     }
 
     protected void spawnPlum(ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
-        if (BoCommonConfig.SPAWN_NEO_PLUM.get() && pRandom.nextFloat() < 0.05F
+        /*if (BoCommonConfig.SPAWN_NEO_PLUM.get() && pRandom.nextFloat() < 0.05F
             && NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND,
                 pLevel, pPos.above(), BlueOceansEntities.NEO_PLUM.get())
             && pLevel.getEntitiesOfClass(RedPlumMonster.class, new AABB(pPos).inflate(8)).size() < 8) {
@@ -89,6 +89,6 @@ public class RedPlumBlock extends BaseEntityBlock implements PlumBlock {
             if (plum != null) {
                 NeoPlum.addParticleAroundPlum(plum);
             }
-        }
+        }*/
     }
 }

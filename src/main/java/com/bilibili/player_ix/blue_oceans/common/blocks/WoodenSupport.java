@@ -3,7 +3,7 @@ package com.bilibili.player_ix.blue_oceans.common.blocks;
 
 import com.bilibili.player_ix.blue_oceans.common.blocks.be.WoodenSupportBlockEntity;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlockEntities;
-import com.github.player_ix.ix_api.util.ItemUtil;
+import com.github.NineAbyss9.ix_api.util.ItemUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;

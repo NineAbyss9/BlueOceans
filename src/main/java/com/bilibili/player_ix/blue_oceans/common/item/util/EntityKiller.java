@@ -24,7 +24,7 @@ public class EntityKiller extends Item {
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand hand) {
         if (!pLevel.isClientSide) {
             List<Entity> entities = pLevel.getEntitiesOfClass(Entity.class, pPlayer.getBoundingBox()
-                    .inflate(99), entity -> !(entity instanceof Player));
+                    .inflate(40), entity -> !(entity instanceof Player));
             entities.forEach(entity -> entity.remove(Entity.RemovalReason.KILLED));
         }
         return ItemUtils.startUsingInstantly(pLevel, pPlayer, hand);

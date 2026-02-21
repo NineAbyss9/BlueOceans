@@ -12,4 +12,5 @@ public class BoBlockProperties {
     public static final BooleanProperty BURNING = BooleanProperty.create("burning");
     public static final BooleanProperty TOP = BooleanProperty.create("top");
     public static final BooleanProperty END = BooleanProperty.create("end");
+    public static final BooleanProperty ACTIVATED = BooleanProperty.create("activated");
 }

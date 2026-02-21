@@ -2,7 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.common.entities.animal.flying;
 
 import com.bilibili.player_ix.blue_oceans.common.entities.animal.BoAnimal;
-import com.github.player_ix.ix_api.api.mobs.ApiFlyingAnimal;
+import com.github.NineAbyss9.ix_api.api.mobs.ApiFlyingAnimal;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;

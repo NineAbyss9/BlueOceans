@@ -46,7 +46,4 @@ extends RedPlumBlock {
 
     protected void random25Action(BlockState pState, ServerLevel pLevel, BlockPos pPos) {
     }
-
-    protected void spawnPlum(ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
-    }
 }

@@ -1,7 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.entities.red_plum;
 
-import com.github.player_ix.ix_api.util.ParticleUtil;
+import com.github.NineAbyss9.ix_api.util.ParticleUtil;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;

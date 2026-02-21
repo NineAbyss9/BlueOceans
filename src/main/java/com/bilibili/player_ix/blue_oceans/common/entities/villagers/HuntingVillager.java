@@ -3,7 +3,7 @@ package com.bilibili.player_ix.blue_oceans.common.entities.villagers;
 
 import com.bilibili.player_ix.blue_oceans.api.mob.MobTypes;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.AbstractRedPlumMob;
-import com.github.player_ix.ix_api.api.ApiPose;
+import com.github.NineAbyss9.ix_api.api.ApiPose;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;

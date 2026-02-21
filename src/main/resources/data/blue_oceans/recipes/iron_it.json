@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "iix",
+    " ii",
+    "i i"
+  ],
+  "key": {
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "x": {
+      "item": "minecraft:iron_block"
+    }
+  },
+  "result": {
+    "item": "blue_oceans:integrated_iron_tool",
+    "count": 1
+  }
+}

@@ -22,7 +22,6 @@ import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -100,8 +99,7 @@ public class HeartOfHorror extends SpellcasterRedPlumIllager implements RangedAt
     protected void registerGoals() {
         super.registerGoals();
         this.goalSelector.addGoal(3, new HorrorRangedAttackGoal(this, 30, 30));
-        this.goalSelector.addGoal(4, new RedPlumMonsterMeleeAttackGoal<>(this, 1,
-                true, 3));
+        this.addMeleeAttackGoal(4, 1);
         this.goalSelector.addGoal(4, new LeapAtTargetGoal(this, 1));
         this.addBehaviorGoal(5, 1.0, 10F);
         this.targetSelector.addGoal(6, new RedPlumsMobsHurtByTargetGoal(this, HeartOfHorror.class));

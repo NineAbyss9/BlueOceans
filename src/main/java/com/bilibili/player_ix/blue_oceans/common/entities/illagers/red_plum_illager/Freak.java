@@ -7,7 +7,7 @@ import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.RedPlumWorm;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.AbstractRedPlumMob;
-import com.github.player_ix.ix_api.api.ApiPose;
+import com.github.NineAbyss9.ix_api.api.ApiPose;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
@@ -47,8 +47,7 @@ extends SpellcasterRedPlumIllager {
         super.registerGoals();
         this.goalSelector.addGoal(2, new CastingSpellGoal());
         this.goalSelector.addGoal(2, new SummonSpellGoal());
-        this.goalSelector.addGoal(3, new RedPlumMonsterMeleeAttackGoal<>(this,
-                1, true, 3));
+        this.addMeleeAttackGoal(3, 1);
         this.targetSelector.addGoal(3, new CrazyTargetGoal<>(this));
         this.addBehaviorGoal(4, 1.0, 10F);
         this.targetSelector.addGoal(5, new RedPlumsMobsHurtByTargetGoal(this,

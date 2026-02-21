@@ -1,7 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.item.food;
 
-import com.github.player_ix.ix_api.util.Maths;
+import com.github.NineAbyss9.ix_api.util.Maths;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;

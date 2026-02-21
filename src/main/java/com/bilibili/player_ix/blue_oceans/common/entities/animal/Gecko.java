@@ -12,7 +12,6 @@ import net.minecraft.world.level.Level;
 
 public class Gecko
 extends BoAnimal {
-    public AnimationState climb = new AnimationState();
     public AnimationState idle = new AnimationState();
     private static final EntityDataAccessor<Integer> DATA_FLAGS;
     public Gecko(EntityType<? extends Gecko> pEntityType, Level pLevel) {

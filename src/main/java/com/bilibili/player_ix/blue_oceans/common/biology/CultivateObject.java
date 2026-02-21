@@ -6,10 +6,10 @@ import net.minecraft.network.FriendlyByteBuf;
 import java.util.*;
 
 public class CultivateObject {
+    public static Map<String, CultivateObject> FINDER;
     /**
      * 青霉菌
      */
-    public static Map<String, CultivateObject> FINDER;
     public static final CultivateObject Penicillium;
     private final String name;
     private final long growTime;

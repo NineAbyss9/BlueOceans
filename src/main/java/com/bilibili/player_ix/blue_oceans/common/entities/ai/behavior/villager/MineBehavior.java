@@ -4,7 +4,7 @@ package com.bilibili.player_ix.blue_oceans.common.entities.ai.behavior.villager;
 import com.bilibili.player_ix.blue_oceans.api.mob.Profession;
 import com.bilibili.player_ix.blue_oceans.common.entities.ai.behavior.Behavior;
 import com.bilibili.player_ix.blue_oceans.common.entities.villagers.BaseVillager;
-import com.github.player_ix.ix_api.util.BlockUtil;
+import com.github.NineAbyss9.ix_api.util.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.phys.Vec3;

@@ -9,7 +9,6 @@ public class BoCapabilities {
     public static final Capability<LivingHealth> LIVING_HEALTH;
 
     static {
-        LIVING_HEALTH = CapabilityManager.get(new CapabilityToken<>() {
-        });
+        LIVING_HEALTH = CapabilityManager.get(new CapabilityToken<>() {});
     }
 }

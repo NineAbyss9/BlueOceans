@@ -4,7 +4,7 @@ package com.bilibili.player_ix.blue_oceans.common.entities.animal.freshwater;
 import com.bilibili.player_ix.blue_oceans.api.mob.IAnimatedMob;
 import com.bilibili.player_ix.blue_oceans.api.task.Task;
 import com.bilibili.player_ix.blue_oceans.common.entities.animal.WaterAnimal;
-import com.github.player_ix.ix_api.api.mobs.IFlagMob;
+import com.github.NineAbyss9.ix_api.api.mobs.IFlagMob;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;

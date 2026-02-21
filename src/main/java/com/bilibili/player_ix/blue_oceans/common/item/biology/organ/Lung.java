@@ -1,7 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.item.biology.organ;
 
-import com.github.player_ix.ix_api.api.item.BaseItem;
+import com.github.NineAbyss9.ix_api.api.item.BaseItem;
 import net.minecraft.world.entity.LivingEntity;
 
 public class Lung extends BaseItem implements Organ {

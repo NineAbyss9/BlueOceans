@@ -4,7 +4,7 @@ package com.bilibili.player_ix.blue_oceans.common.entities.illagers.red_plum_ill
 import com.bilibili.player_ix.blue_oceans.api.magic.BOSpellType;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.AbstractRedPlumMob;
-import com.github.player_ix.ix_api.api.ApiPose;
+import com.github.NineAbyss9.ix_api.api.ApiPose;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
@@ -71,8 +71,7 @@ public class Dictator extends SpellcasterRedPlumIllager {
         super.registerGoals();
         this.goalSelector.addGoal(2, new CastingSpellGoal());
         this.goalSelector.addGoal(2, new SummonFreakerGoal());
-        this.goalSelector.addGoal(3, new RedPlumMonsterMeleeAttackGoal<>(
-                this, 1.2, true, 2F));
+        this.addMeleeAttackGoal(3, 1.2);
         this.goalSelector.addGoal(4, new CommandGoal(32, 16, 32));
         this.addBehaviorGoal(5, 1.0, 12F);
         this.targetSelector.addGoal(6, new RedPlumsMobsHurtByTargetGoal(this));

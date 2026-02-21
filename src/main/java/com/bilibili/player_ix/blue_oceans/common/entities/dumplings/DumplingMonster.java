@@ -2,7 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.common.entities.dumplings;
 
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
-import com.github.player_ix.ix_api.api.mobs.ai.goal.ApiOwnerTargetGoal;
+import com.github.NineAbyss9.ix_api.api.mobs.ai.goal.ApiOwnerTargetGoal;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.sounds.SoundEvent;

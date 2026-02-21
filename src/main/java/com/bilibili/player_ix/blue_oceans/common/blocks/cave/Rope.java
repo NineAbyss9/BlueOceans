@@ -4,7 +4,7 @@ package com.bilibili.player_ix.blue_oceans.common.blocks.cave;
 import com.bilibili.player_ix.blue_oceans.common.blocks.BoBlockProperties;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlocks;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
-import com.github.player_ix.ix_api.util.ItemUtil;
+import com.github.NineAbyss9.ix_api.util.ItemUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -28,7 +28,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-/**Based on <a href="https://github.com/AstralOrdana/Spelunkery/blob/1.20.1/common/src/main/java/com/ordana/spelunkery/blocks/RopeLadderBlock.java">...</a>*/
+/**Based on
+ *<a href="https://github.com/AstralOrdana/Spelunkery/blob/1.20.1/common/src/main/java/com/ordana/spelunkery/blocks/RopeLadderBlock.java">...</a>*/
 @SuppressWarnings("deprecation")
 public class Rope
 extends Block

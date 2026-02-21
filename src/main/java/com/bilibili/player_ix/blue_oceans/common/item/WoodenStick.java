@@ -4,7 +4,7 @@ package com.bilibili.player_ix.blue_oceans.common.item;
 import com.bilibili.player_ix.blue_oceans.compat.noixapi.NoIXApiCompat;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansMobEffects;
-import com.github.player_ix.ix_api.util.Maths;
+import com.github.NineAbyss9.ix_api.util.Maths;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
@@ -53,7 +53,7 @@ extends PickaxeItem {
             }
             if (!drop)
                 level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), stack));
-            level.destroyBlock(pos, drop, null);
+            level.destroyBlock(pos, drop, pContext.getPlayer());
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
         return InteractionResult.PASS;

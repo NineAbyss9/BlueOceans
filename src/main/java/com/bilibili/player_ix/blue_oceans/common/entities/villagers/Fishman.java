@@ -3,8 +3,8 @@ package com.bilibili.player_ix.blue_oceans.common.entities.villagers;
 
 import com.bilibili.player_ix.blue_oceans.api.mob.Profession;
 import com.bilibili.player_ix.blue_oceans.common.entities.ai.behavior.Behavior;
-import com.bilibili.player_ix.blue_oceans.common.entities.projectile.ModFishingHook;
-import com.github.player_ix.ix_api.api.item.ItemStacks;
+import com.bilibili.player_ix.blue_oceans.common.entities.projectile.farming.ModFishingHook;
+import com.github.NineAbyss9.ix_api.api.item.ItemStacks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;

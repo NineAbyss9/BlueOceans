@@ -1,7 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.item.plum;
 
-import com.bilibili.player_ix.blue_oceans.common.entities.projectile.EchoPotion;
+import com.bilibili.player_ix.blue_oceans.common.entities.projectile.plum.EchoPotion;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;

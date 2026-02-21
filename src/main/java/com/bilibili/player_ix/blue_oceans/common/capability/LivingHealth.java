@@ -1,19 +1,25 @@
 
 package com.bilibili.player_ix.blue_oceans.common.capability;
 
-//import net.minecraftforge.common.capabilities.AutoRegisterCapability;
-
+import com.google.common.collect.Maps;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraftforge.common.util.INBTSerializable;
-import org.NineAbyss9.util.lister.Lister;
-import org.NineAbyss9.util.lister.SubLister;
+
+import java.util.Map;
 
 //@AutoRegisterCapability
 public class LivingHealth implements INBTSerializable<CompoundTag> {
-    public Lister<LivingEffect> activeEffects = SubLister.of();
+    public Map<LivingEffect, LivingEffectInstance> activeEffects = Maps.newHashMap();
     public CompoundTag writeNBT() {
         CompoundTag tag = new CompoundTag();
-        tag.putInt("CACHE", 0);
+        if (!this.activeEffects.isEmpty()) {
+            ListTag listtag = new ListTag();
+            for (LivingEffectInstance livingEffect : this.activeEffects.values()) {
+                listtag.add(livingEffect.save(new CompoundTag()));
+            }
+            tag.put("ActiveEffects", listtag);
+        }
         return tag;
     }
 

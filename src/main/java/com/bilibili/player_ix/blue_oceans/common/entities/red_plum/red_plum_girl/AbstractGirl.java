@@ -5,7 +5,7 @@ import com.bilibili.player_ix.blue_oceans.api.magic.BOSpellType;
 import com.bilibili.player_ix.blue_oceans.common.entities.AbstractBlueOceansMob;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansParticleTypes;
 import com.bilibili.player_ix.blue_oceans.api.mob.SpellEntity;
-import com.github.player_ix.ix_api.util.Maths;
+import com.github.NineAbyss9.ix_api.util.Maths;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;

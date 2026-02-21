@@ -5,6 +5,7 @@ import com.bilibili.player_ix.blue_oceans.api.mob.RedPlumMob;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.AbstractRedPlumMob;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.NeoPlum;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlocks;
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansMobEffects;
 import com.bilibili.player_ix.blue_oceans.init.BoTags;
 import com.bilibili.player_ix.blue_oceans.util.RedPlumUtil;
 import net.minecraft.core.BlockPos;
@@ -14,9 +15,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
-import net.minecraft.world.entity.monster.Zombie;
-import net.minecraft.world.entity.npc.AbstractVillager;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.MultifaceBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.NineAbyss9.math.MathSupport;
@@ -28,10 +27,11 @@ public class PlumInvade extends MobEffect {
 
     public void applyEffectTick(LivingEntity pLivingEntity, int pAmplifier) {
         if (!(pLivingEntity instanceof RedPlumMob)) {
+            Level entityLevel = pLivingEntity.level();
             if (pLivingEntity.isAlive()) {
                 if (pLivingEntity.hurt(pLivingEntity.damageSources().dryOut(), 1 + pAmplifier)) {
                     if (MathSupport.random.nextFloat() < 0.2F) {
-                        ServerLevel level = (ServerLevel)pLivingEntity.level();
+                        ServerLevel level = (ServerLevel)entityLevel;
                         BlockPos pos = pLivingEntity.blockPosition();
                         BlockState state = level.getBlockState(pos);
                         if (!state.is(BoTags.RED_PLUM_BLOCKS)) {
@@ -42,8 +42,9 @@ public class PlumInvade extends MobEffect {
                         }
                     }
                 }
-            } else if (!pLivingEntity.level().isClientSide && pLivingEntity.deathTime == 1) {
-                AbstractRedPlumMob mob = pLivingEntity.level().getNearestEntity(AbstractRedPlumMob.class,
+            } else if (!entityLevel.isClientSide && pLivingEntity.deathTime == 1
+                && !pLivingEntity.hasEffect(BlueOceansMobEffects.PLUM_INFECTION.get())) {
+                AbstractRedPlumMob mob = entityLevel.getNearestEntity(AbstractRedPlumMob.class,
                         TargetingConditions.forNonCombat(), null, pLivingEntity.getX(),
                         pLivingEntity.getY(), pLivingEntity.getZ(),
                         pLivingEntity.getBoundingBox().inflate(6));
@@ -52,12 +53,12 @@ public class PlumInvade extends MobEffect {
                     mob.checkAndPlusInfectLevel(pLivingEntity);
                 }
                 if (pLivingEntity.removeEffect(this)) {
-                    if (pLivingEntity instanceof Player || pLivingEntity instanceof Zombie) {
-                        RedPlumUtil.spawnRedPlumHuman(pLivingEntity.level(), pLivingEntity);
-                    } else if (pLivingEntity instanceof AbstractVillager) {
-                        RedPlumUtil.spawnRedPlumVillager(pLivingEntity.level(), (AbstractVillager)pLivingEntity);
+                    if (RedPlumUtil.likeHuman(pLivingEntity)) {
+                        RedPlumUtil.spawnRedPlumHuman(entityLevel, pLivingEntity);
+                    } else if (RedPlumUtil.likeVillager(pLivingEntity)) {
+                        RedPlumUtil.spawnRedPlumVillager(entityLevel, pLivingEntity);
                     } else {
-                        var plum = NeoPlum.createRandom(pLivingEntity.position(), pLivingEntity.level());
+                        var plum = NeoPlum.createRandom(pLivingEntity.position(), entityLevel);
                         if (plum != null) {
                             NeoPlum.addParticleAroundPlum(plum);
                         }

@@ -4,7 +4,7 @@ package com.bilibili.player_ix.blue_oceans.common.entities.illagers.red_plum_ill
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.RedPlumMonster;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.AbstractRedPlumMob;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansSounds;
-import com.github.player_ix.ix_api.api.ApiPose;
+import com.github.NineAbyss9.ix_api.api.ApiPose;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;

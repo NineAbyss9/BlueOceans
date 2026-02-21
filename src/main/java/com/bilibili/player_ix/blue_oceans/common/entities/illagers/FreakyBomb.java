@@ -1,7 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.entities.illagers;
 
-import com.github.player_ix.ix_api.api.mobs.Ownable;
+import com.github.NineAbyss9.ix_api.api.mobs.Ownable;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;

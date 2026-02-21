@@ -3,7 +3,7 @@ package com.bilibili.player_ix.blue_oceans.network;
 
 import com.bilibili.player_ix.blue_oceans.BlueOceans;
 import com.bilibili.player_ix.blue_oceans.network.packet.SpeedUp;
-import com.github.player_ix.ix_api.util.ResourceLocations;
+import com.github.NineAbyss9.ix_api.util.ResourceLocations;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;

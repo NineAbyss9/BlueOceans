@@ -1,7 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.entities.animal;
 
-import com.github.player_ix.ix_api.api.mobs.IFlagMob;
+import com.github.NineAbyss9.ix_api.api.mobs.IFlagMob;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;

@@ -9,7 +9,7 @@ import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansParticleTypes;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansSounds;
 import com.bilibili.player_ix.blue_oceans.api.mob.RedPlumMob;
-import com.github.player_ix.ix_api.api.ApiPose;
+import com.github.NineAbyss9.ix_api.api.ApiPose;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.server.level.ServerBossEvent;

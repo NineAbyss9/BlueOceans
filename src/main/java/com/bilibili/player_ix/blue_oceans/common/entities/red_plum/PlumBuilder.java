@@ -9,10 +9,10 @@ import com.bilibili.player_ix.blue_oceans.init.BlueOceansMobEffects;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansParticleTypes;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansSounds;
 import com.bilibili.player_ix.blue_oceans.util.RedPlumUtil;
-import com.github.player_ix.ix_api.api.annotation.ServerOnly;
-import com.github.player_ix.ix_api.api.mobs.IFlagMob;
-import com.github.player_ix.ix_api.util.Maths;
-import com.github.player_ix.ix_api.util.ParticleUtil;
+import com.github.NineAbyss9.ix_api.api.annotation.ServerOnly;
+import com.github.NineAbyss9.ix_api.api.mobs.IFlagMob;
+import com.github.NineAbyss9.ix_api.util.Maths;
+import com.github.NineAbyss9.ix_api.util.ParticleUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.nbt.CompoundTag;
@@ -214,23 +214,17 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
 
     public boolean hurt(DamageSource pSource, float pAmount) {
         boolean flag = super.hurt(pSource, pAmount);
-        if (flag && this.level().getEntitiesOfClass(AreaEffectCloud.class,
-                this.getBoundingBox().inflate(6), cloud ->
-                cloud.getOwner() == this).size() < 2) {
-            this.puffSound();
-            AreaEffectCloud areaeffectcloud = new AreaEffectCloud(this.level(), this.getX(), this.getY(), this.getZ());
-            areaeffectcloud.setOwner(this);
-            areaeffectcloud.setRadius(2.0F);
-            areaeffectcloud.setRadiusOnUse(-0.5F);
-            areaeffectcloud.setWaitTime(20);
-            areaeffectcloud.setDuration(areaeffectcloud.getDuration() / 2);
-            areaeffectcloud.setRadiusPerTick(-areaeffectcloud.getRadius() / (float)areaeffectcloud.getDuration());
-            areaeffectcloud.addEffect(new MobEffectInstance(BlueOceansMobEffects.PLUM_INFECTION.get(),
-                    200, 2));
-            this.level().addFreshEntity(areaeffectcloud);
+        if (flag && this.level().getEntitiesOfClass(AbstractRedPlumMob.class,
+                this.getBoundingBox().inflate(8)).size() < 4) {
+            this.protectSelf(pAmount);
             return true;
         }
         return false;
+    }
+
+    protected float getDamageAfterArmorAbsorb(DamageSource pDamageSource, float pDamageAmount) {
+        return super.getDamageAfterArmorAbsorb(pDamageSource, Math.min(pDamageAmount,
+                this.getMaxHealth() / 4F));
     }
 
     public void addAdditionalSaveData(CompoundTag tag) {
@@ -356,18 +350,50 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
         });
     }
 
+    public void protectSelf(float pAmount) {
+        if (this.getAge() == 0) {
+            this.puffSound();
+            AreaEffectCloud areaeffectcloud = new AreaEffectCloud(this.level(), this.getX(), this.getY(), this.getZ());
+            areaeffectcloud.setOwner(this);
+            areaeffectcloud.setRadius(2.0F);
+            areaeffectcloud.setRadiusOnUse(-0.5F);
+            areaeffectcloud.setWaitTime(20);
+            areaeffectcloud.setDuration(areaeffectcloud.getDuration() / 2);
+            areaeffectcloud.setRadiusPerTick(-areaeffectcloud.getRadius() / (float)areaeffectcloud.getDuration());
+            areaeffectcloud.addEffect(new MobEffectInstance(BlueOceansMobEffects.PLUM_INFECTION.get(),
+                    200, 2));
+            this.level().addFreshEntity(areaeffectcloud);
+        } else if (this.getAge() == 1) {
+            var list = RedPlumUtil.MAP.get(1);
+            AbstractRedPlumMob mob = list.get(AbyssMath.random.nextInt(RedPlumUtil.BASE_PLUM_RANDOM_POOL))
+                    .create(this.level());
+            if (mob != null) {
+                mob.moveTo(this.position().add(AbyssMath.random(5), 0, AbyssMath.random(5)));
+                this.level().addFreshEntity(mob);
+                NeoPlum.addParticleAroundPlum(mob);
+            }
+        }
+        if (this.getAge() > 1 || (this.getAge() == 1 && pAmount > 20.0F)) {
+            var list = RedPlumUtil.MAP.get(2);
+            AbstractRedPlumMob mob = list.get(AbyssMath.random.nextInt(2)).create(this.level());
+            if (mob != null) {
+                mob.moveTo(this.position().add(AbyssMath.random(5), 0, AbyssMath.random(5)));
+                this.level().addFreshEntity(mob);
+                NeoPlum.addParticleAroundPlum(mob);
+            }
+        }
+    }
+
     public void spawnPlums() {
         List<EntityType<? extends AbstractRedPlumMob>> list = RedPlumUtil.MAP.get(
                 this.getSummonedLevel());
-        if (list != null) {
-            AbstractRedPlumMob plumMob = list.get(Maths.random.nextInt(list.size())).create(level());
-            if (plumMob != null) {
-                plumMob.moveTo(position().add(AbyssMath.random(1.5), 0, AbyssMath.random(1.5)));
-                if (level().addFreshEntity(plumMob))
-                    ParticleUtil.spawnAnim(plumMob, BlueOceansParticleTypes.RED_SPELL.get(), 8);
-                else
-                    plumMob.discard();
-            }
+        AbstractRedPlumMob plumMob = list.get(AbyssMath.random.nextInt(list.size())).create(level());
+        if (plumMob != null) {
+            plumMob.moveTo(position().add(AbyssMath.random(1.5), 0, AbyssMath.random(1.5)));
+            if (level().addFreshEntity(plumMob))
+                ParticleUtil.spawnAnim(plumMob, BlueOceansParticleTypes.RED_SPELL.get(), 8);
+            else
+                plumMob.discard();
         }
     }
 

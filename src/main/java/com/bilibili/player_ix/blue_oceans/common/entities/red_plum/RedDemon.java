@@ -4,8 +4,7 @@ package com.bilibili.player_ix.blue_oceans.common.entities.red_plum;
 import com.bilibili.player_ix.blue_oceans.BlueOceans;
 import com.bilibili.player_ix.blue_oceans.api.mob.IAnimatedMob;
 import com.bilibili.player_ix.blue_oceans.util.MobUtil;
-import com.github.player_ix.ix_api.api.mobs.IFlagMob;
-import com.github.player_ix.ix_api.api.mobs.ai.goal.MeleeGoal;
+import com.github.NineAbyss9.ix_api.api.mobs.IFlagMob;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -16,6 +15,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.AnimationState;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -36,6 +36,7 @@ implements IAnimatedMob, IFlagMob {
     public AnimationState explode = new AnimationState();
     public RedDemon(EntityType<? extends RedDemon> type, Level level) {
         super(type, level);
+        this.setMaxUpStep(2.0F);
     }
 
     protected void defineSynchedData() {
@@ -44,13 +45,16 @@ implements IAnimatedMob, IFlagMob {
     }
 
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new MeleeGoal(this, 1));
+        this.addMeleeAttackGoal(0, 1, 2.2);
         this.goalSelector.addGoal(1, new LeapAtTargetGoal(this, 0.5F));
         super.registerGoals();
     }
 
     public void aiStep() {
         super.aiStep();
+        if (this.level().isClientSide) {
+            this.idle.startIfStopped(tickCount);
+        }
         if (this.getTarget() != null) {
             if (this.tickCount % 600 == 0) {
                 this.roar();
@@ -62,9 +66,6 @@ implements IAnimatedMob, IFlagMob {
             this.attackTick();
         else if (this.isFlag(2))
             this.summonTick();
-        if (this.level().isClientSide) {
-            this.idle.startIfStopped(tickCount);
-        }
     }
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> pKey) {
@@ -121,14 +122,13 @@ implements IAnimatedMob, IFlagMob {
     private void summonTick() {
         increaseAniTick();
         if (this.aniTickEquals(25)) {
-            MobUtil.areaAttack(this, 2, 2, 90, 10.0F, 0.05F,
-                    10, this.damageSources().mobAttack(this), true, entity -> {
+            MobUtil.areaAttack(this, 3, 3, 90, 10.0F, 0.05F,
+                    8, this.damageSources().mobAttack(this), true, entity -> {
                         this.heal(2F);
                         entity.setSecondsOnFire(2);
                     });
             this.playSound(SoundEvents.SCULK_SHRIEKER_SHRIEK);
-            if (!this.level().isClientSide)
-                this.spawnBreedMob(this);
+            this.spawnBreedMob(this);
         }
         if (this.aniTick(30)) {
             this.resetState();
@@ -157,6 +157,11 @@ implements IAnimatedMob, IFlagMob {
             this.particleUtil.sendParticles(ParticleTypes.POOF, 20, 0.1, 0.1, 0.1,
                     0.25);
         }
+    }
+
+    protected void doAttackTarget(Entity pEntity) {
+        super.doAttackTarget(pEntity);
+        this.heal(1F + this.getInfectLevel() * 0.5F);
     }
 
     public int getFlag() {
@@ -214,7 +219,7 @@ implements IAnimatedMob, IFlagMob {
     public static AttributeSupplier.Builder createAttributes() {
         return createPathAttributes().add(Attributes.MAX_HEALTH, 90).add(Attributes.ARMOR, 10)
                 .add(Attributes.MOVEMENT_SPEED, 0.29).add(Attributes.FOLLOW_RANGE, 56)
-                .add(Attributes.ATTACK_DAMAGE, 12);
+                .add(Attributes.ATTACK_DAMAGE, 12).add(Attributes.KNOCKBACK_RESISTANCE, 0.5);
     }
 
     static {

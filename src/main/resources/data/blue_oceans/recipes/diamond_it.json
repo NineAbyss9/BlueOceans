@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "iix",
+    " ii",
+    "i i"
+  ],
+  "key": {
+    "i": {
+      "item": "minecraft:diamond"
+    },
+    "x": {
+      "item": "minecraft:diamond_block"
+    }
+  },
+  "result": {
+    "item": "blue_oceans:integrated_diamond_tool",
+    "count": 1
+  }
+}

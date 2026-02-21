@@ -2,7 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.compat.noixapi;
 
 import com.bilibili.player_ix.blue_oceans.compat.ICompatable;
-import com.github.player_ix.ix_api.IXApi;
+import com.github.NineAbyss9.ix_api.IXApi;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;

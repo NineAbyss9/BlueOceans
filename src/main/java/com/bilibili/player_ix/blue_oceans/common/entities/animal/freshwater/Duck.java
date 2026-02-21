@@ -2,7 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.common.entities.animal.freshwater;
 
 import com.bilibili.player_ix.blue_oceans.common.entities.animal.WaterAnimal;
-import com.github.player_ix.ix_api.util.Maths;
+import com.github.NineAbyss9.ix_api.util.Maths;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;

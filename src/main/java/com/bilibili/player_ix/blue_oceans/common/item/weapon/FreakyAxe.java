@@ -1,7 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.item.weapon;
 
-import com.github.player_ix.ix_api.util.ItemUtil;
+import com.github.NineAbyss9.ix_api.util.ItemUtil;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tier;

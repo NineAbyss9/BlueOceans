@@ -3,9 +3,9 @@ package com.bilibili.player_ix.blue_oceans.common.entities.evil_faction;
 
 import com.bilibili.player_ix.blue_oceans.api.ai.goal.BOAttackTargetGoal;
 import com.bilibili.player_ix.blue_oceans.api.mob.IAnimatedMob;
-import com.github.player_ix.ix_api.api.mobs.IFlagMob;
-import com.github.player_ix.ix_api.api.mobs.OwnableMob;
-import com.github.player_ix.ix_api.api.mobs.ai.goal.MeleeGoal;
+import com.github.NineAbyss9.ix_api.api.mobs.IFlagMob;
+import com.github.NineAbyss9.ix_api.api.mobs.OwnableMob;
+import com.github.NineAbyss9.ix_api.api.mobs.ai.goal.MeleeGoal;
 import net.minecraft.network.syncher.*;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;

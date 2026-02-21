@@ -16,7 +16,7 @@ public enum CompletelyPerverseState {
     }
 
     public boolean isLarva() {
-        return this ==LARVA;
+        return this == LARVA;
     }
 
     public boolean isPupa() {

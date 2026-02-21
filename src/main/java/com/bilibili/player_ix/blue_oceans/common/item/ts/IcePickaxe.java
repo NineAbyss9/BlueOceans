@@ -2,7 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.common.item.ts;
 
 import com.bilibili.player_ix.blue_oceans.api.item.BoTier;
-import com.github.player_ix.ix_api.api.item.ApiPickaxe;
+import com.github.NineAbyss9.ix_api.api.item.ApiPickaxe;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 

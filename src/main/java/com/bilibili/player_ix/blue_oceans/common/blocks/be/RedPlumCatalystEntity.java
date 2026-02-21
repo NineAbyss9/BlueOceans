@@ -39,7 +39,7 @@ implements GameEventListener.Holder<RedPlumCatalystEntity.Listener> {
         }
 
         public int getListenerRadius() {
-            return 8;
+            return 10;
         }
 
         public DeliveryMode getDeliveryMode() {
@@ -57,7 +57,7 @@ implements GameEventListener.Holder<RedPlumCatalystEntity.Listener> {
                             RedPlumCatalyst.spreadPlum(pLevel, BlockPos.containing(pPos).below());
                         }
                         livingEntity.skipDropExperience();
-                        RedPlumCatalyst.spreadPlum(pLevel, BlockPos.containing(pPos));
+                        RedPlumCatalyst.spreadPlum(pLevel, pPos);
                         return true;
                     }
                 }

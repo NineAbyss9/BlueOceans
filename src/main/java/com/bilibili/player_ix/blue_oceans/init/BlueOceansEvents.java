@@ -5,7 +5,9 @@ import com.bilibili.player_ix.blue_oceans.BlueOceans;
 import com.bilibili.player_ix.blue_oceans.common.entities.ai.goal.AttackModVillagersGoal;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.AbstractRedPlumMob;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.IPlumSpreader;
-import com.bilibili.player_ix.blue_oceans.government.Government;
+import com.bilibili.player_ix.blue_oceans.world.spawner.VillagerGroupSpawner;
+import com.google.common.collect.Maps;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.monster.AbstractIllager;
 import net.minecraft.world.level.Level;
@@ -13,13 +15,13 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.NineAbyss9.math.MathSupport;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Map;
 
 @Mod.EventBusSubscriber(modid = BlueOceans.MOD_ID)
 public class BlueOceansEvents {
@@ -42,12 +44,36 @@ public class BlueOceansEvents {
         }
     }
 
-    private static final Set<Government> GOVERNMENTS = new HashSet<>(Set.of(Government.EMPTY,
-            Government.EVIL_FACTION));
+    public static final Map<ServerLevel, VillagerGroupSpawner> VILLAGER_GROUPS
+            = Maps.newHashMap();
 
+    //private static final Set<Government> GOVERNMENTS = new HashSet<>(Set.of(Government.EMPTY,
+    //        Government.EVIL_FACTION));
+
+    @SubscribeEvent
+    public static void onWorldLoad(LevelEvent.Load event) {
+        if (!event.getLevel().isClientSide()) {
+            VILLAGER_GROUPS.put((ServerLevel)event.getLevel(), new VillagerGroupSpawner());
+        }
+    }
+
+    @SubscribeEvent
     public static void onLevelTick(TickEvent.LevelTickEvent event) {
-        if (!GOVERNMENTS.isEmpty()) {
+        /*if (!GOVERNMENTS.isEmpty()) {
             GOVERNMENTS.forEach(Government::tick);
+        }*/
+        if (!event.level.isClientSide) {
+            ServerLevel serverLevel = (ServerLevel)event.level;
+            VillagerGroupSpawner spawner = VILLAGER_GROUPS.get(serverLevel);
+            if (spawner != null)
+                spawner.tick(serverLevel);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLevelUnload(LevelEvent.Unload event) {
+        if (!event.getLevel().isClientSide()) {
+            VILLAGER_GROUPS.remove((ServerLevel)event.getLevel());
         }
     }
 

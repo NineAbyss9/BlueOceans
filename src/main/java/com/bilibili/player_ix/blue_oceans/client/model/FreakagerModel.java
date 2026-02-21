@@ -4,7 +4,7 @@ package com.bilibili.player_ix.blue_oceans.client.model;
 import com.bilibili.player_ix.blue_oceans.BlueOceans;
 import com.bilibili.player_ix.blue_oceans.client.AnimationUtil;
 import com.bilibili.player_ix.blue_oceans.common.entities.illagers.red_plum_illager.Freak;
-import com.github.player_ix.ix_api.api.ApiPose;
+import com.github.NineAbyss9.ix_api.api.ApiPose;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.model.AnimationUtils;

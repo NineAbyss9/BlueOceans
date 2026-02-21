@@ -13,14 +13,14 @@ import com.bilibili.player_ix.blue_oceans.config.BoCommonConfig;
 import com.bilibili.player_ix.blue_oceans.init.*;
 import com.bilibili.player_ix.blue_oceans.util.MobUtil;
 import com.bilibili.player_ix.blue_oceans.util.RedPlumUtil;
-import com.github.player_ix.ix_api.api.ApiPose;
-import com.github.player_ix.ix_api.api.mobs.ApiEntityDataSerializers;
-import com.github.player_ix.ix_api.api.mobs.ApiPoseMob;
-import com.github.player_ix.ix_api.api.mobs.MobUtils;
-import com.github.player_ix.ix_api.api.mobs.OwnableMob;
-import com.github.player_ix.ix_api.api.mobs.effect.EffectInstance;
-import com.github.player_ix.ix_api.util.ParticleUtil;
-import com.github.player_ix.ix_api.util.Vec9;
+import com.github.NineAbyss9.ix_api.api.ApiPose;
+import com.github.NineAbyss9.ix_api.api.mobs.ApiEntityDataSerializers;
+import com.github.NineAbyss9.ix_api.api.mobs.ApiPoseMob;
+import com.github.NineAbyss9.ix_api.api.mobs.MobUtils;
+import com.github.NineAbyss9.ix_api.api.mobs.OwnableMob;
+import com.github.NineAbyss9.ix_api.api.mobs.effect.EffectInstance;
+import com.github.NineAbyss9.ix_api.util.ParticleUtil;
+import com.github.NineAbyss9.ix_api.util.Vec9;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -28,6 +28,9 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -120,7 +123,7 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
     public void checkAndPlusInfectLevel(LivingEntity pEntity) {
         if (this.tryConvert(pEntity))
             return;
-        if (this.getRandomUtil().nextFloat() <= this.getUpgradeChance() || pEntity.getMaxHealth() >= 50) {
+        if (this.getRandomUtil().nextFloat() <= this.getUpgradeChance() || pEntity.getMaxHealth() >= 20.0F) {
             this.setInfectLevelPlus();
         }
     }
@@ -191,7 +194,7 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
     }
 
     protected float getUpgradeChance() {
-        return 0.1F;
+        return 0.4F;
     }
 
     public MobType getMobType() {
@@ -218,11 +221,13 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
     public boolean hurt(DamageSource pSource, float pAmount) {
         Entity entity = pSource.getEntity();
         if (entity instanceof RedPlumMob mobs) {
-            return mobs.isException() && super.hurt(pSource, pAmount);
+            return (mobs.isException() || this.isException()) && super.hurt(pSource, pAmount);
         }
         if (!MobUtil.canHurt(this, entity)) {
             return false;
         }
+        if (pSource.is(DamageTypeTags.IS_FIRE))
+            pAmount /= 2.0F;
         if (this.getKills() > 4 //&& (!(entity instanceof LivingEntity living) ||
                 //living.getItemInHand(InteractionHand.MAIN_HAND).getEnchantmentLevel())
         ) {
@@ -324,7 +329,7 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
     }
 
     public void doKillEntity(LivingEntity pEntity) {
-        if (pEntity.getMaxHealth() < 30.0F) {
+        if (pEntity.getMaxHealth() < 20.0F) {
             this.setKillsPlus();
         } else {
             this.setKills(this.getKills() + 3);
@@ -338,16 +343,26 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
 
     public void spawnBreedMob(LivingEntity pEntity) {
         if (!this.level().isClientSide) {
-            AbstractRedPlumMob entity = this.random.nextFloat() <= this.spawnFighterChance() ?
-                    BlueOceansEntities.NEO_FIGHTER.get().create(this.serverLevel()) :
-                    BlueOceansEntities.NEO_PLUM.get().create(this.serverLevel());
-            ParticleUtil.sendParticles(this.serverLevel(), BlueOceansParticleTypes.RED_PLUM_SPELL.get(),
-                    pEntity.position(), 12, 0.7, 0.7, 0.7, 0);
-            if (entity != null) {
-                entity.moveTo(pEntity.position());
-                this.serverLevel().addFreshEntity(entity);
+            if (RedPlumUtil.likeHuman(pEntity))
+                RedPlumUtil.spawnRedPlumHuman(this.level(), pEntity);
+            else if (RedPlumUtil.likeVillager(pEntity))
+                RedPlumUtil.spawnRedPlumVillager(this.level(), pEntity);
+            else {
+                AbstractRedPlumMob entity = this.random.nextFloat() <= this.spawnFighterChance() ?
+                        BlueOceansEntities.NEO_FIGHTER.get().create(this.serverLevel()) :
+                        BlueOceansEntities.NEO_PLUM.get().create(this.serverLevel());
+                ParticleUtil.sendParticles(this.serverLevel(), BlueOceansParticleTypes.RED_PLUM_SPELL.get(),
+                        pEntity.position(), 12, 0.7, 0.7, 0.7, 0);
+                if (entity != null) {
+                    entity.moveTo(pEntity.position());
+                    this.serverLevel().addFreshEntity(entity);
+                }
             }
         }
+    }
+
+    public boolean shouldAttackOtherMobs() {
+        return this.getPlumFlag() != 1;
     }
 
     public ApiPose getPoses() {
@@ -426,6 +441,16 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
         return super.killedEntity(pLevel, pEntity);
     }
 
+    @Nullable
+    protected SoundEvent getHurtSound(DamageSource pSource) {
+        return SoundEvents.SCULK_BLOCK_BREAK;
+    }
+
+    @Nullable
+    protected SoundEvent getDeathSound() {
+        return SoundEvents.SCULK_CATALYST_BREAK;
+    }
+
     static {
         DATA_TARGET_POS = SynchedEntityData.defineId(AbstractRedPlumMob.class,
                 ApiEntityDataSerializers.VEC9);
@@ -441,14 +466,10 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
             super(pMob, LivingEntity.class, mustSee, entity -> {
                 if (!NoIXApiCompat.isApiLoaded())
                     return !(entity instanceof RedPlumMob);
-                try {
-                    if (entity.getType().getDescriptionId().equals("noixmodapi.entity.apostle") &&
-                            entity.getClass().getMethod("getTitleNumber").getDefaultValue() instanceof Integer i) {
-                        return i < 11;
-                    }
-                } catch (Throwable ignore) {
+                if (entity.getType().getDescriptionId().equals("entity.noixmodapi.apostle")) {
+                    return false;
                 }
-                return  !(entity instanceof RedPlumMob);
+                return !(entity instanceof RedPlumMob);
             });
             this.mobs = pMob;
         }
@@ -470,20 +491,7 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
     protected static class RedPlumsMobsHurtByTargetGoal extends HurtByTargetGoal {
         public RedPlumsMobsHurtByTargetGoal(PathfinderMob pMob, Class<?>... classes) {
             super(pMob, classes);
-        }
-
-        public void start() {
-            super.start();
-            if (this.targetMob != null) {
-                this.alertOther(this.mob, this.targetMob);
-            }
-        }
-
-        public boolean canUse() {
-            if (!super.canUse()) {
-                return false;
-            }
-            return !(this.targetMob instanceof AbstractRedPlumMob);
+            this.setAlertOthers(AbstractRedPlumMob.class);
         }
     }
 

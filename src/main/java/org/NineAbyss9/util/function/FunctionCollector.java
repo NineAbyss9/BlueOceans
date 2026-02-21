@@ -3,6 +3,7 @@ package org.NineAbyss9.util.function;
 
 import org.NineAbyss9.util.IXUtil;
 
+import javax.annotation.Nullable;
 import java.util.function.*;
 
 public class FunctionCollector {
@@ -54,7 +55,7 @@ public class FunctionCollector {
         return obj -> {};
     }
 
-    public static <T> void accept(T obj, Consumer<T> action) {
+    public static <T> void accept(@Nullable T obj, Consumer<T> action) {
         if (obj != null)
             action.accept(obj);
     }

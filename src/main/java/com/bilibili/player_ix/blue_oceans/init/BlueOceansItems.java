@@ -29,13 +29,14 @@ import com.bilibili.player_ix.blue_oceans.common.item.util.Bandage;
 import com.bilibili.player_ix.blue_oceans.common.item.util.EntityKiller;
 import com.bilibili.player_ix.blue_oceans.common.item.util.HammerItem;
 import com.bilibili.player_ix.blue_oceans.common.item.farming.ScytheItem;
+import com.bilibili.player_ix.blue_oceans.common.item.util.IntegratedTool;
 import com.bilibili.player_ix.blue_oceans.common.item.util.axe.ElementAxe;
 import com.bilibili.player_ix.blue_oceans.common.item.util.pickaxe.ElementPickaxe;
 import com.bilibili.player_ix.blue_oceans.common.item.weapon.FreakyAxe;
 import com.bilibili.player_ix.blue_oceans.common.item.weapon.red_plum.RedPlumScythe;
 import com.bilibili.player_ix.blue_oceans.common.item.weapon.red_plum.RedPlumSword;
-import com.github.player_ix.ix_api.api.item.ApiSpawnEgg;
-import com.github.player_ix.ix_api.api.item.BaseItem;
+import com.github.NineAbyss9.ix_api.api.item.ApiSpawnEgg;
+import com.github.NineAbyss9.ix_api.api.item.BaseItem;
 import com.google.common.collect.Sets;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.server.level.ServerPlayer;
@@ -77,6 +78,7 @@ public class BlueOceansItems {
     public static Set<RegistryObject<? extends Item>> ELEMENT_CREATIVE_ITEMS = Sets.newLinkedHashSet();
     public static Set<RegistryObject<? extends Item>> BIOLOGY_ITEMS = Sets.newLinkedHashSet();
     public static Set<RegistryObject<? extends Item>> PLUM_ITEMS = Sets.newLinkedHashSet();
+    public static Set<RegistryObject<? extends Item>> UTILS = Sets.newLinkedHashSet();
     private BlueOceansItems() {
     }
 
@@ -155,6 +157,12 @@ public class BlueOceansItems {
         RegistryObject<ElementArmor> object = ITEMS.register(st, supplier);
         ELEMENT_CREATIVE_ITEMS.add(object);
         return object;
+    }
+
+    public static RegistryObject<Item> addUtils(String name, Supplier<Item> item) {
+        RegistryObject<Item> obj = ITEMS.register(name, item);
+        UTILS.add(obj);
+        return obj;
     }
 
     public static Item.Properties properties() {
@@ -248,6 +256,8 @@ public class BlueOceansItems {
             BlueOceansEntities.RED_PLUM_SLAYER, -13434880, 0xf32fdc0);
     public static final RegistryObject<Item> RED_PLUM_SPIDER_SPAWN_EGG = spawnEgg("red_plum_spider",
             BlueOceansEntities.RED_PLUM_SPIDER, 245000000, 100000000);
+    public static final RegistryObject<Item> RED_PLUM_WORM = apiSpawnEgg("red_plum_worm",
+            BlueOceansEntities.RED_PLUM_WORM, 245000000, 100000000);
     public static final RegistryObject<Item> NATURAL_ENVOY_SPAWN_EGG = ITEMS.register("natural_envoy_spawn_egg", ()-> new ForgeSpawnEggItem(BlueOceansEntities.NATURAL_ENVOY, -13434880, -16777216, new Item.Properties()));
     public static final RegistryObject<Item> VILLAGER_BIOLOGIST_SPAWN_EGG = spawnEgg("villager_biologist", BlueOceansEntities.VILLAGER_BIOLOGIST,
             5651507, 12422002);
@@ -286,6 +296,7 @@ public class BlueOceansItems {
 
     //Food
     public static final RegistryObject<Item> COFFEE = ITEMS.register("coffee", Coffee::new);
+    //public static final RegistryObject<Item> CompressedBiscuit = null;
     public static final RegistryObject<Item> CORN = ITEMS.register("corn",
             ()-> new FoodItem(2, 1.5F));
     //public static final RegistryObject<Item> EdibleSalt = ITEMS.register("edible_salt", () -> new Item(properties()));
@@ -358,24 +369,36 @@ public class BlueOceansItems {
 
     //Util
     //Axe
-    public static final RegistryObject<Item> ICE_AXE = ITEMS.register("ice_axe", IceAxe::new);
+    public static final RegistryObject<Item> FLINT_AXE = ITEMS.register("flint_axe",
+            () -> new AxeItem(BoTier.FLINT, 4, -3.1F,
+                    properties()));
+    public static final RegistryObject<Item> FREAKY_AXE = ITEMS.register("freaky_axe", FreakyAxe::new);
+    public static final RegistryObject<Item> ICE_AXE = addUtils("ice_axe", IceAxe::new);
+    public static final RegistryObject<Item> STEEL_AXE = ITEMS.register("steel_axe", () -> new AxeItem(BoTier.STEEL,
+            5.0F, -2.8F, properties()));
     //Hammer
-    public static final RegistryObject<Item> IRON_HAMMER = ITEMS.register("iron_hammer", () ->
+    public static final RegistryObject<Item> IRON_HAMMER = addUtils("iron_hammer", () ->
             new HammerItem(11.0F, -3.2F, BoTier.IRON, properties()));
     //Pickaxe
-    public static final RegistryObject<Item> FLINT_PICKAXE = ITEMS.register("flint_pickaxe",
+    public static final RegistryObject<Item> FLINT_PICKAXE = addUtils("flint_pickaxe",
             () -> new PickaxeItem(BoTier.FLINT, 2, -3.0F, properties()));
-    public static final RegistryObject<Item> STEEL_PICKAXE = ITEMS.register("steel_pickaxe", () ->
+    public static final RegistryObject<Item> STEEL_PICKAXE = addUtils("steel_pickaxe", () ->
             new PickaxeItem(BoTier.STEEL, 1, -3.0F, properties()));
-    public static final RegistryObject<Item> ICE_PICKAXE = ITEMS.register("ice_pickaxe", IcePickaxe::new);
+    public static final RegistryObject<Item> ICE_PICKAXE = addUtils("ice_pickaxe", IcePickaxe::new);
     //Scythe
-    public static final RegistryObject<Item> IRON_SCYTHE = ITEMS.register("iron_scythe", () ->
+    public static final RegistryObject<Item> IRON_SCYTHE = addUtils("iron_scythe", () ->
             new ScytheItem(4.0F, -1.6F, BoTier.IRON, properties()));
     //Shovel
-    public static final RegistryObject<Item> FLINT_SHOVEL = ITEMS.register("flint_shovel",
+    public static final RegistryObject<Item> FLINT_SHOVEL = addUtils("flint_shovel",
             () -> new ShovelItem(BoTier.FLINT, 2, -3.0F, properties()));
-    public static final RegistryObject<Item> STEEL_SHOVEL = ITEMS.register("steel_shovel",
+    public static final RegistryObject<Item> STEEL_SHOVEL = addUtils("steel_shovel",
             () -> new ShovelItem(BoTier.STEEL, 1, -3.0F, properties()));
+    //Integrated
+    public static final RegistryObject<Item> INTEGRATED_DIAMOND_TOOL = addUtils("integrated_diamond_tool",
+            () -> new IntegratedTool(BoTier.DIAMOND, 6, -2.4F,
+                    properties()));
+    public static final RegistryObject<Item> INTEGRATED_IRON_TOOL = addUtils("integrated_iron_tool",
+            () -> new IntegratedTool(BoTier.IRON, 4, -2.6F, properties()));
     //Traffic
     public static final RegistryObject<Item> BIKE_EGG = noAddToCreativeSpawnEgg("bike",
             BlueOceansEntities.BIKE, 1001033, 1001033);
@@ -391,13 +414,6 @@ public class BlueOceansItems {
     //Gun
     public static final RegistryObject<AbstractGun> SNIPER_RIFLE = ITEMS.register("sniper_rifle",
             SniperRifle::new);
-    //Axe
-    public static final RegistryObject<Item> FLINT_AXE = ITEMS.register("flint_axe",
-            () -> new AxeItem(BoTier.FLINT, 4, -3.1F,
-                    properties()));
-    public static final RegistryObject<Item> FREAKY_AXE = ITEMS.register("freaky_axe", FreakyAxe::new);
-    public static final RegistryObject<Item> STEEL_AXE = ITEMS.register("steel_axe", () -> new AxeItem(BoTier.STEEL,
-            5.0F, -2.8F, properties()));
     //Sword
     public static final RegistryObject<Item> FLINT_SWORD = ITEMS.register("flint_sword",
             () -> new SwordItem(BoTier.FLINT, 3, -2.2F, properties()));

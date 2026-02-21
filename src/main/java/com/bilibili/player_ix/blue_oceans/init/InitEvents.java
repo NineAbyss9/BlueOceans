@@ -6,12 +6,16 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
-//@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class InitEvents {
     private InitEvents() {
     }
 
+    //Commands
+    @SubscribeEvent
     public static void registerCommands(RegisterCommandsEvent event) {
         BoCommand.register(event.getDispatcher(), event.getBuildContext());
     }

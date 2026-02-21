@@ -3,11 +3,11 @@ package com.bilibili.player_ix.blue_oceans.common.entities.red_plum;
 
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansMobEffects;
-import com.github.player_ix.ix_api.api.ApiPose;
-import com.github.player_ix.ix_api.api.item.ItemStacks;
-import com.github.player_ix.ix_api.api.mobs.ApiRangedAttackMob;
-import com.github.player_ix.ix_api.api.mobs.ai.goal.ApiRangedBowAttackGoal;
-import com.github.player_ix.ix_api.api.mobs.effect.EffectInstance;
+import com.github.NineAbyss9.ix_api.api.ApiPose;
+import com.github.NineAbyss9.ix_api.api.item.ItemStacks;
+import com.github.NineAbyss9.ix_api.api.mobs.ApiRangedAttackMob;
+import com.github.NineAbyss9.ix_api.api.mobs.ai.goal.ApiRangedBowAttackGoal;
+import com.github.NineAbyss9.ix_api.api.mobs.effect.EffectInstance;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;

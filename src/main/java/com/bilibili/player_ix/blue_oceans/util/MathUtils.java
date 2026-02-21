@@ -2,7 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.util;
 
 import com.bilibili.player_ix.blue_oceans.common.chemistry.Element;
-import com.github.player_ix.ix_api.util.ItemUtil;
+import com.github.NineAbyss9.ix_api.util.ItemUtil;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;

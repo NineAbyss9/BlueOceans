@@ -4,7 +4,7 @@ package com.bilibili.player_ix.blue_oceans.common.item.chemistry;
 import com.bilibili.player_ix.blue_oceans.api.item.ILockedItem;
 import com.bilibili.player_ix.blue_oceans.common.chemistry.IElement;
 import com.bilibili.player_ix.blue_oceans.common.chemistry.Element;
-import com.github.player_ix.ix_api.api.item.BaseItem;
+import com.github.NineAbyss9.ix_api.api.item.BaseItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;

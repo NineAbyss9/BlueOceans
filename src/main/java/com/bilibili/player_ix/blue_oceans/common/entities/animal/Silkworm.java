@@ -4,7 +4,7 @@ package com.bilibili.player_ix.blue_oceans.common.entities.animal;
 import com.bilibili.player_ix.blue_oceans.api.mob.CompletelyPerverseState;
 import com.bilibili.player_ix.blue_oceans.api.mob.IAnimatedMob;
 import com.bilibili.player_ix.blue_oceans.common.entities.animal.flying.AbstractFlyingAnimal;
-import com.github.player_ix.ix_api.api.item.ItemStacks;
+import com.github.NineAbyss9.ix_api.api.item.ItemStacks;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
@@ -14,6 +14,7 @@ import net.minecraft.world.level.Level;
 
 import java.util.List;
 
+/**蝴蝶，包括蚕*/
 public class Silkworm
 extends AbstractFlyingAnimal
 implements IAnimatedMob {

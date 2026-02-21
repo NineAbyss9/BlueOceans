@@ -1,9 +1,9 @@
 
 package com.bilibili.player_ix.blue_oceans.common.entities.undeads;
 
-import com.github.player_ix.ix_api.api.ApiPose;
-import com.github.player_ix.ix_api.api.mobs.ApiPoseMob;
-import com.github.player_ix.ix_api.api.mobs.OwnableMob;
+import com.github.NineAbyss9.ix_api.api.ApiPose;
+import com.github.NineAbyss9.ix_api.api.mobs.ApiPoseMob;
+import com.github.NineAbyss9.ix_api.api.mobs.OwnableMob;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;

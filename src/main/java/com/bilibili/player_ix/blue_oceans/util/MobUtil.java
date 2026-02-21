@@ -1,10 +1,10 @@
 
 package com.bilibili.player_ix.blue_oceans.util;
 
-import com.github.player_ix.ix_api.api.mobs.IShieldUser;
+import com.github.NineAbyss9.ix_api.api.mobs.IShieldUser;
 import net.minecraft.world.damagesource.DamageSource;
 import org.NineAbyss9.annotation.PAMAreNonnullByDefault;
-import com.github.player_ix.ix_api.api.mobs.Ownable;
+import com.github.NineAbyss9.ix_api.api.mobs.Ownable;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.*;
@@ -163,7 +163,7 @@ public record MobUtil(Entity pEntity)
                 if (entityIn instanceof Player player) {
                     player.disableShield(true);
                 } else if (entityIn instanceof IShieldUser user) {
-                    user.disableShield(true);
+                    user.disableShield(false);
                 }
             }
         }
@@ -177,7 +177,7 @@ public record MobUtil(Entity pEntity)
                 player.level().broadcastEntityEvent(player, AbyssMath.toByte(30));
             }
         } else if (pEntity instanceof IShieldUser user) {
-            user.disableShield(true);
+            user.disableShield(false);
         }
     }
 

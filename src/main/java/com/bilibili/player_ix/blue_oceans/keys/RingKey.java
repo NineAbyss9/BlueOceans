@@ -3,7 +3,7 @@ package com.bilibili.player_ix.blue_oceans.keys;
 
 import com.bilibili.player_ix.blue_oceans.common.entities.traffic.AbstractTrafficUtil;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansSounds;
-import com.github.player_ix.ix_api.api.annotation.OnlyInClient;
+import com.github.NineAbyss9.ix_api.api.annotation.OnlyInClient;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.sounds.SoundEvent;

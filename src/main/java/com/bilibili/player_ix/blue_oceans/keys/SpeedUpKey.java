@@ -4,7 +4,7 @@ package com.bilibili.player_ix.blue_oceans.keys;
 import com.bilibili.player_ix.blue_oceans.client.SideHandler;
 import com.bilibili.player_ix.blue_oceans.network.BoNetwork;
 import com.bilibili.player_ix.blue_oceans.network.packet.SpeedUp;
-import com.github.player_ix.ix_api.api.annotation.OnlyInClient;
+import com.github.NineAbyss9.ix_api.api.annotation.OnlyInClient;
 import net.minecraft.client.KeyMapping;
 import org.lwjgl.glfw.GLFW;
 

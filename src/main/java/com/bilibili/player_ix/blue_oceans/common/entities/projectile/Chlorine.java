@@ -2,8 +2,8 @@
 package com.bilibili.player_ix.blue_oceans.common.entities.projectile;
 
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
-import com.github.player_ix.ix_api.api.mobs.ApiEntityDataSerializers;
-import com.github.player_ix.ix_api.util.Vec9;
+import com.github.NineAbyss9.ix_api.api.mobs.ApiEntityDataSerializers;
+import com.github.NineAbyss9.ix_api.util.Vec9;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
