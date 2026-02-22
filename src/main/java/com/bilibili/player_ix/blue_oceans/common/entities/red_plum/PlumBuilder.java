@@ -403,6 +403,10 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
         return super.isInvulnerableTo(pSource);
     }
 
+    public boolean shouldAttackOtherMobs() {
+        return false;
+    }
+
     protected void addBehaviorGoal(int i, double speed, float range) {
     }
 
