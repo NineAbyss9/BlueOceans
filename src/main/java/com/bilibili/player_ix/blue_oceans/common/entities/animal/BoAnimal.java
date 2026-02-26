@@ -20,11 +20,18 @@ import javax.annotation.Nullable;
 public class BoAnimal
 extends Animal
 implements FoodDataUser, IAcceptTask {
+    protected static final EntityDataAccessor<Boolean> DATA_BABY;
     protected static final EntityDataAccessor<Integer> DATA_TASK;
     protected final MobFoodData foodData;
     protected BoAnimal(EntityType<? extends BoAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.foodData = this.createFoodData();
+    }
+
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(DATA_BABY, Boolean.FALSE);
+        this.entityData.define(DATA_TASK, 0);
     }
 
     public void aiStep() {
@@ -37,13 +44,19 @@ implements FoodDataUser, IAcceptTask {
     protected void clientAiStep() {
     }
 
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(DATA_TASK, 0);
-    }
-
     public MobFoodData foodData() {
         return this.foodData;
+    }
+
+    public void onSyncedDataUpdated(EntityDataAccessor<?> pKey) {
+        if (DATA_BABY.equals(pKey)) {
+            this.onBaby();
+        }
+        super.onSyncedDataUpdated(pKey);
+    }
+
+    public void onBaby() {
+        this.refreshDimensions();
     }
 
     public ItemStack eat(Level pLevel, ItemStack pFood) {
@@ -75,6 +88,7 @@ implements FoodDataUser, IAcceptTask {
     }
 
     static {
+        DATA_BABY = SynchedEntityData.defineId(BoAnimal.class, EntityDataSerializers.BOOLEAN);
         DATA_TASK = SynchedEntityData.defineId(BoAnimal.class, EntityDataSerializers.INT);
     }
 }

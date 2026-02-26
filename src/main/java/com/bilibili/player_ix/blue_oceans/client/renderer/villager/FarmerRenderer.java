@@ -2,7 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.client.renderer.villager;
 
 import com.bilibili.player_ix.blue_oceans.BlueOceans;
-import com.bilibili.player_ix.blue_oceans.client.model.HattedVillagerModel;
+import com.bilibili.player_ix.blue_oceans.client.model.villager.HattedVillagerModel;
 import com.bilibili.player_ix.blue_oceans.common.entities.villagers.Farmer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;

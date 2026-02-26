@@ -2,7 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.client.renderer.projectile;
 
 import com.bilibili.player_ix.blue_oceans.BlueOceans;
-import com.bilibili.player_ix.blue_oceans.client.model.BulletModel;
+import com.bilibili.player_ix.blue_oceans.client.model.projectile.BulletModel;
 import com.bilibili.player_ix.blue_oceans.common.entities.projectile.BulletProjectile;
 import com.mojang.blaze3d.vertex.PoseStack;
 //import com.mojang.math.Axis;

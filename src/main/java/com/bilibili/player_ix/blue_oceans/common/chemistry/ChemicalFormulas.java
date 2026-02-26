@@ -9,4 +9,5 @@ public class ChemicalFormulas {
     public static final String H2O2 = "H₂O₂";
     public static final String CH4 = "CH₄";
     public static final String H2 = "H₂";
+    public static final String NACL = "NaCl";
 }

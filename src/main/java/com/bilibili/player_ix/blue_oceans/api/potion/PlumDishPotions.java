@@ -14,7 +14,7 @@ public class PlumDishPotions {
     public static final PlumDishPotion AWKWARD;
     public static final Map<ResourceLocation, PlumDishPotion> REGISTRY_MAP = Maps.newHashMap();
     public static final Map<Integer, PlumDishPotion> ID = Maps.newHashMap();
-    public PlumDishPotions() {
+    private PlumDishPotions() {
     }
 
     public static boolean contains(String name) {
@@ -27,7 +27,7 @@ public class PlumDishPotions {
 
     public static PlumDishPotion register(String name, int id, PlumDishPotion potion) {
         if (contains(name)) {
-            throw new RuntimeException();
+            throw new UnsupportedOperationException();
         } else {
             REGISTRY_MAP.put(new ResourceLocation(name), potion);
             ID.put(id, potion);

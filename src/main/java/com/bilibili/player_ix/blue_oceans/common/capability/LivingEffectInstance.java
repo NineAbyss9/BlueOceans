@@ -33,7 +33,7 @@ public class LivingEffectInstance {
     }
 
     public LivingEffect getEffect() {
-        return null;
+        return effect;
     }
 
     public CompoundTag save(CompoundTag pNbt) {

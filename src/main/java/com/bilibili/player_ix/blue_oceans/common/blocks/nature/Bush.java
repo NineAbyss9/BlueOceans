@@ -7,8 +7,11 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.BushBlock;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.AABB;
 
 import java.util.List;
@@ -16,8 +19,13 @@ import java.util.List;
 @SuppressWarnings("deprecation")
 public class Bush
 extends BushBlock {
-    public Bush(Properties pProperties) {
-        super(pProperties);
+    public Bush() {
+        this(Properties.of().sound(SoundType.GRASS).mapColor(DyeColor.GREEN).instabreak()
+                .noCollission().pushReaction(PushReaction.DESTROY).randomTicks());
+    }
+
+    public Bush(Properties pP) {
+        super(pP);
     }
 
     public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {

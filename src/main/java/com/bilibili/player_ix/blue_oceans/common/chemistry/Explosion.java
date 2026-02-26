@@ -5,12 +5,13 @@ import com.bilibili.player_ix.blue_oceans.client.particles.ImpartParticleOption;
 import com.github.NineAbyss9.ix_api.api.annotation.ClientOnly;
 import com.github.NineAbyss9.ix_api.util.Vec9;
 import net.minecraft.world.level.Level;
+import org.NineAbyss9.annotation.doc.Message;
 
 public class Explosion {
     private Level level;
     private Vec9 position;
     private double radius;
-    public Explosion(Level pLevel, double pRadius) {
+    public Explosion(Level pLevel, @Message("Don't square") double pRadius) {
         this.level = pLevel;
         this.radius = pRadius * pRadius;
     }

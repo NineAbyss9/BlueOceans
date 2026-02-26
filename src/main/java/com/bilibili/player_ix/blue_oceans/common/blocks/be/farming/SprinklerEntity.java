@@ -2,6 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.common.blocks.be.farming;
 
 import com.bilibili.player_ix.blue_oceans.common.blocks.farming.Sprinkler;
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlockEntities;
 import com.github.NineAbyss9.ix_api.util.DirectionUtil;
 import com.github.NineAbyss9.ix_api.util.ParticleUtil;
 import net.minecraft.core.BlockPos;
@@ -18,28 +19,29 @@ import org.NineAbyss9.math.AbyssMath;
 
 public class SprinklerEntity
 extends BlockEntity {
-    private boolean activated;
+    public boolean activated;
     public int workTime;
     public SprinklerEntity(BlockPos pPos, BlockState pBlockState) {
-        super(null, pPos, pBlockState);
+        super(BlueOceansBlockEntities.SPRINKLER.get(), pPos, pBlockState);
     }
 
-    public static void severTick(Level pLevel, BlockPos pPos, BlockState pState,
-                                 SprinklerEntity pEntity) {
-        if (pEntity.isActivated()) {
-            pEntity.increaseWorkTime();
-            if (pEntity.workTime % 40 == 0) {
-                Direction facing = pState.getValue(Sprinkler.FACING);
-                tryGrowCrops(pLevel, pPos, facing);
+    public static void tick(Level pLevel, BlockPos pPos, BlockState pState,
+                            SprinklerEntity pEntity) {
+        pEntity.activated = pState.getValue(Sprinkler.ACTIVATED);
+        if (pLevel.isClientSide) {
+            if (pEntity.isActivated()) {
+                ParticleUtil.addParticle(pLevel, ParticleTypes.FALLING_WATER, pPos,
+                        AbyssMath.random(0.8), AbyssMath.random(0.4), AbyssMath.random(0.8));
             }
-        } else
-            pEntity.workTime = 0;
-    }
-
-    public static void clientTick(Level pLevel, BlockPos pPos, SprinklerEntity pEntity) {
-        if (pEntity.isActivated()) {
-            ParticleUtil.addParticle(pLevel, ParticleTypes.FALLING_WATER, pPos,
-                    AbyssMath.random(0.8), AbyssMath.random(0.4), AbyssMath.random(0.8));
+        } else {
+            if (pEntity.isActivated()) {
+                pEntity.increaseWorkTime();
+                if (pEntity.workTime % 40 == 0) {
+                    Direction facing = pState.getValue(Sprinkler.FACING);
+                    tryGrowCrops(pLevel, pPos, facing);
+                }
+            } else
+                pEntity.workTime = 0;
         }
     }
 

@@ -1,7 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.client.renderer.plum;
 
-import com.bilibili.player_ix.blue_oceans.client.model.HeartOfHorrorModel;
+import com.bilibili.player_ix.blue_oceans.client.model.plum.HeartOfHorrorModel;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.HeartOfHorror;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

@@ -3,6 +3,7 @@ package com.bilibili.player_ix.blue_oceans.common.blocks.farming.crop;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -22,6 +23,11 @@ extends CropBlock {
 
     public int getMaxAge() {
         return 5;
+    }
+
+    //TODO replace this
+    protected ItemLike getBaseSeedId() {
+        return super.getBaseSeedId();
     }
 
     static {

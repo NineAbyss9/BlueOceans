@@ -11,6 +11,7 @@ import com.bilibili.player_ix.blue_oceans.api.mob.RedPlumMob;
 import com.bilibili.player_ix.blue_oceans.compat.noixapi.NoIXApiCompat;
 import com.bilibili.player_ix.blue_oceans.config.BoCommonConfig;
 import com.bilibili.player_ix.blue_oceans.init.*;
+import com.bilibili.player_ix.blue_oceans.util.BoDamageSource;
 import com.bilibili.player_ix.blue_oceans.util.MobUtil;
 import com.bilibili.player_ix.blue_oceans.util.RedPlumUtil;
 import com.github.NineAbyss9.ix_api.api.ApiPose;
@@ -48,7 +49,6 @@ import org.NineAbyss9.util.Action;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.UUID;
 
 /**Base Plum Class*/
 public abstract class AbstractRedPlumMob
@@ -166,20 +166,6 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
         return null;
     }
 
-    @Nullable
-    public LivingEntity getOwner() {
-        return super.m_269323_();
-    }
-
-    @Nullable
-    public UUID getOwnerUUID() {
-        return super.m_21805_();
-    }
-
-    public void setOwner(@Nullable LivingEntity lie) {
-        super.setOwner(lie);
-    }
-
     protected int nextConvertUpNeeds() {
         return RedPlumUtil.PLUM_PLUS_KILLS.intValue(this.getLevel() - 1);
     }
@@ -238,12 +224,12 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
         if (entity instanceof RedPlumMob mobs) {
             return (mobs.isException() || this.isException()) && super.hurt(pSource, pAmount);
         }
-        if (!MobUtil.canHurt(this, entity)) {
+        if (!MobUtils.canHurt(this, entity)) {
             return false;
         }
         if (pSource.is(DamageTypeTags.IS_FIRE))
             pAmount /= 2.0F;
-        if (this.getKills() > 4 //&& (!(entity instanceof LivingEntity living) ||
+        if (this.getKills() > 4 && !pSource.is(BoDamageSource.CLEAR) //&& (!(entity instanceof LivingEntity living) ||
                 //living.getItemInHand(InteractionHand.MAIN_HAND).getEnchantmentLevel())
         ) {
             pAmount /= 2.0F;

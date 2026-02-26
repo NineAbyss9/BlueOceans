@@ -7,6 +7,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
 
+//May be deprecated
 public class FreakyAxe
 extends AxeItem {
     private static final Tier TIER = ItemUtil.getTier(0,

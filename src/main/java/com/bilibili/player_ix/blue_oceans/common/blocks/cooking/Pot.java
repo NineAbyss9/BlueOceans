@@ -1,6 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.blocks.cooking;
 
+import com.bilibili.player_ix.blue_oceans.common.blocks.be.PotEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -15,6 +16,6 @@ extends BaseEntityBlock {
 
     @Nullable
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return null;
+        return new PotEntity(pPos, pState);
     }
 }

@@ -3,17 +3,35 @@ package com.bilibili.player_ix.blue_oceans.client;
 
 import com.bilibili.player_ix.blue_oceans.BlueOceans;
 import com.bilibili.player_ix.blue_oceans.client.model.*;
+import com.bilibili.player_ix.blue_oceans.client.model.animal.ParameciumModel;
+import com.bilibili.player_ix.blue_oceans.client.model.animal.land.EarthwormModel;
+import com.bilibili.player_ix.blue_oceans.client.model.animal.ocean.JellyfishModel;
+import com.bilibili.player_ix.blue_oceans.client.model.deprecated.DeathModel;
+import com.bilibili.player_ix.blue_oceans.client.model.deprecated.DumplingMonsterModel;
+import com.bilibili.player_ix.blue_oceans.client.model.item.GasMaskModel;
+import com.bilibili.player_ix.blue_oceans.client.model.plum.*;
+import com.bilibili.player_ix.blue_oceans.client.model.projectile.BulletModel;
+import com.bilibili.player_ix.blue_oceans.client.model.projectile.VenomModel;
+import com.bilibili.player_ix.blue_oceans.client.model.villager.HattedVillagerModel;
+import com.bilibili.player_ix.blue_oceans.client.model.villager.HuntingVillagerArmorModel;
+import com.bilibili.player_ix.blue_oceans.client.model.villager.HuntingVillagerModel;
 import com.bilibili.player_ix.blue_oceans.client.particles.Impart;
 import com.bilibili.player_ix.blue_oceans.client.particles.RedPlumSpell;
 import com.bilibili.player_ix.blue_oceans.client.particles.SparkParticle;
 import com.bilibili.player_ix.blue_oceans.client.renderer.*;
+import com.bilibili.player_ix.blue_oceans.client.renderer.animal.DuckRenderer;
+import com.bilibili.player_ix.blue_oceans.client.renderer.animal.ParameciumRenderer;
+import com.bilibili.player_ix.blue_oceans.client.renderer.animal.land.BearRenderer;
+import com.bilibili.player_ix.blue_oceans.client.renderer.animal.land.EarthwormRenderer;
 import com.bilibili.player_ix.blue_oceans.client.renderer.animal.ocean.JellyfishRenderer;
 import com.bilibili.player_ix.blue_oceans.client.renderer.block.WoodenSupportRenderer;
 import com.bilibili.player_ix.blue_oceans.client.renderer.deprecated.DeathRenderer;
 import com.bilibili.player_ix.blue_oceans.client.renderer.deprecated.WaterTrapRenderer;
+import com.bilibili.player_ix.blue_oceans.client.renderer.illager.NaturalEnvoyRenderer;
 import com.bilibili.player_ix.blue_oceans.client.renderer.plum.*;
 import com.bilibili.player_ix.blue_oceans.client.renderer.projectile.BulletRenderer;
 import com.bilibili.player_ix.blue_oceans.client.renderer.projectile.EchoPotionRenderer;
+import com.bilibili.player_ix.blue_oceans.client.renderer.projectile.SeedEntityRenderer;
 import com.bilibili.player_ix.blue_oceans.client.renderer.projectile.VenomRenderer;
 import com.bilibili.player_ix.blue_oceans.client.renderer.villager.*;
 import com.bilibili.player_ix.blue_oceans.common.item.food.Coffee;
@@ -22,8 +40,14 @@ import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansParticleTypes;
 import com.github.NineAbyss9.ix_api.api.renderer.BaseEntityRenderer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemModelShaper;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.client.renderer.texture.SimpleTexture;
+import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -60,7 +84,8 @@ public class ClientInitEvents {
         event.registerLayerDefinition(BulletModel.LAYER_LOCATION, BulletModel::createBodyLayer);
         event.registerLayerDefinition(DeathModel.DEATH, DeathModel::createBodyLayer);
         event.registerLayerDefinition(DumplingMonsterModel.LAYER_LOCATION, DumplingMonsterModel::createBodyLayer);
-        event.registerLayerDefinition(FreakagerModel.LAYER_LOCATION, FreakagerModel::createBodyLayer);
+        event.registerLayerDefinition(EarthwormModel.LAYER_LOCATION, EarthwormModel::createBodyLayer);
+        event.registerLayerDefinition(FreakModel.LAYER_LOCATION, FreakModel::createBodyLayer);
         event.registerLayerDefinition(HattedVillagerModel.LOCATION, HattedVillagerModel::createBodyLayer);
         event.registerLayerDefinition(HeartOfHorrorModel.LAYER_LOCATION, HeartOfHorrorModel::createBodyLayer);
         event.registerLayerDefinition(HuntingVillagerArmorModel.LOCATION, HuntingVillagerArmorModel::createInnerArmorLayer);
@@ -78,6 +103,11 @@ public class ClientInitEvents {
         event.registerLayerDefinition(RedPlumIllagerModel.LAYER_LOCATION, RedPlumIllagerModel::createBodyLayer);
         event.registerLayerDefinition(RedPlumSlayerModel.LAYER_LOCATION, RedPlumSlayerModel::createBodyLayer);
         event.registerLayerDefinition(VenomModel.LAYER_LOCATION, VenomModel::createBodyLayer);
+        registerItemLayerDef(event);
+    }
+
+    public static void registerItemLayerDef(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(GasMaskModel.LAYER_LOCATION, GasMaskModel::createBodyLayer);
     }
 
     @SubscribeEvent
@@ -90,6 +120,7 @@ public class ClientInitEvents {
         event.registerEntityRenderer(BlueOceansEntities.DEATH.get(), DeathRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.DICTATOR.get(), DictatorRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.DUCK.get(), DuckRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.EARTHWORM.get(), EarthwormRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.ECHO_POTION.get(), EchoPotionRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.FARMER.get(), FarmerRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.FREAK.get(), FreakRenderer::new);
@@ -113,6 +144,8 @@ public class ClientInitEvents {
         event.registerEntityRenderer(BlueOceansEntities.RED_PLUM_SPIDER.get(), RedPlumSpiderRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.RED_PLUM_VILLAGER.get(), RPVillagerRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.RED_PLUM_WORM.get(), RedPlumWormRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.RESEARCHER.get(), ResearcherRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.SEED.get(), SeedEntityRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.VENOM.get(), VenomRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.VILLAGER_BIOLOGIST.get(), VillagerBiologistRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.VILLAGER_CHIEF.get(), VillagerChiefRenderer::new);
@@ -133,10 +166,27 @@ public class ClientInitEvents {
     public static void onClientSetup(FMLClientSetupEvent event) {
         BlockEntityRenderers.register(BlueOceansBlockEntities.WOODEN_SUPPORT.get(), WoodenSupportRenderer::new);
         registerItemStates();
+        injectItemModels(Minecraft.getInstance().getItemRenderer());
+        injectItemTextures(Minecraft.getInstance());
     }
 
     public static void registerItemStates() {
         ItemProperties.register(BlueOceansItems.COFFEE.get(), new ResourceLocation("java"),
                 (pStack, pLevel, pEntity, pSeed) -> Coffee.isJava(pStack) ? 1.0F : 0.0F);
+    }
+
+    public static void injectItemModels(ItemRenderer pRenderer) {
+        ItemModelShaper shaper = pRenderer.getItemModelShaper();
+        shaper.register(BlueOceansItems.GAS_MASK.get(), makeModelLocation("gasmask"));
+    }
+
+    public static void injectItemTextures(Minecraft pMinecraft) {
+        TextureManager manager = pMinecraft.textureManager;
+        var gasmask = BlueOceans.item("biology/gas_mask");
+        manager.register(gasmask, new SimpleTexture(gasmask));
+    }
+
+    public static ModelResourceLocation makeModelLocation(String name) {
+        return new ModelResourceLocation(BlueOceans.location(name), "main");
     }
 }

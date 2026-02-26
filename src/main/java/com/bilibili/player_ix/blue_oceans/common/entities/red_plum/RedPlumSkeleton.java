@@ -44,6 +44,10 @@ implements ApiRangedAttackMob {
         return arrow;
     }
 
+    public LivingEntity self() {
+        return super.self();
+    }
+
     public ApiPose getPoses() {
         if (this.isAggressive()) {
             if (this.isHoldingBow())
@@ -52,10 +56,6 @@ implements ApiRangedAttackMob {
                 return ApiPose.ZOMBIE_ATTACKING;
         } else
             return ApiPose.NATURAL;
-    }
-
-    public void performRangedAttack(LivingEntity pTarget, float pVelocity) {
-        ApiRangedAttackMob.super.m_6504_(pTarget, pVelocity);
     }
 
     protected EntityType<? extends AbstractRedPlumMob> getNextLevelConvert() {

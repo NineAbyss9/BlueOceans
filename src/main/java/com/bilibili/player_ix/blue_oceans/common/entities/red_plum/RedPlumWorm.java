@@ -64,7 +64,7 @@ public class RedPlumWorm extends RedPlumMonster {
             }
         }
         if (this.level().isClientSide && this.getPlumFlag() == 99) {
-            ParticleUtil.addBlockParticle(this.level(), this.blockPosition().below());
+            ParticleUtil.addBlockParticle(this.level(), this.blockPosition());
         }
     }
 

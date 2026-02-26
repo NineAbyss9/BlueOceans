@@ -1,6 +1,8 @@
 
 package com.bilibili.player_ix.blue_oceans.common.entities.villagers;
 
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
+import com.github.NineAbyss9.ix_api.api.ApiPose;
 import com.github.NineAbyss9.ix_api.api.mobs.IFlagMob;
 import com.github.NineAbyss9.ix_api.api.mobs.IShieldUser;
 import com.github.NineAbyss9.ix_api.api.mobs.ai.goal.ShieldUserMeleeAttackGoal;
@@ -9,7 +11,10 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemCooldowns;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
@@ -39,8 +44,11 @@ implements IShieldUser, IFlagMob {
     }
 
     protected void populateDefaultItems() {
-        this.setMainHandItem(Items.IRON_SWORD);
         this.setOffHandItem(Items.SHIELD);
+    }
+
+    protected ItemStack getDailyItem() {
+        return new ItemStack(BlueOceansItems.TEST_TUBE.get());
     }
 
     public boolean isUsingShield() {
@@ -67,12 +75,28 @@ implements IShieldUser, IFlagMob {
         }
     }
 
+    public ApiPose getArmPose() {
+        if (this.canAttackTarget())
+            return ApiPose.ATTACKING;
+        return ApiPose.NATURAL;
+    }
+
+    public boolean canAttackTarget() {
+        if (this.getTarget() == null)
+            return false;
+        return this.closerThan(this.getTarget(), 3);
+    }
+
     public int getFlag() {
         return this.entityData.get(DATA_FLAGS);
     }
 
     public void setFlag(int flag) {
         this.entityData.set(DATA_FLAGS, flag);
+    }
+
+    public static AttributeSupplier.Builder createAttributes() {
+        return createBaseVillagerAttributes().add(Attributes.MAX_HEALTH, 30);
     }
 
     static {

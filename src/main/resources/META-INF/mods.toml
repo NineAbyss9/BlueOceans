@@ -1,10 +1,10 @@
 modLoader="javafml"
 loaderVersion="[47,)"
-license="GPL License"
+license="GPLv2"
 
 [[mods]]
 modId="blue_oceans"
-version="1.1.4b-pre6"
+version="1.1.4b-release2"
 displayName="Blue Oceans"
 displayURL="https://github.com/NineAbyss9"
 logoFile="logo.png"

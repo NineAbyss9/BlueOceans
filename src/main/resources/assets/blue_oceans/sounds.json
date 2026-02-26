@@ -7,6 +7,14 @@
       }
     ]
   },
+  "duck_idle": {
+    "subtitle": "subtitles.duck_idle",
+    "sounds": [
+      {
+        "name": "blue_oceans:duck/duck_idle"
+      }
+    ]
+  },
   "ring": {
     "subtitle": "subtitles.ring",
     "sounds": [

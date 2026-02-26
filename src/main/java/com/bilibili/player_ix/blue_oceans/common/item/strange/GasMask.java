@@ -17,6 +17,10 @@ extends ArmorItem {
                 Ingredient.EMPTY, "gas_mask", 0, 0), Type.HELMET, pProperties);
     }
 
+    public GasMask() {
+        this(new Properties());
+    }
+
     public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
         return BlueOceans.armor("gas_mask");
     }

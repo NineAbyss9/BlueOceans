@@ -47,16 +47,16 @@ implements IAnimatedMob {
         super.onFlap();
     }
 
-    private boolean shouldFlyUp() {
+    public boolean shouldFlyUp() {
         return this.getTarget() != null && this.getTarget().getY() >= this.getY() + 10.0D;
     }
 
-    private void flyUp() {
+    public void flyUp() {
         this.moveControl.setWantedPosition(this.getX() + Maths.randomInteger(3),
                 this.getY() + 12.0D, this.getZ() + Maths.randomInteger(3), 1.2D);
     }
 
-    private void flyDown() {
+    public void flyDown() {
         this.moveControl.setWantedPosition(this.getX(), MobUtil.ground(this), this.getZ(), 0.8D);
     }
 

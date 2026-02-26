@@ -2,7 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.client.renderer.animal.ocean;
 
 import com.bilibili.player_ix.blue_oceans.BlueOceans;
-import com.bilibili.player_ix.blue_oceans.client.model.JellyfishModel;
+import com.bilibili.player_ix.blue_oceans.client.model.animal.ocean.JellyfishModel;
 import com.bilibili.player_ix.blue_oceans.common.entities.animal.ocean.Jellyfish;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;

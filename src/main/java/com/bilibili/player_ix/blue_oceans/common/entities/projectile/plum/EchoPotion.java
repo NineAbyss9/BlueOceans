@@ -6,6 +6,7 @@ import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansMobEffects;
 import com.bilibili.player_ix.blue_oceans.init.BoTags;
+import com.bilibili.player_ix.blue_oceans.util.BoDamageSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
@@ -51,7 +52,7 @@ extends ThrowableItemProjectile {
         if (!list.isEmpty()) {
             list.forEach(mob -> {
                 if (mob instanceof RedPlumMob)
-                    mob.hurt(this.damageSources().magic(), 10.0F);
+                    mob.hurt(BoDamageSource.clear(level(), livingOwner(), livingOwner()), 10.0F);
                 else if (mob.hasEffect(BlueOceansMobEffects.PLUM_INFECTION.get()) ||
                         mob.hasEffect(BlueOceansMobEffects.PLUM_INVADE.get())) {
                     mob.removeEffect(BlueOceansMobEffects.PLUM_INFECTION.get());
@@ -67,6 +68,10 @@ extends ThrowableItemProjectile {
                 Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ)))
             if (checkIsPlum(pos1))
                 level().destroyBlock(pos1, false, this.getOwner());
+    }
+
+    private LivingEntity livingOwner() {
+        return this.getOwner() instanceof LivingEntity living ? living : null;
     }
 
     private boolean checkIsPlum(BlockPos pos) {

@@ -74,7 +74,7 @@ extends BaseVillager {
     }
 
     private boolean canFish() {
-        return this.isHolding(Items.FISHING_ROD) && this.findFishPos() != null;
+        return this.getTarget() == null && this.findFishPos() != null;
     }
 
     protected ItemStack getDailyItem() {
@@ -88,6 +88,7 @@ extends BaseVillager {
         }
 
         public void start() {
+            this.fishman.setHandItemToWork();
             BlockPos pos = this.fishman.fishPos;
             this.fishman.getNavigation().moveTo(pos.getX(), pos.getY(), pos.getZ(), 0.8);
         }

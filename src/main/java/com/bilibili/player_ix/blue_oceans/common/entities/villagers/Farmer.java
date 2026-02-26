@@ -7,6 +7,7 @@ import com.bilibili.player_ix.blue_oceans.common.item.farming.ScytheItem;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
 import com.github.NineAbyss9.ix_api.api.ApiPose;
 import com.github.NineAbyss9.ix_api.api.item.ItemStacks;
+import com.github.NineAbyss9.ix_api.api.mobs.ai.goal.ApiMeleeAttackGoal;
 import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
@@ -43,14 +44,13 @@ extends BaseVillager {
     }
 
     protected void registerGoals() {
+        this.goalSelector.addGoal(0, new ApiMeleeAttackGoal(this, 1.2));
         this.goalSelector.addGoal(1, new UseBonemealGoal(this));
         this.goalSelector.addGoal(2, new FarmGoal(this));
         super.registerGoals();
     }
 
     protected void addAttackBehaviors() {
-        this.behaviorSelector.addBehavior(3, new VillagerAttackBehavior(
-                this, 1.0, false));
     }
 
     public Profession getProfession() {
@@ -248,23 +248,21 @@ extends BaseVillager {
         }
 
         public void tick() {
-            Farmer pOwner = farmer;
-            Level pLevel = farmer.level();
             long pGameTime = farmer.level().getGameTime();
-            if (this.aboveFarmlandPos == null || this.aboveFarmlandPos.closerToCenterThan(pOwner.position(), 1)) {
+            if (this.aboveFarmlandPos == null || this.aboveFarmlandPos.closerToCenterThan(farmer.position(), 2)) {
                 if (this.aboveFarmlandPos != null && pGameTime > this.nextOkStartTime) {
-                    BlockState blockstate = pLevel.getBlockState(this.aboveFarmlandPos);
+                    BlockState blockstate = farmer.level().getBlockState(this.aboveFarmlandPos);
                     Block block = blockstate.getBlock();
-                    Block block1 = pLevel.getBlockState(this.aboveFarmlandPos.below()).getBlock();
+                    Block block1 = farmer.level().getBlockState(this.aboveFarmlandPos.below()).getBlock();
                     if (block instanceof CropBlock && ((CropBlock)block).isMaxAge(blockstate)) {
                         if (farmer.getMainHandItem().getItem() instanceof ScytheItem scythe)
-                            scythe.mineBlock(farmer.getMainHandItem(), pLevel, blockstate, aboveFarmlandPos, farmer);
+                            scythe.mineBlock(farmer.getMainHandItem(), farmer.level(), blockstate, aboveFarmlandPos, farmer);
                         else
-                            pLevel.destroyBlock(this.aboveFarmlandPos, true, pOwner);
+                            farmer.level().destroyBlock(this.aboveFarmlandPos, true, farmer);
                         farmer.swing(InteractionHand.MAIN_HAND);
                     }
-                    if (blockstate.isAir() && block1 instanceof FarmBlock && pOwner.hasFarmSeeds()) {
-                        SimpleContainer simplecontainer = pOwner.getInventory();
+                    if (blockstate.isAir() && block1 instanceof FarmBlock && farmer.hasFarmSeeds()) {
+                        SimpleContainer simplecontainer = farmer.getInventory();
                         for (int i = 0; i < simplecontainer.getContainerSize(); ++i) {
                             ItemStack itemstack = simplecontainer.getItem(i);
                             boolean flag = false;
@@ -272,20 +270,20 @@ extends BaseVillager {
                                 Item $$11 = itemstack.getItem();
                                 if ($$11 instanceof BlockItem blockitem) {
                                     BlockState blockstate1 = blockitem.getBlock().defaultBlockState();
-                                    pLevel.setBlockAndUpdate(this.aboveFarmlandPos, blockstate1);
-                                    pLevel.gameEvent(GameEvent.BLOCK_PLACE, this.aboveFarmlandPos, GameEvent.Context
-                                            .of(pOwner, blockstate1));
+                                    farmer.level().setBlockAndUpdate(this.aboveFarmlandPos, blockstate1);
+                                    farmer.level().gameEvent(GameEvent.BLOCK_PLACE, this.aboveFarmlandPos, GameEvent.Context
+                                            .of(farmer, blockstate1));
                                     flag = true;
                                 } else if (itemstack.getItem() instanceof IPlantable plantable) {
-                                    if (plantable.getPlantType(pLevel, aboveFarmlandPos) == PlantType.CROP) {
-                                        pLevel.setBlock(aboveFarmlandPos, plantable.getPlant(pLevel, aboveFarmlandPos), 3);
+                                    if (plantable.getPlantType(farmer.level(), aboveFarmlandPos) == PlantType.CROP) {
+                                        farmer.level().setBlock(aboveFarmlandPos, plantable.getPlant(farmer.level(), aboveFarmlandPos), 3);
                                         flag = true;
                                     }
                                 }
                             }
                             if (flag) {
                                 BlockPos pos = aboveFarmlandPos;
-                                pLevel.playSound(null, pos.getX(), pos.getY(), pos.getZ(),
+                                farmer.level().playSound(null, pos.getX(), pos.getY(), pos.getZ(),
                                         SoundEvents.CROP_PLANTED, SoundSource.BLOCKS, 1.0F, 1.0F);
                                 itemstack.shrink(1);
                                 if (itemstack.isEmpty()) {
@@ -297,7 +295,7 @@ extends BaseVillager {
                     }
                     if (block instanceof CropBlock && !((CropBlock)block).isMaxAge(blockstate)) {
                         this.validFarmlandAroundVillager.remove(this.aboveFarmlandPos);
-                        this.aboveFarmlandPos = this.getValidFarmland(pLevel);
+                        this.aboveFarmlandPos = this.getValidFarmland(farmer.level());
                     }
                 }
                 ++this.timeWorkedSoFar;

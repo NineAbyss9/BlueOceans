@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "blue_oceans:salt_ore"
+    "blue_oceans:salt_ore",
+    "blue_oceans:sprinkler"
   ]
 }

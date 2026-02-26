@@ -11,18 +11,20 @@ import net.minecraft.world.level.block.state.BlockState;
 public class PetriDishEntity
 extends BlockEntity {
     private long cultivateTime;
-    private CultivateObject cultivateObject;
+    private CultivateObject cultivateObject = CultivateObject.EMPTY;
     public PetriDishEntity(BlockPos pPos, BlockState pBlockState) {
         super(null, pPos, pBlockState);
     }
 
     public static void serverTick(Level pLevel, BlockPos pPos, BlockState pState, PetriDishEntity pEntity) {
-
+        if (!pEntity.cultivateObject.isEmpty()) {
+            ++pEntity.cultivateTime;
+        }
     }
 
     public void load(CompoundTag pTag) {
         super.load(pTag);
-        this.cultivateObject = CultivateObject.FINDER.get(pTag.getString("CultivateObject"));
+        this.cultivateObject = CultivateObject.get(pTag.getString("CultivateObject"));
         this.cultivateTime = pTag.getLong("CultivateTime");
     }
 

@@ -2,7 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.client.renderer.plum;
 
 import com.bilibili.player_ix.blue_oceans.BlueOceans;
-import com.bilibili.player_ix.blue_oceans.client.model.RedPlumIllagerModel;
+import com.bilibili.player_ix.blue_oceans.client.model.plum.RedPlumIllagerModel;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.RedPlumVillager;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;

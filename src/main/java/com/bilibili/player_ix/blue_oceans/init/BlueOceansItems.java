@@ -22,6 +22,7 @@ import com.bilibili.player_ix.blue_oceans.common.item.food.*;
 import com.bilibili.player_ix.blue_oceans.common.item.gun.AbstractGun;
 import com.bilibili.player_ix.blue_oceans.common.item.gun.SniperRifle;
 import com.bilibili.player_ix.blue_oceans.common.item.plum.*;
+import com.bilibili.player_ix.blue_oceans.common.item.strange.GasMask;
 import com.bilibili.player_ix.blue_oceans.common.item.ts.IceAxe;
 import com.bilibili.player_ix.blue_oceans.common.item.ts.IcePickaxe;
 import com.bilibili.player_ix.blue_oceans.common.item.ts.IceSword;
@@ -222,12 +223,16 @@ public class BlueOceansItems {
     public static final RegistryObject<Item> DICTATOR_SPAWN_EGG = ITEMS.register("dictator_spawn_egg", () -> new ForgeSpawnEggItem(BlueOceansEntities.DICTATOR,-10066330, -6710887, new Item.Properties()));
     public static final RegistryObject<Item> DUCK_SPAWN_EGG = apiSpawnEgg("duck", BlueOceansEntities.DUCK,
             Mth.hsvToRgb(0, 0, 100), Mth.hsvToRgb(120, 100, 50));
+    public static final RegistryObject<Item> EARTHWORM = apiSpawnEgg("earthworm", BlueOceansEntities.EARTHWORM,
+            Mth.hsvToRgb(60, 100, 50), Mth.hsvToRgb(0, 100, 50));
     public static final RegistryObject<Item> FARMER_SPAWN_EGG = spawnEgg("farmer", BlueOceansEntities.FARMER,
             5651507, 12422002);
     public static final RegistryObject<Item> FREAK_SPAWN_EGG = ITEMS.register("freak_spawn_egg", () -> new ForgeSpawnEggItem(BlueOceansEntities.FREAK, 0x272727, 0xDCDCDC, new Item.Properties()));
-    public static final RegistryObject<Item> HUNTING_VILLAGER_SPAWN_EGG = ITEMS.register("hunting_villager_spawn_egg", ()-> new ForgeSpawnEggItem(BlueOceansEntities.HUNTING_VILLAGER, 5651507, 12422002, new Item.Properties()));
+    public static final RegistryObject<Item> HUNTING_VILLAGER_SPAWN_EGG = spawnEgg("hunting_villager", BlueOceansEntities.HUNTING_VILLAGER, 5651507, 12422002);
     public static final RegistryObject<Item> JELLYFISH_SPAWN_EGG = apiSpawnEgg("jellyfish", BlueOceansEntities.JELLYFISH,
             0xf32fdc0, 0xf32fdc0);
+    public static final RegistryObject<Item> NATURAL_ENVOY_SPAWN_EGG = spawnEgg("natural_envoy",
+            BlueOceansEntities.NATURAL_ENVOY, -13434880, -16777216);
     public static final RegistryObject<Item> NEO_FIGHTER_SPAWN_EGG = spawnEgg("neo_fighter", BlueOceansEntities.NEO_FIGHTER,
             0xf32fdc0, 0x4c0000);
     public static final RegistryObject<Item> NEO_PLUM_SPAWN_EGG = spawnEgg("neo_plum", BlueOceansEntities.NEO_PLUM,
@@ -258,7 +263,6 @@ public class BlueOceansItems {
             BlueOceansEntities.RED_PLUM_SPIDER, 245000000, 100000000);
     public static final RegistryObject<Item> RED_PLUM_WORM = apiSpawnEgg("red_plum_worm",
             BlueOceansEntities.RED_PLUM_WORM, 245000000, 100000000);
-    public static final RegistryObject<Item> NATURAL_ENVOY_SPAWN_EGG = ITEMS.register("natural_envoy_spawn_egg", ()-> new ForgeSpawnEggItem(BlueOceansEntities.NATURAL_ENVOY, -13434880, -16777216, new Item.Properties()));
     public static final RegistryObject<Item> VILLAGER_BIOLOGIST_SPAWN_EGG = spawnEgg("villager_biologist", BlueOceansEntities.VILLAGER_BIOLOGIST,
             5651507, 12422002);
     public static final RegistryObject<Item> VILLAGER_CHIEF_SPAWN_EGG = apiSpawnEgg("villager_chief",
@@ -276,6 +280,7 @@ public class BlueOceansItems {
     public static final RegistryObject<Item> BLACK_SOIL_FARMLAND = block(BlueOceansBlocks
             .BLACK_SOIL_FARMLAND);
     public static final RegistryObject<Item> BUDDING_NEO_PLUM = block(BlueOceansBlocks.BUDDING_NEO_PLUM);
+    public static final RegistryObject<Item> BUSH = block(BlueOceansBlocks.BUSH);
     public static final RegistryObject<Item> FLAG = ITEMS.register("flag", FlagItem::new);
     public static final RegistryObject<Item> LEEK_SEEDS = ITEMS.register("leek_seeds", () ->
             new ItemNameBlockItem(BlueOceansBlocks.LEEK.get(), properties().stacksTo(64)));
@@ -291,6 +296,7 @@ public class BlueOceansItems {
     public static final RegistryObject<Item> SALT_ORE = block(BlueOceansBlocks.SALT_ORE);
     public static final RegistryObject<Item> SCLEROTIC_RED_PLUM_BLOCK =
             block(BlueOceansBlocks.SCLEROTIC_RED_PLUM_BLOCK);
+    public static final RegistryObject<Item> SPRINKLER = block(BlueOceansBlocks.SPRINKLER);
     public static final RegistryObject<Item> WOODEN_SUPPORT = block(BlueOceansBlocks.WOODEN_SUPPORT);
     //BEnd
 
@@ -443,6 +449,9 @@ public class BlueOceansItems {
     //Cell
 
     //CeEnd
+    //Eq
+    public static final RegistryObject<Item> GAS_MASK = addBiology("gas_mask", GasMask::new);
+    //EqEnd
     //Hospital
     public static final RegistryObject<Item> SCALPEL = addBiology("scalpel", Scalpel::new);
     //HoEnd

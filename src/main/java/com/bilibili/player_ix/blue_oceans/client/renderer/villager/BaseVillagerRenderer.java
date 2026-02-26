@@ -2,7 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.client.renderer.villager;
 
 import com.bilibili.player_ix.blue_oceans.BlueOceans;
-import com.bilibili.player_ix.blue_oceans.client.model.HuntingVillagerModel;
+import com.bilibili.player_ix.blue_oceans.client.model.villager.HuntingVillagerModel;
 import com.bilibili.player_ix.blue_oceans.common.entities.villagers.BaseVillager;
 import com.github.NineAbyss9.ix_api.api.ApiPose;
 import com.mojang.blaze3d.vertex.PoseStack;

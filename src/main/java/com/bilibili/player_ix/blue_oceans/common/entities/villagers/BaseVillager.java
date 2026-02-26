@@ -404,7 +404,7 @@ implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser, IMiner {
         }
 
         public boolean canContinueToUse() {
-            if (this.mob.getNavigation().isDone()) {
+            if (this.mob.getNavigation().isDone() || this.mob.getTarget() != null) {
                 return false;
             } else {
                 return !this.poiPos.closerToCenterThan(this.mob.position(), this.mob.getBbWidth()

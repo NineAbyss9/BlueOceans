@@ -9,6 +9,7 @@ import com.bilibili.player_ix.blue_oceans.api.task.Task;
 import com.bilibili.player_ix.blue_oceans.common.entities.ai.goal.AvoidTargetGoal;
 import com.bilibili.player_ix.blue_oceans.common.entities.projectile.plum.EchoPotion;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansMobEffects;
 import com.bilibili.player_ix.blue_oceans.init.BoTags;
 import com.github.NineAbyss9.ix_api.api.ApiPose;
@@ -41,6 +42,7 @@ import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.entity.projectile.ThrownPotion;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -115,16 +117,26 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
         double $$4 = livingEntity.getEyeY() - 1.100000023841858 - this.getY();
         double $$5 = livingEntity.getZ() + delta.z - this.getZ();
         double $$6 = Math.sqrt($$3 * $$3 + $$5 * $$5);
-        Potion $$7 = this.getPotionWillThrow(livingEntity, $$6);
-        ThrownPotion $$8 = new ThrownPotion(this.level(), this);
-        $$8.setItem(PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), $$7));
-        $$8.setXRot($$8.getXRot() -20.0F);
-        $$8.shoot($$3, $$4 + $$6 * 0.2, $$5, 0.75F, 8.0F);
-        if (!this.isSilent()) {
-            this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.WITCH_THROW,
-                    this.getSoundSource(), 1.0F, 0.8F + this.random.nextFloat() * 0.4F);
+        if (livingEntity instanceof RedPlumMob) {
+            EchoPotion echoPotion = new EchoPotion(this, this.level());
+            echoPotion.setXRot(echoPotion.getXRot() - 20.0F);
+            echoPotion.shoot($$3, $$4 + $$6 * 0.2, $$5, 0.75F, 8.0F);
+            if (!this.isSilent())
+                this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.WITCH_THROW,
+                        this.getSoundSource(), 1.0F, 0.8F + this.random.nextFloat() * 0.4F);
+            this.level().addFreshEntity(echoPotion);
+        } else {
+            Potion $$7 = this.getPotionWillThrow(livingEntity, $$6);
+            ThrowableItemProjectile $$8 = new ThrownPotion(this.level(), this);
+            $$8.setItem(PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), $$7));
+            $$8.setXRot($$8.getXRot() - 20.0F);
+            $$8.shoot($$3, $$4 + $$6 * 0.2, $$5, 0.75F, 8.0F);
+            if (!this.isSilent()) {
+                this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.WITCH_THROW,
+                        this.getSoundSource(), 1.0F, 0.8F + this.random.nextFloat() * 0.4F);
+            }
+            this.level().addFreshEntity($$8);
         }
-        this.level().addFreshEntity($$8);
     }
 
     public void throwEchoPotion(BlockPos pPos) {
@@ -242,8 +254,10 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
         if (getTarget() == null)
             return ItemStack.EMPTY;
         LivingEntity target = getTarget();
-        return PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION),
-                this.getPotionWillThrow(target, this.getMovement(target)));
+        if (target instanceof RedPlumMob)
+            return BlueOceansItems.ECHO_POTION.get().getDefaultInstance();
+        var potion = this.getPotionWillThrow(target, this.getMovement(target));
+        return PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), potion);
     }
 
     protected ItemStack getDailyItem() {
@@ -337,10 +351,9 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
 
     public ApiPose getArmPose() {
         if (this.isAggressive()) {
-            if (this.canAttackTarget())
-                return ApiPose.ATTACKING;
+            return ApiPose.ATTACKING;
         }
-        return ApiPose.CROSSED;
+        return ApiPose.NATURAL;
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -493,6 +506,30 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
                 this.mob.getNavigation().stop();
             } else {
                 ((VillagerBiologist)this.convert()).setHandItemToAttack();
+            }
+        }
+    }
+
+    private class RangedAttackGoal extends net.minecraft.world.entity.ai.goal.RangedAttackGoal {
+        public RangedAttackGoal(RangedAttackMob pRangedAttackMob, double pSpeedModifier, int pAttackInterval,
+                                float pAttackRadius) {
+            super(pRangedAttackMob, pSpeedModifier, pAttackInterval, pAttackRadius);
+        }
+
+        public void start() {
+            VillagerBiologist.this.setHandItemToAttack();
+            super.start();
+        }
+
+        public void stop() {
+            super.stop();
+            LivingEntity livingentity = VillagerBiologist.this.getTarget();
+            if (livingentity == null) {
+                VillagerBiologist.this.setAggressive(false);
+                VillagerBiologist.this.setHandItemToDaily();
+                VillagerBiologist.this.getNavigation().stop();
+            } else {
+                VillagerBiologist.this.setHandItemToAttack();
             }
         }
     }

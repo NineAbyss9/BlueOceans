@@ -154,7 +154,6 @@ extends AbstractIllager {
 
     protected abstract class UseSpellGoal
     extends Goal {
-        protected ModSpellcasterIllager illager = ModSpellcasterIllager.this;
         protected int attackWarmupDelay;
         protected int nextAttackTickCount;
 
@@ -163,35 +162,35 @@ extends AbstractIllager {
 
         public void start() {
             this.attackWarmupDelay = this.adjustedTickDelay(this.getCastWarmupTime());
-            illager.setSpellTicks(this.getCastingTime());
-            this.nextAttackTickCount = illager.tickCount + this.getCastingInterval();
+            setSpellTicks(this.getCastingTime());
+            this.nextAttackTickCount = tickCount + this.getCastingInterval();
             SoundEvent $$0 = this.getSpellPrepareSound();
             if ($$0 != null) {
-                illager.playSound($$0, 1f, 1f);
+                playSound($$0, 1f, 1f);
             }
-            illager.setSpellType(this.getSpell());
+            setSpellType(this.getSpell());
         }
 
         public void tick() {
             --this.attackWarmupDelay;
             if (this.attackWarmupDelay == 0) {
                 this.castSpell();
-                illager.playSound(illager.getSpellCastSoundEvent(), 1f, 1f);
+                playSound(getSpellCastSoundEvent(), 1f, 1f);
             }
         }
 
         public boolean canUse() {
-            if (illager.getTarget() == null || !illager.getTarget().isAlive()) {
+            if (getTarget() == null || !getTarget().isAlive()) {
                 return false;
             }
-            if (illager.isCastingSpell()) {
+            if (isCastingSpell()) {
                 return false;
             }
-            return illager.tickCount >= this.nextAttackTickCount;
+            return tickCount >= this.nextAttackTickCount;
         }
 
         public boolean canContinueToUse() {
-            return this.attackWarmupDelay > 0 && illager.getTarget() != null;
+            return this.attackWarmupDelay > 0 && getTarget() != null;
         }
 
         protected abstract void castSpell();

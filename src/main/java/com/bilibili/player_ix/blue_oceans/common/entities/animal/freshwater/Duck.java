@@ -2,7 +2,9 @@
 package com.bilibili.player_ix.blue_oceans.common.entities.animal.freshwater;
 
 import com.bilibili.player_ix.blue_oceans.common.entities.animal.WaterAnimal;
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansSounds;
 import com.github.NineAbyss9.ix_api.util.Maths;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -68,6 +70,10 @@ extends WaterAnimal {
             this.gameEvent(GameEvent.ENTITY_PLACE);
             this.eggTime = this.random.nextInt(6000) + 6000;
         }
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return BlueOceansSounds.DUCK_IDLE.get();
     }
 
     public boolean isFood(ItemStack pStack) {

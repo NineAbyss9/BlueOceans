@@ -12,7 +12,7 @@ import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.CropBlock;
-import org.NineAbyss9.util.Option;
+import org.NineAbyss9.util.function.FunctionCollector;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -33,9 +33,9 @@ implements IAnimatedMob, IFlagMob {
 
     public void aiStep() {
         super.aiStep();
-        if (this.getTask().equals(Task.DEFECATION) && this.random.nextInt(14) == 0) {
+        if (this.getTask() == Task.DEFECATION && this.random.nextFloat() < 0.04F) {
             CropBlock crop = this.cropBelow();
-            Option.ofNullable(crop).ifPresent(block ->
+            FunctionCollector.accept(crop, block ->
                     block.growCrops(this.level(), blockPosition(), this.level().getBlockState(blockPosition())));
         }
     }

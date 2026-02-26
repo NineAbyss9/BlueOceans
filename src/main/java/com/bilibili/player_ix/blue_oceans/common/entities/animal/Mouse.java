@@ -4,6 +4,9 @@ package com.bilibili.player_ix.blue_oceans.common.entities.animal;
 import com.bilibili.player_ix.blue_oceans.api.mob.IAnimatedMob;
 import com.github.NineAbyss9.ix_api.api.mobs.MobFoodData;
 import com.github.NineAbyss9.ix_api.api.mobs.ai.goal.MoveToBlocksGoal;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
@@ -21,10 +24,16 @@ extends BoAnimal
 implements IAnimatedMob {
     private int eatTick;
     private boolean eatStarted;
+    private static final EntityDataAccessor<Integer> DATA_FLAGS;
     public AnimationState idle = new AnimationState();
     public AnimationState eat = new AnimationState();
     public Mouse(EntityType<? extends Mouse> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+    }
+
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(DATA_FLAGS, 0);
     }
 
     protected void registerGoals() {
@@ -45,7 +54,7 @@ implements IAnimatedMob {
     public void aiStep() {
         super.aiStep();
         if (this.level().getBlockState(this.blockPosition()).is(Blocks.WHEAT)
-            && this.level().getRandom().nextInt(3) == 0) {
+            && this.level().getRandom().nextFloat() < 0.33F) {
             eatStarted = true;
         }
         if (eatStarted) {
@@ -71,5 +80,9 @@ implements IAnimatedMob {
                 this.level().destroyBlock(this.blockPosition(), false, this);
             }
         }
+    }
+
+    static {
+        DATA_FLAGS = SynchedEntityData.defineId(Mouse.class, EntityDataSerializers.INT);
     }
 }

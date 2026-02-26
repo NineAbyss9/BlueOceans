@@ -1,7 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.client.renderer.villager;
 
-import com.bilibili.player_ix.blue_oceans.client.model.HuntingVillagerModel;
+import com.bilibili.player_ix.blue_oceans.client.model.villager.HuntingVillagerModel;
 import com.bilibili.player_ix.blue_oceans.common.entities.villagers.AbstractHuntingVillager;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

@@ -23,4 +23,10 @@ public enum HemimetabolousState {
             }
         }
     }
+
+    public static interface Interface {
+        void setHemState(HemimetabolousState pState);
+
+        HemimetabolousState getHemState();
+    }
 }

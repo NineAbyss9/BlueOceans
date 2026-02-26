@@ -72,9 +72,9 @@ implements TypedMob<Jellyfish.Type>, Cnidarians {
         this.tentacleMovement += this.tentacleSpeed;
         if ((double)this.tentacleMovement > (Math.PI * 2D)) {
             if (this.level().isClientSide) {
-                this.tentacleMovement = ((float)Math.PI * 2F);
+                this.tentacleMovement = (Maths.PI * 2F);
             } else {
-                this.tentacleMovement -= ((float)Math.PI * 2F);
+                this.tentacleMovement -= (Maths.PI * 2F);
                 if (this.random.nextInt(10) == 0) {
                     this.tentacleSpeed = 1.0F / (this.random.nextFloat() + 1.0F) * 0.2F;
                 }
@@ -82,10 +82,10 @@ implements TypedMob<Jellyfish.Type>, Cnidarians {
             }
         }
         if (this.isInWaterOrBubble()) {
-            if (this.tentacleMovement < (float)Math.PI) {
-                float f = this.tentacleMovement / (float)Math.PI;
-                this.tentacleAngle = Mth.sin(f * f * (float)Math.PI) * (float)Math.PI * 0.25F;
-                if ((double)f > 0.75D) {
+            if (this.tentacleMovement < Maths.PI) {
+                float f = this.tentacleMovement / Maths.PI;
+                this.tentacleAngle = Mth.sin(f * f * Maths.PI) * Maths.PI * 0.25F;
+                if (f > 0.75F) {
                     this.speed = 1.0F;
                     this.rotateSpeed = 1.0F;
                 } else {

@@ -21,7 +21,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import org.slf4j.Logger;
 
-import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
@@ -46,6 +45,7 @@ public class BlueOceans implements ModOfNineAbyss {
         bus.addListener(BlueOceansEntities::registerSpawns);
         BoTags.register();
         //BoRecipes.RECIPES.register(bus);
+        BoEnchantments.REGISTER.register(bus);
         BlueOceansEntities.REGISTRY.register(bus);
         BlueOceansBlockEntities.BLOCK_ENTITIES.register(bus);
         BlueOceansBlocks.BLOCKS.register(bus);
@@ -66,11 +66,15 @@ public class BlueOceans implements ModOfNineAbyss {
         //NineAbyssBase.setup();
         BoNetwork.register();
         BoBrews.addBrews();
+        BlueOceansHooks.onRegisterPlumDishes();
     }
 
-    @Nonnull
     public static ResourceLocation location(String s) {
         return ResourceLocations.fromNamespaceAndPath(MOD_ID, s);
+    }
+
+    public static ResourceLocation item(String s) {
+        return location("textures/item/" + s + ".png");
     }
 
     public static ModelLayerLocation modelLocation(String s) {
@@ -89,7 +93,6 @@ public class BlueOceans implements ModOfNineAbyss {
         return "blue_oceans:textures/models/armor/" + s + "armor_layer.png";
     }
 
-    @Nonnull
     public static ResourceLocation entity(String path) {
         return location("textures/entities/" + path + ".png");
     }
@@ -98,21 +101,22 @@ public class BlueOceans implements ModOfNineAbyss {
         return entity("villagers/" + path);
     }
 
-    @Nonnull
     public static ResourceLocation animal(String path) {
         return entity("animal/" + path);
+    }
+
+    public static ResourceLocation land(String path) {
+        return animal("land/" + path);
     }
 
     public static ResourceLocation ocean(String path) {
         return animal("ocean/" + path);
     }
 
-    @Nonnull
     public static ResourceLocation redPlum(String path) {
         return entity("red_plum_mobs/" + path);
     }
 
-    @Nonnull
     public static ResourceLocation entityWithCheck(String path) {
         return location("textures/entities/" + path.replace(".png", "")
                 .replace("blue_oceans:", "") + ".png");
@@ -120,7 +124,7 @@ public class BlueOceans implements ModOfNineAbyss {
 
     /**Based on
      *<a href="https://github.com/Polarice3/Goety-2/blob/1.20/src/main/java/com/Polarice3/Goety/Goety.java">...</a>*/
-    private static void createFiles(@Nonnull Path dirPath, String dirLabel) {
+    private static void createFiles(Path dirPath, String dirLabel) {
         if (!Files.isDirectory(dirPath.getParent())) {
             createFiles(dirPath.getParent(), "parent of " + dirLabel);
         }

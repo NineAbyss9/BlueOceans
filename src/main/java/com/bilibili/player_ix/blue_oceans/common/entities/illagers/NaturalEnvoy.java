@@ -1,8 +1,8 @@
 
 package com.bilibili.player_ix.blue_oceans.common.entities.illagers;
 
-import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.api.mob.RedPlumMob;
+import com.github.NineAbyss9.ix_api.api.mobs.MobUtils;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -23,7 +23,6 @@ import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
-import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.monster.Vex;
@@ -33,7 +32,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -42,13 +40,9 @@ public class NaturalEnvoy
 extends ModSpellcasterIllager {
     @Nullable
     private Sheep wololoTarget;
-
     public NaturalEnvoy(EntityType<? extends NaturalEnvoy> type, Level level) {
         super(type, level);
-    }
-
-    public int getExperienceReward() {
-        return 10;
+        this.xpReward = 5;
     }
 
     protected void registerGoals() {
@@ -59,10 +53,9 @@ extends ModSpellcasterIllager {
         this.goalSelector.addGoal(3, new RandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, LivingEntity.class, 10f));
         this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(4, new HurtByTargetGoal(this, Raider.class).setAlertOthers());
-        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, AbstractGolem.class,
-                false));
-        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, LivingEntity.class,
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this, Raider.class).setAlertOthers());
+        this.targetSelector.addGoal(2, new MobUtils.HostileNearestAttackableTargetGoal(this, true));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, LivingEntity.class,
                 false, ling -> ling instanceof RedPlumMob));
         super.registerGoals();
     }
@@ -109,12 +102,8 @@ extends ModSpellcasterIllager {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
-    public NaturalEnvoy(PlayMessages.SpawnEntity spawnEntity, Level level) {
-        this(BlueOceansEntities.NATURAL_ENVOY.get(), level);
-    }
-
     public void applyRaidBuffs(int i, boolean b) {
-        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.TOTEM_OF_UNDYING));
+        this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(Items.TOTEM_OF_UNDYING));
     }
 
     public SoundEvent getCelebrateSound() {
@@ -170,29 +159,24 @@ extends ModSpellcasterIllager {
     private class AttackSpellGoal
     extends UseSpellGoal {
 
-        @Override
         protected void castSpell() {
-            ((NaturalEnvoy)illager).damage();
+            damage();
         }
 
-        @Override
         protected SpellType getSpell() {
             return SpellType.DARK;
         }
 
-        @Override
         protected SoundEvent getSpellPrepareSound() {
             return SoundEvents.EVOKER_PREPARE_ATTACK;
         }
 
-        @Override
         protected int getCastingTime() {
             return 30;
         }
 
-        @Override
         public boolean canUse() {
-            if (illager.getTarget() != null && illager.distanceToSqr(illager.getTarget()) > 20) {
+            if (getTarget() == null || !closerThan(getTarget(), 4)) {
                 return false;
             }
             return super.canUse();
@@ -242,19 +226,19 @@ extends ModSpellcasterIllager {
         }
 
         public boolean canUse() {
-            if (illager.getTarget() != null) {
+            if (getTarget() != null) {
                 return false;
-            } else if (illager.tickCount < this.nextAttackTickCount) {
+            } else if (tickCount < this.nextAttackTickCount) {
                 return false;
-            } else if (illager.isCastingSpell()) {
+            } else if (isCastingSpell()) {
                 return false;
             } else {
-                List<Sheep> list = illager.level().getNearbyEntities(Sheep.class, this.wololoTargeting, illager, illager
-                        .getBoundingBox().inflate(16.0, 4.0, 16.0));
+                List<Sheep> list = level().getNearbyEntities(Sheep.class, this.wololoTargeting,
+                        NaturalEnvoy.this, NaturalEnvoy.this.getBoundingBox().inflate(16.0, 4.0, 16.0));
                 if (list.isEmpty()) {
                     return false;
                 } else {
-                    ((NaturalEnvoy)illager).setWololoTarget(list.get(illager.getRandom().nextInt(list.size())));
+                    setWololoTarget(list.get(getRandom().nextInt(list.size())));
                     return true;
                 }
             }

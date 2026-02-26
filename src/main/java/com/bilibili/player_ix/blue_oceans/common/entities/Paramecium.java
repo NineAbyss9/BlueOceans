@@ -38,7 +38,7 @@ implements IBONeutralMob {
 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.25));
-        this.goalSelector.addGoal(1, new BOMeleeAttackGoal(this, 1, false));
+        this.goalSelector.addGoal(1, new AttackGoal(this));
         this.goalSelector.addGoal(3, new RandomSwimmingGoal(this,
                 2, 40));
         this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.8));
@@ -68,6 +68,10 @@ implements IBONeutralMob {
         return true;
     }
 
+    public boolean isMutated() {
+        return true;
+    }
+
     public void updateSwimming() {
         if (!this.level().isClientSide) {
             if (this.isEffectiveAi() && this.isInWater()) {
@@ -92,6 +96,16 @@ implements IBONeutralMob {
         return createMobAttributes().add(Attributes.MOVEMENT_SPEED, 0.3)
                 .add(ForgeMod.SWIM_SPEED.get(), 1).add(Attributes.MAX_HEALTH, 20)
                 .add(Attributes.ATTACK_DAMAGE, 3);
+    }
+
+    private class AttackGoal extends BOMeleeAttackGoal {
+        public AttackGoal(PathfinderMob pMob) {
+            super(pMob, 1, false);
+        }
+
+        public boolean canUse() {
+            return Paramecium.this.isMutated() && super.canUse();
+        }
     }
 
     public static class ParameciumMoveControl extends MoveControl {

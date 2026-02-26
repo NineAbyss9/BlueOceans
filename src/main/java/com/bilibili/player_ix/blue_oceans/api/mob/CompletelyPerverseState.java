@@ -43,4 +43,10 @@ public enum CompletelyPerverseState {
             }
         }
     }
+
+    public static interface Interface {
+        void setPerState(CompletelyPerverseState pState);
+
+        CompletelyPerverseState getPerState();
+    }
 }

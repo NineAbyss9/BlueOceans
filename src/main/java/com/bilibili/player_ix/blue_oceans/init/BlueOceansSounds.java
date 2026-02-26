@@ -12,6 +12,7 @@ public class BlueOceansSounds {
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, BlueOceans.MOD_ID);
     public static final RegistryObject<SoundEvent> BIKE_RUN = register("bike_run", "bike_run");
     public static final RegistryObject<SoundEvent> BULLET_HIT = register("bullet_hit", "bullet_hit");
+    public static final RegistryObject<SoundEvent> DUCK_IDLE = register("duck_idle", "duck_idle");
     public static final RegistryObject<SoundEvent> HONK = register("honk", "honk");
     public static final RegistryObject<SoundEvent> RING = register("ring", "ring");
     public static final RegistryObject<SoundEvent> RED_PLUM_GIRL_CAST_SPELL = SOUNDS.register("red_plum_girl_cast_spell", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(BlueOceans.MOD_ID, "red_plum_girl_cast_spell")));

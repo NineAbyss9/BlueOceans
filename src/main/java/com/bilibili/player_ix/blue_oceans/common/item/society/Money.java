@@ -8,6 +8,10 @@ import net.minecraft.world.item.ItemStack;
 public class Money
 extends Item {
     public static final String FACE_VALUE = "FaceValue";
+    public Money(Properties pP) {
+        super(pP);
+    }
+
     public Money() {
         super(new Properties());
     }

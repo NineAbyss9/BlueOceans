@@ -2,7 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.client.renderer.plum;
 
 import com.bilibili.player_ix.blue_oceans.BlueOceans;
-import com.bilibili.player_ix.blue_oceans.client.model.RedPlumSlayerModel;
+import com.bilibili.player_ix.blue_oceans.client.model.plum.RedPlumSlayerModel;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.RedPlumSlayer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

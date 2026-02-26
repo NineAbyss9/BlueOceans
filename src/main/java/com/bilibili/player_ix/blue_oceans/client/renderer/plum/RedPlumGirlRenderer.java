@@ -1,7 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.client.renderer.plum;
 
-import com.bilibili.player_ix.blue_oceans.client.model.RedPlumGirlModel;
+import com.bilibili.player_ix.blue_oceans.client.model.plum.RedPlumGirlModel;
 import com.bilibili.player_ix.blue_oceans.client.renderer.AbstractGirlRenderer;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.red_plum_girl.RedPlumGirl;
 import com.mojang.blaze3d.vertex.PoseStack;

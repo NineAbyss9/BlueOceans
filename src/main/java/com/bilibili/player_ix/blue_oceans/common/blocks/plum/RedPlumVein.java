@@ -120,8 +120,7 @@ implements SimpleWaterloggedBlock, PlumBlock {
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        super.createBlockStateDefinition(pBuilder);
-        pBuilder.add(WATERLOGGED);
+        super.createBlockStateDefinition(pBuilder.add(WATERLOGGED));
     }
 
     public boolean canBeReplaced(BlockState pState, BlockPlaceContext pUseContext) {

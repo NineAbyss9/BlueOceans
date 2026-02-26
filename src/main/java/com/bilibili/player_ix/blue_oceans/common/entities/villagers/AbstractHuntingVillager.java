@@ -58,6 +58,7 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
     protected static final EntityDataAccessor<Integer> DATA_TARGET_ID;
     protected AbstractHuntingVillager(EntityType<? extends AbstractHuntingVillager> pType, Level level) {
         super(pType, level);
+        this.setHandItemToDaily();
         this.behaviorSelector = new BehaviorSelector(level.getProfilerSupplier());
         this.registerBehaviors();
         this.restockAll();
@@ -101,6 +102,9 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
     }
 
     public boolean hurt(DamageSource p_21016_, float p_21017_) {
+        if (p_21016_.getEntity() instanceof AbstractHuntingVillager villager
+            && !villager.isAgent())
+            return false;
         boolean flag = super.hurt(p_21016_, p_21017_);
         if (flag) {
             this.makeParticleAroundSelf();
@@ -326,6 +330,8 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
     public boolean isClientSide() {
         return this.level().isClientSide;
     }
+
+    public abstract boolean isAgent();
 
     public abstract boolean canAttackEvenBaby();
 

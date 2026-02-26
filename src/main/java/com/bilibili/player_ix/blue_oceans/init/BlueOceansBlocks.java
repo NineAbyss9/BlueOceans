@@ -6,13 +6,11 @@ import com.bilibili.player_ix.blue_oceans.common.blocks.*;
 import com.bilibili.player_ix.blue_oceans.common.blocks.cave.MiningLamp;
 import com.bilibili.player_ix.blue_oceans.common.blocks.cave.Rope;
 import com.bilibili.player_ix.blue_oceans.common.blocks.chemistry.AlcoholLamp;
-import com.bilibili.player_ix.blue_oceans.common.blocks.farming.BarrenSoil;
-import com.bilibili.player_ix.blue_oceans.common.blocks.farming.BarrenSoilFarmland;
-import com.bilibili.player_ix.blue_oceans.common.blocks.farming.BlackSoil;
-import com.bilibili.player_ix.blue_oceans.common.blocks.farming.BlackSoilFarmland;
+import com.bilibili.player_ix.blue_oceans.common.blocks.farming.*;
 import com.bilibili.player_ix.blue_oceans.common.blocks.food.Leek;
 import com.bilibili.player_ix.blue_oceans.common.blocks.food.RiceBlock;
 import com.bilibili.player_ix.blue_oceans.common.blocks.food.RiceEars;
+import com.bilibili.player_ix.blue_oceans.common.blocks.nature.Bush;
 import com.bilibili.player_ix.blue_oceans.common.blocks.plum.*;
 import com.bilibili.player_ix.blue_oceans.common.item.FlagItem;
 import net.minecraft.core.BlockPos;
@@ -85,6 +83,7 @@ public class BlueOceansBlocks {
             () -> new BuddingNeoPlum(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).forceSolidOn()
                     .noCollission().strength(0.3F).sound(SoundType.SCULK_VEIN)
                     .pushReaction(PushReaction.DESTROY).randomTicks()));
+    public static final RegistryObject<Block> BUSH = BLOCKS.register("bush", Bush::new);
     //public static final RegistryObject<Block> CELL = BLOCKS.register("cell", () ->
     //        new CellBlock(BlockBehaviour.Properties.of()));
     public static final RegistryObject<Block> MINING_LAMP = BLOCKS.register("mining_lamp",
@@ -130,6 +129,9 @@ public class BlueOceansBlocks {
                     .strength(2.0F, 20F), UniformInt.of(1, 2)));
     public static final RegistryObject<Block> SCLEROTIC_RED_PLUM_BLOCK = BLOCKS.register(
             "sclerotic_red_plum_block", ScleroticPlumBlock::new);
+    public static final RegistryObject<Block> SPRINKLER = BLOCKS.register("sprinkler",
+            () -> new Sprinkler(BlockBehaviour.Properties.of().strength(2, 2)
+                    .requiresCorrectToolForDrops().sound(SoundType.STONE)));
     public static final RegistryObject<Block> WOODEN_SUPPORT = BLOCKS.register("wooden_support",
             () -> new WoodenSupport(BlockBehaviour.Properties.of().strength(1.5F)
                     .instrument(NoteBlockInstrument.BASS).mapColor(MapColor.WOOD).sound(SoundType.WOOD)

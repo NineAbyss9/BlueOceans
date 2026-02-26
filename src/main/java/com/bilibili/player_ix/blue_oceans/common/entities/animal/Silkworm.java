@@ -5,7 +5,6 @@ import com.bilibili.player_ix.blue_oceans.api.mob.CompletelyPerverseState;
 import com.bilibili.player_ix.blue_oceans.api.mob.IAnimatedMob;
 import com.bilibili.player_ix.blue_oceans.common.entities.animal.flying.AbstractFlyingAnimal;
 import com.github.NineAbyss9.ix_api.api.item.ItemStacks;
-import com.github.NineAbyss9.ix_api.api.mobs.ApiFlyingAnimal;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
@@ -18,7 +17,7 @@ import java.util.List;
 /**蝴蝶，包括蚕*/
 public class Silkworm
 extends AbstractFlyingAnimal
-implements IAnimatedMob {
+implements IAnimatedMob, CompletelyPerverseState.Interface {
     public static final int DEFAULT_PRODUCE_IN = 600;
     private CompletelyPerverseState perverseState;
     public Silkworm(EntityType<? extends Silkworm> pEntityType, Level pLevel) {
@@ -46,12 +45,17 @@ implements IAnimatedMob {
         return super.isFlying();
     }
 
-    public void setBaby(boolean pBaby) {
-        if (pBaby)
-            this.perverseState = CompletelyPerverseState.LARVA;
-         else
-            this.perverseState = CompletelyPerverseState.ADULT;
-        super.setBaby(pBaby);
+    public void onBaby() {
+        super.onBaby();
+        this.perverseState = isBaby() ? CompletelyPerverseState.LARVA : CompletelyPerverseState.ADULT;
+    }
+
+    public CompletelyPerverseState getPerState() {
+        return perverseState;
+    }
+
+    public void setPerState(CompletelyPerverseState pState) {
+        this.perverseState = pState;
     }
 
     public List<AnimationState> getAllAnimations() {

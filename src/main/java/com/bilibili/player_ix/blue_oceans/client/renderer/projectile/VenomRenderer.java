@@ -2,7 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.client.renderer.projectile;
 
 import com.bilibili.player_ix.blue_oceans.BlueOceans;
-import com.bilibili.player_ix.blue_oceans.client.model.VenomModel;
+import com.bilibili.player_ix.blue_oceans.client.model.projectile.VenomModel;
 import com.bilibili.player_ix.blue_oceans.common.entities.projectile.Venom;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;

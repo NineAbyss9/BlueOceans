@@ -1,6 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.item.farming;
 
+import com.bilibili.player_ix.blue_oceans.init.BoEnchantments;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
@@ -44,7 +45,8 @@ extends DiggerItem {
                                      ItemStack stack) {
         int i = shouldDrop(state);
         if (i > 0) {
-            int dropCount = Math.max(1, MathSupport.random.nextInt(4));
+            int dropCount = Math.max(1, MathSupport.random.nextInt(3))
+                    + stack.getEnchantmentLevel(BoEnchantments.HARVEST.get());
             for (int j = 0; j < dropCount;j++) {
                 Block.dropResources(state, level, pPos, level.getBlockEntity(pPos), entity1, stack);
             }
