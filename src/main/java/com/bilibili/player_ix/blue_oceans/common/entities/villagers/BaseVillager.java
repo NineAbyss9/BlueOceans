@@ -29,6 +29,7 @@ import net.minecraft.tags.PoiTypeTags;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.gossip.GossipContainer;
 import net.minecraft.world.entity.ai.gossip.GossipType;
@@ -435,6 +436,17 @@ implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser, IMiner {
             if (this.visited.size() > 15) {
                 this.visited.remove(0);
             }
+        }
+    }
+
+    public static class FindWorkBlockGoal extends Goal {
+        protected final BaseVillager villager;
+        public FindWorkBlockGoal(BaseVillager pVillager) {
+            this.villager = pVillager;
+        }
+
+        public boolean canUse() {
+            return false;
         }
     }
 

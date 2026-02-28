@@ -5,10 +5,10 @@ import com.bilibili.player_ix.blue_oceans.api.mob.Profession;
 import com.bilibili.player_ix.blue_oceans.api.task.Task;
 import com.bilibili.player_ix.blue_oceans.common.item.farming.ScytheItem;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
+import com.bilibili.player_ix.blue_oceans.init.BoTags;
 import com.github.NineAbyss9.ix_api.api.ApiPose;
 import com.github.NineAbyss9.ix_api.api.item.ItemStacks;
 import com.github.NineAbyss9.ix_api.api.mobs.ai.goal.ApiMeleeAttackGoal;
-import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -34,6 +34,7 @@ import org.NineAbyss9.util.IXUtilUser;
 import org.NineAbyss9.util.Option;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -194,7 +195,7 @@ extends BaseVillager {
         private BlockPos aboveFarmlandPos;
         private long nextOkStartTime;
         private int timeWorkedSoFar;
-        private final List<BlockPos> validFarmlandAroundVillager = Lists.newArrayList();
+        private final List<BlockPos> validFarmlandAroundVillager = new ArrayList<>();
         public FarmGoal(Farmer pFarmer) {
             this.farmer = pFarmer;
             this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
@@ -209,9 +210,9 @@ extends BaseVillager {
         private boolean validPos(BlockPos pPos, Level pServerLevel) {
             BlockState blockstate = pServerLevel.getBlockState(pPos);
             Block block = blockstate.getBlock();
-            Block block1 = pServerLevel.getBlockState(pPos.below()).getBlock();
+            var block1 = pServerLevel.getBlockState(pPos.below());
             return block instanceof CropBlock && ((CropBlock)block).isMaxAge(blockstate) || blockstate.isAir() && block1
-                    instanceof FarmBlock;
+                    .is(BoTags.FARMLANDS);
         }
 
         public boolean canUse() {

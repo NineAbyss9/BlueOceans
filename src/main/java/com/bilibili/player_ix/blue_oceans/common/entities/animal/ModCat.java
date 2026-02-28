@@ -3,6 +3,7 @@ package com.bilibili.player_ix.blue_oceans.common.entities.animal;
 
 import com.bilibili.player_ix.blue_oceans.api.mob.IAnimatedMob;
 import com.bilibili.player_ix.blue_oceans.api.mob.ISleepMob;
+import com.bilibili.player_ix.blue_oceans.common.entities.ai.goal.SleepGoal;
 import com.github.NineAbyss9.ix_api.api.mobs.IFlagMob;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -52,6 +53,10 @@ implements ISleepMob, IFlagMob, IAnimatedMob {
             }
         }
         super.onSyncedDataUpdated(pKey);
+    }
+
+    protected void registerGoals() {
+        this.goalSelector.addGoal(2, new SleepGoal<>(this));
     }
 
     protected SoundEvent getAmbientSound() {

@@ -4,7 +4,6 @@ package com.bilibili.player_ix.blue_oceans.common.blocks.farming;
 import com.bilibili.player_ix.blue_oceans.common.blocks.BoBlockProperties;
 import com.bilibili.player_ix.blue_oceans.common.blocks.be.farming.SprinklerEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -19,7 +18,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -30,16 +28,13 @@ import javax.annotation.Nullable;
 public class Sprinkler
 extends BaseEntityBlock {
     public static final BooleanProperty ACTIVATED;
-    public static final DirectionProperty FACING;
     private static final VoxelShape SHAPE;
     public Sprinkler(Properties pProperties) {
         super(pProperties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH)
-                        .setValue(ACTIVATED, Boolean.FALSE));
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(FACING, ACTIVATED);
+        pBuilder.add(ACTIVATED);
     }
 
     public RenderShape getRenderShape(BlockState pState) {
@@ -48,7 +43,8 @@ extends BaseEntityBlock {
 
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer,
                                  InteractionHand pHand, BlockHitResult pHit) {
-        pLevel.setBlockAndUpdate(pPos, pState.cycle(ACTIVATED));
+        if (!pLevel.isClientSide)
+            pLevel.setBlock(pPos, pState.cycle(ACTIVATED), 3);
         pLevel.playSound(null, pPos, SoundEvents.LEVER_CLICK, SoundSource.BLOCKS);
         return InteractionResult.sidedSuccess(pLevel.isClientSide);
     }
@@ -69,7 +65,6 @@ extends BaseEntityBlock {
 
     static {
         ACTIVATED = BoBlockProperties.ACTIVATED;
-        FACING = HorizontalDirectionalBlock.FACING;
         SHAPE = box(6, 0, 6, 10, 2, 10);
     }
 }

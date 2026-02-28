@@ -15,6 +15,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -141,20 +142,25 @@ implements IConversion {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public void performConvert() {
         if (!this.level().isClientSide) {
             ServerLevel serverLevel = this.serverLevel();
-            int chance = this.getRandomUtil().nextInt(RedPlumUtil.BASE_PLUM_RANDOM_POOL);
             AbstractRedPlumMob monster;
-            float f = this.randomUtil.nextFloat();
-            if (f > 0.875F && this.level().getEntitiesOfClass(PlumBuilder.class, this.getBoundingBox()
-                    .inflate(20)).isEmpty() && this.level().getEntitiesOfClass(RedPlumMonster.class,
-                    this.getBoundingBox().inflate(20)).size() < 10)
-                monster = BlueOceansEntities.PLUM_BUILDER.get().create(serverLevel);
-            else if (f > 0.75F)
-                monster = BlueOceansEntities.PLUM_SPREADER.get().create(serverLevel);
-            else
-                monster = RedPlumUtil.MAP.get(1).get(chance).create(serverLevel);
+            if (this.isEyeInFluid(FluidTags.WATER)) {
+                monster = BlueOceansEntities.RED_PLUM_FISH.get().create(serverLevel);
+            } else {
+                int chance = this.getRandomUtil().nextInt(RedPlumUtil.BASE_PLUM_RANDOM_POOL);
+                float f = this.randomUtil.nextFloat();
+                if (f > 0.875F && this.level().getEntitiesOfClass(PlumBuilder.class, this.getBoundingBox()
+                        .inflate(20)).isEmpty() && this.level().getEntitiesOfClass(RedPlumMonster.class,
+                        this.getBoundingBox().inflate(20)).size() < 10)
+                    monster = BlueOceansEntities.PLUM_BUILDER.get().create(serverLevel);
+                else if (f > 0.75F)
+                    monster = BlueOceansEntities.PLUM_SPREADER.get().create(serverLevel);
+                else
+                    monster = RedPlumUtil.MAP.get(1).get(chance).create(serverLevel);
+            }
             if (monster != null) {
                 Vec3 pos = this.position();
                 monster.moveTo(pos);

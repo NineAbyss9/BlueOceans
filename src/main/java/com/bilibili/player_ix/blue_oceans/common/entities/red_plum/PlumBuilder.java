@@ -56,6 +56,7 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
         this.lostTargetTime = 120;
         this.setHealth(this.getHealthByAge());
         this.refreshDimensions();
+        this.setMaxUpStep(1.4F);
     }
 
     protected void defineSynchedData() {
@@ -363,7 +364,7 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
             areaeffectcloud.addEffect(new MobEffectInstance(BlueOceansMobEffects.PLUM_INFECTION.get(),
                     200, 2));
             this.level().addFreshEntity(areaeffectcloud);
-        } else if (this.getAge() == 1) {
+        } else if (this.getAge() == 1 && pAmount < 20.0F) {
             var list = RedPlumUtil.MAP.get(1);
             AbstractRedPlumMob mob = list.get(AbyssMath.random.nextInt(RedPlumUtil.BASE_PLUM_RANDOM_POOL))
                     .create(this.level());
@@ -373,7 +374,7 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
                 NeoPlum.addParticleAroundPlum(mob);
             }
         }
-        if (this.getAge() > 1 || (this.getAge() == 1 && pAmount > 20.0F)) {
+        if (this.getAge() > 1 || (this.getAge() == 1 && pAmount >= 20.0F)) {
             var list = RedPlumUtil.MAP.get(2);
             AbstractRedPlumMob mob = list.get(AbyssMath.random.nextInt(2)).create(this.level());
             if (mob != null) {

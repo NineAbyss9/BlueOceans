@@ -3,7 +3,6 @@ package com.bilibili.player_ix.blue_oceans.client.model.deprecated;
 
 import com.bilibili.player_ix.blue_oceans.BlueOceans;
 import com.bilibili.player_ix.blue_oceans.client.AnimationUtil;
-import com.bilibili.player_ix.blue_oceans.common.entities.dumplings.AbstractDumpling;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.HeadedModel;
@@ -15,8 +14,9 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.Mob;
 
-public class DumplingMonsterModel<T extends AbstractDumpling>
+public class DumplingMonsterModel<T extends Mob>
 extends HierarchicalModel<T>
 implements HeadedModel, ArmedModel {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(BlueOceans.MOD_ID, "dumpling"), "main");

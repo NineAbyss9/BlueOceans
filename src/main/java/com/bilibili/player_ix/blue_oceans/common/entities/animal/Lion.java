@@ -96,14 +96,13 @@ implements IFlagMob, IAnimatedMob, ISleepMob {
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> pKey) {
         if (pKey.equals(DATA_FLAGS) && this.level().isClientSide) {
-            if (isFlag(1)) {
+            if (!isFlag(0))
                 stopAllAnimations();
+            if (isFlag(1)) {
                 this.attack.startIfStopped(tickCount);
             } else if (isFlag(2)) {
-                stopAllAnimations();
                 this.jump.startIfStopped(tickCount);
             } else if (isFlag(4)) {
-                stopAllAnimations();
                 this.sleep.startIfStopped(tickCount);
             }
         }
@@ -153,6 +152,7 @@ implements IFlagMob, IAnimatedMob, ISleepMob {
                 break;
             }
             case 3: {
+                increaseAniTick();
                 break;
             }
             default: {

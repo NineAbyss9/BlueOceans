@@ -19,8 +19,8 @@ public class BoTags {
     //Blocks
     public static TagKey<Block> BARREN_FARMLANDS
             = blockTagKey("barren_farmlands");
-    public static TagKey<Block> BUSHES_MAY_PLACE_ON
-            = blockTagKey("bushes_may_place_on");
+    public static TagKey<Block> FARMLANDS
+            = blockTagKey("farmlands");
     public static TagKey<Block> FUELS
             = blockTagKey("fuels");
     public static TagKey<Block> PLUMS_CAN_UPGRADE

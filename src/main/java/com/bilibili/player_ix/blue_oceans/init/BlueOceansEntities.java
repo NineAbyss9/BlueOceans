@@ -62,6 +62,7 @@ public class BlueOceansEntities {
     public static final RegistryObject<EntityType<RedPlumCow>> RED_PLUMS_COW = register("red_plums_cow",
             EntityType.Builder.of(RedPlumCow::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).sized(0.9f, 1.4f));
     public static final RegistryObject<EntityType<RedPlumCreeper>> RED_PLUM_CREEPER = register("red_plum_creeper", EntityType.Builder.of(RedPlumCreeper::new, MobCategory.MONSTER).sized(0.6F,1.95F));
+    public static final RegistryObject<EntityType<RedPlumFish>> RED_PLUM_FISH = register("red_plum_fish", EntityType.Builder.of(RedPlumFish::new, MobCategory.MONSTER).sized(0.5F, 0.5F));
     public static final RegistryObject<EntityType<RedPlumGirl>> RED_PLUM_GIRL = register("red_plum_girl",EntityType.Builder.<RedPlumGirl>of(RedPlumGirl::new, MobCategory.MISC).clientTrackingRange(1024).setCustomClientFactory(RedPlumGirl::new).fireImmune().sized(0.6f, 1.95f));
     public static final RegistryObject<EntityType<RedPlumSlayer>> RED_PLUM_SLAYER = register("red_plum_slayer", EntityType.Builder.of(RedPlumSlayer::new, MobCategory.MONSTER), 0.6F, 1.95F);
     public static final RegistryObject<EntityType<RedPlumSpider>> RED_PLUM_SPIDER = register("red_plum_spider", EntityType.Builder.of(RedPlumSpider::new, MobCategory.MONSTER), 1.5F, 1.0F);
@@ -124,6 +125,7 @@ public class BlueOceansEntities {
         event.put(PLUM_SPREADER.get(), PlumSpreader.createAttributes().build());
         event.put(RED_DEMON.get(), RedDemon.createAttributes().build());
         event.put(RED_PLUMS_COW.get(), RedPlumCow.createAttributes().build());
+        event.put(RED_PLUM_FISH.get(), RedPlumFish.createAttributes().build());
         event.put(RED_PLUM_GIRL.get(), RedPlumGirl.createAttributes().build());
         event.put(RED_PLUM_HUMAN.get(), RedPlumHuman.createAttributes().build());
         event.put(RED_PLUM_SKELETON.get(), RedPlumSkeleton.createAttributes().build());

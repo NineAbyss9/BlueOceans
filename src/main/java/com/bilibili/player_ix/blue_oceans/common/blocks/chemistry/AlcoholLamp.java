@@ -37,8 +37,8 @@ implements IChemical {
     private static final VoxelShape SHAPE = box(3.0, 0.0, 3.0, 13.0, 10.0, 13.0);
     public AlcoholLamp(Properties pProperties) {
         super(pProperties);
-        this.stateDefinition.any().setValue(COVERED, Boolean.FALSE).setValue(CAPACITY, 8)
-                .setValue(BURNING, Boolean.FALSE);
+        this.registerDefaultState(this.stateDefinition.any().setValue(COVERED, Boolean.FALSE)
+                .setValue(CAPACITY, 8).setValue(BURNING, Boolean.FALSE));
     }
 
     public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, RandomSource pRandom) {

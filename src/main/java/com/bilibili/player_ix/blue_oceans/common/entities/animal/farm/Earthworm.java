@@ -142,7 +142,7 @@ implements IFlagMob {
             } else if (Earthworm.this.hasTask(Task.DIG) && Earthworm.this.aniTick(40)) {
                 Earthworm.this.setTask(Task.HIDE);
                 Earthworm.this.setFlag(2);
-                Earthworm.this.setAniTick(0);
+                Earthworm.this.resetAniTick();
             } else if (Earthworm.this.hasTask(Task.HIDE) && Earthworm.this.tickCount % 20 == 0 &&
                     MathSupport.random.nextFloat() < 0.125F) {
                 Earthworm.this.setTask(Task.WAKE);

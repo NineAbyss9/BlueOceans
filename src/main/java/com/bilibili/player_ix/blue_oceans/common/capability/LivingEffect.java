@@ -9,7 +9,6 @@ public class LivingEffect {
     }
 
     public void applyEffectTick(Level pLevel, LivingEntity pEntity, int pEffectLevel) {
-
     }
 
     public static int getId(LivingEffect pEffect) {

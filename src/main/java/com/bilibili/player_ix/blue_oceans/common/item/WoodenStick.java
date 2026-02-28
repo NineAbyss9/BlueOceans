@@ -7,7 +7,6 @@ import com.bilibili.player_ix.blue_oceans.init.BlueOceansMobEffects;
 import com.github.NineAbyss9.ix_api.util.Maths;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,6 +17,7 @@ import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import org.NineAbyss9.math.MathSupport;
 import org.NineAbyss9.util.ValueHolder;
 
 public class WoodenStick
@@ -39,8 +39,7 @@ extends PickaxeItem {
         if (state.is(BlockTags.ICE)) {
             boolean drop = false;
             ItemStack stack;
-            RandomSource source = level.random;
-            int i = source.nextInt(4);
+            int i = MathSupport.random.nextInt(4);
             if (i == 1) {
                 stack = new ItemStack(BlueOceansItems.ICE_AXE.get());
             } else if (i == 2) {

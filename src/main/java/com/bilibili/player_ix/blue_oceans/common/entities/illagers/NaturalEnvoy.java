@@ -9,7 +9,10 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -32,6 +35,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkHooks;
+import org.NineAbyss9.util.function.FunctionCollector;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -48,6 +52,7 @@ extends ModSpellcasterIllager {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new NaturalEnvoyCastingSpellGoal());
         this.goalSelector.addGoal(2, new AttackSpellGoal());
+        this.goalSelector.addGoal(2, new PoisonSpellGoal());
         this.goalSelector.addGoal(2, new WololoGoal());
         this.goalSelector.addGoal(3, new FloatGoal(this));
         this.goalSelector.addGoal(3, new RandomStrollGoal(this, 0.8));
@@ -66,7 +71,8 @@ extends ModSpellcasterIllager {
     }
 
     public void damage() {
-        List<LivingEntity> list = this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(8));
+        List<LivingEntity> list = this.level().getEntitiesOfClass(LivingEntity.class,
+                this.getBoundingBox().inflate(6));
         list.forEach(lie -> {
             if (!(lie instanceof Raider) && !(lie instanceof Vex) && !(lie instanceof Animal)) {
                 lie.hurt(this.damageSources().indirectMagic(this, this), 8f);
@@ -156,9 +162,37 @@ extends ModSpellcasterIllager {
         }
     }
 
+    private class PoisonSpellGoal extends UseSpellGoal {
+        protected void castSpell() {
+            FunctionCollector.accept(getTarget(), livingEntity ->
+                    livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 600, 1)));
+        }
+
+        public boolean canUse() {
+            if (level().getDifficulty() != Difficulty.HARD)
+                return false;
+            return super.canUse();
+        }
+
+        protected SpellType getSpell() {
+            return SpellType.DARK;
+        }
+
+        protected SoundEvent getSpellPrepareSound() {
+            return SoundEvents.ILLUSIONER_PREPARE_MIRROR;
+        }
+
+        protected int getCastingTime() {
+            return 30;
+        }
+
+        protected int getCastingInterval() {
+            return 400;
+        }
+    }
+
     private class AttackSpellGoal
     extends UseSpellGoal {
-
         protected void castSpell() {
             damage();
         }

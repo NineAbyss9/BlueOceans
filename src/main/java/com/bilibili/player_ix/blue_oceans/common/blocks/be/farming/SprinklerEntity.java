@@ -3,10 +3,8 @@ package com.bilibili.player_ix.blue_oceans.common.blocks.be.farming;
 
 import com.bilibili.player_ix.blue_oceans.common.blocks.farming.Sprinkler;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlockEntities;
-import com.github.NineAbyss9.ix_api.util.DirectionUtil;
 import com.github.NineAbyss9.ix_api.util.ParticleUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
@@ -29,16 +27,15 @@ extends BlockEntity {
                             SprinklerEntity pEntity) {
         pEntity.activated = pState.getValue(Sprinkler.ACTIVATED);
         if (pLevel.isClientSide) {
-            if (pEntity.isActivated()) {
+            if (pEntity.activated) {
                 ParticleUtil.addParticle(pLevel, ParticleTypes.FALLING_WATER, pPos,
                         AbyssMath.random(0.8), AbyssMath.random(0.4), AbyssMath.random(0.8));
             }
         } else {
-            if (pEntity.isActivated()) {
+            if (pEntity.activated) {
                 pEntity.increaseWorkTime();
                 if (pEntity.workTime % 40 == 0) {
-                    Direction facing = pState.getValue(Sprinkler.FACING);
-                    tryGrowCrops(pLevel, pPos, facing);
+                    tryGrowCrops(pLevel, pPos);
                 }
             } else
                 pEntity.workTime = 0;
@@ -65,9 +62,11 @@ extends BlockEntity {
         ++workTime;
     }
 
-    public static void tryGrowCrops(Level pLevel, BlockPos pPos, Direction pFacing) {
-        AABB aabb = DirectionUtil.isHorizontal(pFacing) ? new AABB(pPos).inflate(20, 2, 20)
-                : new AABB(pPos).inflate(20);
+    public static void tryGrowCrops(Level pLevel, BlockPos pPos) {
+        AABB aabb = //DirectionUtil.isHorizontal(pFacing) ?
+                new AABB(pPos).inflate(20, 2, 20)
+                //: new AABB(pPos).inflate(20)
+                ;
         for (BlockPos pos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ),
                 Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
             if (pLevel.random.nextFloat() < 0.05F) {

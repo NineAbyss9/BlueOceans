@@ -137,6 +137,7 @@ public class ClientInitEvents {
         event.registerEntityRenderer(BlueOceansEntities.PLUM_SPREADER.get(), PlumSpreaderRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.RED_DEMON.get(), RedDemonRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.RED_PLUMS_COW.get(), RedPlumsCowRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.RED_PLUM_FISH.get(), RPFishRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.RED_PLUM_GIRL.get(), RedPlumGirlRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.RED_PLUM_HUMAN.get(), RedPlumHumanRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.RED_PLUM_SKELETON.get(), RedPlumSkeletonRenderer::new);

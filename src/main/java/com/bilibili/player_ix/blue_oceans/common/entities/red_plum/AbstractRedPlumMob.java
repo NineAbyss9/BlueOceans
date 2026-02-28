@@ -12,7 +12,6 @@ import com.bilibili.player_ix.blue_oceans.compat.noixapi.NoIXApiCompat;
 import com.bilibili.player_ix.blue_oceans.config.BoCommonConfig;
 import com.bilibili.player_ix.blue_oceans.init.*;
 import com.bilibili.player_ix.blue_oceans.util.BoDamageSource;
-import com.bilibili.player_ix.blue_oceans.util.MobUtil;
 import com.bilibili.player_ix.blue_oceans.util.RedPlumUtil;
 import com.github.NineAbyss9.ix_api.api.ApiPose;
 import com.github.NineAbyss9.ix_api.api.mobs.ApiEntityDataSerializers;
@@ -234,7 +233,7 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
         ) {
             pAmount /= 2.0F;
         }
-        if (entity instanceof LivingEntity living) {
+        if (pSource.getDirectEntity() instanceof LivingEntity living) {
             if (living.getMainHandItem().isEmpty())
                 living.addEffect(EffectInstance.create(BlueOceansMobEffects.PLUM_INFECTION,
                         170));

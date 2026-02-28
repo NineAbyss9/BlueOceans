@@ -1,7 +1,6 @@
 
 package com.bilibili.player_ix.blue_oceans.common.entities.red_plum;
 
-import com.bilibili.player_ix.blue_oceans.common.entities.ai.goal.AvoidTargetGoal;
 import com.bilibili.player_ix.blue_oceans.util.MathUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
@@ -53,13 +52,14 @@ extends RedPlumMonster {
     }
 
     protected void registerGoals() {
-        super.registerGoals();
         this.addWaterPlumGoal();
+        this.targetSelector.addGoal(1, new RedPlumsMobsHurtByTargetGoal(this,
+                RedPlumMonster.class).setAlertOthers());
+        if (shouldAttackOtherMobs())
+            this.addHostileGoal(1);
     }
 
     protected void addWaterPlumGoal() {
-        this.goalSelector.addGoal(5, new AvoidTargetGoal(this, 1.0F,
-                0.8D, 1.0D));
         this.goalSelector.addGoal(5, new WaterPlumMobRandomSwimGoal(this));
     }
 
@@ -100,7 +100,7 @@ extends RedPlumMonster {
     }
 
     public boolean isPushedByFluid() {
-        return true;
+        return false;
     }
 
     public boolean canBeLeashed(Player pPlayer) {
@@ -183,7 +183,6 @@ extends RedPlumMonster {
         private int ticksUntilNextAttack;
         private long lastCanUseCheck;
         //private int failedPathFindingPenalty = 0;
-        private final boolean canPenalize = false;
         public WaterPlumMobAttackGoal(WaterPlumMob pMob, double pSpeed, boolean pFollow) {
             this.mob = pMob;
             this.speed = pSpeed;
@@ -207,14 +206,6 @@ extends RedPlumMonster {
                     return false;
                 } else if (!livingentity.isAlive()) {
                     return false;
-                } else if (this.canPenalize) {
-                    if (--this.ticksUntilNextPathRecalculation <= 0) {
-                        path = this.mob.getNavigation().createPath(livingentity, 0);
-                        this.ticksUntilNextPathRecalculation = 4 + this.mob.getRandom().nextInt(7);
-                        return path != null;
-                    } else {
-                        return true;
-                    }
                 } else {
                     path = this.mob.getNavigation().createPath(livingentity, 0);
                     if (path != null) {

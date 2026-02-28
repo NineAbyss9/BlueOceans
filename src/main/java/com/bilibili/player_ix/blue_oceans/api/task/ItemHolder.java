@@ -29,12 +29,18 @@ public interface ItemHolder extends IXUtilUser {
     default boolean sameStack(ItemStack pStack) {
         if (isEmpty())
             return false;
+        if (!getTaskItem().getClass().getSimpleName().equals("ItemStack"))
+            return false;
         return pStack.equals(this.getItemStack(), true);
     }
 
     default boolean sameItem(Item pItem) {
         if (isEmpty())
             return false;
-        return pItem.equals(this.getItem());
+        try {
+            return pItem.equals(this.getItem());
+        } catch (ClassCastException e) {
+            return false;
+        }
     }
 }
