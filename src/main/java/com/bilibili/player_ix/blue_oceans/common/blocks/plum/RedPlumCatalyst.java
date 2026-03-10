@@ -2,15 +2,13 @@
 package com.bilibili.player_ix.blue_oceans.common.blocks.plum;
 
 import com.bilibili.player_ix.blue_oceans.common.blocks.be.RedPlumCatalystEntity;
-import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.AbstractRedPlumMob;
-import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.NeoPlum;
+import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.PlumHolder;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.RedPlumMonster;
 import com.bilibili.player_ix.blue_oceans.config.BoCommonConfig;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlocks;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansGameRules;
 import com.bilibili.player_ix.blue_oceans.init.BoTags;
-import com.bilibili.player_ix.blue_oceans.util.RedPlumUtil;
 import com.github.NineAbyss9.ix_api.api.annotation.ServerOnly;
 import com.github.NineAbyss9.ix_api.util.Maths;
 import net.minecraft.core.BlockPos;
@@ -42,8 +40,6 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.NineAbyss9.annotation.doc.Message;
 import org.NineAbyss9.math.MathSupport;
-
-import java.util.List;
 
 public class RedPlumCatalyst
 extends RedPlumBlock {
@@ -82,16 +78,7 @@ extends RedPlumBlock {
         && NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND,
                 pLevel, pPos.above(), BlueOceansEntities.RED_PLUM_HUMAN.get())
         && pLevel.getEntitiesOfClass(RedPlumMonster.class, new AABB(pPos).inflate(10)).size() < 4) {
-            List<EntityType<? extends AbstractRedPlumMob>> list = RedPlumUtil.MAP.get(1);
-            if (list != null) {
-                AbstractRedPlumMob mob = list.get(MathSupport.random.nextInt(5)).create(pLevel);
-                if (mob != null) {
-                    mob.moveTo(pPos.above(), 0, 0);
-                    NeoPlum.addParticleAroundPlum(mob);
-                    if (!pLevel.addFreshEntity(mob))
-                        mob.discard();
-                }
-            }
+            PlumHolder.spawn(pLevel, pPos, 1);
         }
     }
 

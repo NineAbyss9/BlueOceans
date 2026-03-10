@@ -89,7 +89,7 @@ public class VillagerGroupSpawner {
             }
         }
         //for (int i = 0;i < 2;i++) {
-            mob = BlueOceansEntities.VILLAGER_CHIEF.get().spawn(level, pos, MobSpawnType.EVENT);
+            mob = BlueOceansEntities.VILLAGER_BIOLOGIST.get().spawn(level, pos, MobSpawnType.EVENT);
             if (mob != null) {
                 mob.restrictTo(pos, 18);
                 mob.spawnAnim();

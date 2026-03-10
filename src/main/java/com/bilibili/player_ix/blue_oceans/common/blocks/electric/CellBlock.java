@@ -1,5 +1,5 @@
 
-package com.bilibili.player_ix.blue_oceans.common.blocks.eletric;
+package com.bilibili.player_ix.blue_oceans.common.blocks.electric;
 
 import com.bilibili.player_ix.blue_oceans.common.physic.Electric;
 import net.minecraft.world.level.block.Block;

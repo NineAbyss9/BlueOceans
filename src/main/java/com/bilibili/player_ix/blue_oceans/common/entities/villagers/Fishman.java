@@ -10,6 +10,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.entity.vehicle.ChestBoat;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -71,6 +72,14 @@ extends BaseVillager {
             }
         }
         return null;
+    }
+
+    public boolean tryPlaceAndTakeBoat() {
+        ChestBoat boat = new ChestBoat(this.level(), x(), y(), z());
+        if (this.level().addFreshEntity(boat)) {
+            return this.startRiding(boat);
+        } else
+            return false;
     }
 
     private boolean canFish() {

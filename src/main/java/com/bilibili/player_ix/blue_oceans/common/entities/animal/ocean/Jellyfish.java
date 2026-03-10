@@ -233,8 +233,8 @@ implements TypedMob<Jellyfish.Type>, Cnidarians {
             int i = this.jellyfish.getNoActionTime();
             if (i > 100) {
                 this.jellyfish.setMovementVector(0.0F, 0.0F, 0.0F);
-            } else if (this.jellyfish.getRandom().nextInt(reducedTickDelay(50)) == 0 || !this.jellyfish.wasTouchingWater
-                    || !this.jellyfish.hasMovementVector()) {
+            } else if (this.jellyfish.getRandom().nextInt(reducedTickDelay(50)) == 0 ||
+                    !this.jellyfish.wasTouchingWater || !this.jellyfish.hasMovementVector()) {
                 float f = this.jellyfish.getRandom().nextFloat() * Maths.TWO_PI;
                 float f1 = Mth.cos(f) * 0.2F;
                 float f2 = -0.1F + this.jellyfish.getRandom().nextFloat() * 0.2F;

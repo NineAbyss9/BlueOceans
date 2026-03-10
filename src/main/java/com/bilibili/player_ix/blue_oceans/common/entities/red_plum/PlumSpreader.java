@@ -43,10 +43,6 @@ implements IPlumSpreader {
         return BlueOceansEntities.PLUM_FACTORY.get();
     }
 
-    public boolean shouldAttackOtherMobs() {
-        return false;
-    }
-
     public static boolean checkConditions(Entity pEntity) {
         return RedPlumUtil.canSpreadPlum(pEntity.level());
     }

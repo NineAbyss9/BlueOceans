@@ -7,6 +7,7 @@ import com.bilibili.player_ix.blue_oceans.common.entities.animal.Bear;
 import com.bilibili.player_ix.blue_oceans.common.entities.animal.farm.Earthworm;
 import com.bilibili.player_ix.blue_oceans.common.entities.animal.freshwater.Duck;
 import com.bilibili.player_ix.blue_oceans.common.entities.animal.ocean.Jellyfish;
+import com.bilibili.player_ix.blue_oceans.common.entities.animal.ocean.Shrimp;
 import com.bilibili.player_ix.blue_oceans.common.entities.projectile.*;
 import com.bilibili.player_ix.blue_oceans.common.entities.illagers.red_plum_illager.Freak;
 import com.bilibili.player_ix.blue_oceans.common.entities.projectile.farming.SeedEntity;
@@ -57,6 +58,8 @@ public class BlueOceansEntities {
     public static final RegistryObject<EntityType<NeoPlum>> NEO_PLUM = register("neo_plum", EntityType.Builder.of(NeoPlum::new, MobCategory.MONSTER), 0.5f, 0.5f);
     public static final RegistryObject<EntityType<PlumBuilder>> PLUM_BUILDER = register("plum_builder", EntityType.Builder.of(PlumBuilder::new, MobCategory.MONSTER).sized(1.25F, .9F));
     public static final RegistryObject<EntityType<PlumFactory>> PLUM_FACTORY = register("plum_factory", EntityType.Builder.of(PlumFactory::new, MobCategory.MONSTER), 1.25F, .9F);
+    public static final RegistryObject<EntityType<PlumHolder>> PLUM_HOLDER = register("plum_holder", EntityType.Builder.of(PlumHolder::new, MobCategory.MONSTER).sized(0.7f, 1.6f)
+            .clientTrackingRange(120).canSpawnFarFromPlayer().setTrackingRange(120));
     public static final RegistryObject<EntityType<PlumSpreader>> PLUM_SPREADER = register("plum_spreader", EntityType.Builder.of(PlumSpreader::new, MobCategory.MONSTER).sized(0.5f, 0.5f));
     public static final RegistryObject<EntityType<RedDemon>> RED_DEMON = register("red_demon", EntityType.Builder.of(RedDemon::new, MobCategory.MONSTER).sized(1.2F, 0.9F));
     public static final RegistryObject<EntityType<RedPlumCow>> RED_PLUMS_COW = register("red_plums_cow",
@@ -70,6 +73,7 @@ public class BlueOceansEntities {
     public static final RegistryObject<EntityType<RedPlumWorm>> RED_PLUM_WORM = register("red_plum_worm", EntityType.Builder.of(RedPlumWorm::new, MobCategory.MONSTER),  0.4f, 0.3f);
     public static final RegistryObject<EntityType<Researcher>> RESEARCHER = register("researcher", EntityType.Builder.of(Researcher::new, MobCategory.MISC).sized(0.6F, 1.95F));
     public static final RegistryObject<EntityType<SeedEntity>> SEED = register("seed", EntityType.Builder.<SeedEntity>of(SeedEntity::new, MobCategory.MISC).sized(0.5F, 0.5F));
+    public static final RegistryObject<EntityType<Shrimp>> SHRIMP = register("shrimp", EntityType.Builder.of(Shrimp::new, MobCategory.CREATURE).sized(1f, 0.7f));
     public static final RegistryObject<EntityType<Venom>> VENOM = register("venom", EntityType.Builder.<Venom>of(Venom::new, MobCategory.MISC).fireImmune().sized(0.6f, 0.8f).clientTrackingRange(6));
     public static final RegistryObject<EntityType<VillagerBiologist>> VILLAGER_BIOLOGIST = register("villager_biologist", EntityType.Builder.of(VillagerBiologist::new, MobCategory.MISC).sized(0.6f, 1.95f).clientTrackingRange(8));
     public static final RegistryObject<EntityType<WaterTrap>> WATER_TRAP = BlueOceansEntities.register("water_trap", EntityType.Builder.<WaterTrap>of(WaterTrap::new, MobCategory.MISC).clientTrackingRange(8).sized(0.6f, 0.8f));
@@ -122,6 +126,7 @@ public class BlueOceansEntities {
         event.put(RED_PLUM_CREEPER.get(), RedPlumCreeper.createAttributes());
         event.put(PLUM_BUILDER.get(), PlumBuilder.createAttributes());
         event.put(PLUM_FACTORY.get(), PlumFactory.createAttributes());
+        event.put(PLUM_HOLDER.get(), PlumHolder.createAttributes().build());
         event.put(PLUM_SPREADER.get(), PlumSpreader.createAttributes().build());
         event.put(RED_DEMON.get(), RedDemon.createAttributes().build());
         event.put(RED_PLUMS_COW.get(), RedPlumCow.createAttributes().build());
@@ -134,6 +139,7 @@ public class BlueOceansEntities {
         event.put(RED_PLUM_VILLAGER.get(), RedPlumVillager.createAttributes());
         event.put(RED_PLUM_WORM.get(), RedPlumWorm.createAttributes().build());
         event.put(RESEARCHER.get(), Researcher.createAttributes().build());
+        event.put(SHRIMP.get(), Shrimp.createAttributes().build());
         event.put(VILLAGER_BIOLOGIST.get(), VillagerBiologist.createAttributes().build());
         event.put(VILLAGER_CHIEF.get(), VillageChief.ATTRIBUTE_SUPPLIER);
         event.put(PARAMECIUM.get(), Paramecium.createAttributes().build());

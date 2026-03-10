@@ -58,6 +58,16 @@ implements IConversion {
     protected void clientAiStep() {
     }
 
+    public void convertTick() {
+        if (!isNoAi())
+            IConversion.super.convertTick();
+    }
+
+    public void decreaseConvertTick() {
+        if (!isNoAi())
+            IConversion.super.decreaseConvertTick();
+    }
+
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         this.addConversionSavedData(tag);

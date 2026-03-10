@@ -39,15 +39,15 @@ public class Explosion {
     }
 
     public double x() {
-        return position().x();
+        return position().x;
     }
 
     public double y() {
-        return position().y();
+        return position().y;
     }
 
     public double z() {
-        return position().y();
+        return position().y;
     }
 
     public Level level() {

@@ -10,6 +10,7 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.ForgeMod;
 
 public class RedPlumFish
 extends WaterPlumMob {
@@ -41,6 +42,7 @@ extends WaterPlumMob {
     public static AttributeSupplier.Builder createAttributes() {
         return createPathAttributes().add(Attributes.MAX_HEALTH, 12)
                 .add(Attributes.FOLLOW_RANGE, 45).add(Attributes.ATTACK_DAMAGE, 3)
-                .add(Attributes.ARMOR, 2);
+                .add(Attributes.ARMOR, 2).add(Attributes.MOVEMENT_SPEED, 1)
+                .add(ForgeMod.SWIM_SPEED.get(), 10);
     }
 }

@@ -23,12 +23,15 @@ extends MobEffect {
     public void applyEffectTick(LivingEntity pLivingEntity, int pAmplifier) {
         if (pLivingEntity instanceof RedPlumMob)
         {
-            if (pLivingEntity instanceof PlumBuilder builder) {
-                PlumBuilder.heal(builder);
-            } else
-                pLivingEntity.heal(1.0F);
+            boolean f = pAmplifier > 2;
+            if (pLivingEntity.tickCount % (f ? 10 : 40) == 0) {
+                if (pLivingEntity instanceof PlumBuilder builder) {
+                    PlumBuilder.heal(builder);
+                } else
+                    pLivingEntity.heal(1.0F);
+            }
         } else {
-            if (Math.random() < 0.1) {
+            if (Math.random() < 0.05) {
                 EquipmentSlot slot = EquipmentSlot.values()[MathSupport.random.nextInt(6)];
                 pLivingEntity.getItemBySlot(slot).hurtAndBreak(1, pLivingEntity, pEntity ->
                         pEntity.broadcastBreakEvent(slot));
@@ -38,7 +41,7 @@ extends MobEffect {
             }
             Level level = pLivingEntity.level();
             if (!pLivingEntity.isAlive() && pAmplifier > 1) {
-                if (!level.isClientSide && pLivingEntity.deathTime == 1) {
+                if (!level.isClientSide && pLivingEntity.deathTime == 10) {
                     List<AbstractRedPlumMob> mobs = level.getEntitiesOfClass(AbstractRedPlumMob.class,
                             pLivingEntity.getBoundingBox().inflate(8));
                     if (!mobs.isEmpty()) {
@@ -62,6 +65,6 @@ extends MobEffect {
     }
 
     public boolean isDurationEffectTick(int pDuration, int pAmplifier) {
-        return pDuration % 80 == 0;
+        return pDuration % 10 == 0;
     }
 }

@@ -36,7 +36,7 @@ implements ICreeper {
     private static final EntityDataAccessor<Boolean> DATA_IS_IGNITED;
     private int oldSwell;
     private int swell;
-    private int maxSwell = 30;
+    private int maxSwell = 25;
     private int explosionRadius = 3;
     public RedPlumCreeper(EntityType<? extends RedPlumCreeper> type, Level level) {
         super(type, level);

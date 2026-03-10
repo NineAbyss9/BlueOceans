@@ -236,7 +236,7 @@ extends RedPlumMonster {
         public void start() {
             LivingEntity living = this.mob.getTarget();
             if (living != null) {
-                this.mob.getMoveControl().setWantedPosition(living.getX(), living.getY(), living.getZ(), this.speed);
+                this.mob.getNavigation().moveTo(living.getX(), living.getY(), living.getZ(), this.speed);
             }
             this.mob.setAggressive(true);
             this.ticksUntilNextPathRecalculation = 0;

@@ -6,9 +6,7 @@ import com.bilibili.player_ix.blue_oceans.api.mob.Immobile;
 import com.bilibili.player_ix.blue_oceans.common.blocks.plum.RedPlumCatalyst;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansMobEffects;
-import com.bilibili.player_ix.blue_oceans.init.BlueOceansParticleTypes;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansSounds;
-import com.bilibili.player_ix.blue_oceans.util.RedPlumUtil;
 import com.github.NineAbyss9.ix_api.api.annotation.ServerOnly;
 import com.github.NineAbyss9.ix_api.api.mobs.IFlagMob;
 import com.github.NineAbyss9.ix_api.util.Maths;
@@ -26,6 +24,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.level.Level;
@@ -34,6 +33,7 @@ import net.minecraft.world.phys.Vec3;
 import org.NineAbyss9.math.AbyssMath;
 
 import javax.annotation.Nullable;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,12 +43,11 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
     private static final EntityDataAccessor<Boolean> DATA_BUILDING;
     private static final EntityDataAccessor<Integer> DATA_AGE;
     private static final EntityDataAccessor<Integer> DATA_FLAGS;
-    private static final int MAX_AGE = 8;
-    private static final int NEXT_AGE = Maths.minuteToTick(2);
-    private static final int SPREAD_COOLDOWN = Maths.toTick(30);
+    public static final int MAX_AGE = 8;
+    public static final int NEXT_AGE = Maths.minuteToTick(2);
+    public static final int SPREAD_COOLDOWN = Maths.toTick(30);
     private int lostTargetTime;
     private int spreadTimer;
-    private int tryCount;
     public AnimationState idle = new AnimationState();
     public AnimationState spread = new AnimationState();
     public PlumBuilder(EntityType<? extends PlumBuilder> type, Level level) {
@@ -87,7 +86,7 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
                     this.spread();
                     if (PlumFactory.checkPlums(level(), this.getBoundingBox().inflate(16), 20))
                         for (int counterNA = 0;counterNA < this.getSpawnCountByAge();counterNA++)
-                            this.spawnPlums();
+                            this.spawnPlum();
                     else {
                         if (this.isMaxAge()) {
                             this.sendNewBuilder();
@@ -108,25 +107,16 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
                     this.setFlag(0);
                     this.spreadTimer = SPREAD_COOLDOWN;
                 }
-            } else if (!this.isEmptyTarget()) {
-                if (this.tickCount % 40 == 0 && this.navigation.isDone()) {
-                    if (this.moveToTargetPos())
-                        tryCount = 0;
-                    else
-                        tryCount++;
-                }
-                if (this.tryCount > 5) {
-                    this.startBuilding();
-                    return;
-                }
-                Vec3 vec3 = this.getTargetPos();
-                if (Math.abs(this.x() - vec3.x) < 3 && Math.abs(this.z() - vec3.z) < 3) {
-                    this.startBuilding();
-                }
             }
         }
-        if (this.level().isClientSide && this.getFlag() == 0)
-            this.idle.startIfStopped(tickCount);
+        if (this.level().isClientSide) {
+            if (this.isBuilding() && this.getXRot() != 0f || this.getYRot() != 0f) {
+                this.setXRot(0f);
+                this.setYRot(0f);
+            }
+            if (this.getFlag() == 0)
+                this.idle.startIfStopped(tickCount);
+        }
     }
 
     protected void customServerAiStep() {
@@ -164,11 +154,6 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
         super.onSyncedDataUpdated(pKey);
     }
 
-    public boolean moveToTargetPos() {
-        Vec3 vec3 = this.getTargetPos();
-        return this.navigation.moveTo(vec3.x, vec3.y, vec3.z, 0.8);
-    }
-
     public void startBuilding() {
         this.setTargetPos(this.position());
         this.setBuilding(true);
@@ -176,6 +161,11 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
         this.navigation.stop();
         this.setXRot(0);
         this.setYRot(0);
+    }
+
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new MoveToTargetGoal(this));
+        super.registerGoals();
     }
 
     public void puffSound() {
@@ -215,7 +205,8 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
 
     public boolean hurt(DamageSource pSource, float pAmount) {
         boolean flag = super.hurt(pSource, pAmount);
-        if (flag && this.level().getEntitiesOfClass(AbstractRedPlumMob.class,
+        if (flag && (pSource.getEntity() != null || pSource.getDirectEntity() != null)
+                && this.level().getEntitiesOfClass(AbstractRedPlumMob.class,
                 this.getBoundingBox().inflate(8)).size() < 4) {
             this.protectSelf(pAmount);
             return true;
@@ -365,35 +356,29 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
                     200, 2));
             this.level().addFreshEntity(areaeffectcloud);
         } else if (this.getAge() == 1 && pAmount < 20.0F) {
-            var list = RedPlumUtil.MAP.get(1);
-            AbstractRedPlumMob mob = list.get(AbyssMath.random.nextInt(RedPlumUtil.BASE_PLUM_RANDOM_POOL))
-                    .create(this.level());
-            if (mob != null) {
-                mob.moveTo(this.position().add(AbyssMath.random(5), 0, AbyssMath.random(5)));
-                this.level().addFreshEntity(mob);
-                NeoPlum.addParticleAroundPlum(mob);
-            }
+            this.spawnPlum(1);
         }
         if (this.getAge() > 1 || (this.getAge() == 1 && pAmount >= 20.0F)) {
-            var list = RedPlumUtil.MAP.get(2);
-            AbstractRedPlumMob mob = list.get(AbyssMath.random.nextInt(2)).create(this.level());
-            if (mob != null) {
-                mob.moveTo(this.position().add(AbyssMath.random(5), 0, AbyssMath.random(5)));
-                this.level().addFreshEntity(mob);
-                NeoPlum.addParticleAroundPlum(mob);
-            }
+            this.spawnPlum(2);
         }
     }
 
-    public void spawnPlums() {
-        List<EntityType<? extends AbstractRedPlumMob>> list = RedPlumUtil.MAP.get(
-                this.getSummonedLevel());
-        AbstractRedPlumMob plumMob = list.get(AbyssMath.random.nextInt(list.size())).create(level());
+    public void spawnPlum(int pIndex) {
+        PlumHolder plumMob = BlueOceansEntities.PLUM_HOLDER.get().create(level());
         if (plumMob != null) {
-            plumMob.moveTo(position().add(AbyssMath.random(1.5), 0, AbyssMath.random(1.5)));
-            if (level().addFreshEntity(plumMob))
-                ParticleUtil.spawnAnim(plumMob, BlueOceansParticleTypes.RED_SPELL.get(), 8);
-            else
+            plumMob.moveTo(position().add(AbyssMath.random(1.5), -2, AbyssMath.random(1.5)));
+            plumMob.fromList(pIndex);
+            if (!level().addFreshEntity(plumMob))
+                plumMob.discard();
+        }
+    }
+
+    public void spawnPlum() {
+        PlumHolder plumMob = BlueOceansEntities.PLUM_HOLDER.get().create(level());
+        if (plumMob != null) {
+            plumMob.moveTo(position().add(AbyssMath.random(1.5), -2, AbyssMath.random(1.5)));
+            plumMob.fromList(this.getSummonedLevel());
+            if (!level().addFreshEntity(plumMob))
                 plumMob.discard();
         }
     }
@@ -402,10 +387,6 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
         if (pSource.is(DamageTypes.IN_WALL))
             return true;
         return super.isInvulnerableTo(pSource);
-    }
-
-    public boolean shouldAttackOtherMobs() {
-        return false;
     }
 
     protected void addBehaviorGoal(int i, double speed, float range) {
@@ -444,5 +425,53 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
         DATA_BUILDING = SynchedEntityData.defineId(PlumBuilder.class, EntityDataSerializers.BOOLEAN);
         DATA_AGE = SynchedEntityData.defineId(PlumBuilder.class, EntityDataSerializers.INT);
         DATA_FLAGS = SynchedEntityData.defineId(PlumBuilder.class, EntityDataSerializers.INT);
+    }
+
+    private static class MoveToTargetGoal extends Goal {
+        private final PlumBuilder builder;
+        private boolean canUse = true;
+        public MoveToTargetGoal(PlumBuilder pBuilder) {
+            this.builder = pBuilder;
+            this.setFlags(EnumSet.of(Flag.MOVE));
+        }
+
+        public boolean canMoveToTargetPos() {
+            return (builder.level().getWorldBorder().isWithinBounds(BlockPos.containing(builder.getTargetPos())))
+                    && SpawnPlacements.Type.ON_GROUND.canSpawnAt(builder.level(), BlockPos.containing(builder.getTargetPos()),
+                    BlueOceansEntities.PLUM_BUILDER.get());
+        }
+
+        public void start() {
+            Vec3 vec3 = builder.getTargetPos();
+            builder.navigation.moveTo(vec3.x, vec3.y, vec3.z, 0.8);
+        }
+
+        public void tick() {
+            if (!canUse || !canMoveToTargetPos()) {
+                builder.startBuilding();
+                canUse = false;
+                return;
+            }
+            Vec3 vec3 = builder.getTargetPos();
+            if (Math.abs(builder.x() - vec3.x) < 3 && Math.abs(builder.z() - vec3.z) < 3) {
+                builder.startBuilding();
+                canUse = false;
+            }
+        }
+
+        public void stop() {
+            builder.navigation.stop();
+            canUse = false;
+        }
+
+        public boolean canUse() {
+            if (!canUse) return false;
+            if (builder.isBuilding() || builder.isEmptyTarget()) return false;
+            return canMoveToTargetPos();
+        }
+
+        public boolean canContinueToUse() {
+            return canUse;
+        }
     }
 }

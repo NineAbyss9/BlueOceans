@@ -3,6 +3,7 @@ package com.bilibili.player_ix.blue_oceans.common.blocks.farming;
 
 import com.bilibili.player_ix.blue_oceans.common.blocks.BoBlockProperties;
 import com.bilibili.player_ix.blue_oceans.common.blocks.be.farming.SprinklerEntity;
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -43,8 +44,7 @@ extends BaseEntityBlock {
 
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer,
                                  InteractionHand pHand, BlockHitResult pHit) {
-        if (!pLevel.isClientSide)
-            pLevel.setBlock(pPos, pState.cycle(ACTIVATED), 3);
+        pLevel.setBlock(pPos, pState.cycle(ACTIVATED), 3);
         pLevel.playSound(null, pPos, SoundEvents.LEVER_CLICK, SoundSource.BLOCKS);
         return InteractionResult.sidedSuccess(pLevel.isClientSide);
     }
@@ -55,7 +55,7 @@ extends BaseEntityBlock {
 
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState,
                                                                   BlockEntityType<T> pBlockEntityType) {
-        return createTickerHelper(pBlockEntityType, null, SprinklerEntity::tick);
+        return createTickerHelper(pBlockEntityType, BlueOceansBlockEntities.SPRINKLER.get(), SprinklerEntity::tick);
     }
 
     @Nullable

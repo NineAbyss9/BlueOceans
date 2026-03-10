@@ -2,7 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.network.packet;
 
 import com.bilibili.player_ix.blue_oceans.BlueOceans;
-import com.bilibili.player_ix.blue_oceans.common.entities.traffic.AbstractTrafficUtil;
+import com.bilibili.player_ix.blue_oceans.common.entities.traffic.AbstractTransport;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -33,7 +33,7 @@ public class SpeedUp {
             }
             if (player != null) {
                 Entity vehicle = player.getVehicle();
-                if (vehicle instanceof AbstractTrafficUtil trafficUtil) {
+                if (vehicle instanceof AbstractTransport trafficUtil) {
                     trafficUtil.setSpeedy(speedUp.speedUp);
                 }
             }

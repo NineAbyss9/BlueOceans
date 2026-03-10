@@ -72,7 +72,7 @@ implements ISleepMob, IFlagMob, IAnimatedMob {
     }
 
     public boolean canSleep() {
-        return false;
+        return this.level().isNight();
     }
 
     public boolean isSleeping() {
@@ -80,7 +80,7 @@ implements ISleepMob, IFlagMob, IAnimatedMob {
     }
 
     public void setSleeping(boolean var0) {
-
+        this.setFlag(var0 ? 1 : 0);
     }
 
     public void meow() {

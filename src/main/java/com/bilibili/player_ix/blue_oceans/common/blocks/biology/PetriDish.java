@@ -1,6 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.blocks.biology;
 
+import com.bilibili.player_ix.blue_oceans.common.blocks.be.PetriDishEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
@@ -21,6 +22,6 @@ extends BaseEntityBlock {
 
     @Nullable
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return null;
+        return new PetriDishEntity(pPos, pState);
     }
 }

@@ -7,6 +7,6 @@ public class ChemicalReactions {
     public static final ChemicalReaction IRON_WITH_OXYGEN;
 
     static {
-        IRON_WITH_OXYGEN = new ChemicalReaction(SubLister.of(), SubLister.of(), Conditions.EMPTY);
+        IRON_WITH_OXYGEN = new ChemicalReaction(SubLister.of(ChemicalFormulas.O2), SubLister.of(), Conditions.EMPTY);
     }
 }

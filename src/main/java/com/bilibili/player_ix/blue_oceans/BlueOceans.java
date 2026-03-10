@@ -113,6 +113,10 @@ public class BlueOceans implements ModOfNineAbyss {
         return animal("ocean/" + path);
     }
 
+    public static ResourceLocation water(String path) {
+        return animal("water/" + path);
+    }
+
     public static ResourceLocation redPlum(String path) {
         return entity("red_plum_mobs/" + path);
     }

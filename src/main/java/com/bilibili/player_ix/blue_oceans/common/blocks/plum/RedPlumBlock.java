@@ -81,14 +81,5 @@ public class RedPlumBlock extends BaseEntityBlock implements PlumBlock {
     }
 
     protected void spawnPlum(ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
-        /*if (BoCommonConfig.SPAWN_NEO_PLUM.get() && pRandom.nextFloat() < 0.05F
-            && NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND,
-                pLevel, pPos.above(), BlueOceansEntities.NEO_PLUM.get())
-            && pLevel.getEntitiesOfClass(RedPlumMonster.class, new AABB(pPos).inflate(8)).size() < 8) {
-            AbstractRedPlumMob plum = NeoPlum.createRandom(pPos.above(), pLevel);
-            if (plum != null) {
-                NeoPlum.addParticleAroundPlum(plum);
-            }
-        }*/
     }
 }

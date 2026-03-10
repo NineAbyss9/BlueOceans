@@ -4,6 +4,7 @@ package com.bilibili.player_ix.blue_oceans.common.blocks.plum;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlocks;
 import com.bilibili.player_ix.blue_oceans.init.BoTags;
 import com.bilibili.player_ix.blue_oceans.util.RedPlumUtil;
+import com.github.NineAbyss9.ix_api.util.DirectionUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -34,8 +35,7 @@ implements SimpleWaterloggedBlock, PlumBlock {
     public RedPlumVein(Properties properties) {
         super(properties);
         veinSpreader = new MultifaceSpreader(new SpreaderConfig(MultifaceSpreader.DEFAULT_SPREAD_ORDER));
-        this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, Boolean.FALSE)
-                .setValue(getFaceProperty(Direction.DOWN), Boolean.TRUE));
+        this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, Boolean.FALSE));
     }
 
     public MultifaceSpreader getSpreader() {
@@ -58,29 +58,43 @@ implements SimpleWaterloggedBlock, PlumBlock {
         if (RedPlumUtil.canSpreadPlum(pLevel) && grow(pRandom)) {
             BlockPos pos;
             for (int i = 0;i<4;i++) {
-                if (i == 0) {
-                    pos = pPos.offset(1, 0, 0);
-                } else if (i == 1) {
-                    pos = pPos.offset(-1, 0, 0);
-                } else if (i == 2) {
-                    pos = pPos.offset(0, 0, 1);
+                if (DirectionUtil.isVertical(getFacing(pState))) {
+                    if (i == 0) {
+                        pos = pPos.offset(0, 1, 0);
+                    } else if (i == 1) {
+                        pos = pPos.offset(0, -1, 0);
+                    } else if (i == 2) {
+                        pos = pPos.relative(getFacing(pState));
+                    } else {
+                        pos = new BlockPos(pPos.getX() -getFacing(pState).getStepX(),
+                                pPos.getY(), pPos.getZ() -getFacing(pState).getStepZ());
+                    }
                 } else {
-                    pos = pPos.offset(0, 0, -1);
+                    if (i == 0) {
+                        pos = pPos.offset(1, 0, 0);
+                    } else if (i == 1) {
+                        pos = pPos.offset(-1, 0, 0);
+                    } else if (i == 2) {
+                        pos = pPos.offset(0, 0, 1);
+                    } else {
+                        pos = pPos.offset(0, 0, -1);
+                    }
                 }
-                BlockPos belowPos = pos.below();
+                BlockPos belowPos = pos.relative(getFacing(pState));
                 BlockState state = pLevel.getBlockState(pos);
                 BlockState belowState = pLevel.getBlockState(belowPos);
                 if (state.canBeReplaced() && Block.isFaceFull(belowState
-                        .getBlockSupportShape(pLevel, belowPos), Direction.UP)) {
+                        .getBlockSupportShape(pLevel, belowPos), getFacing(pState))) {
                     pLevel.destroyBlock(pos, false);
-                    BlockState state1 = this.getGrowState(state, pLevel, pPos);
+                    BlockState state1 = this.getGrowState(state, pLevel, pPos, getFacing(pState));
                     if (state1 != null)
                         pLevel.setBlockAndUpdate(pos, state1);
                 }
             }
             if (isNeoPlum()) {
                 pLevel.destroyBlock(pPos, false);
-                pLevel.setBlockAndUpdate(pPos, BlueOceansBlocks.RED_PLUM_VEIN.get().defaultBlockState());
+                MultifaceBlock block = (MultifaceBlock)BlueOceansBlocks.RED_PLUM_VEIN.get();
+                pLevel.setBlockAndUpdate(pPos, block.getStateForPlacement(pState, pLevel, pPos, getFacing(pState)));
             } else
             {
                 BlockPos relative = pPos.relative(getFacing(pState));
@@ -98,9 +112,9 @@ implements SimpleWaterloggedBlock, PlumBlock {
     }
 
     @Nullable
-    public BlockState getGrowState(BlockState pState, ServerLevel pLevel, BlockPos pPos) {
+    public BlockState getGrowState(BlockState pState, ServerLevel pLevel, BlockPos pPos, Direction pFacing) {
         MultifaceBlock block = (MultifaceBlock)BlueOceansBlocks.RED_PLUM_VEIN.get();
-        return block.getStateForPlacement(pState, pLevel, pPos, Direction.DOWN);
+        return block.getStateForPlacement(pState, pLevel, pPos, pFacing);
     }
 
     public boolean isNeoPlum() {

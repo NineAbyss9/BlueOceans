@@ -12,7 +12,7 @@ public class PlumSpreaderRenderer<E extends PlumSpreader>
 extends MobRenderer<E, PlumSpreaderModel<E>> {
     public PlumSpreaderRenderer(EntityRendererProvider.Context pContext) {
         super(pContext, new PlumSpreaderModel<>(pContext.bakeLayer(PlumSpreaderModel.LAYER_LOCATION)),
-                0.75F);
+                0.5F);
     }
 
     public ResourceLocation getTextureLocation(E pEntity) {

@@ -12,7 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class Bike
-extends AbstractTrafficUtil {
+extends AbstractTransport {
     public Bike(EntityType<? extends Bike> type, Level level) {
         super(type, level);
     }

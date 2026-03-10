@@ -33,6 +33,7 @@ public class RedPlumUtil {
      * <p>
      }*/
     public static final Map<Integer, List<EntityType<? extends AbstractRedPlumMob>>> MAP;
+    public static final Map<Integer, List<String>> STRING_MAP;
     public static final ObjectArray<EntityType<?>> PLUM_ENTITY_TYPES;
     public static final IntArray PLUM_PLUS_KILLS;
     public static final int BASE_PLUM_RANDOM_POOL = 5;
@@ -83,6 +84,10 @@ public class RedPlumUtil {
         }
     }
 
+    private static String bo(String name) {
+        return "blue_oceans:" + name;
+    }
+
     static {
         MAP = Map.of(0, List.of(BlueOceansEntities.NEO_PLUM.get(), BlueOceansEntities.NEO_FIGHTER.get()),
                 1, List.of(BlueOceansEntities.RED_PLUM_CREEPER.get(),
@@ -92,6 +97,10 @@ public class RedPlumUtil {
                 2, List.of(BlueOceansEntities.RED_PLUM_SLAYER.get(), BlueOceansEntities.RED_DEMON.get()),
                 3, List.of(BlueOceansEntities.PLUM_FACTORY.get(), BlueOceansEntities.PLUM_SPREADER.get(),
                         BlueOceansEntities.PLUM_BUILDER.get()));
+        STRING_MAP = Map.of(0, List.of(bo("neo_plum"), bo("neo_fighter")),
+                1, List.of(bo("red_plum_creeper"),  bo("red_plum_spider"), bo("red_plum_villager"),
+                        bo("red_plum_worm"), bo("red_plum_human"), bo("red_plum_skeleton")),
+                2, List.of(bo("red_plum_slayer"), bo("red_demon")));
         PLUM_ENTITY_TYPES = ObjectArray.of(BlueOceansEntities.RED_PLUM_SLAYER.get());
         PLUM_PLUS_KILLS = IntArray.of(3, 10, Integer.MAX_VALUE, Integer.MAX_VALUE,
                 Integer.MAX_VALUE);

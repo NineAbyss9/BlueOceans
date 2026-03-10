@@ -27,10 +27,6 @@ public abstract class RedPlumIllager  extends RedPlumMonster {
         return BlueOceansSounds.RED_PLUM_CULTIST_DIES.get();
     }
 
-    public boolean removeWhenFarAway(double pDistanceToClosestPlayer) {
-        return pDistanceToClosestPlayer > 10000;
-    }
-
     public ApiPose getPoses() {
         if (this.isAggressive()) {
             return ApiPose.ATTACKING;

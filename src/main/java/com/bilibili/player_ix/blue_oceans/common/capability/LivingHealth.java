@@ -22,6 +22,10 @@ public class LivingHealth implements INBTSerializable<CompoundTag> {
         this.bodyManager = new BodyManager(this);
     }
 
+    public void tick() {
+
+    }
+
     public CompoundTag writeNBT() {
         CompoundTag tag = new CompoundTag();
         if (!this.activeEffects.isEmpty()) {

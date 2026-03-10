@@ -18,12 +18,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import javax.annotation.Nullable;
 
-public abstract class AbstractTrafficUtil
+public abstract class AbstractTransport
 extends ApiPathfinderMob {
     protected static final AttributeModifier SPEEDY_SPEED_MODIFIER;
     protected static final EntityDataAccessor<Boolean> DATA_SPEEDY;
     private static final EntityDataAccessor<Float> DATA_ARMOR;
-    protected AbstractTrafficUtil(EntityType<? extends AbstractTrafficUtil> type, Level level) {
+    protected AbstractTransport(EntityType<? extends AbstractTransport> type, Level level) {
         super(type, level);
     }
 
@@ -58,7 +58,7 @@ extends ApiPathfinderMob {
 
     /**0 -> Car
      * 1 -> Bike
-     * @return the type of the traffic util*/
+     * @return the type of the transport*/
     public int getTrafficType() {
         return 1;
     }
@@ -120,7 +120,7 @@ extends ApiPathfinderMob {
     static {
         SPEEDY_SPEED_MODIFIER = new AttributeModifier("TrafficUtilSpeed",
                 1.5D, AttributeModifier.Operation.MULTIPLY_TOTAL);
-        DATA_SPEEDY = SynchedEntityData.defineId(AbstractTrafficUtil.class, EntityDataSerializers.BOOLEAN);
-        DATA_ARMOR = SynchedEntityData.defineId(AbstractTrafficUtil.class, EntityDataSerializers.FLOAT);
+        DATA_SPEEDY = SynchedEntityData.defineId(AbstractTransport.class, EntityDataSerializers.BOOLEAN);
+        DATA_ARMOR = SynchedEntityData.defineId(AbstractTransport.class, EntityDataSerializers.FLOAT);
     }
 }

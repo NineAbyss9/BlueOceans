@@ -25,7 +25,7 @@ public interface Cnidarians {
     default void tickSting(Predicate<LivingEntity> toIgnore) {
         if (!selfSelector().level().isClientSide) {
             List<LivingEntity> entities = selfSelector().level().getEntitiesOfClass(LivingEntity.class, selfSelector().getBoundingBox()
-                    .inflate(this.getSize().x, this.getSize().y, this.getSize().z), toIgnore);
+                    , toIgnore);
             if (!entities.isEmpty())
                 entities.forEach(this::sting);
         }

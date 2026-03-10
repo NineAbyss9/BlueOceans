@@ -47,7 +47,7 @@ extends AbstractFlyingAnimal {
     }
 
     protected void registerGoals() {
-        super.registerGoals();
+        this.goalSelector.addGoal(2, new WanderGoal(this));
     }
 
     public void aiStep() {

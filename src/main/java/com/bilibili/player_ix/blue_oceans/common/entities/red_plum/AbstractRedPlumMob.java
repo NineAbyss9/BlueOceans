@@ -31,6 +31,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -241,6 +242,12 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
         return super.hurt(pSource, pAmount);
     }
 
+    protected float getDamageAfterArmorAbsorb(DamageSource pDamageSource, float pDamageAmount) {
+        if (pDamageSource.is(BoDamageSource.CLEAR))
+            return pDamageAmount;
+        return super.getDamageAfterArmorAbsorb(pDamageSource, pDamageAmount);
+    }
+
     public boolean canAttack(LivingEntity pTarget) {
         if (pTarget instanceof RedPlumMob && !this.isException()) {
             return false;
@@ -414,7 +421,7 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
 
     protected void doAttackTarget(Entity pEntity) {
         if (pEntity instanceof LivingEntity entity) {
-            entity.addEffect(EffectInstance.create(BlueOceansMobEffects.PLUM_INVADE, 300,
+            entity.addEffect(EffectInstance.create(BlueOceansMobEffects.PLUM_INVADE, 100,
                     this.getPlumInvadeLevel()));
         }
     }
@@ -439,6 +446,52 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
         this.doKillEntity(pEntity);
         this.heal(this.getHealAmount());
         return super.killedEntity(pLevel, pEntity);
+    }
+
+    public void checkDespawn() {
+        if (this.level().getDifficulty() == Difficulty.PEACEFUL && !this.getMobTypes().isFriendly()) {
+            this.discard();
+        } else if (!this.isPersistenceRequired() && !this.requiresCustomPersistence()) {
+            Entity entity = this.level().getNearestPlayer(this, -1.0D);
+            net.minecraftforge.eventbus.api.Event.Result result = net.minecraftforge.event.ForgeEventFactory
+                    .canEntityDespawn(this, (ServerLevel) this.level());
+            if (result == net.minecraftforge.eventbus.api.Event.Result.DENY) {
+                noActionTime = 0;
+                entity = null;
+            } else if (result == net.minecraftforge.eventbus.api.Event.Result.ALLOW) {
+                this.discard();
+                entity = null;
+            }
+            if (entity != null) {
+                double d0 = entity.distanceToSqr(this);
+                int i = this.getType().getCategory().getDespawnDistance();
+                int j = i * i;
+                if (d0 > (double)j && this.removeWhenFarAway(d0)
+                    && !this.isNoAi()) {
+                    this.waitForDiscard();
+                    PlumHolder.despawn(this, level());
+                }
+                int k = this.getType().getCategory().getNoDespawnDistance();
+                int l = k * k;
+                if (this.noActionTime > 600 && this.random.nextInt(800) == 0 && d0 > (double)l &&
+                        this.removeWhenFarAway(d0) && !this.isNoAi()) {
+                    this.waitForDiscard();
+                    PlumHolder.despawn(this, level());
+                } else if (d0 < (double)l) {
+                    this.noActionTime = 0;
+                }
+            }
+        } else {
+            this.noActionTime = 0;
+        }
+    }
+
+    public void waitForDiscard() {
+        this.setNoAi(true);
+        this.getNavigation().stop();
+        this.setTarget(null);
+        this.setInvulnerable(true);
+        if (this.getTarget() != null && this.getTarget() instanceof Mob mob) mob.setTarget(null);
     }
 
     @Nullable

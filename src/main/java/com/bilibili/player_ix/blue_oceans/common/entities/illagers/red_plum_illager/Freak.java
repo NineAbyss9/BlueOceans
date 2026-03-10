@@ -47,7 +47,7 @@ extends SpellcasterRedPlumIllager {
         super.registerGoals();
         this.goalSelector.addGoal(2, new CastingSpellGoal());
         this.goalSelector.addGoal(2, new SummonSpellGoal());
-        this.addMeleeAttackGoal(3, 1);
+        specialMeleeAttackGoal(3, 1, 4);
         this.targetSelector.addGoal(3, new CrazyTargetGoal<>(this));
         this.addBehaviorGoal(4, 1.0, 10F);
         this.targetSelector.addGoal(5, new RedPlumsMobsHurtByTargetGoal(this,

@@ -48,7 +48,7 @@ public class RedPlumWorm extends RedPlumMonster {
             } else {
                 if (this.tickCount % 40 == 0 && this.navigation.isDone()) {
                     this.findHidePlace();
-                    if (this.navigation.moveTo(this.hidePos.getX() + 0.5, this.hidePos.getY(), this.hidePos.getZ() + 0.5, 1))
+                    if (this.navigation.moveTo(this.hidePos.getX() + 0.5d, this.hidePos.getY(), this.hidePos.getZ() + 0.5d, 1d))
                         tryCount = 0;
                     else
                         tryCount++;
@@ -64,7 +64,7 @@ public class RedPlumWorm extends RedPlumMonster {
             }
         }
         if (this.level().isClientSide && this.getPlumFlag() == 99) {
-            ParticleUtil.addBlockParticle(this.level(), this.blockPosition());
+            ParticleUtil.addBlockParticle(this.level(), this.blockPosition(), x(), y(), z());
         }
     }
 

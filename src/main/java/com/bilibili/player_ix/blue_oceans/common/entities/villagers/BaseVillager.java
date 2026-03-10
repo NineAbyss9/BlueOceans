@@ -105,8 +105,12 @@ implements ICitizen, IAcceptTask, ReputationEventHandler, FoodDataUser, IMiner {
     }
 
     protected void registerGoals() {
-        OwnableMob.addBehaviorGoals(this, 6, 0.7, 8F, true, false);
+        this.addBehaviorGoals();
         this.addTargetGoal();
+    }
+
+    protected void addBehaviorGoals() {
+        OwnableMob.addBehaviorGoals(this, 6, 0.7, 8F, true, false);
     }
 
     protected void addTargetGoal() {

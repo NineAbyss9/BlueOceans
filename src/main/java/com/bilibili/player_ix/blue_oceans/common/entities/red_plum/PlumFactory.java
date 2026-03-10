@@ -39,11 +39,10 @@ implements IPlumSpreader {
     }
 
     public void baseTick() {
-        if (this.firstTick) {
+        if (this.firstTick && this.isServerSide()) {
             int i = 0;
             while (i < 5) {
-                if (this.isServerSide())
-                    spreadPlum(this.level(), this.blockPosition());
+                spreadPlum(this.level(), this.blockPosition());
                 i++;
             }
         }

@@ -13,9 +13,9 @@ import static net.minecraft.commands.Commands.literal;
 public class SpawnerCommand {
     public static void register(LiteralArgumentBuilder<CommandSourceStack> pDispatcher,
                                          CommandBuildContext pContext) {
-        pDispatcher.then(literal("spawner")).then(literal("villagerGroup"))
+        pDispatcher.then(literal("spawner").then(literal("villagerGroup"))
                 .then(literal("spawnNow").executes(commandContext ->
-                        spawnVillagerGroup(commandContext.getSource())));
+                        spawnVillagerGroup(commandContext.getSource()))));
     }
 
     public static int spawnVillagerGroup(CommandSourceStack stack) {

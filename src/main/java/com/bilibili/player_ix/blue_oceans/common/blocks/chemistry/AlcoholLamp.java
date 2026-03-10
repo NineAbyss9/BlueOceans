@@ -6,6 +6,7 @@ import com.bilibili.player_ix.blue_oceans.common.chemistry.IChemical;
 import com.bilibili.player_ix.blue_oceans.config.BoCommonConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -37,8 +38,8 @@ implements IChemical {
     private static final VoxelShape SHAPE = box(3.0, 0.0, 3.0, 13.0, 10.0, 13.0);
     public AlcoholLamp(Properties pProperties) {
         super(pProperties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(COVERED, Boolean.FALSE)
-                .setValue(CAPACITY, 8).setValue(BURNING, Boolean.FALSE));
+        this.registerDefaultState(this.stateDefinition.any().setValue(COVERED, false)
+                .setValue(CAPACITY, 8).setValue(BURNING, false));
     }
 
     public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, RandomSource pRandom) {
@@ -59,13 +60,24 @@ implements IChemical {
         ItemStack itemStack = pPlayer.getItemInHand(pHand);
         if (!pState.getValue(BURNING) && pState.getValue(CAPACITY) > 0 && !pState.getValue(COVERED) &&
                 itemStack.is(Items.FLINT_AND_STEEL)) {
-            if (!pLevel.isClientSide) {
-                pState = pState.setValue(BURNING, true);
-                pLevel.setBlock(pPos, pState, 3);
-            }
+            pState = pState.setValue(BURNING, true);
+            pLevel.setBlock(pPos, pState, 3);
+            return InteractionResult.sidedSuccess(pLevel.isClientSide);
+        } else if (pState.getValue(BURNING)) {
+            pLevel.setBlock(pPos, pState.cycle(BURNING), 3);
             return InteractionResult.sidedSuccess(pLevel.isClientSide);
         }
         return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
+    }
+
+    public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
+        if (pState.getValue(BURNING)) {
+            if (pState.getValue(CAPACITY) > 0) {
+                if (pLevel.getGameTime() % 2400L == 0L)
+                    pLevel.setBlock(pPos, pState.setValue(CAPACITY, pState.getValue(CAPACITY) - 1), 3);
+            } else
+                pLevel.setBlock(pPos, pState.setValue(BURNING, false), 3);
+        }
     }
 
     /*public void stepOn(Level pLevel, BlockPos pPos, BlockState pState, Entity pEntity) {

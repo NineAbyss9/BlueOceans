@@ -1,7 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.keys;
 
-import com.bilibili.player_ix.blue_oceans.common.entities.traffic.AbstractTrafficUtil;
+import com.bilibili.player_ix.blue_oceans.common.entities.traffic.AbstractTransport;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansSounds;
 import com.github.NineAbyss9.ix_api.api.annotation.OnlyInClient;
 import net.minecraft.client.KeyMapping;
@@ -22,7 +22,7 @@ extends KeyMapping {
         super.setDown(pValue);
         Player player = Minecraft.getInstance().player;
         if (this.isDownOld != pValue && pValue && player != null) {
-            if (player.getVehicle() instanceof AbstractTrafficUtil util) {
+            if (player.getVehicle() instanceof AbstractTransport util) {
                 SoundEvent soundEvent;
                 if (util.getTrafficType() == 1)
                     soundEvent = BlueOceansSounds.HONK.get();

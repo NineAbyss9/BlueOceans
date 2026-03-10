@@ -12,11 +12,11 @@ public class CultivateObject {
      * 青霉菌
      */
     public static final CultivateObject Penicillium;
+    public static final CultivateObject RED_PLUM_CELL = null;
     private final String name;
     private final long growTime;
     private final int maxGrow;
     private final Type type;
-
     public CultivateObject(String pName, long pGrowTime, int pMaxGrow, Type pType) {
         this.name = pName;
         this.growTime = pGrowTime;
@@ -73,10 +73,10 @@ public class CultivateObject {
 
     public String toString() {
         return "CultivateObject[" +
-                "name=" + name + ", " +
-                "growTime=" + growTime + ", " +
-                "maxGrow=" + maxGrow + ", " +
-                "type=" + type + ']';
+                "name:" + name + ", " +
+                "growTime:" + growTime + ", " +
+                "maxGrow:" + maxGrow + ", " +
+                "type:" + type + ']';
     }
 
     public static CultivateObject get(String pName) {

@@ -11,6 +11,4 @@ extends Enchantment {
         super(Rarity.UNCOMMON, EnchantmentCategory.VANISHABLE,
                 new EquipmentSlot[]{EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND});
     }
-
-
 }

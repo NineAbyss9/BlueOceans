@@ -37,11 +37,11 @@ implements IBONeutralMob {
     }
 
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new PanicGoal(this, 1.25));
+        this.goalSelector.addGoal(0, new PanicGoal(this, 1.25d));
         this.goalSelector.addGoal(1, new AttackGoal(this));
         this.goalSelector.addGoal(3, new RandomSwimmingGoal(this,
                 2, 40));
-        this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.8));
+        this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.8d));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this, Paramecium.class));
     }
 
@@ -49,9 +49,9 @@ implements IBONeutralMob {
         if (this.isEffectiveAi() && this.isInWater()) {
             this.moveRelative(0.01f, pTravelVector);
             this.move(MoverType.SELF, this.getDeltaMovement());
-            this.setDeltaMovement(this.getDeltaMovement().scale(0.9));
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.9d));
             if (this.getTarget() == null)
-                this.setDeltaMovement(this.getDeltaMovement().add(0.0, 0.005, 0.0));
+                this.setDeltaMovement(this.getDeltaMovement().add(0.d, 0.005d, 0.d));
         } else
             super.travel(pTravelVector);
     }

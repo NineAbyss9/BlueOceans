@@ -32,12 +32,10 @@ extends LanternBlock {
 
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
                                  BlockHitResult pHit) {
-        if (!pLevel.isClientSide) {
-            pState = pState.cycle(LIT);
-            pLevel.setBlock(pPos, pState, 3);
-            pLevel.playSound(null, pPos, SoundEvents.LEVER_CLICK, SoundSource.BLOCKS, 1.0F,
-                    1.0F);
-        }
+        pState = pState.cycle(LIT);
+        pLevel.setBlock(pPos, pState, 3);
+        pLevel.playSound(null, pPos, SoundEvents.LEVER_CLICK, SoundSource.BLOCKS, 1.0F,
+                1.0F);
         return InteractionResult.sidedSuccess(pLevel.isClientSide);
     }
 }

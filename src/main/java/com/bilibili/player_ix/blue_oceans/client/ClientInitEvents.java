@@ -6,6 +6,7 @@ import com.bilibili.player_ix.blue_oceans.client.model.*;
 import com.bilibili.player_ix.blue_oceans.client.model.animal.ParameciumModel;
 import com.bilibili.player_ix.blue_oceans.client.model.animal.land.EarthwormModel;
 import com.bilibili.player_ix.blue_oceans.client.model.animal.ocean.JellyfishModel;
+import com.bilibili.player_ix.blue_oceans.client.model.animal.water.ShrimpModel;
 import com.bilibili.player_ix.blue_oceans.client.model.deprecated.DeathModel;
 import com.bilibili.player_ix.blue_oceans.client.model.deprecated.DumplingMonsterModel;
 import com.bilibili.player_ix.blue_oceans.client.model.item.GasMaskModel;
@@ -24,6 +25,7 @@ import com.bilibili.player_ix.blue_oceans.client.renderer.animal.ParameciumRende
 import com.bilibili.player_ix.blue_oceans.client.renderer.animal.land.BearRenderer;
 import com.bilibili.player_ix.blue_oceans.client.renderer.animal.land.EarthwormRenderer;
 import com.bilibili.player_ix.blue_oceans.client.renderer.animal.ocean.JellyfishRenderer;
+import com.bilibili.player_ix.blue_oceans.client.renderer.animal.water.ShrimpRenderer;
 import com.bilibili.player_ix.blue_oceans.client.renderer.block.WoodenSupportRenderer;
 import com.bilibili.player_ix.blue_oceans.client.renderer.deprecated.DeathRenderer;
 import com.bilibili.player_ix.blue_oceans.client.renderer.deprecated.WaterTrapRenderer;
@@ -94,6 +96,7 @@ public class ClientInitEvents {
         event.registerLayerDefinition(JellyfishModel.LAYER_LOCATION, JellyfishModel::createBodyLayer);
         event.registerLayerDefinition(PlumBuilderModel.LAYER_LOCATION, PlumBuilderModel::createBodyLayer);
         event.registerLayerDefinition(PlumFactoryModel.LAYER_LOCATION, PlumFactoryModel::createBodyLayer);
+        event.registerLayerDefinition(PlumHolderModel.LAYER_LOCATION, PlumHolderModel::createBodyLayer);
         event.registerLayerDefinition(PlumSpreaderModel.LAYER_LOCATION, PlumSpreaderModel::createBodyLayer);
         event.registerLayerDefinition(NeoFighterModel.LAYER_LOCATION, NeoFighterModel::createBodyLayer);
         event.registerLayerDefinition(NeoPlumModel.NEO_PLUM, NeoPlumModel::createBodyLayer);
@@ -102,6 +105,7 @@ public class ClientInitEvents {
         event.registerLayerDefinition(RedPlumGirlModel.LAYER_LOCATION, RedPlumGirlModel::createBodyLayer);
         event.registerLayerDefinition(RedPlumIllagerModel.LAYER_LOCATION, RedPlumIllagerModel::createBodyLayer);
         event.registerLayerDefinition(RedPlumSlayerModel.LAYER_LOCATION, RedPlumSlayerModel::createBodyLayer);
+        event.registerLayerDefinition(ShrimpModel.LAYER_LOCATION, ShrimpModel::createBodyLayer);
         event.registerLayerDefinition(VenomModel.LAYER_LOCATION, VenomModel::createBodyLayer);
         registerItemLayerDef(event);
     }
@@ -134,6 +138,7 @@ public class ClientInitEvents {
         event.registerEntityRenderer(BlueOceansEntities.RED_PLUM_CREEPER.get(), RPCreeperRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.PLUM_BUILDER.get(), PlumBuilderRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.PLUM_FACTORY.get(), PlumFactoryRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.PLUM_HOLDER.get(), PlumRenderer.PlumHolderRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.PLUM_SPREADER.get(), PlumSpreaderRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.RED_DEMON.get(), RedDemonRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.RED_PLUMS_COW.get(), RedPlumsCowRenderer::new);
@@ -147,6 +152,7 @@ public class ClientInitEvents {
         event.registerEntityRenderer(BlueOceansEntities.RED_PLUM_WORM.get(), RedPlumWormRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.RESEARCHER.get(), ResearcherRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.SEED.get(), SeedEntityRenderer::new);
+        event.registerEntityRenderer(BlueOceansEntities.SHRIMP.get(), ShrimpRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.VENOM.get(), VenomRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.VILLAGER_BIOLOGIST.get(), VillagerBiologistRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.VILLAGER_CHIEF.get(), VillagerChiefRenderer::new);

@@ -255,14 +255,17 @@ extends BaseVillager {
                     BlockState blockstate = farmer.level().getBlockState(this.aboveFarmlandPos);
                     Block block = blockstate.getBlock();
                     Block block1 = farmer.level().getBlockState(this.aboveFarmlandPos.below()).getBlock();
+                    boolean placed = false;
                     if (block instanceof CropBlock && ((CropBlock)block).isMaxAge(blockstate)) {
-                        if (farmer.getMainHandItem().getItem() instanceof ScytheItem scythe)
-                            scythe.mineBlock(farmer.getMainHandItem(), farmer.level(), blockstate, aboveFarmlandPos, farmer);
-                        else
+                        if (farmer.getMainHandItem().getItem() instanceof ScytheItem scythe) {
+                            scythe.mineBlock(farmer.getMainHandItem(), farmer.level(),
+                                    blockstate, aboveFarmlandPos, farmer);
+                            placed = true;
+                        } else
                             farmer.level().destroyBlock(this.aboveFarmlandPos, true, farmer);
                         farmer.swing(InteractionHand.MAIN_HAND);
                     }
-                    if (blockstate.isAir() && block1 instanceof FarmBlock && farmer.hasFarmSeeds()) {
+                    if (!placed && blockstate.isAir() && block1 instanceof FarmBlock && farmer.hasFarmSeeds()) {
                         SimpleContainer simplecontainer = farmer.getInventory();
                         for (int i = 0; i < simplecontainer.getContainerSize(); ++i) {
                             ItemStack itemstack = simplecontainer.getItem(i);
@@ -304,7 +307,7 @@ extends BaseVillager {
         }
 
         public boolean canContinueToUse() {
-            return this.timeWorkedSoFar < 200 && checkTarget();
+            return checkTarget() && this.timeWorkedSoFar < 200;
         }
 
         public boolean checkTarget() {

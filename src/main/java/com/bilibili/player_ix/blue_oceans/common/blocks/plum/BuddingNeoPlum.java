@@ -30,8 +30,8 @@ extends RedPlumVein {
     }
 
     @Nullable
-    public BlockState getGrowState(BlockState pState, ServerLevel pLevel, BlockPos pPos) {
+    public BlockState getGrowState(BlockState pState, ServerLevel pLevel, BlockPos pPos, Direction pFacing) {
         MultifaceBlock block = (MultifaceBlock)BlueOceansBlocks.BUDDING_NEO_PLUM.get();
-        return block.getStateForPlacement(pState, pLevel, pPos, Direction.DOWN);
+        return block.getStateForPlacement(pState, pLevel, pPos, pFacing);
     }
 }

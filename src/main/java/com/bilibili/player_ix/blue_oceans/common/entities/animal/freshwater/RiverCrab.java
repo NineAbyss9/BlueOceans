@@ -33,7 +33,7 @@ implements IAnimatedMob, IFlagMob {
 
     public void aiStep() {
         super.aiStep();
-        if (this.getTask() == Task.DEFECATION && this.random.nextFloat() < 0.04F) {
+        if (this.hasTask(Task.DEFECATION) && this.random.nextFloat() < 0.04F) {
             CropBlock crop = this.cropBelow();
             FunctionCollector.accept(crop, block ->
                     block.growCrops(this.level(), blockPosition(), this.level().getBlockState(blockPosition())));

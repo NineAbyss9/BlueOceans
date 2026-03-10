@@ -8,11 +8,13 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.Fluids;
 import org.NineAbyss9.value_holder.BooleanValueHolder;
+import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
 public abstract class AbstractContainer
@@ -33,6 +35,11 @@ extends BaseEntityBlock {
         if (pState.getValue(WATERLOGGED))
             pLevel.scheduleTick(pPos, Fluids.WATER, 1);
         return super.updateShape(pState, pDirection, pNeighborState, pLevel, pPos, pNeighborPos);
+    }
+
+    @Nullable
+    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+        return null;
     }
 
     public BooleanValueHolder<Content> fill(Content c) {
