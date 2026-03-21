@@ -2,6 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.common.entities.illagers.red_plum_illager;
 
 import com.bilibili.player_ix.blue_oceans.api.magic.BOSpellType;
+import com.bilibili.player_ix.blue_oceans.common.entities.illagers.Freak;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.AbstractRedPlumMob;
 import com.github.NineAbyss9.ix_api.api.ApiPose;
@@ -98,7 +99,6 @@ public class Dictator extends SpellcasterRedPlumIllager {
             freak.moveTo(this.getX(3), this.getY(), this.getZ(3));
             freak.finalizeSpawn(level, level.getCurrentDifficultyAt(BlockPos.containing(this.getX(), this.getY(), this.getZ())),
                     MobSpawnType.MOB_SUMMONED, null, null);
-            freak.setOwner(this);
             level.addFreshEntityWithPassengers(freak);
             if (!this.level().isClientSide()) {
                 ((ServerLevel)freak.level()).sendParticles(ParticleTypes.LARGE_SMOKE, freak.getX(),
@@ -142,8 +142,6 @@ public class Dictator extends SpellcasterRedPlumIllager {
         Dictator dictator = Dictator.this;
 
         protected void performSpellCasting() {
-            if (!level().isClientSide)
-                dictator.randomSummon();
         }
 
         protected int getCastingTime() {

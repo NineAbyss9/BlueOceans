@@ -1,6 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.item.farming;
 
+import com.bilibili.player_ix.blue_oceans.init.data.ITextureProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -14,10 +15,16 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.NineAbyss9.math.MathSupport;
 
 public class ChemicalFertilizer
-extends Item {
+extends Item
+implements ITextureProvider
+{
     public static final String FERTILITY = "Fertility";
     public ChemicalFertilizer(Properties pProperties) {
         super(pProperties);
+    }
+
+    public ChemicalFertilizer() {
+        this(new Properties().stacksTo(16));
     }
 
     public InteractionResult useOn(UseOnContext pContext) {
@@ -38,9 +45,19 @@ extends Item {
         return InteractionResult.SUCCESS;
     }
 
+    public String getLoc()
+    {
+        return "chemical_fertilizer";
+    }
+
+    public String getAddress()
+    {
+        return "util/cf";
+    }
+
     public static float getFertility(ItemStack pStack) {
         if (pStack.getTag() == null || !pStack.getTag().contains(FERTILITY))
-            pStack.getOrCreateTag().putFloat(FERTILITY, 0.2F);
+            setFertility(pStack, 0.2f);
         return pStack.getOrCreateTag().getFloat(FERTILITY);
     }
 

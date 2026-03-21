@@ -6,6 +6,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.NineAbyss9.util.ValueHolder;
@@ -44,5 +45,10 @@ extends CropBlock {
 
     public int getMaxAge() {
         return maxAge;
+    }
+
+    public IntegerProperty getAgeProperty()
+    {
+        return super.getAgeProperty();
     }
 }

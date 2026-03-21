@@ -1,7 +1,5 @@
-@MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
+/**<b>Models of BlueOceans*/
+@PAMAreNonnullByDefault
 package com.bilibili.player_ix.blue_oceans.client.model;
 
-import net.minecraft.MethodsReturnNonnullByDefault;
-
-import javax.annotation.ParametersAreNonnullByDefault;
+import org.NineAbyss9.annotation.PAMAreNonnullByDefault;

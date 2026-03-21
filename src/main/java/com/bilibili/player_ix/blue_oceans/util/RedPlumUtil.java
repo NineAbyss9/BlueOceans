@@ -6,6 +6,8 @@ import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.RedPlumHuman;
 import com.bilibili.player_ix.blue_oceans.common.entities.villagers.AbstractHuntingVillager;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansGameRules;
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansMobEffects;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -82,6 +84,15 @@ public class RedPlumUtil {
                 pLevel.addFreshEntity(mob);
             }
         }
+    }
+
+    public static MobEffectInstance plumInfection(int pTime, int pLevel) {
+        return new MobEffectInstance(BlueOceansMobEffects.PLUM_INFECTION.get(), pTime, pLevel);
+    }
+
+    /**Level = 0*/
+    public static MobEffectInstance plumInfection() {
+        return new MobEffectInstance(BlueOceansMobEffects.PLUM_INFECTION.get());
     }
 
     private static String bo(String name) {

@@ -8,7 +8,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -17,7 +16,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class RiceEars
-extends CropBlock {
+extends Crop {
     public static final IntegerProperty EARS_AGE = BlockStateProperties.AGE_1;
     public RiceEars(Properties pProperties) {
         super(pProperties);
@@ -44,7 +43,7 @@ extends CropBlock {
         pBuilder.add(EARS_AGE);
     }
 
-    protected IntegerProperty getAgeProperty() {
+    public IntegerProperty getAgeProperty() {
         return EARS_AGE;
     }
 

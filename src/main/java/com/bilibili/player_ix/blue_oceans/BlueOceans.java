@@ -127,7 +127,7 @@ public class BlueOceans implements ModOfNineAbyss {
     }
 
     /**Based on
-     *<a href="https://github.com/Polarice3/Goety-2/blob/1.20/src/main/java/com/Polarice3/Goety/Goety.java">...</a>*/
+     *<a href="https://github.com/Polarice3/Goety-2/blob/1.20/src/main/java/com/Polarice3/Goety/Goety.java">link</a>*/
     private static void createFiles(Path dirPath, String dirLabel) {
         if (!Files.isDirectory(dirPath.getParent())) {
             createFiles(dirPath.getParent(), "parent of " + dirLabel);

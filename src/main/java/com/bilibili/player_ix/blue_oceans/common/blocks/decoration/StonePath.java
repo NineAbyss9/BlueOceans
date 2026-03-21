@@ -12,18 +12,22 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 @SuppressWarnings("deprecation")
 public class StonePath
-extends Block {
+extends Block
+{
     public static final VoxelShape SHAPE = box(14, 0, 14, 16, 1, 16);
-    public StonePath(Properties pProperties) {
+    public StonePath(Properties pProperties)
+    {
         super(pProperties);
     }
 
-    public StonePath() {
+    public StonePath()
+    {
         this(Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops()
                 .strength(0.5F, 4.0F));
     }
 
-    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext)
+    {
         return SHAPE;
     }
 }

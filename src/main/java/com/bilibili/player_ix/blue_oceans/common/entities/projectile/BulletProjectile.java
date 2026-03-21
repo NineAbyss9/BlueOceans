@@ -67,8 +67,8 @@ extends AbstractHurtingProjectile {
 
     protected void onHitEntity(EntityHitResult pResult) {
         Entity entity = pResult.getEntity();
+        double y = entity.getEyeY();
         if (this.getOwner() instanceof LivingEntity livingEntity) {
-            double y = livingEntity.getEyeY();
             float finalDamage = this.damage + (pResult.getLocation().y >= y ? 20F : 0F);
             entity.hurt(this.damageSources().mobProjectile(this, livingEntity), finalDamage);
             this.doEnchantDamageEffects(livingEntity, entity);

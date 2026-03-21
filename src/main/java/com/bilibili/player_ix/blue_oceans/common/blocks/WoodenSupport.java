@@ -126,9 +126,9 @@ extends BaseEntityBlock {
                         d0 + pRandom.nextDouble(),
                         d1 + pRandom.nextDouble(),
                         d2 + pRandom.nextDouble(),
-                        pRandom.nextDouble() * 0.15,
-                        pRandom.nextDouble() * 0.15,
-                        pRandom.nextDouble() * 0.15);
+                        pRandom.nextDouble() * 0.15d,
+                        pRandom.nextDouble() * 0.15d,
+                        pRandom.nextDouble() * 0.15d);
             }
         }
     }

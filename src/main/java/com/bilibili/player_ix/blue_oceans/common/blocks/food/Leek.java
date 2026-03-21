@@ -13,7 +13,6 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -25,7 +24,7 @@ import org.NineAbyss9.array.ObjectArray;
 
 @SuppressWarnings("deprecation")
 public class Leek
-extends CropBlock {
+extends Crop {
     static final ObjectArray<VoxelShape> SHAPE;
     public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
     public Leek() {
@@ -56,7 +55,7 @@ extends CropBlock {
         return super.getBonemealAgeIncrease(pLevel) / 2;
     }
 
-    protected IntegerProperty getAgeProperty() {
+    public IntegerProperty getAgeProperty() {
         return AGE;
     }
 

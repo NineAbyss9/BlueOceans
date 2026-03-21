@@ -1,7 +1,9 @@
 
 package com.bilibili.player_ix.blue_oceans.common.blocks.plum;
 
+import com.bilibili.player_ix.blue_oceans.init.data.ModBlockStateProvider;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -16,12 +18,13 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 @SuppressWarnings("deprecation")
 public class RedPlumGrass
 extends BushBlock
-implements PlumBlock {
+implements PlumBlock, ModBlockStateProvider.Cross
+{
     protected static final VoxelShape SHAPE;
     public RedPlumGrass() {
         super(Properties.of().mapColor(DyeColor.RED).replaceable().noCollission().instabreak()
                 .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XYZ).ignitedByLava()
-                .pushReaction(PushReaction.DESTROY).lightLevel(value -> 1));
+                .pushReaction(PushReaction.DESTROY).lightLevel(value -> 2));
     }
 
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
@@ -29,7 +32,7 @@ implements PlumBlock {
     }
 
     protected boolean mayPlaceOn(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
-        return !pState.isAir();
+        return Block.isFaceFull(pState.getShape(pLevel, pPos),  Direction.UP);
     }
 
     static {

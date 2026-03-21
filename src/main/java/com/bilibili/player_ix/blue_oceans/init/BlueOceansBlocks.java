@@ -6,14 +6,16 @@ import com.bilibili.player_ix.blue_oceans.common.blocks.*;
 import com.bilibili.player_ix.blue_oceans.common.blocks.cave.MiningLamp;
 import com.bilibili.player_ix.blue_oceans.common.blocks.cave.Rope;
 import com.bilibili.player_ix.blue_oceans.common.blocks.chemistry.AlcoholLamp;
+import com.bilibili.player_ix.blue_oceans.common.blocks.corpse.Corpse;
 import com.bilibili.player_ix.blue_oceans.common.blocks.farming.*;
 import com.bilibili.player_ix.blue_oceans.common.blocks.food.Leek;
 import com.bilibili.player_ix.blue_oceans.common.blocks.food.RiceBlock;
 import com.bilibili.player_ix.blue_oceans.common.blocks.food.RiceEars;
 import com.bilibili.player_ix.blue_oceans.common.blocks.nature.Bush;
-import com.bilibili.player_ix.blue_oceans.common.blocks.nature.land.Pebble;
 import com.bilibili.player_ix.blue_oceans.common.blocks.plum.*;
 import com.bilibili.player_ix.blue_oceans.common.item.FlagItem;
+import com.bilibili.player_ix.blue_oceans.init.data.BoDataGenHelper;
+import com.bilibili.player_ix.blue_oceans.init.data.LangEntry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.DyeColor;
@@ -33,7 +35,10 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
+
+import static com.bilibili.player_ix.blue_oceans.init.data.BoLang.LANG_MAP;
 
 @SuppressWarnings("deprecation")
 public class BlueOceansBlocks {
@@ -64,17 +69,20 @@ public class BlueOceansBlocks {
         return pState.getValue(property);
     }
 
-    public static final RegistryObject<Block> ALCOHOL_LAMP = BLOCKS.register("alcohol_lamp",
-            () -> new AlcoholLamp(BlockBehaviour.Properties.of().sound(SoundType.GLASS).strength(
-                    4F, 10F).lightLevel(light(AlcoholLamp.BURNING, 10))
-                    .noOcclusion().emissiveRendering((pState, pLevel, pPos) ->
-                            isLit(AlcoholLamp.BURNING, pState, pLevel, pPos))));
-    //public static final RegistryObject<Block> BARREN_SOIL = B
-    public static final RegistryObject<Block> BARREN_SOIL = BLOCKS.register("barren_soil", () ->
-            new BarrenSoil(BlockBehaviour.Properties.copy(Blocks.DIRT)));
-    public static final RegistryObject<Block> BARREN_SOIL_FARMLAND = BLOCKS.register("barren_soil_farmland",
-            () -> new BarrenSoilFarmland(BlockBehaviour.Properties.copy(Blocks.FARMLAND).strength(0.7F)));
-    public static final RegistryObject<Block> BLACK_SOIL = BLOCKS.register("black_soil", () ->
+    private static RegistryObject<Block> block(String en, String zh, Supplier<Block> pBlock) {
+        var obj = BlueOceansBlocks.BLOCKS.register(en.replace(" ", "_").toLowerCase(), pBlock);
+        var e =  new LangEntry(en, zh);
+        BoDataGenHelper.BLOCK_REGISTRIES.add(obj);
+        LANG_MAP.put(obj.getId(), e);
+        return obj;
+    }
+
+    public static final RegistryObject<Block> ALCOHOL_LAMP;
+    public static final RegistryObject<Block> BARREN_SOIL;
+    public static final RegistryObject<Block> BARREN_SOIL_FARMLAND = block("Barren Soil Farmland",
+            "贫瘠的土壤耕地", () -> new BarrenSoilFarmland(BlockBehaviour.Properties.copy(Blocks.FARMLAND)
+                    .strength(0.7F)));
+    public static final RegistryObject<Block> BLACK_SOIL = block("Black Soil", "黑土", () ->
             new BlackSoil(BlockBehaviour.Properties.copy(Blocks.DIRT)));
     public static final RegistryObject<Block> BLACK_SOIL_FARMLAND = BLOCKS.register("black_soil_farmland",
             () -> new BlackSoilFarmland(BlockBehaviour.Properties.of().mapColor(MapColor.DIRT).randomTicks()
@@ -87,6 +95,7 @@ public class BlueOceansBlocks {
     public static final RegistryObject<Block> BUSH = BLOCKS.register("bush", Bush::new);
     //public static final RegistryObject<Block> CELL = BLOCKS.register("cell", () ->
     //        new CellBlock(BlockBehaviour.Properties.of()));
+    public static final RegistryObject<Corpse> CORPSE = BLOCKS.register("corpse/corpse", Corpse::new);
     public static final RegistryObject<Block> MINING_LAMP = BLOCKS.register("mining_lamp",
         () -> new MiningLamp(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).strength(1.0F,
                     6F).sound(SoundType.LANTERN).lightLevel(light(15))
@@ -108,8 +117,8 @@ public class BlueOceansBlocks {
             RedPlumBlock::new);
     public static final RegistryObject<Block> RED_PLUM_CATALYST = BLOCKS.register("red_plum_catalyst",
             RedPlumCatalyst::new);
-    public static final RegistryObject<Block> RED_PLUM_GRASS = BLOCKS.register("red_plum_grass",
-            RedPlumGrass::new);
+    public static final RegistryObject<Block> RED_PLUM_GRASS = block("Red Plum Grass",
+            "赤梅草", RedPlumGrass::new);
     public static final RegistryObject<Block> RED_PLUM_TRAP = BLOCKS.register("red_plum_trap",
             RedPlumTrap::new);
     public static final RegistryObject<Block> RED_PLUM_VEIN = BLOCKS.register("red_plum_vein",
@@ -119,7 +128,7 @@ public class BlueOceansBlocks {
     public static final RegistryObject<Block> RICE = BLOCKS.register("rice",
             () -> new RiceBlock(Block.Properties.of().noCollission().randomTicks().instabreak().sound(SoundType.CROP)
                     .pushReaction(PushReaction.DESTROY).strength(0.2F)));
-    public static final RegistryObject<Block> RICE_EARS = BLOCKS.register("rice_ears",
+    public static final RegistryObject<RiceEars> RICE_EARS = BLOCKS.register("rice_ears",
             () -> new RiceEars(Block.Properties.of().noCollission().randomTicks().instabreak().sound(SoundType.CROP)
                     .pushReaction(PushReaction.DESTROY)));
     public static final RegistryObject<Block> ROPE = BLOCKS.register("rope", () -> new Rope(
@@ -138,4 +147,14 @@ public class BlueOceansBlocks {
             () -> new WoodenSupport(BlockBehaviour.Properties.of().strength(1.5F)
                     .instrument(NoteBlockInstrument.BASS).mapColor(MapColor.WOOD).sound(SoundType.WOOD)
                     .noOcclusion().lightLevel(state->state.getValue(WoodenSupport.BURNING) ? 10 : 0)));
+
+    static {
+        ALCOHOL_LAMP = block("Alcohol Lamp", "酒精灯", () ->
+                new AlcoholLamp(BlockBehaviour.Properties.of().sound(SoundType.GLASS).strength(
+                                4F, 10F).lightLevel(light(AlcoholLamp.BURNING, 10))
+                        .noOcclusion().emissiveRendering((pState, pLevel, pPos) ->
+                                isLit(AlcoholLamp.BURNING, pState, pLevel, pPos))));
+        BARREN_SOIL = block("Barren Soil", "贫瘠的土壤", () ->
+                new BarrenSoil(BlockBehaviour.Properties.copy(Blocks.DIRT)));
+    }
 }

@@ -21,8 +21,7 @@ public class BlueOceansTabs {
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister
             .create(Registries.CREATIVE_MODE_TAB, BlueOceans.MOD_ID);
     public static final RegistryObject<CreativeModeTab> BLUE_OCEANS = TABS.register("blue_oceans",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(BlueOceansItems
-                            .RED_PLUM_GIRL_SPAWN_EGG.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(BlueOceansItems.RED_PLUM.get()))
                     .title(Component.translatable("item_group.blue_oceans.blue_oceans")
                             .withStyle(ChatFormatting.BLUE)).displayItems((parameters, output) -> {
                         output.accept(BlueOceansItems.BANDAGE.get());

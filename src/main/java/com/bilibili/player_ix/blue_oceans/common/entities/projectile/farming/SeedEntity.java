@@ -1,6 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.entities.projectile.farming;
 
+import com.bilibili.player_ix.blue_oceans.common.item.seed.SeedItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -40,7 +41,9 @@ implements ItemSupplier {
     protected void onHitBlock(BlockHitResult pResult) {
         BlockPos pos = pResult.getBlockPos().below();
         BlockState blockState = this.level().getBlockState(pResult.getBlockPos().below());
-        if (this.getItem().getItem() instanceof BlockItem blockItem && blockItem.getBlock()
+        if (this.getItem().getItem() instanceof SeedItem seedItem) {
+            seedItem.spawnEntity(this.level(), this.position());
+        } else if (this.getItem().getItem() instanceof BlockItem blockItem && blockItem.getBlock()
                 .canSurvive(blockState, this.level(), pos)) {
             this.level().setBlock(pResult.getBlockPos(), blockItem.getBlock().defaultBlockState(), 0);
         }

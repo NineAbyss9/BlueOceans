@@ -32,6 +32,7 @@ extends BaseEntityBlock {
     private static final VoxelShape SHAPE;
     public Sprinkler(Properties pProperties) {
         super(pProperties);
+        this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVATED, Boolean.FALSE));
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {

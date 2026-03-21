@@ -74,19 +74,23 @@ extends AbstractIllager {
     public void tick() {
         super.tick();
         if (this.level().isClientSide && this.isCastingSpell() && this.isAlive()) {
-            SpellType spellId = this.getSpellId();
-            double $$1 = spellId.spellColor[0];
-            double $$2 = spellId.spellColor[1];
-            double $$3 = spellId.spellColor[2];
-            float $$4 = this.yBodyRot * Maths.PI_DIVIDING_180 + Mth.cos(this.tickCount * 0.6662f) * 0.25f;
-            float $$5 = Mth.cos($$4);
-            float $$6 = Mth.sin($$4);
-            double d = 1.8;
-            this.level().addParticle(ParticleTypes.ENTITY_EFFECT, this.getX() + $$5 * 0.6, this.getY() + d,
-                    this.getZ() + $$6 * 0.6, $$1, $$2, $$3);
-            this.level().addParticle(ParticleTypes.ENTITY_EFFECT, this.getX() - $$5 * 0.6, this.getY() + d,
-                    this.getZ() - $$6 * 0.6, $$1, $$2, $$3);
+            this.spellTick();
         }
+    }
+
+    protected void spellTick() {
+        SpellType spellId = this.getSpellId();
+        double $$1 = spellId.spellColor[0];
+        double $$2 = spellId.spellColor[1];
+        double $$3 = spellId.spellColor[2];
+        float $$4 = this.yBodyRot * Maths.PI_DIVIDING_180 + Mth.cos(this.tickCount * 0.6662f) * 0.25f;
+        float $$5 = Mth.cos($$4);
+        float $$6 = Mth.sin($$4);
+        double d = 1.8;
+        this.level().addParticle(ParticleTypes.ENTITY_EFFECT, this.getX() + $$5 * 0.6, this.getY() + d,
+                this.getZ() + $$6 * 0.6, $$1, $$2, $$3);
+        this.level().addParticle(ParticleTypes.ENTITY_EFFECT, this.getX() - $$5 * 0.6, this.getY() + d,
+                this.getZ() - $$6 * 0.6, $$1, $$2, $$3);
     }
 
     protected void defineSynchedData() {

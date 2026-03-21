@@ -8,7 +8,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public class BoEnchantments {
+public class BoEnchantments
+{
     public static final DeferredRegister<Enchantment> REGISTER
             = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, BlueOceans.MOD_ID);
     public static final RegistryObject<Enchantment> HARVEST;

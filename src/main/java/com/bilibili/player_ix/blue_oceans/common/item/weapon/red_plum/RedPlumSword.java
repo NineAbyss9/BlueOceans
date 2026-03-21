@@ -3,13 +3,15 @@ package com.bilibili.player_ix.blue_oceans.common.item.weapon.red_plum;
 
 import com.bilibili.player_ix.blue_oceans.api.item.BoTier;
 import com.bilibili.player_ix.blue_oceans.api.item.IPlumItem;
+import com.bilibili.player_ix.blue_oceans.init.data.ModItemModelProvider;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 
 public class RedPlumSword
 extends SwordItem
-implements IPlumItem {
+implements IPlumItem, ModItemModelProvider.Handed
+{
     public RedPlumSword() {
         super(BoTier.RED_PLUM, 3, -2.4F, new Properties());
     }

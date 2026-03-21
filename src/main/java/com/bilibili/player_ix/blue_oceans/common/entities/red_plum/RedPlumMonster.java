@@ -73,8 +73,8 @@ implements Enemy {
 
     public boolean removeWhenFarAway(double pDistanceToClosestPlayer) {
         if (this.getLevel() >= 2)
-            return this.level().getEntitiesOfClass(this.getClass(), this.getBoundingBox().inflate(16)).size()
-                    > 6;
+            return this.level().getEntitiesOfClass(RedPlumMonster.class, this.getBoundingBox().inflate(16),
+                    entity -> entity.getClass() == this.getClass()).size() > 6;
         return pDistanceToClosestPlayer > 56 * 56;
     }
 

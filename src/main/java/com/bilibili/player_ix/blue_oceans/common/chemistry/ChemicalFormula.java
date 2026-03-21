@@ -7,4 +7,9 @@ public record ChemicalFormula(String name, double value) {
     public Component description() {
         return Component.translatable("bo.cf." + name);
     }
+
+    //TODO: correct this
+    public Element first() {
+        return Element.fromElementSymbol(this.name);
+    }
 }

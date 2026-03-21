@@ -26,6 +26,7 @@ import com.bilibili.player_ix.blue_oceans.client.renderer.animal.land.BearRender
 import com.bilibili.player_ix.blue_oceans.client.renderer.animal.land.EarthwormRenderer;
 import com.bilibili.player_ix.blue_oceans.client.renderer.animal.ocean.JellyfishRenderer;
 import com.bilibili.player_ix.blue_oceans.client.renderer.animal.water.ShrimpRenderer;
+import com.bilibili.player_ix.blue_oceans.client.renderer.block.CorpseRenderer;
 import com.bilibili.player_ix.blue_oceans.client.renderer.block.WoodenSupportRenderer;
 import com.bilibili.player_ix.blue_oceans.client.renderer.deprecated.DeathRenderer;
 import com.bilibili.player_ix.blue_oceans.client.renderer.deprecated.WaterTrapRenderer;
@@ -41,10 +42,8 @@ import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlockEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansParticleTypes;
-import com.github.NineAbyss9.ix_api.api.renderer.BaseEntityRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelShaper;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.renderer.texture.SimpleTexture;
@@ -120,7 +119,6 @@ public class ClientInitEvents {
         event.registerEntityRenderer(BlueOceansEntities.BEAR.get(), BearRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.BIKE.get(), BikeRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.BULLET.get(), BulletRenderer::new);
-        event.registerEntityRenderer(BlueOceansEntities.CHLORINE.get(), BaseEntityRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.DEATH.get(), DeathRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.DICTATOR.get(), DictatorRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.DUCK.get(), DuckRenderer::new);
@@ -157,6 +155,7 @@ public class ClientInitEvents {
         event.registerEntityRenderer(BlueOceansEntities.VILLAGER_BIOLOGIST.get(), VillagerBiologistRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.VILLAGER_CHIEF.get(), VillagerChiefRenderer::new);
         event.registerEntityRenderer(BlueOceansEntities.WATER_TRAP.get(), WaterTrapRenderer::new);
+        registerBlockEntityRenderers(event);
     }
 
     @SubscribeEvent
@@ -171,10 +170,14 @@ public class ClientInitEvents {
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
-        BlockEntityRenderers.register(BlueOceansBlockEntities.WOODEN_SUPPORT.get(), WoodenSupportRenderer::new);
         registerItemStates();
         injectItemModels(Minecraft.getInstance().getItemRenderer());
         injectItemTextures(Minecraft.getInstance());
+    }
+
+    public static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerBlockEntityRenderer(BlueOceansBlockEntities.CORPSE.get(), CorpseRenderer::new);
+        event.registerBlockEntityRenderer(BlueOceansBlockEntities.WOODEN_SUPPORT.get(), WoodenSupportRenderer::new);
     }
 
     public static void registerItemStates() {

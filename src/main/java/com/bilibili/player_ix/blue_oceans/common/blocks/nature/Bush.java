@@ -18,17 +18,21 @@ import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class Bush
-extends BushBlock {
-    public Bush() {
+extends BushBlock
+{
+    public Bush()
+    {
         this(Properties.of().sound(SoundType.GRASS).mapColor(DyeColor.GREEN).instabreak()
                 .noCollission().pushReaction(PushReaction.DESTROY).randomTicks());
     }
 
-    public Bush(Properties pP) {
+    public Bush(Properties pP)
+    {
         super(pP);
     }
 
-    public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
+    public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom)
+    {
         if (pLevel.isDay() && pRandom.nextFloat() < 0.1F) {
             List<LivingEntity> entities = pLevel.getEntitiesOfClass(LivingEntity.class, new AABB(pPos).inflate(1));
             if (!entities.isEmpty()) {

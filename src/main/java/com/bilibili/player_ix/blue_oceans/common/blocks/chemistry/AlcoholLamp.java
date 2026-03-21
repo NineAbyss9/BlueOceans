@@ -31,7 +31,8 @@ import org.NineAbyss9.math.AbyssMath;
 @SuppressWarnings("deprecation")
 public class AlcoholLamp
 extends Block
-implements IChemical {
+implements IChemical
+{
     public static final BooleanProperty COVERED = BoBlockProperties.COVERED;
     public static final IntegerProperty CAPACITY = BoBlockProperties.CAPACITY;
     public static final BooleanProperty BURNING = BoBlockProperties.BURNING;

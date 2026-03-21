@@ -21,18 +21,23 @@ import net.minecraft.world.level.material.FluidState;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class TestTube extends Item {
+public class TestTube extends Item
+{
     public static final String CONTENT_TAG = "Content";
-    public TestTube(Properties pProperties) {
+
+    public TestTube(Properties pProperties)
+    {
         super(pProperties);
     }
 
-    public TestTube() {
+    public TestTube()
+    {
         this(new Properties());
     }
 
     @SuppressWarnings("all")
-    public InteractionResult useOn(UseOnContext pContext) {
+    public InteractionResult useOn(UseOnContext pContext)
+    {
         Level level = pContext.getLevel();
         Player player = pContext.getPlayer();
         BlockPos pos = pContext.getClickedPos();
@@ -47,7 +52,8 @@ public class TestTube extends Item {
         }
     }
 
-    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
+    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand)
+    {
         ItemStack stack = pPlayer.getItemInHand(pUsedHand);
         var result = BlueOceansHooks.onUseContent(pPlayer, getContent(stack.getOrCreateTag()));
         if (result.getBool()) {
@@ -58,18 +64,21 @@ public class TestTube extends Item {
     }
 
     public void appendHoverText(ItemStack pStack, Level pLevel, List<Component> pTooltipComponents,
-                                TooltipFlag pIsAdvanced) {
+                                TooltipFlag pIsAdvanced)
+    {
         Content content = getContent(pStack.getTag());
         pTooltipComponents.add(content.description());
     }
 
-    public static Content getContent(@Nullable CompoundTag pTag) {
+    public static Content getContent(@Nullable CompoundTag pTag)
+    {
         if (pTag == null || !pTag.contains(CONTENT_TAG))
             return Content.EMPTY;
         return Content.of(pTag.getInt(CONTENT_TAG));
     }
 
-    public static void setContent(CompoundTag pTag, int value) {
+    public static void setContent(CompoundTag pTag, int value)
+    {
         pTag.putInt(CONTENT_TAG, value);
     }
 }

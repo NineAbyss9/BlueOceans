@@ -22,7 +22,7 @@ extends RuntimeException {
     }
 
     private static String noSuch(String st) {
-        return "No such" + st + "element";
+        return "No such" + st + "element!";
     }
 
     public synchronized Throwable getCause() {

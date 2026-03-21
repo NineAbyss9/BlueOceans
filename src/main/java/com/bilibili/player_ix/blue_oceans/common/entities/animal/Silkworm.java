@@ -45,9 +45,9 @@ implements IAnimatedMob, CompletelyPerverseState.Interface {
         return super.isFlying();
     }
 
-    public void onBaby() {
-        super.onBaby();
-        this.perverseState = isBaby() ? CompletelyPerverseState.LARVA : CompletelyPerverseState.ADULT;
+    public void onBaby(boolean pBaby) {
+        super.onBaby(pBaby);
+        this.perverseState = pBaby ? CompletelyPerverseState.LARVA : CompletelyPerverseState.ADULT;
     }
 
     public CompletelyPerverseState getPerState() {

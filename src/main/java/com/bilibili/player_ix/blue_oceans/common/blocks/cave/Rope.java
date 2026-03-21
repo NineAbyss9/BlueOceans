@@ -132,9 +132,9 @@ implements SimpleWaterloggedBlock {
                 return InteractionResult.sidedSuccess(pLevel.isClientSide);
             } else if (isEnd(pLevel, pPos)) {
                 for (int i = 0;i < 39;) {
-                    BlockState belowState = pLevel.getBlockState(pPos.below(i + 1));
+                    BlockState belowState = pLevel.getBlockState(pPos.above(i + 1));
                     if (!belowState.is(this)) {
-                        pLevel.destroyBlock(pPos.below(i), false);
+                        pLevel.destroyBlock(pPos.above(i), false);
                         if (!ItemUtil.instabuild(pPlayer))
                             pPlayer.addItem(new ItemStack(BlueOceansItems.ROPE.get()));
                         break;

@@ -23,12 +23,15 @@ import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 
 public class RedPlumTrap
-extends RedPlumBlock {
-    public RedPlumTrap() {
+extends RedPlumBlock
+{
+    public RedPlumTrap()
+    {
         super();
     }
 
-    public void stepOn(Level pLevel, BlockPos pPos, BlockState pState, Entity pEntity) {
+    public void stepOn(Level pLevel, BlockPos pPos, BlockState pState, Entity pEntity)
+    {
         if (pEntity instanceof LivingEntity livingEntity && !(livingEntity instanceof RedPlumMob)) {
             MobEffectInstance mobEffectInstance =
                     new MobEffectInstance(BlueOceansMobEffects.PLUM_INVADE.get(), 40, 1);
@@ -42,16 +45,19 @@ extends RedPlumBlock {
         }
     }
 
-    public float getFriction(BlockState state, LevelReader level, BlockPos pos, @Nullable Entity entity) {
-        return entity instanceof AbstractRedPlumMob ? 0.5F : 0.95F;
+    public float getFriction(BlockState state, LevelReader level, BlockPos pos, @Nullable Entity entity)
+    {
+        return entity instanceof AbstractRedPlumMob ? 0.45F : 0.95F;
     }
 
     public int getExpDrop(BlockState state, LevelReader level, RandomSource randomSource, BlockPos pos, int fortuneLevel,
-                          int silkTouchLevel) {
+                          int silkTouchLevel)
+    {
         return 1;
     }
 
-    protected void spawnPlum(ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
+    protected void spawnPlum(ServerLevel pLevel, BlockPos pPos, RandomSource pRandom)
+    {
         if (BoCommonConfig.SPAWN_NEO_PLUM.get() && pRandom.nextFloat() < 0.05F
                 && NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND,
                 pLevel, pPos.above(), BlueOceansEntities.NEO_PLUM.get())
@@ -63,6 +69,7 @@ extends RedPlumBlock {
         }
     }
 
-    protected void random25Action(BlockState pState, ServerLevel pLevel, BlockPos pPos) {
+    protected void random25Action(BlockState pState, ServerLevel pLevel, BlockPos pPos)
+    {
     }
 }

@@ -3,6 +3,8 @@ package com.bilibili.player_ix.blue_oceans.common.capability;
 
 import net.minecraft.nbt.CompoundTag;
 
+import javax.annotation.Nullable;
+
 public class LivingEffectInstance {
     private final LivingEffect effect;
     private int duration;
@@ -46,5 +48,19 @@ public class LivingEffectInstance {
         pNbt.putInt("Amplifier", this.getAmplifier());
         pNbt.putInt("Duration", this.getDuration());
         pNbt.putBoolean("Ambient", this.isAmbient());
+    }
+
+    @Nullable
+    public static LivingEffectInstance load(CompoundTag pNbt) {
+        int i = pNbt.getByte("Id") & 0xFF;
+        LivingEffect livingEffect = LivingEffect.byId(i);
+        return livingEffect == null ? null : loadSpecifiedEffect(livingEffect, pNbt);
+    }
+
+    private static LivingEffectInstance loadSpecifiedEffect(LivingEffect pEffect, CompoundTag pNbt) {
+        int i = pNbt.getByte("Amplifier");
+        int j = pNbt.getInt("Duration");
+        boolean flag = pNbt.getBoolean("Ambient");
+        return new LivingEffectInstance(pEffect, j, Math.max(0, i), flag);
     }
 }

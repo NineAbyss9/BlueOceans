@@ -11,7 +11,18 @@ public class LivingEffect {
     public void applyEffectTick(Level pLevel, LivingEntity pEntity, int pEffectLevel) {
     }
 
+    public void instantaneousEffect(Level pLevel, LivingEntity pEntity, int pEffectLevel) {
+    }
+
+    public boolean isInstantaneous() {
+        return false;
+    }
+
     public static int getId(LivingEffect pEffect) {
         return 0;
+    }
+
+    public static LivingEffect byId(int pId) {
+        return null;
     }
 }

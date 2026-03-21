@@ -13,10 +13,13 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.PanicGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
@@ -67,7 +70,9 @@ implements IAnimatedMob, IFlagMob {
 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.2d));
-        this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 0.8d, 40));
+        this.goalSelector.addGoal(1, new RandomSwimmingGoal(this, 0.8d, 40));
+        this.goalSelector.addGoal(2, new LookAtPlayerGoal(this, LivingEntity.class, 4f));
+        this.goalSelector.addGoal(2, new RandomLookAroundGoal(this));
     }
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> pKey) {

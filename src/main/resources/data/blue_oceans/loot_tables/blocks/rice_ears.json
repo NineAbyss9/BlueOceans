@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "blue_oceans:rice_seeds",
+          "name": "blue_oceans:block/rice_seeds",
           "functions": [
             {
               "function": "set_count",
@@ -29,7 +29,7 @@
               }
             }
           ],
-          "name": "blue_oceans:rice",
+          "name": "blue_oceans:block/rice",
           "functions": [
             {
               "function": "set_count",

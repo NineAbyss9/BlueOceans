@@ -3,10 +3,8 @@ package com.bilibili.player_ix.blue_oceans.common.entities.red_plum;
 
 import com.bilibili.player_ix.blue_oceans.common.blocks.plum.RedPlumCatalyst;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansParticleTypes;
-import com.bilibili.player_ix.blue_oceans.util.RedPlumUtil;
 import com.github.NineAbyss9.ix_api.api.annotation.ServerOnly;
 import com.github.NineAbyss9.ix_api.util.Maths;
-import com.github.NineAbyss9.ix_api.util.ParticleUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -16,13 +14,10 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import org.NineAbyss9.annotation.doc.Message;
 import org.NineAbyss9.math.MathSupport;
 
 import javax.annotation.Nullable;
-
-import java.util.List;
 
 public class PlumFactory
 extends RedPlumMonster
@@ -63,7 +58,7 @@ implements IPlumSpreader {
         if (this.isServerSide() &&
                 this.getRandomUtil().nextFloat() < this.getSpawnChance() &&
                 this.tickCount % 30 == 0 && checkPlums(level(), getBoundingBox().inflate(12))) {
-            summonPlum(this.level(), this.position().add(Maths.randomInt(3), 0, Maths.randomInt(3)));
+            summonPlum(this.level(), this.blockPosition().offset(Maths.randomInt(3), 0, Maths.randomInt(3)));
         }
     }
 
@@ -99,16 +94,9 @@ implements IPlumSpreader {
         return pLevel.getEntitiesOfClass(RedPlumMonster.class, pBound).size() < maxSize;
     }
 
-    public static void summonPlum(Level pLevel, Vec3 position) {
-        List<EntityType<? extends AbstractRedPlumMob>> list = RedPlumUtil.MAP.get(1);
-        if (list != null) {
-            AbstractRedPlumMob plumMob = list.get(Maths.random.nextInt(list.size())).create(pLevel);
-            if (plumMob != null) {
-                plumMob.moveTo(position);
-                pLevel.addFreshEntity(plumMob);
-                ParticleUtil.spawnAnim(plumMob, BlueOceansParticleTypes.RED_SPELL.get(), 8);
-            }
-        }
+    public static void summonPlum(Level pLevel, BlockPos position)
+    {
+        PlumHolder.spawn(pLevel, position, 1);
     }
 
     private float getSpawnChance() {

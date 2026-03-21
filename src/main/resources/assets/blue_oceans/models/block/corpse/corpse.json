@@ -1,0 +1,8 @@
+{
+  "render_type": "translucent",
+  "parent": "blue_oceans:block/corpse",
+  "textures": {
+    "0": "blue_oceans:block/corpse/corpse",
+    "particle": "blue_oceans:block/corpse/corpse"
+  }
+}

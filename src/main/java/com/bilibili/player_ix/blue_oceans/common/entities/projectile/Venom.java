@@ -47,8 +47,9 @@ public class Venom extends AbstractHurtingProjectile {
 
     protected void onHit(HitResult pResult) {
         super.onHit(pResult);
-        this.level().addParticle(ParticleTypes.WITCH, this.getX(), this.getY(), this.getZ(), 0.1,
-                0.5, 0.1);
+        if (level().isClientSide)
+            this.level().addParticle(ParticleTypes.WITCH, this.getX(), this.getY(), this.getZ(), 0.1,
+                    0.5, 0.1);
         this.discard();
     }
 }

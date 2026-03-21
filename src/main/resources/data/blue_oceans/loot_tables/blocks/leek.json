@@ -27,7 +27,7 @@
             },
             {
               "type": "minecraft:item",
-              "name": "blue_oceans:leek_seeds"
+              "name": "blue_oceans:block/leek_seeds"
             }
           ]
         }
@@ -59,7 +59,7 @@
               }
             }
           ],
-          "name": "blue_oceans:leek_seeds"
+          "name": "blue_oceans:block/leek_seeds"
         }
       ],
       "rolls": 1.0

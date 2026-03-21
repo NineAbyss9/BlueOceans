@@ -182,6 +182,11 @@ public class Element {
         return register(pRelativeAtomicMass, pElementSymbol);
     }
 
+    public ChemicalFormula chemicalFormula() {
+        return ChemicalFormulas.get(this.elementSymbol());
+    }
+
+    /**{@linkplain java.math.RoundingMode#HALF_EVEN}*/
     public float getRelativeAtomicMass() {
         return (int)this.relativeAtomicMass;
     }

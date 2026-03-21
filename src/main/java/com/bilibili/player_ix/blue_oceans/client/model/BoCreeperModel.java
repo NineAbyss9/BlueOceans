@@ -11,14 +11,17 @@ import net.minecraft.world.entity.Mob;
 
 public class BoCreeperModel<E extends Mob & ICreeper>
 extends HierarchicalModel<E>
-implements HeadedModel {
+implements HeadedModel
+{
     private final ModelPart root;
     private final ModelPart head;
     private final ModelPart rightHindLeg;
     private final ModelPart leftHindLeg;
     private final ModelPart rightFrontLeg;
     private final ModelPart leftFrontLeg;
-    public BoCreeperModel(ModelPart pRoot) {
+
+    public BoCreeperModel(ModelPart pRoot)
+    {
         this.root = pRoot;
         this.head = pRoot.getChild("head");
         this.leftHindLeg = pRoot.getChild("right_hind_leg");
@@ -27,15 +30,19 @@ implements HeadedModel {
         this.rightFrontLeg = pRoot.getChild("left_front_leg");
     }
 
-    public ModelPart getHead() {
+    public ModelPart getHead()
+    {
         return head;
     }
 
-    public ModelPart root() {
+    public ModelPart root()
+    {
         return root;
     }
 
-    public void setupAnim(E pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+    public void setupAnim(E pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw,
+                          float pHeadPitch)
+    {
         this.head.yRot = pNetHeadYaw * (Maths.PI / 180F);
         this.head.xRot = pHeadPitch * (Maths.PI / 180F);
         this.rightHindLeg.xRot = Mth.cos(pLimbSwing * 0.6662F) * 1.4F * pLimbSwingAmount;

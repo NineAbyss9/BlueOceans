@@ -16,7 +16,7 @@ public class BoCommonConfig {
     public static final ForgeConfigSpec.IntValue PLUM_INVADE_LEVEL;
     public static final ForgeConfigSpec.BooleanValue SPAWN_NEO_PLUM;
     public static final ForgeConfigSpec SPEC;
-    public BoCommonConfig() {
+    private BoCommonConfig() {
     }
 
     public static void load(ForgeConfigSpec config, String path) {

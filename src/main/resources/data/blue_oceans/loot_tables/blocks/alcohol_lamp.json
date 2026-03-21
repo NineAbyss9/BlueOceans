@@ -12,7 +12,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "blue_oceans:alcohol_lamp",
+          "name": "blue_oceans:block/alcohol_lamp"
         }
       ]
     }

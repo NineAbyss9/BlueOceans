@@ -9,7 +9,7 @@ import com.bilibili.player_ix.blue_oceans.common.entities.animal.freshwater.Duck
 import com.bilibili.player_ix.blue_oceans.common.entities.animal.ocean.Jellyfish;
 import com.bilibili.player_ix.blue_oceans.common.entities.animal.ocean.Shrimp;
 import com.bilibili.player_ix.blue_oceans.common.entities.projectile.*;
-import com.bilibili.player_ix.blue_oceans.common.entities.illagers.red_plum_illager.Freak;
+import com.bilibili.player_ix.blue_oceans.common.entities.illagers.Freak;
 import com.bilibili.player_ix.blue_oceans.common.entities.projectile.farming.SeedEntity;
 import com.bilibili.player_ix.blue_oceans.common.entities.projectile.plum.EchoPotion;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.*;
@@ -30,19 +30,16 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 @PFMAreNonnullByDefault
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BlueOceansEntities {
     public static final DeferredRegister<EntityType<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, BlueOceans.MOD_ID);
     public static final RegistryObject<EntityType<BaseVillager>> BASE_VILLAGER = register("base_villager", EntityType.Builder.of(BaseVillager::new, MobCategory.MISC), 0.6F, 1.95F);
     public static final RegistryObject<EntityType<Bear>> BEAR = register("bear", EntityType.Builder.of(Bear::new, MobCategory.CREATURE).clientTrackingRange(10), 1.4F, 1.4F);
     public static final RegistryObject<EntityType<BulletProjectile>> BULLET = register("bullet", EntityType.Builder.<BulletProjectile>of(BulletProjectile::new, MobCategory.MISC).fireImmune(), 0.4F, .25F);
-    public static final RegistryObject<EntityType<Chlorine>> CHLORINE = register("chlorine", EntityType.Builder.<Chlorine>of(Chlorine::new, MobCategory.MISC).sized(0.5F, 0.5F).fireImmune());
     public static final RegistryObject<EntityType<Death>> DEATH = register("death", EntityType.Builder.of(Death::new, MobCategory.MONSTER), 0.6f, 1.6f);
     public static final RegistryObject<EntityType<Dictator>> DICTATOR = register("dictator", EntityType.Builder.of(Dictator::new, MobCategory.MONSTER), 0.6f, 1.95f);
     public static final RegistryObject<EntityType<Duck>> DUCK = register("duck", EntityType.Builder.of(Duck::new, MobCategory.CREATURE).sized(0.4F, 0.7F).clientTrackingRange(10));

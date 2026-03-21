@@ -24,11 +24,15 @@ import org.NineAbyss9.math.MathSupport;
 import java.util.Map;
 
 @Mod.EventBusSubscriber(modid = BlueOceans.MOD_ID)
-public class BlueOceansEvents {
-    private BlueOceansEvents() {}
+public class BlueOceansEvents
+{
+    private BlueOceansEvents()
+    {
+    }
 
     @SubscribeEvent
-    public static void onLivingDeath(LivingDeathEvent event) {
+    public static void onLivingDeath(LivingDeathEvent event)
+    {
         Entity attacker = event.getSource().getEntity();
         //LivingEntity entity = event.getEntity();
         if (attacker != null) {
@@ -51,14 +55,16 @@ public class BlueOceansEvents {
     //        Government.EVIL_FACTION));
 
     @SubscribeEvent
-    public static void onWorldLoad(LevelEvent.Load event) {
+    public static void onWorldLoad(LevelEvent.Load event)
+    {
         if (!event.getLevel().isClientSide()) {
             VILLAGER_GROUPS.put((ServerLevel)event.getLevel(), new VillagerGroupSpawner());
         }
     }
 
     @SubscribeEvent
-    public static void onLevelTick(TickEvent.LevelTickEvent event) {
+    public static void onLevelTick(TickEvent.LevelTickEvent event)
+    {
         /*if (!GOVERNMENTS.isEmpty()) {
             GOVERNMENTS.forEach(Government::tick);
         }*/
@@ -71,14 +77,16 @@ public class BlueOceansEvents {
     }
 
     @SubscribeEvent
-    public static void onLevelUnload(LevelEvent.Unload event) {
+    public static void onLevelUnload(LevelEvent.Unload event)
+    {
         if (!event.getLevel().isClientSide()) {
             VILLAGER_GROUPS.remove((ServerLevel)event.getLevel());
         }
     }
 
     @SubscribeEvent
-    public static void onEntityJoinWorld(EntityJoinLevelEvent event) {
+    public static void onEntityJoinWorld(EntityJoinLevelEvent event)
+    {
         Entity entity = event.getEntity();
         if (entity instanceof AbstractIllager illager) {
             illager.targetSelector.addGoal(3, new AttackModVillagersGoal(illager, true));
@@ -86,7 +94,8 @@ public class BlueOceansEvents {
     }
 
     @SubscribeEvent
-    public static void onCropGrow(BlockEvent.CropGrowEvent.Pre event) {
+    public static void onCropGrow(BlockEvent.CropGrowEvent.Pre event)
+    {
         if (event.getLevel().getBlockState(event.getPos().below()).is(BoTags.BARREN_FARMLANDS)
                 && MathSupport.random.nextFloat() < 0.3F) {
             event.setResult(Event.Result.DENY);

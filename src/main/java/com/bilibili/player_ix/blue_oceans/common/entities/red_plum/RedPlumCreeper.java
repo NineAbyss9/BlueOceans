@@ -170,7 +170,7 @@ implements ICreeper {
 
     private void spawnLingeringCloud() {
         AreaEffectCloud areaeffectcloud = new AreaEffectCloud(this.level(), this.getX(), this.getY(), this.getZ());
-        areaeffectcloud.setRadius(2.5F);
+        areaeffectcloud.setRadius(3.5F);
         areaeffectcloud.setRadiusOnUse(-0.5F);
         areaeffectcloud.setWaitTime(10);
         areaeffectcloud.setDuration(areaeffectcloud.getDuration() / 2);

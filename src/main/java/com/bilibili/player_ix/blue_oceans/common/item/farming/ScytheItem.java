@@ -2,6 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.common.item.farming;
 
 import com.bilibili.player_ix.blue_oceans.init.BoEnchantments;
+import com.bilibili.player_ix.blue_oceans.init.data.ModItemModelProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
@@ -23,7 +24,9 @@ import org.NineAbyss9.math.MathSupport;
 import javax.annotation.Nullable;
 
 public class ScytheItem
-extends DiggerItem {
+extends DiggerItem
+implements ModItemModelProvider.Handed
+{
     public ScytheItem(float pDamageModifier, float pAttackSpeed, Tier pTier, Properties pProperties) {
         super(pDamageModifier, pAttackSpeed, pTier, BlockTags.CROPS, pProperties);
     }

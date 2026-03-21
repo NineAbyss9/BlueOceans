@@ -2,7 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.client.renderer.plum;
 
 import com.bilibili.player_ix.blue_oceans.client.model.plum.FreakModel;
-import com.bilibili.player_ix.blue_oceans.common.entities.illagers.red_plum_illager.Freak;
+import com.bilibili.player_ix.blue_oceans.common.entities.illagers.Freak;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

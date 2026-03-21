@@ -1,6 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.item.food;
 
+import com.bilibili.player_ix.blue_oceans.init.data.ModItemModelProvider;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffect;
@@ -23,7 +24,9 @@ import java.util.List;
 import java.util.Map;
 
 public class FoodItem
-extends Item {
+extends Item
+implements ModItemModelProvider.Food
+{
     private final CiFunction<ItemStack, Level, Player, ItemStack> function;
     public FoodItem(Item.Properties properties,
                     CiFunction<ItemStack, Level, Player, ItemStack> pFunction) {

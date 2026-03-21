@@ -16,41 +16,49 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class InitEvents {
-    private InitEvents() {
+public class InitEvents
+{
+    private InitEvents()
+    {
     }
 
     //Commands
     @SubscribeEvent
-    public static void registerCommands(RegisterCommandsEvent event) {
+    public static void registerCommands(RegisterCommandsEvent event)
+    {
         BoCommand.register(event.getDispatcher(), event.getBuildContext());
     }
 
     //Capabilities start
 
-    public static void registerEntityCapabilities(AttachCapabilitiesEvent<Entity> event) {
+    public static void registerEntityCapabilities(AttachCapabilitiesEvent<Entity> event)
+    {
         if (event.getObject() instanceof LivingEntity living) {
             event.addCapability(LivingHealth.RESOURCE, createProvider(LazyOptional.of(() -> new LivingHealth(living)),
                     BoCapabilities.LIVING_HEALTH));
         }
     }
 
-    public static <S extends Tag, T extends INBTSerializable<S>>ICapabilitySerializable<S>
-    createProvider(LazyOptional<T> pInstance, Capability<T> pC) {
-        return new ICapabilitySerializable<S>() {
-            public <C> LazyOptional<C> getCapability(Capability<C> cap, @Nullable Direction side) {
+    public static <S extends Tag, T extends INBTSerializable<S>> ICapabilitySerializable<S>
+    createProvider(LazyOptional<T> pInstance, Capability<T> pC)
+    {
+        return new ICapabilitySerializable<>()
+        {
+            public <C> LazyOptional<C> getCapability(Capability<C> cap, @Nullable Direction side)
+            {
                 return pC.orEmpty(cap, pInstance.cast());
             }
 
-            public S serializeNBT() {
+            public S serializeNBT()
+            {
                 return pInstance.orElseThrow(NullPointerException::new).serializeNBT();
             }
 
-            public void deserializeNBT(S nbt) {
+            public void deserializeNBT(S nbt)
+            {
                 pInstance.orElseThrow(NullPointerException::new).deserializeNBT(nbt);
             }
         };

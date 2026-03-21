@@ -16,15 +16,19 @@ import net.minecraft.world.phys.AABB;
 import org.NineAbyss9.math.AbyssMath;
 
 public class SprinklerEntity
-extends BlockEntity {
+extends BlockEntity
+{
     public boolean activated;
     public int workTime;
-    public SprinklerEntity(BlockPos pPos, BlockState pBlockState) {
+
+    public SprinklerEntity(BlockPos pPos, BlockState pBlockState)
+    {
         super(BlueOceansBlockEntities.SPRINKLER.get(), pPos, pBlockState);
     }
 
     public static void tick(Level pLevel, BlockPos pPos, BlockState pState,
-                            SprinklerEntity pEntity) {
+                            SprinklerEntity pEntity)
+    {
         pEntity.activated = pState.getValue(Sprinkler.ACTIVATED);
         if (pLevel.isClientSide) {
             if (pEntity.activated) {
@@ -42,27 +46,32 @@ extends BlockEntity {
         }
     }
 
-    public void load(CompoundTag pTag) {
+    public void load(CompoundTag pTag)
+    {
         super.load(pTag);
         this.activated = pTag.getBoolean("Activated");
         this.workTime = pTag.getInt("WorkTime");
     }
 
-    protected void saveAdditional(CompoundTag pTag) {
+    protected void saveAdditional(CompoundTag pTag)
+    {
         super.saveAdditional(pTag);
         pTag.putBoolean("Activated", this.activated);
         pTag.putInt("WorkTime", workTime);
     }
 
-    public boolean isActivated() {
+    public boolean isActivated()
+    {
         return activated;
     }
 
-    public void increaseWorkTime() {
+    public void increaseWorkTime()
+    {
         ++workTime;
     }
 
-    public static void tryGrowCrops(Level pLevel, BlockPos pPos) {
+    public static void tryGrowCrops(Level pLevel, BlockPos pPos)
+    {
         AABB aabb = //DirectionUtil.isHorizontal(pFacing) ?
                 new AABB(pPos).inflate(20, 2, 20)
                 //: new AABB(pPos).inflate(20)
@@ -75,7 +84,8 @@ extends BlockEntity {
         }
     }
 
-    public static void growCrop(Level pLevel, BlockPos pPos, BlockState pState) {
+    public static void growCrop(Level pLevel, BlockPos pPos, BlockState pState)
+    {
         if (pState.getBlock() instanceof CropBlock block) {
             block.growCrops(pLevel, pPos, pState);
         }

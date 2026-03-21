@@ -4,6 +4,7 @@ package com.bilibili.player_ix.blue_oceans.common.item;
 import com.bilibili.player_ix.blue_oceans.compat.noixapi.NoIXApiCompat;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansMobEffects;
+import com.bilibili.player_ix.blue_oceans.init.data.ModItemModelProvider;
 import com.github.NineAbyss9.ix_api.util.Maths;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
@@ -21,7 +22,9 @@ import org.NineAbyss9.math.MathSupport;
 import org.NineAbyss9.util.ValueHolder;
 
 public class WoodenStick
-extends PickaxeItem {
+extends PickaxeItem
+implements ModItemModelProvider.Handed
+{
     public WoodenStick() {
         super(Tiers.WOOD, 6, -3.0F, new Properties());
     }

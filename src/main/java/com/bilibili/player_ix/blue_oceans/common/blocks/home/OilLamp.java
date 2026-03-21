@@ -3,6 +3,7 @@ package com.bilibili.player_ix.blue_oceans.common.blocks.home;
 
 import com.bilibili.player_ix.blue_oceans.common.blocks.BoBlockProperties;
 import com.github.NineAbyss9.ix_api.util.ParticleUtil;
+import com.github.NineAbyss9.ix_api.util.Vec9;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -23,37 +24,53 @@ import org.NineAbyss9.math.AbyssMath;
 
 @SuppressWarnings("deprecation")
 public class OilLamp
-extends Block {
+extends Block
+{
     public static final VoxelShape SHAPE;
     protected static final BooleanProperty LIT;
     protected static final IntegerProperty CAPACITY;
-    public OilLamp(Properties pProperties) {
+    public OilLamp(Properties pProperties)
+    {
         super(pProperties);
         this.registerDefaultState(this.stateDefinition.any().setValue(LIT, Boolean.FALSE));
     }
 
-    public OilLamp() {
+    public OilLamp()
+    {
         this(Properties.of());
     }
 
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder)
+    {
         pBuilder.add(LIT);
     }
 
-    public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, RandomSource pRandom) {
+    public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, RandomSource pRandom)
+    {
         if (pState.getValue(LIT) && pRandom.nextFloat() < 0.05F) {
-            ParticleUtil.addParticle(pLevel, ParticleTypes.FLAME, pPos, AbyssMath.random(0.3), 0.1,
-                    AbyssMath.random(0.3));
+            ParticleUtil.addParticle(pLevel, ParticleTypes.FLAME, Vec9.of(pPos).add(0d, 0.3d, 0d),
+                    AbyssMath.random(0.3), 0.1, AbyssMath.random(0.3));
         }
     }
 
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
-                                 BlockHitResult pHit) {
+                                 BlockHitResult pHit)
+    {
         return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
     }
 
-    public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
-
+    public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom)
+    {
+        if (pLevel.getGameTime() % 1200L == 0L && pState.getValue(LIT)) {
+            pState = pState.setValue(CAPACITY, pState.getValue(CAPACITY) - 1);
+            if (pState.getValue(CAPACITY) == 0) {
+                pState = pState.cycle(LIT);
+            }
+            pLevel.setBlock(pPos, pState, 3);
+        }
+        if (pState.getValue(CAPACITY) > 0 && !pState.getValue(LIT)) {
+            pLevel.setBlock(pPos, pState.cycle(LIT), 3);
+        }
     }
 
     static {

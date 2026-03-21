@@ -20,6 +20,7 @@ public class Thorn
 extends Entity
 implements Ownable {
     private static final EntityDataAccessor<Optional<UUID>> DATA_OWNER;
+    private static final EntityDataAccessor<Integer> DATA_TICK;
     public Thorn(EntityType<? extends Thorn> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
@@ -30,7 +31,8 @@ implements Ownable {
 
     public void tick() {
         super.tick();
-        if (this.tickCount % 10 == 0)
+        this.setTick(this.getTick() + 1);
+        if (this.tickCount % 10 == 0 && this.isAlive() && !this.level().isClientSide)
             this.hurtEntities();
     }
 
@@ -59,7 +61,16 @@ implements Ownable {
         this.entityData.set(DATA_OWNER, Optional.ofNullable(uuid));
     }
 
+    public int getTick() {
+        return this.entityData.get(DATA_TICK);
+    }
+
+    public void setTick(int pTick) {
+        this.entityData.set(DATA_TICK, pTick);
+    }
+
     static {
         DATA_OWNER = SynchedEntityData.defineId(Thorn.class, EntityDataSerializers.OPTIONAL_UUID);
+        DATA_TICK = SynchedEntityData.defineId(Thorn.class, EntityDataSerializers.INT);
     }
 }

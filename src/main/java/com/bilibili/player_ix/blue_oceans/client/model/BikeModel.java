@@ -15,7 +15,8 @@ import org.NineAbyss9.math.AbyssMath;
 
 @SuppressWarnings("unused")
 public class BikeModel<T extends Bike> extends HierarchicalModel<T> {
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(BlueOceans.location("bike"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(BlueOceans.location("bike"),
+			"main");
 	private final ModelPart root;
 	private final ModelPart head;
 	private final ModelPart bone;
