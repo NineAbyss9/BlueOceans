@@ -27,7 +27,7 @@ implements Cnidarians {
     }
 
     public Vec3 getSize() {
-        return new Vec3(0.35, 1, 0.35);
+        return new Vec3(0.35d, 1d, 0.35d);
     }
 
     public void sting(LivingEntity pEntity) {

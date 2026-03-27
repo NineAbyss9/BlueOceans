@@ -14,7 +14,8 @@ import java.util.List;
  * Code from
  * <a href="https://github.com/TeamTwilight/twilightforest/blob/1.20.1/src/main/java/twilightforest/world/components/feature/config/TFTreeFeatureConfig.java">...</a>
  */
-public class TreeFeature implements FeatureConfiguration {
+public class TreeFeature implements FeatureConfiguration
+{
 	public static final Codec<TreeFeature> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			BlockStateProvider.CODEC.fieldOf("trunk_provider").forGetter(obj -> obj.trunkProvider),
 			BlockStateProvider.CODEC.fieldOf("leaves_provider").forGetter(obj -> obj.leavesProvider),
@@ -26,9 +27,8 @@ public class TreeFeature implements FeatureConfiguration {
 			Codec.BOOL.fieldOf("has_leaves").orElse(true).forGetter(obj -> obj.hasLeaves),
 			Codec.BOOL.fieldOf("check_water").orElse(false).forGetter(obj -> obj.checkWater),
 			TreeDecorator.CODEC.listOf().fieldOf("decorators").orElseGet(ImmutableList::of).forGetter(obj ->
-                    obj.decorators)
+					obj.decorators)
 	).apply(instance, TreeFeature::new));
-
 	public final BlockStateProvider trunkProvider;
 	public final BlockStateProvider leavesProvider;
 	public final BlockStateProvider branchProvider;
@@ -41,8 +41,9 @@ public class TreeFeature implements FeatureConfiguration {
 	public transient boolean forcePlacement;
 	public final List<TreeDecorator> decorators;
 	public TreeFeature(BlockStateProvider trunk, BlockStateProvider leaves, BlockStateProvider branch, BlockStateProvider roots,
-                       int height, int chanceFiveFirst, int chanceFiveSecond, boolean hasLeaves, boolean checkWater,
-                       List<TreeDecorator> decorators) {
+					   int height, int chanceFiveFirst, int chanceFiveSecond, boolean hasLeaves, boolean checkWater,
+					   List<TreeDecorator> decorators)
+	{
 		this.trunkProvider = trunk;
 		this.leavesProvider = leaves;
 		this.branchProvider = branch;
@@ -56,11 +57,13 @@ public class TreeFeature implements FeatureConfiguration {
 		this.decorators = decorators;
 	}
 
-	public void forcePlacement() {
+	public void forcePlacement()
+	{
 		this.forcePlacement = true;
 	}
 
-	public static class Builder {
+	public static class Builder
+	{
 		private final BlockStateProvider trunkProvider;
 		private final BlockStateProvider leavesProvider;
 		private final BlockStateProvider branchProvider;
@@ -71,46 +74,54 @@ public class TreeFeature implements FeatureConfiguration {
 		private boolean hasLeaves;
 		private boolean checkWater;
 		private final List<TreeDecorator> decorators = Lists.newArrayList();
-		public Builder(BlockStateProvider trunk, BlockStateProvider leaves, BlockStateProvider branch, BlockStateProvider roots) {
+		public Builder(BlockStateProvider trunk, BlockStateProvider leaves, BlockStateProvider branch, BlockStateProvider roots)
+		{
 			this.trunkProvider = trunk;
 			this.leavesProvider = leaves;
 			this.branchProvider = branch;
 			this.rootsProvider = roots;
 		}
 
-		public Builder minHeight(int height) {
+		public Builder minHeight(int height)
+		{
 			this.baseHeight = height;
 			return this;
 		}
 
-		public Builder chanceFirstFive(int chance) {
+		public Builder chanceFirstFive(int chance)
+		{
 			this.chanceFirstFive = chance;
 			return this;
 		}
 
-		public Builder chanceSecondFive(int chance) {
+		public Builder chanceSecondFive(int chance)
+		{
 			this.chanceSecondFive = chance;
 			return this;
 		}
 
-		public Builder noLeaves() {
+		public Builder noLeaves()
+		{
 			this.hasLeaves = false;
 			return this;
 		}
 
-		public Builder checksWater() {
+		public Builder checksWater()
+		{
 			this.checkWater = true;
 			return this;
 		}
 
-		public Builder addDecorator(TreeDecorator deco) {
+		public Builder addDecorator(TreeDecorator deco)
+		{
 			decorators.add(deco);
 			return this;
 		}
 
-		public TreeFeature build() {
+		public TreeFeature build()
+		{
 			return new TreeFeature(trunkProvider, leavesProvider, branchProvider, rootsProvider, baseHeight, chanceFirstFive,
-                    chanceSecondFive, hasLeaves, checkWater, decorators);
+					chanceSecondFive, hasLeaves, checkWater, decorators);
 		}
 	}
 }

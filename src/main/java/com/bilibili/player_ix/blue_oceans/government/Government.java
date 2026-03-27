@@ -31,7 +31,7 @@ public class Government {
         this.effects = new HashSet<>();
         this.followers = new ArrayList<>();
         this.followers.add(pLeader);
-        this.stability = new StabilityHandler(40F);
+        this.stability = new StabilityHandler(pIdeology.defaultStability);
         this.name = pName;
     }
 
@@ -43,7 +43,7 @@ public class Government {
         this.tickEffects();
     }
 
-    private void tickEffects() {
+    protected void tickEffects() {
         if (!effects.isEmpty()) {
             effects.removeIf(Effect::shouldBeRemoved);
             effects.forEach(effect -> effect.tick(this, this.followers));
@@ -55,11 +55,15 @@ public class Government {
     }
 
     public Party getMainParty() {
+        if (this.mainParty == null)
+            this.mainParty = this.allParties.peek();
         return mainParty;
     }
 
     public void setMainParty(Party pMainParty) {
         this.mainParty = pMainParty;
+        if (!allParties.contains(pMainParty))
+            this.allParties.addFirst(pMainParty);
     }
 
     public List<Party> getAllParties() {

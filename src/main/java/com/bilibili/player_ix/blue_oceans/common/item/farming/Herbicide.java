@@ -1,7 +1,6 @@
 
 package com.bilibili.player_ix.blue_oceans.common.item.farming;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -19,9 +18,13 @@ extends Item {
     }
 
     public InteractionResult useOn(UseOnContext pContext) {
-        BlockPos pos = pContext.getClickedPos();
+        var level = pContext.getLevel();
+        var pos = pContext.getClickedPos();
+
         return super.useOn(pContext);
     }
+
+    public void a() {}
 
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
 

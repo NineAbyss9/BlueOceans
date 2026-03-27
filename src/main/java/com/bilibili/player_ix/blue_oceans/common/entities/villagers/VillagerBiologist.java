@@ -97,7 +97,7 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
         this.goalSelector.addGoal(1, new CloseAttackGoal(this).canUse(VillagerBiologist::canAttackTarget)
                 .better(20));
         this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(2, new AvoidTargetGoal(this, 9f, 1.0, 1.2));
+        this.goalSelector.addGoal(1, new AvoidTargetGoal(this, 9f, 1.0d, 1.2d));
         this.goalSelector.addGoal(2, new RangedAttackGoal(this, 0.8,
                 60, 10.0F));
         this.goalSelector.addGoal(2, new WaterAvoidingRandomStrollGoal(this, 1.0));
@@ -495,17 +495,17 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
 
         public void start() {
             super.start();
-            ((VillagerBiologist)this.convert()).setHandItemToAttack();
+            (this.<VillagerBiologist>convert()).setHandItemToAttack();
         }
 
         public void stop() {
             LivingEntity livingentity = this.mob.getTarget();
             if (livingentity == null) {
                 this.mob.setAggressive(false);
-                ((VillagerBiologist)this.convert()).setHandItemToDaily();
+                (this.<VillagerBiologist>convert()).setHandItemToDaily();
                 this.mob.getNavigation().stop();
             } else {
-                ((VillagerBiologist)this.convert()).setHandItemToAttack();
+                (this.<VillagerBiologist>convert()).setHandItemToAttack();
             }
         }
     }

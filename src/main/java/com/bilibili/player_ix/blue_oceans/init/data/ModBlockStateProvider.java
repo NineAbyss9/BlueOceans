@@ -1,7 +1,10 @@
 
 package com.bilibili.player_ix.blue_oceans.init.data;
 
+import com.bilibili.player_ix.blue_oceans.BlueOceans;
+import com.bilibili.player_ix.blue_oceans.common.blocks.corpse.Corpse;
 import com.bilibili.player_ix.blue_oceans.common.blocks.farming.AbstractFarmland;
+import com.bilibili.player_ix.blue_oceans.common.blocks.farming.AbstractSoil;
 import com.bilibili.player_ix.blue_oceans.common.blocks.food.Crop;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
@@ -33,9 +36,25 @@ extends BlockStateProvider
                 cross(object, block);
             } else if (block instanceof AbstractFarmland farmland)
                 farmland(object, farmland);
-            else
+            else if (block instanceof AbstractSoil)
+                soil(object, block);
+            else if (block instanceof Corpse) {
+                corpse(object, block);
+            } else
                 simpleBlockWithItem(block, new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper));
         });
+    }
+
+    private void corpse(RegistryObject<?> block, Block instance)
+    {
+        VariantBlockStateBuilder builder = getVariantBuilder(instance);
+        BlockModelBuilder model = models().singleTexture(
+                block.getId().getPath(),
+                block.getId(),
+                modLoc("block/corpse/" + block.getId().getPath())
+        ).parent(new ModelFile.UncheckedModelFile(BlueOceans.MOD_ID + "block/corpse_model"));
+        builder.partialState().modelForState().modelFile(model).addModel();
+        simpleBlockWithItem(instance, model);
     }
 
     private void farmland(RegistryObject<?> block, AbstractFarmland instance)
@@ -59,7 +78,22 @@ extends BlockStateProvider
         )).parent(new ModelFile.UncheckedModelFile("block/template_farmland")));
     }
 
-    private void cross(RegistryObject<Block> block, Block instance)
+    private void soil(RegistryObject<?> block, Block instance)
+    {
+        VariantBlockStateBuilder builder = getVariantBuilder(instance);
+        BlockModelBuilder model = models().singleTexture(
+                block.getId().getPath(),
+                block.getId(),
+                modLoc("block/farming/" + block.getId().getPath())
+        );
+        builder.partialState()
+                .modelForState()
+                .modelFile(model)
+                .addModel();
+        simpleBlockItem(instance, model);
+    }
+
+    private void cross(RegistryObject<?> block, Block instance)
     {
         VariantBlockStateBuilder builder = getVariantBuilder(instance);
         BlockModelBuilder model = models().cross(

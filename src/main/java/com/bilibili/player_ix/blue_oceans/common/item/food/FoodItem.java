@@ -1,12 +1,12 @@
 
 package com.bilibili.player_ix.blue_oceans.common.item.food;
 
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansMobEffects;
 import com.bilibili.player_ix.blue_oceans.init.data.ModItemModelProvider;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
@@ -78,7 +78,7 @@ implements ModItemModelProvider.Food
     public static FoodItem comfortable(int pNutrition, float pSaturation) {
         return new FoodItem(new Properties().food(new FoodProperties.Builder().nutrition(pNutrition)
                 .saturationMod(pSaturation).effect(() ->
-                        new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN), 0.0F).build()));
+                        new MobEffectInstance(BlueOceansMobEffects.COMFORTABLE.get()), 0.0F).build()));
     }
 
     public ItemStack finishUsingItem(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity) {
@@ -115,14 +115,14 @@ implements ModItemModelProvider.Food
 
         public BoFoodBuilder addEffects(float p, int pDuring, int pLevel, MobEffect... mobEffects) {
             for (var effect : mobEffects) {
-                this.effect(()-> new MobEffectInstance(effect, pDuring, pLevel), p);
+                this.effect(() -> new MobEffectInstance(effect, pDuring, pLevel), p);
             }
             return this;
         }
 
         public BoFoodBuilder addEffects(int pDuring, int pLevel, Map<MobEffect, Float> mobEffects) {
             for (var entry : mobEffects.entrySet()) {
-                this.effect(()-> new MobEffectInstance(entry.getKey(), pDuring, pLevel), entry.getValue());
+                this.effect(() -> new MobEffectInstance(entry.getKey(), pDuring, pLevel), entry.getValue());
             }
             return this;
         }

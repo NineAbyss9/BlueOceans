@@ -15,7 +15,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -28,7 +27,7 @@ import org.NineAbyss9.array.ObjectArray;
 
 @SuppressWarnings("deprecation")
 public class Reed
-extends CropBlock
+extends AquaticPlant
 {
     public static final IntegerProperty REED_AGE;
     private static final ObjectArray<VoxelShape> SHAPES;
@@ -44,8 +43,7 @@ extends CropBlock
 
     public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom)
     {
-        if (!pLevel.isAreaLoaded(pPos, 1))
-            return;
+        if (!pLevel.isAreaLoaded(pPos, 1)) return;
         BlockPos above = pPos.above();
         if (pLevel.getRawBrightness(above, 0) >= 6) {
             int currentAge = this.getAge(pState);
@@ -74,7 +72,7 @@ extends CropBlock
         return SHAPES.get(this.getAge(pState));
     }
 
-    //TODO ?
+    //TODO
     protected ItemLike getBaseSeedId()
     {
         return super.getBaseSeedId();

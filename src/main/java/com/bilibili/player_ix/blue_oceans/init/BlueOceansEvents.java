@@ -2,20 +2,23 @@
 package com.bilibili.player_ix.blue_oceans.init;
 
 import com.bilibili.player_ix.blue_oceans.BlueOceans;
+import com.bilibili.player_ix.blue_oceans.common.blocks.nature.water.AquaticPlant;
 import com.bilibili.player_ix.blue_oceans.common.entities.ai.goal.AttackModVillagersGoal;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.AbstractRedPlumMob;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.IPlumSpreader;
 import com.bilibili.player_ix.blue_oceans.world.spawner.VillagerGroupSpawner;
 import com.google.common.collect.Maps;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.monster.AbstractIllager;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.level.SaplingGrowTreeEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -33,10 +36,10 @@ public class BlueOceansEvents
     @SubscribeEvent
     public static void onLivingDeath(LivingDeathEvent event)
     {
-        Entity attacker = event.getSource().getEntity();
+        var attacker = event.getSource().getEntity();
         //LivingEntity entity = event.getEntity();
         if (attacker != null) {
-            Level level = attacker.level();
+            var level = attacker.level();
             if (attacker instanceof AbstractRedPlumMob) {
                 var spreaders = level.getEntitiesOfClass(AbstractRedPlumMob.class, attacker.getBoundingBox()
                         .inflate(10), entity1 -> entity1 instanceof IPlumSpreader);
@@ -69,8 +72,8 @@ public class BlueOceansEvents
             GOVERNMENTS.forEach(Government::tick);
         }*/
         if (!event.level.isClientSide) {
-            ServerLevel serverLevel = (ServerLevel)event.level;
-            VillagerGroupSpawner spawner = VILLAGER_GROUPS.get(serverLevel);
+            var serverLevel = (ServerLevel)event.level;
+            var spawner = VILLAGER_GROUPS.get(serverLevel);
             if (spawner != null)
                 spawner.tick(serverLevel);
         }
@@ -87,18 +90,43 @@ public class BlueOceansEvents
     @SubscribeEvent
     public static void onEntityJoinWorld(EntityJoinLevelEvent event)
     {
-        Entity entity = event.getEntity();
+        var entity = event.getEntity();
         if (entity instanceof AbstractIllager illager) {
             illager.targetSelector.addGoal(3, new AttackModVillagersGoal(illager, true));
         }
     }
 
     @SubscribeEvent
-    public static void onCropGrow(BlockEvent.CropGrowEvent.Pre event)
+    public static void onCropGrowPre(BlockEvent.CropGrowEvent.Pre event)
     {
-        if (event.getLevel().getBlockState(event.getPos().below()).is(BoTags.BARREN_FARMLANDS)
+        var level = event.getLevel();
+        var pos = event.getPos();
+        if (level.getBlockState(pos.below()).is(BoTags.BARREN_FARMLANDS)
                 && MathSupport.random.nextFloat() < 0.3F) {
             event.setResult(Event.Result.DENY);
         }
+    }
+
+    @SubscribeEvent
+    public static void onCropGrow(BlockEvent.CropGrowEvent.Post event)
+    {
+        var level = event.getLevel();
+        if (level.isClientSide()) return;
+        var pos = event.getPos();
+        var state = event.getState();
+        if (state.getBlock() instanceof CropBlock block && block.isMaxAge(state))
+        {
+            AquaticPlant.spread(block.getStateForAge(0), (ServerLevel)level, level.getRandom(), pos, state);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onTreeGrow(SaplingGrowTreeEvent event)
+    {
+        var level = event.getLevel();
+        if (level.isClientSide()) return;
+        var pos = event.getPos();
+        BlockState state = level.getBlockState(pos);
+        AquaticPlant.spread(state.getBlock().defaultBlockState(), ((ServerLevelAccessor)level).getLevel(), level.getRandom(), pos, state);
     }
 }

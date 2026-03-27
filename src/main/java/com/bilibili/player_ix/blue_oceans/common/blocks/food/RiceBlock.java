@@ -46,7 +46,7 @@ implements LiquidBlockContainer {
                 if (ForgeHooks.onCropsGrowPre(pLevel, pPos, pState,
                         pRandom.nextInt((int)(25.0F / 10) + 1) == 0)) {
                     if (currentAge == this.getMaxAge()) {
-                        RiceEars ears = (RiceEars)BlueOceansBlocks.RICE_EARS.get();
+                        RiceEars ears = BlueOceansBlocks.RICE_EARS.get();
                         if (ears.defaultBlockState().canSurvive(pLevel, above) && pLevel.isEmptyBlock(above)) {
                             pLevel.setBlockAndUpdate(above, ears.defaultBlockState());
                             ForgeHooks.onCropsGrowPost(pLevel, pPos, pState);
@@ -97,7 +97,6 @@ implements LiquidBlockContainer {
         return super.isValidBonemealTarget(pLevel, pPos, pState, pIsClient)
                 || state.isAir();
     }
-
 
     public void performBonemeal(ServerLevel pLevel, RandomSource pRandom, BlockPos pPos, BlockState pState) {
         //int i = Math.min(this.getAge(pState) + this.getBonemealAgeIncrease(pLevel), this.getMaxAge());

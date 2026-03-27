@@ -20,14 +20,13 @@ implements BlockEntityRenderer<WoodenSupportBlockEntity> {
     public void render(WoodenSupportBlockEntity pBlockEntity, float pPartialTick, PoseStack pPoseStack,
                        MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
         ItemStack stack = pBlockEntity.getPuttedItem();
-        if (stack != null) {
-            pPoseStack.pushPose();
-            pPoseStack.translate(0.5, 0, 0.5);
-            pPoseStack.mulPose(Axis.YP.rotationDegrees(90F));
-            var a = this.context.getItemRenderer();
-            a.render(stack, ItemDisplayContext.NONE, false, pPoseStack, pBuffer, 255,
-                    1, a.getModel(stack, pBlockEntity.getLevel(), null, 0));
-            pPoseStack.popPose();
-        }
+        if (stack == null || stack.isEmpty()) return;
+        pPoseStack.pushPose();
+        pPoseStack.translate(0.5f, 0f, 0.5f);
+        pPoseStack.mulPose(Axis.YP.rotationDegrees(90F));
+        var a = this.context.getItemRenderer();
+        a.render(stack, ItemDisplayContext.NONE, false, pPoseStack, pBuffer, 255,
+                1, a.getModel(stack, pBlockEntity.getLevel(), null, 0));
+        pPoseStack.popPose();
     }
 }

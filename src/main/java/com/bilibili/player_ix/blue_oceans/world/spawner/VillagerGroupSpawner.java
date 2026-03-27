@@ -14,19 +14,23 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.levelgen.Heightmap;
+import org.NineAbyss9.math.MathSupport;
 
 import java.util.Iterator;
 import java.util.Random;
 
-public class VillagerGroupSpawner {
-    private Random random = new Random();
+public class VillagerGroupSpawner
+{
+    private Random random = MathSupport.threadSafeRandom;
     private int tickDelay;
     private int spawnDelay;
     private int spawnChance;
-    public VillagerGroupSpawner() {
+    public VillagerGroupSpawner()
+    {
     }
 
-    public int tick(ServerLevel level) {
+    public int tick(ServerLevel level)
+    {
         if (!level.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING)) {
             return 0;
         } else if (--this.tickDelay > 0) {
@@ -54,7 +58,8 @@ public class VillagerGroupSpawner {
         }
     }
 
-    public boolean spawn(ServerLevel level) {
+    public boolean spawn(ServerLevel level)
+    {
         Player player = level.getRandomPlayer();
         if (player == null) {
             return false;
@@ -71,7 +76,8 @@ public class VillagerGroupSpawner {
         return false;
     }
 
-    private void spawnGroup(ServerLevel level, BlockPos.MutableBlockPos pos, Player player) {
+    private void spawnGroup(ServerLevel level, BlockPos.MutableBlockPos pos, Player player)
+    {
         pos.setY(level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, pos).getY());
         Mob mob;
         for (int i = 0;i < 2;i++) {
@@ -89,16 +95,17 @@ public class VillagerGroupSpawner {
             }
         }
         //for (int i = 0;i < 2;i++) {
-            mob = BlueOceansEntities.VILLAGER_BIOLOGIST.get().spawn(level, pos, MobSpawnType.EVENT);
-            if (mob != null) {
-                mob.restrictTo(pos, 18);
-                mob.spawnAnim();
-                mob.setTarget(player);
-            }
-       // }
+        mob = BlueOceansEntities.VILLAGER_BIOLOGIST.get().spawn(level, pos, MobSpawnType.EVENT);
+        if (mob != null) {
+            mob.restrictTo(pos, 18);
+            mob.spawnAnim();
+            mob.setTarget(player);
+        }
+        // }
     }
 
-    private boolean hasEnoughSpace(Level pLevel, BlockPos pPos) {
+    private boolean hasEnoughSpace(Level pLevel, BlockPos pPos)
+    {
         Iterator<BlockPos> var3 = BlockPos.betweenClosed(pPos, pPos.offset(1, 2,
                 1)).iterator();
         BlockPos $$2;
@@ -108,7 +115,7 @@ public class VillagerGroupSpawner {
                         BlueOceansEntities.BASE_VILLAGER.get());
             }
             $$2 = var3.next();
-        } while(pLevel.getBlockState($$2).getCollisionShape(pLevel, $$2).isEmpty());
+        } while (pLevel.getBlockState($$2).getCollisionShape(pLevel, $$2).isEmpty());
         return false;
     }
 }

@@ -29,11 +29,10 @@ implements ICheFor
     AMMONIA(Element.Am, 0.73f,0.24f,Collections.singletonList(new MobEffectInstance(MobEffects.CONFUSION,25)),true,Pair.of(Level.ExplosionInteraction.NONE, 0F),14459799),
     CARBON_DIOXIDE(ChemicalFormulas.CO2, 2f,0.15f, Collections.singletonList(new MobEffectInstance(MobEffects.DIG_SLOWDOWN,25)),true,Pair.of(Level.ExplosionInteraction.NONE, 0F),3684408),
     HYDROGEN_CHLORIDE(ChemicalFormulas.HCl, 1.5f,0.17f, Collections.emptyList(),true,Pair.of(Level.ExplosionInteraction.NONE, 0F),10345635),
-    //TODO correct these:
-    HYDROGEN_FLUORIDE(Element.Am, 1.15f,0.22f, Collections.emptyList(), true, Pair.of(Level.ExplosionInteraction.NONE, 0F),10345635),
-    HYDROGEN_SULFIDE(Element.Am, 1.35f,0.17f, Collections.emptyList(), true,Pair.of(Level.ExplosionInteraction.NONE, 0F),13676874),
-    SULFUR_DIOXIDE(Element.Og, 2.9f,0.13f, Collections.emptyList(), true, Pair.of(Level.ExplosionInteraction.NONE, 0F),6118148),
-    TUNGSTEN_HEXAFLUORIDE(Element.He, 2.4f,0.13f, Collections.emptyList(), true, Pair.of(Level.ExplosionInteraction.NONE, 0F),11048836);
+    HYDROGEN_FLUORIDE(ChemicalFormulas.HF, 1.15f,0.22f, Collections.emptyList(), true, Pair.of(Level.ExplosionInteraction.NONE, 0F),10345635),
+    HYDROGEN_SULFIDE(ChemicalFormulas.H2S, 1.35f,0.17f, Collections.emptyList(), true,Pair.of(Level.ExplosionInteraction.NONE, 0F),13676874),
+    SULFUR_DIOXIDE(ChemicalFormulas.SO2, 2.9f,0.13f, Collections.emptyList(), true, Pair.of(Level.ExplosionInteraction.NONE, 0F),6118148),
+    TUNGSTEN_HEXAFLUORIDE(ChemicalFormulas.WF6, 2.4f,0.13f, Collections.emptyList(), true, Pair.of(Level.ExplosionInteraction.NONE, 0F),11048836);
     private final ChemicalFormula element;
     private final float density;
     private final float dissipationRate;

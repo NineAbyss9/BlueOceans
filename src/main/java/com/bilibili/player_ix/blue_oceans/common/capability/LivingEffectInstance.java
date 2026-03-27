@@ -5,59 +5,69 @@ import net.minecraft.nbt.CompoundTag;
 
 import javax.annotation.Nullable;
 
-public class LivingEffectInstance {
+public class LivingEffectInstance
+{
     private final LivingEffect effect;
     private int duration;
     private int amplifier;
     private boolean ambient;
     public LivingEffectInstance(LivingEffect pEffect, int pDuration, int pAmplifier, boolean pAmbient
                                 //, @Nullable LivingEffectInstance pHiddenEffect
-    ) {
+    )
+    {
         this.effect = pEffect;
         this.duration = pDuration;
         this.amplifier = pAmplifier;
         this.ambient = pAmbient;
     }
 
-    public int getDuration() {
+    public int getDuration()
+    {
         return this.duration;
     }
 
-    public int getAmplifier() {
+    public int getAmplifier()
+    {
         return this.amplifier;
     }
 
     /**
      * Gets whether this effect originated from a beacon
      */
-    public boolean isAmbient() {
+    public boolean isAmbient()
+    {
         return this.ambient;
     }
 
-    public LivingEffect getEffect() {
+    public LivingEffect getEffect()
+    {
         return effect;
     }
 
-    public CompoundTag save(CompoundTag pNbt) {
+    public CompoundTag save(CompoundTag pNbt)
+    {
         pNbt.putInt("Id", LivingEffect.getId(this.getEffect()));
         this.writeDetailsTo(pNbt);
         return pNbt;
     }
 
-    public void writeDetailsTo(CompoundTag pNbt) {
+    public void writeDetailsTo(CompoundTag pNbt)
+    {
         pNbt.putInt("Amplifier", this.getAmplifier());
         pNbt.putInt("Duration", this.getDuration());
         pNbt.putBoolean("Ambient", this.isAmbient());
     }
 
     @Nullable
-    public static LivingEffectInstance load(CompoundTag pNbt) {
+    public static LivingEffectInstance load(CompoundTag pNbt)
+    {
         int i = pNbt.getByte("Id") & 0xFF;
         LivingEffect livingEffect = LivingEffect.byId(i);
         return livingEffect == null ? null : loadSpecifiedEffect(livingEffect, pNbt);
     }
 
-    private static LivingEffectInstance loadSpecifiedEffect(LivingEffect pEffect, CompoundTag pNbt) {
+    private static LivingEffectInstance loadSpecifiedEffect(LivingEffect pEffect, CompoundTag pNbt)
+    {
         int i = pNbt.getByte("Amplifier");
         int j = pNbt.getInt("Duration");
         boolean flag = pNbt.getBoolean("Ambient");

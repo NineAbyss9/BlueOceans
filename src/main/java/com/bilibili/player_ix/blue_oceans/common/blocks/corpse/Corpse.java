@@ -4,6 +4,8 @@ package com.bilibili.player_ix.blue_oceans.common.blocks.corpse;
 import com.bilibili.player_ix.blue_oceans.common.blocks.be.CorpseEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
@@ -37,7 +39,8 @@ extends BaseEntityBlock
 
     public void destroy(LevelAccessor pLevel, BlockPos pPos, BlockState pState)
     {
-        if (!pLevel.isClientSide() && pLevel.getBlockEntity(pPos) instanceof CorpseEntity entity)
+        if (pLevel instanceof Level level && level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT) &&
+                !pLevel.isClientSide() && pLevel.getBlockEntity(pPos) instanceof CorpseEntity entity)
             entity.drop();
         super.destroy(pLevel, pPos, pState);
     }

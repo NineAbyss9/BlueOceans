@@ -21,6 +21,7 @@ import org.NineAbyss9.util.pair.Pair;
 import java.util.List;
 import java.util.function.Supplier;
 
+//Cube all
 @SuppressWarnings("deprecation")
 public class GasBlock
 extends Block
@@ -34,7 +35,7 @@ implements IElement
     protected final int color;
     protected final Pair<Level.ExplosionInteraction, Float> flammability;
     public GasBlock(Properties pProperties, Element elementIn, float densityIn, float dissipationChanceIn, List<MobEffectInstance> effectInstancesIn,
-                    boolean suffocatingIn, Pair<Level.ExplosionInteraction,Float> flammabilityIn, int colorIn)
+                    boolean suffocatingIn, Pair<Level.ExplosionInteraction, Float> flammabilityIn, int colorIn)
     {
         super(pProperties);
         this.element = elementIn;
@@ -48,14 +49,12 @@ implements IElement
 
     protected void addEffectToEntity(Level pLevel, BlockState pState, BlockPos pPos, LivingEntity pEntity)
     {
-
+        this.effectInstances.forEach(pEntity::addEffect);
     }
 
     public boolean skipRendering(BlockState pState, BlockState pAdjacentState, Direction pDirection)
     {
-        if (pAdjacentState.getBlock() == this)
-            return true;
-        return super.skipRendering(pState, pAdjacentState, pDirection);
+        return pAdjacentState.getBlock() == this || super.skipRendering(pState, pAdjacentState, pDirection);
     }
 
     public boolean canBeReplaced(BlockState pState, BlockPlaceContext pUseContext)
@@ -79,14 +78,16 @@ implements IElement
         return element;
     }
 
-    public static Supplier<GasBlock> simpleSupplier(GasEnum gasEnum) {
-        return () -> new GasBlock(Properties.of(), gasEnum.getElement(), gasEnum.getDensity(), gasEnum.getDissipationRate(),
+    public static Supplier<GasBlock> simpleSupplier(Properties propertiesIn, GasEnum gasEnum)
+    {
+        return (Supplier<GasBlock>)() -> new GasBlock(propertiesIn, gasEnum.getElement(), gasEnum.getDensity(), gasEnum.getDissipationRate(),
                 gasEnum.getEffects(), gasEnum.isSuffocating(), gasEnum.getFlammability(), gasEnum.getColor());
     }
 
     public static Supplier<GasBlock> simpleSupplier(Element elementIn, float densityIn, float dissipationChanceIn,
                                                     List<MobEffectInstance> effectInstancesIn,
-                                                    boolean suffocatingIn, Pair<Level.ExplosionInteraction,Float> flammabilityIn, int colorIn) {
+                                                    boolean suffocatingIn, Pair<Level.ExplosionInteraction, Float> flammabilityIn, int colorIn)
+    {
         return () -> new GasBlock(Properties.of().air().noCollission().noLootTable(), elementIn, densityIn, dissipationChanceIn,
                 effectInstancesIn, suffocatingIn, flammabilityIn, colorIn);
     }

@@ -7,6 +7,10 @@ import java.util.Map;
 public class LivingEffects {
     public static final Map<String, LivingEffect> REGISTRY;
     public static final LivingEffect ILL;
+    private LivingEffects()
+    {
+        throw new AssertionError();
+    }
 
     public static LivingEffect register(String pName, LivingEffect pEffect) {
         return REGISTRY.put(pName, pEffect);

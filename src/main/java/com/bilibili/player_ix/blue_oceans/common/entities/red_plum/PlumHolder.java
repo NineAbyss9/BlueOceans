@@ -20,6 +20,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.NineAbyss9.annotation.doc.Message;
@@ -141,9 +142,14 @@ extends RedPlumMonster {
     }
 
     public void despawnMob() {
-        var entity = this.level().getEntity(this.getDespawnId());
+        var entity = this.getDespawnMob();
         if (entity != null)
             entity.discard();
+    }
+
+    @Nullable
+    public Entity getDespawnMob() {
+        return this.level().getEntity(this.getDespawnId());
     }
 
     public String getSpawnId() {
@@ -187,6 +193,16 @@ extends RedPlumMonster {
         return super.isInvulnerableTo(pSource);
     }
 
+    protected AABB makeBoundingBox()
+    {
+        if (this.despawn()) {
+            if (this.getDespawnMob() != null)
+                return this.getDespawnMob().getType().getDimensions().makeBoundingBox(this.position());
+        } else
+            return this.getSpawnMob().getType().getDimensions().makeBoundingBox(this.position());
+        return super.makeBoundingBox();
+    }
+
     public int getDespawnId() {
         return this.entityData.get(DATA_DESPAWN_ID);
     }
@@ -205,6 +221,7 @@ extends RedPlumMonster {
             holder.setDespawn(pMob.getId());
             holder.moveTo(pMob.position().add(0, -2, 0));
             pLevel.addFreshEntity(holder);
+            holder.refreshDimensions();
         }
     }
 
@@ -214,6 +231,7 @@ extends RedPlumMonster {
             holder.moveTo(pPos.below().below(), 0, 0);
             holder.fromList(index);
             pLevel.addFreshEntity(holder);
+            holder.refreshDimensions();
         }
     }
 

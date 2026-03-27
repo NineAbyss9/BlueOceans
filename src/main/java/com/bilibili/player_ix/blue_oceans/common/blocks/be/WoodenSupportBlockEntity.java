@@ -1,7 +1,6 @@
 
 package com.bilibili.player_ix.blue_oceans.common.blocks.be;
 
-import com.bilibili.player_ix.blue_oceans.common.blocks.WoodenSupport;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlockEntities;
 import com.bilibili.player_ix.blue_oceans.init.BoTags;
 import com.github.NineAbyss9.ix_api.util.Maths;
@@ -9,10 +8,13 @@ import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.core.*;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.ExperienceOrb;
@@ -31,10 +33,14 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import org.NineAbyss9.math.MathSupport;
 import org.NineAbyss9.util.*;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Random;
+
+import static com.bilibili.player_ix.blue_oceans.common.blocks.WoodenSupport.BURNING;
 
 public class WoodenSupportBlockEntity
 extends BlockEntity
@@ -80,22 +86,46 @@ implements WorldlyContainer, RecipeHolder, IXUtilUser {
         pTag.put("RecipesUsed", compoundtag);
     }
 
-    public static void serverTick(Level pLevel, BlockPos pPos, BlockState pState,
-                                  WoodenSupportBlockEntity pBlockEntity) {
-        boolean flag = pBlockEntity.isBurning();
-        boolean flag1 = false;
-        boolean puttedItemsNotEmpty = !pBlockEntity.getPuttedItem().isEmpty();
-        boolean fuelsReady = pLevel.getBlockState(pPos.below()).is(BoTags.FUELS);
-        if (pBlockEntity.isBurning() || fuelsReady && puttedItemsNotEmpty) {
-            Recipe<?> recipe;
-            if (puttedItemsNotEmpty)
-                recipe = pBlockEntity.quickCheck.getRecipeFor(pBlockEntity, pLevel).orElse(null);
-            else
-                recipe = null;
-            if (!pBlockEntity.isBurning() && pBlockEntity.canBurn(pLevel.registryAccess(), recipe, pBlockEntity)) {
-                pBlockEntity.litTime = 999999;
-                if (pBlockEntity.isBurning())
-                    flag1 = true;
+    public static void tick(Level pLevel, BlockPos pPos, BlockState pState,
+                            WoodenSupportBlockEntity pBlockEntity) {
+        if (pLevel.isClientSide)
+        {
+            if (pState.getValue(BURNING))
+            {
+                double d0 = pPos.getX();
+                double d1 = pPos.getY();
+                double d2 = pPos.getZ();
+                if (Math.random() < 0.1d) {
+                    pLevel.playLocalSound(d0, d1, d2, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS,
+                            1.0F, 1.0F, false);
+                    Random pRandom = MathSupport.threadSafeRandom;
+                    pLevel.addParticle(ParticleTypes.FLAME,
+                            d0 + pRandom.nextDouble(),
+                            d1 + pRandom.nextDouble(),
+                            d2 + pRandom.nextDouble(),
+                            pRandom.nextDouble() * 0.15d,
+                            pRandom.nextDouble() * 0.15d,
+                            pRandom.nextDouble() * 0.15d);
+                }
+            }
+        } else
+        {
+            boolean flag = pBlockEntity.isBurning();
+            boolean flag1 = false;
+            boolean puttedItemsNotEmpty = !pBlockEntity.getPuttedItem().isEmpty();
+            boolean fuelsReady = pLevel.getBlockState(pPos.below()).is(BoTags.FUELS);
+            if (pBlockEntity.isBurning() || fuelsReady && puttedItemsNotEmpty)
+            {
+                Recipe<?> recipe;
+                if (puttedItemsNotEmpty)
+                    recipe = pBlockEntity.quickCheck.getRecipeFor(pBlockEntity, pLevel).orElse(null);
+                else
+                    recipe = null;
+                if (!pBlockEntity.isBurning() && pBlockEntity.canBurn(pLevel.registryAccess(), recipe, pBlockEntity))
+                {
+                    pBlockEntity.litTime = 999999;
+                    if (pBlockEntity.isBurning())
+                        flag1 = true;
                     /*if (itemstack.hasCraftingRemainingItem())
                         pBlockEntity.items.set(1, itemstack.getCraftingRemainingItem());
                     else if (flag3) {
@@ -104,30 +134,36 @@ implements WorldlyContainer, RecipeHolder, IXUtilUser {
                             pBlockEntity.items.set(1, itemstack.getCraftingRemainingItem());
                         }
                     }*/
-            }
-            if (pBlockEntity.isBurning() && pBlockEntity.canBurn(pLevel.registryAccess(), recipe, pBlockEntity)) {
-                ++pBlockEntity.cookingProgress;
-                if (pBlockEntity.cookingProgress == pBlockEntity.cookingTotalTime) {
-                    pBlockEntity.cookingProgress = 0;
-                    pBlockEntity.cookingTotalTime = getTotalCookTime(pLevel, pBlockEntity);
-                    if (pBlockEntity.burn(pLevel, pPos, pLevel.registryAccess(), recipe, pBlockEntity)) {
-                        pBlockEntity.setRecipeUsed(recipe);
-                    }
-                    flag1 = true;
                 }
-            } else
-                pBlockEntity.cookingProgress = 0;
-        } else if (!pBlockEntity.isBurning() && pBlockEntity.cookingProgress > 0) {
-            pBlockEntity.cookingProgress = Mth.clamp(pBlockEntity.cookingProgress - 2, 0,
-                    pBlockEntity.cookingTotalTime);
+                if (pBlockEntity.isBurning() && pBlockEntity.canBurn(pLevel.registryAccess(), recipe, pBlockEntity))
+                {
+                    ++pBlockEntity.cookingProgress;
+                    if (pBlockEntity.cookingProgress == pBlockEntity.cookingTotalTime)
+                    {
+                        pBlockEntity.cookingProgress = 0;
+                        pBlockEntity.cookingTotalTime = getTotalCookTime(pLevel, pBlockEntity);
+                        if (pBlockEntity.burn(pLevel, pPos, pLevel.registryAccess(), recipe, pBlockEntity))
+                        {
+                            pBlockEntity.setRecipeUsed(recipe);
+                        }
+                        flag1 = true;
+                    }
+                } else
+                    pBlockEntity.cookingProgress = 0;
+            } else if (!pBlockEntity.isBurning() && pBlockEntity.cookingProgress > 0)
+            {
+                pBlockEntity.cookingProgress = Mth.clamp(pBlockEntity.cookingProgress - 2, 0,
+                        pBlockEntity.cookingTotalTime);
+            }
+            if (flag != pBlockEntity.isBurning())
+            {
+                flag1 = true;
+                pState = pState.setValue(BURNING, pBlockEntity.isBurning());
+                pLevel.setBlock(pPos, pState, 3);
+            }
+            if (flag1)
+                setChanged(pLevel, pPos, pState);
         }
-        if (flag != pBlockEntity.isBurning()) {
-            flag1 = true;
-            pState = pState.setValue(WoodenSupport.BURNING, pBlockEntity.isBurning());
-            pLevel.setBlock(pPos, pState, 3);
-        }
-        if (flag1)
-            setChanged(pLevel, pPos, pState);
     }
 
     private boolean canBurn(RegistryAccess pRegistryAccess, @Nullable Recipe<?> pRecipe,

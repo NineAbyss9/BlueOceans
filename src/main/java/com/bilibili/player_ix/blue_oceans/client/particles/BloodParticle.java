@@ -19,12 +19,12 @@ extends TextureSheetParticle
         this.speedUpWhenYMotionIsBlocked = false;
         this.set = spriteSets;
         this.hasPhysics = true;
-        this.xd *= 0.800000011920929;
-        this.yd *= 0.800000011920929;
-        this.zd *= 0.800000011920929;
+        this.xd *= 0.800000011920929d;
+        this.yd *= 0.800000011920929d;
+        this.zd *= 0.800000011920929d;
         this.yd = this.random.nextFloat() * 0.4F + 0.05F;
         this.quadSize *= this.random.nextFloat() * 2.0F + 0.2F;
-        this.lifetime = (int)(16.0 / (Math.random() * 0.8 + 0.2));
+        this.lifetime = (int)(16.d / (Math.random() * 0.8d + 0.2d));
         this.setSpriteFromAge(spriteSets);
     }
 

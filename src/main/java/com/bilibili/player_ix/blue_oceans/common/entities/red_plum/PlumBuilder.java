@@ -165,7 +165,6 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new MoveToTargetGoal(this));
-        super.registerGoals();
     }
 
     public void puffSound() {

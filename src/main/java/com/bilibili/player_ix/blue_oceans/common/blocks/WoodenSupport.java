@@ -6,10 +6,6 @@ import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlockEntities;
 import com.github.NineAbyss9.ix_api.util.ItemUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -108,28 +104,7 @@ extends BaseEntityBlock {
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState,
                                                                   BlockEntityType<T> pBlockEntityType) {
-        if (pLevel.isClientSide)
-            return null;
         return createTickerHelper(pBlockEntityType, BlueOceansBlockEntities.WOODEN_SUPPORT.get(),
-                WoodenSupportBlockEntity::serverTick);
-    }
-
-    public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, RandomSource pRandom) {
-        if (pState.getValue(BURNING)) {
-            double d0 = pPos.getX();
-            double d1 = pPos.getY();
-            double d2 = pPos.getZ();
-            if (pRandom.nextFloat() < 0.1F) {
-                pLevel.playLocalSound(d0, d1, d2, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS,
-                        1.0F, 1.0F, false);
-                pLevel.addParticle(ParticleTypes.FLAME,
-                        d0 + pRandom.nextDouble(),
-                        d1 + pRandom.nextDouble(),
-                        d2 + pRandom.nextDouble(),
-                        pRandom.nextDouble() * 0.15d,
-                        pRandom.nextDouble() * 0.15d,
-                        pRandom.nextDouble() * 0.15d);
-            }
-        }
+                WoodenSupportBlockEntity::tick);
     }
 }

@@ -55,7 +55,7 @@ extends CropBlock {
         super.randomTick(pState, pLevel, pPos, pRandom);
         if (SporeCompat.isSporeLoaded() && pRandom.nextFloat() < 0.01F) {
             List<LivingEntity> entities =
-                    pLevel.getEntitiesOfClass(LivingEntity.class, new AABB(pPos.above()).inflate(1.5));
+                    pLevel.getEntitiesOfClass(LivingEntity.class, new AABB(pPos).inflate(2));
             pLevel.playSound(null, pPos, SporeCompat.getSporeSound("puff"), SoundSource.BLOCKS,
                     1.0F, 1.0F);
             if (!entities.isEmpty())

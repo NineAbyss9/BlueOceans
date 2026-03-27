@@ -25,8 +25,11 @@ public class LivingHealth implements INBTSerializable<CompoundTag> {
     public void tick() {
         if (!activeEffects.isEmpty()) {
             this.activeEffects.forEach((livingEffect, livingEffectInstance) -> {
-                if (livingEffect.isInstantaneous())
+                if (livingEffect.isInstantaneous()) {
                     livingEffect.instantaneousEffect(owner.level(), owner, livingEffectInstance.getAmplifier());
+                    livingEffect.onRemove(owner.level(), owner, livingEffectInstance.getAmplifier());
+                    this.activeEffects.remove(livingEffect, livingEffectInstance);
+                }
                 else
                     livingEffect.applyEffectTick(owner.level(), owner, livingEffectInstance.getAmplifier());
             });

@@ -6,6 +6,7 @@ import com.bilibili.player_ix.blue_oceans.api.item.BORarity;
 import com.bilibili.player_ix.blue_oceans.api.item.BoTier;
 import com.bilibili.player_ix.blue_oceans.common.chemistry.Element;
 import com.bilibili.player_ix.blue_oceans.common.item.FlagItem;
+import com.bilibili.player_ix.blue_oceans.common.item.ItemLocBlockItem;
 import com.bilibili.player_ix.blue_oceans.common.item.WoodenStick;
 import com.bilibili.player_ix.blue_oceans.common.item.biology.GravyBottle;
 import com.bilibili.player_ix.blue_oceans.common.item.biology.Scalpel;
@@ -38,7 +39,6 @@ import com.bilibili.player_ix.blue_oceans.common.item.weapon.FreakyAxe;
 import com.bilibili.player_ix.blue_oceans.common.item.weapon.red_plum.RedPlumScythe;
 import com.bilibili.player_ix.blue_oceans.common.item.weapon.red_plum.RedPlumSword;
 import com.bilibili.player_ix.blue_oceans.init.data.BoDataGenHelper;
-import com.bilibili.player_ix.blue_oceans.init.data.LangEntry;
 import com.github.NineAbyss9.ix_api.api.item.ApiSpawnEgg;
 import com.github.NineAbyss9.ix_api.api.item.BaseItem;
 import com.google.common.collect.Sets;
@@ -70,8 +70,6 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.Set;
 import java.util.function.Supplier;
 
-import static com.bilibili.player_ix.blue_oceans.init.data.BoLang.LANG_MAP;
-
 @SuppressWarnings("unused")
 @PAMAreNonnullByDefault
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -92,17 +90,20 @@ public class BlueOceansItems {
         return new ItemBuilder();
     }
 
-    private static RegistryObject<Item> item(String en, String zh, Supplier<Item> pItem) {
+    private static RegistryObject<Item> item(String en, Supplier<Item> pItem) {
         var obj = BlueOceansItems.ITEMS.register(en.replace(" ", "_").toLowerCase(), pItem);
-        var e =  new LangEntry(en, zh);
         BoDataGenHelper.ITEM_REGISTRIES.add(obj);
-        LANG_MAP.put(obj.getId(), e);
         return obj;
     }
 
-    public static RegistryObject<Item> spawnEgg(String name, String en, String zh, Supplier<? extends EntityType<? extends Mob>> object, int b,
+    private static RegistryObject<Item> block(String en, Supplier<? extends Block> supplier, String address)
+    {
+        return builder().item(() -> new ItemLocBlockItem(supplier.get(), properties(), address)).blocks().build();
+    }
+
+    public static RegistryObject<Item> spawnEgg(String name, Supplier<? extends EntityType<? extends Mob>> object, int b,
                                                 int g, Rarity rarity) {
-        RegistryObject<Item> obj = item(name, zh, ()-> new ForgeSpawnEggItem(object, b, g,
+        RegistryObject<Item> obj = item(name, ()-> new ForgeSpawnEggItem(object, b, g,
                 properties().rarity(rarity)));
         SPAWN_EGGS.add(obj);
         return obj;
@@ -282,7 +283,7 @@ public class BlueOceansItems {
     public static final RegistryObject<Item> RED_DEMON_SPAWN_EGG = apiSpawnEgg("red_demon", BlueOceansEntities.RED_DEMON,
             -3407872, -6750208);
     public static final RegistryObject<Item> RED_PLUMS_COW_SPAWN_EGG = spawnEgg("red_plums_cow", BlueOceansEntities.RED_PLUMS_COW, -3407872, -6750208);
-    public static final RegistryObject<Item> RED_PLUM_GIRL_SPAWN_EGG = spawnEgg("red_plum_girl_spawn_egg", "Summon Red Plum Girl", "召唤 赤梅娘",
+    public static final RegistryObject<Item> RED_PLUM_GIRL_SPAWN_EGG = spawnEgg("red_plum_girl_spawn_egg",
             BlueOceansEntities.RED_PLUM_GIRL, -13434880, -10092544, BORarity.RED_PLUM);
     public static final RegistryObject<Item> RED_PLUM_HUMAN_SPAWN_EGG = spawnEgg("red_plum_human", BlueOceansEntities.RED_PLUM_HUMAN, 2558751, 2558750);
     public static final RegistryObject<Item> RED_PLUM_SKELETON_SPAWN_EGG = spawnEgg("red_plum_skeleton",
@@ -301,6 +302,10 @@ public class BlueOceansItems {
 
     //Material
     public static final RegistryObject<Item> STEEL_INGOT = ITEMS.register("steel_ingot", BaseItem::new);
+
+    //Fuels
+    public static final RegistryObject<Item> Lignite = item("Lignite", BaseItem::new);
+    //F End
     //M End
 
     //Block
@@ -316,6 +321,7 @@ public class BlueOceansItems {
     public static final RegistryObject<Item> LEEK_SEEDS = itemNameBlock("leek_seeds", BlueOceansBlocks.LEEK,
             properties().stacksTo(64));
     public static final RegistryObject<Item> MINING_LAMP = block(BlueOceansBlocks.MINING_LAMP);
+    public static final RegistryObject<Item> PLUM_CORPSE = block(BlueOceansBlocks.PLUM_CORPSE);
     public static final RegistryObject<Item> RED_PLUM_BLOCK = block(BlueOceansBlocks.RED_PLUM_BLOCK);
     public static final RegistryObject<Item> RED_PLUM_CATALYST = block(BlueOceansBlocks.RED_PLUM_CATALYST);
     public static final RegistryObject<Item> RED_PLUM_GRASS = block(BlueOceansBlocks.RED_PLUM_GRASS);
@@ -360,8 +366,14 @@ public class BlueOceansItems {
                     return SoundEvents.GENERIC_DRINK;
                 }
             });
+    public static final RegistryObject<Item> BROWN_MUSHROOM_SKEWER = item("brown_mushroom_skewer",
+            () -> new FoodItem(2, 1.2f));
     public static final RegistryObject<Item> MUSHROOM_SKEWER = ITEMS.register("mushroom_skewer",
-            () -> new FoodItem(5, 1.0F));
+            () -> new FoodItem(2, 1.2F));
+    public static final RegistryObject<Item> C_M_S = item("cooked_mushroom_skewer",
+            () -> new FoodItem(4, 1.5f));
+    public static final RegistryObject<Item> C_B_M_S = item("cooked_brown_mushroom_skewer",
+            () -> new FoodItem(4, 1.5f));
     public static final RegistryObject<Item> GINKGO = ITEMS.register("ginkgo",
             () -> new FoodItem(1, 1.5F));
     public static final RegistryObject<Item> LEEK = ITEMS.register("leek", () -> new FoodItem(2, 1.0F));
@@ -389,8 +401,8 @@ public class BlueOceansItems {
                     return super.finishUsingItem(pStack, pLevel, pLivingEntity);
                 }
             });
-    public static final RegistryObject<Item> RoastedSeaweed = builder().item(() -> new FoodItem(2, 1.1f))
-            .translate("Roasted Seaweed", "烤紫菜").build();
+    public static final RegistryObject<Item> RoastedNori = builder().item(() -> new FoodItem(2, 1.1f))
+            .translate("Roasted Nori", "烤紫菜").build();
     public static final RegistryObject<Item> SALT_PILE = ITEMS.register("salt_pile",
             () -> new Item(properties().stacksTo(64)));
     public static final RegistryObject<Item> STRAWBERRY = ITEMS.register("strawberry",
@@ -530,6 +542,12 @@ public class BlueOceansItems {
             return this;
         }
 
+        public ItemBuilder name(String name)
+        {
+            this.en = name;
+            return this;
+        }
+
         public ItemBuilder translate(String en, String zh) {
             this.en = en;
             this.zh = zh;
@@ -537,7 +555,7 @@ public class BlueOceansItems {
         }
 
         public RegistryObject<Item> build() {
-            RegistryObject<Item> obj = BlueOceansItems.item(en, zh, item);
+            RegistryObject<Item> obj = BlueOceansItems.item(en, item);
             if (mainCreative) MAIN_CREATIVE_ITEMS.add(obj);
             if (spawnEggs) SPAWN_EGGS.add(obj);
             if (blocks) BLOCKS.add(obj);

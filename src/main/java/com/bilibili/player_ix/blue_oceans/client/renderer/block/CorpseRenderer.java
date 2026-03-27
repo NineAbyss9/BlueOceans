@@ -31,9 +31,9 @@ public class CorpseRenderer implements BlockEntityRenderer<CorpseEntity>
         if (renderer instanceof LivingEntityRenderer<?, ?> livingEntityRenderer && livingEntityRenderer.getModel()
                 instanceof HeadedModel headedModel) {
             headedModel.getHead().render(pPoseStack, pBuffer.getBuffer(RenderType.entityCutoutNoCull(renderer
-                    .getTextureLocation(IXUtil.c.convert(pBlockEntity.getEntity())))).color(255, 255, 255,
+                    .getTextureLocation(IXUtil.c.convert(pBlockEntity.getEntity())))).color(12, 12, 12,
                     0), pPackedLight, pPackedOverlay, 1f, 1f, 1f, 0f);
-            pPoseStack.translate(0f, -0.5f, 0f);
+            pPoseStack.translate(0.5f, 0.5f, 0.5f);
             pPoseStack.mulPose(new Quaternionf(0f, 90f, 0f, 0f));
         }
         pPoseStack.popPose();

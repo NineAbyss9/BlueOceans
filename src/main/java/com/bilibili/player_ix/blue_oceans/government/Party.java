@@ -3,7 +3,6 @@ package com.bilibili.player_ix.blue_oceans.government;
 
 import net.minecraft.world.entity.LivingEntity;
 
-//党
 public class Party {
     private final Ideology ideology;
     private LivingEntity leader;

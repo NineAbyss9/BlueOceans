@@ -18,7 +18,6 @@ extends Block {
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        super.createBlockStateDefinition(pBuilder);
         pBuilder.add(DATA_TYPE);
     }
 

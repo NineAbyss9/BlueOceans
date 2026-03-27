@@ -9,13 +9,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.NineAbyss9.array.ObjectArray;
 import org.NineAbyss9.util.ValueHolder;
 
 public class Crop
 extends CropBlock {
     private final int maxAge;
     private ItemLike baseSeed;
-    private VoxelShape shape;
+    private ObjectArray<VoxelShape> shapes;
     public Crop(Properties pProperties, int pMaxAge) {
         super(pProperties);
         this.maxAge = pMaxAge;
@@ -30,13 +31,13 @@ extends CropBlock {
         return this;
     }
 
-    public Crop shape(VoxelShape pShape) {
-        this.shape = pShape;
+    public Crop shape(VoxelShape... pShape) {
+        this.shapes = ObjectArray.of(pShape);
         return this;
     }
 
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return ValueHolder.nullToOther(shape, super.getShape(pState, pLevel, pPos, pContext));
+        return ValueHolder.nullToOther(shapes.get(this.getAge(pState)), super.getShape(pState, pLevel, pPos, pContext));
     }
 
     protected ItemLike getBaseSeedId() {

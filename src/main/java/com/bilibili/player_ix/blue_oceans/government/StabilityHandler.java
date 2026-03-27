@@ -6,7 +6,6 @@ import org.NineAbyss9.math.AbyssMath;
 public class StabilityHandler {
     private float stability;
     public StabilityHandler(float pStabilityBase) {
-        this();
         this.stability = pStabilityBase;
     }
 

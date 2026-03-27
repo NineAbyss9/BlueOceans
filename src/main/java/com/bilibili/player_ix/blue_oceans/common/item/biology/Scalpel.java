@@ -2,6 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.common.item.biology;
 
 import com.bilibili.player_ix.blue_oceans.api.item.BoTier;
+import com.bilibili.player_ix.blue_oceans.common.blocks.corpse.Corpse;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.SwordItem;
@@ -20,7 +21,8 @@ extends SwordItem
     {
         Level level = pContext.getLevel();
         BlockPos pos = pContext.getClickedPos();
-        level.destroyBlock(pos, false, pContext.getPlayer());
+        if (level.getBlockState(pos).getBlock() instanceof Corpse)
+            level.destroyBlock(pos, false, pContext.getPlayer());
         return super.useOn(pContext);
     }
 }

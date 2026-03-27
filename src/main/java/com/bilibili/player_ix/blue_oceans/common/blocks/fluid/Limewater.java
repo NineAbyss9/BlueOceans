@@ -57,7 +57,7 @@ extends BaseFlowingFluid {
     }
 
     protected BlockState createLegacyBlock(FluidState pState) {
-        return pState.createLegacyBlock();
+        return null;
     }
 
     public boolean isSource(FluidState pState) {

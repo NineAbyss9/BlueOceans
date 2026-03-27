@@ -17,6 +17,11 @@ public class ChemicalFormulas
     public static final ChemicalFormula NACL;
     public static final ChemicalFormula MnO2;
     public static final ChemicalFormula HCl;
+    public static final ChemicalFormula SO2;
+
+    public static final ChemicalFormula HF;
+    public static final ChemicalFormula H2S;
+    public static final ChemicalFormula WF6;
 
     public static ChemicalFormula get(String name) {
         if (!MAP.containsKey(name))
@@ -46,5 +51,10 @@ public class ChemicalFormulas
         O2 = of("O₂");
         MnO2 = of("MnO₂");
         HCl = of("HCl");
+        SO2 = of("SO₂");
+
+        HF = of("HF");
+        H2S = of("H₂S");
+        WF6 = of("WF₆");
     }
 }

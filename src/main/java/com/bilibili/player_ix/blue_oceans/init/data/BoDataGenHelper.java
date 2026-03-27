@@ -15,7 +15,7 @@ import java.util.Set;
 @Mod.EventBusSubscriber(modid = BlueOceans.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BoDataGenHelper
 {
-    public static final Set<RegistryObject<Block>> BLOCK_REGISTRIES;
+    public static final Set<RegistryObject<? extends Block>> BLOCK_REGISTRIES;
     public static final Set<RegistryObject<Item>> ITEM_REGISTRIES;
 
     @SubscribeEvent
@@ -30,10 +30,10 @@ public class BoDataGenHelper
         generator.addProvider(isClient, new ModBlockStateProvider(packOutput, BlueOceans.MOD_ID,
                 existingFileHelper));
         generator.addProvider(isClient, new ModItemModelProvider(packOutput, BlueOceans.MOD_ID, existingFileHelper));
-
-        //var languages = List.of("en_us", "zh_cn");
-        //languages.forEach(l -> generator.addProvider(isClient, new ModLangProvider(packOutput, BlueOceans.MOD_ID, l,
-        //        BoLang.LANG)));
+        generator.addProvider(isClient, new ModRecipeProvider(packOutput));
+        /*var languages = List.of("en_us", "zh_cn");
+        languages.forEach(l -> generator.addProvider(isClient, new ModLangProvider(packOutput, BlueOceans.MOD_ID, l,
+                BoLang.LANG)));*/
     }
 
     static {

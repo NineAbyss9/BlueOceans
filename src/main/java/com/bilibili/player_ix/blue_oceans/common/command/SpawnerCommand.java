@@ -10,17 +10,21 @@ import net.minecraft.network.chat.Component;
 
 import static net.minecraft.commands.Commands.literal;
 
-public class SpawnerCommand {
+public class SpawnerCommand
+{
     public static void register(LiteralArgumentBuilder<CommandSourceStack> pDispatcher,
-                                         CommandBuildContext pContext) {
+                                CommandBuildContext pContext)
+    {
         pDispatcher.then(literal("spawner").then(literal("villagerGroup"))
                 .then(literal("spawnNow").executes(commandContext ->
                         spawnVillagerGroup(commandContext.getSource()))));
     }
 
-    public static int spawnVillagerGroup(CommandSourceStack stack) {
+    public static int spawnVillagerGroup(CommandSourceStack stack)
+    {
         VillagerGroupSpawner spawner = BlueOceansEvents.VILLAGER_GROUPS.get(stack.getLevel());
-        if (spawner != null && spawner.spawn(stack.getLevel())) {
+        if (spawner != null && spawner.spawn(stack.getLevel()))
+        {
             stack.sendSuccess(() -> Component.translatable("info.bo.command.villagerGroup.success"),
                     false);
             return 1;

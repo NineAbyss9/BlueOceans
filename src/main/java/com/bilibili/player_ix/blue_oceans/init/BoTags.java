@@ -13,6 +13,8 @@ import net.minecraft.world.level.block.Block;
 @PFMAreNonnullByDefault
 public class BoTags {
     //EntityTypes
+    public static TagKey<EntityType<?>> HEAVY_MOBS
+            = entityTypeTag("heavy_mobs");
     public static TagKey<EntityType<?>> RED_PLUM_MOBS
             = entityTypeTag("red_plum_mobs");
 

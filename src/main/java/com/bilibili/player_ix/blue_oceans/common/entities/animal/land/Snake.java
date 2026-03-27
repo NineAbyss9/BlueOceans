@@ -19,4 +19,9 @@ extends BoAnimal
     {
         super.registerGoals();
     }
+
+    protected void clientAiStep()
+    {
+        this.idle.startIfStopped(tickCount);
+    }
 }

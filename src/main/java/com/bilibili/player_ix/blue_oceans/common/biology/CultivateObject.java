@@ -80,9 +80,7 @@ public class CultivateObject {
     }
 
     public static CultivateObject get(String pName) {
-        if (!FINDER.containsKey(pName))
-            return EMPTY;
-        return FINDER.get(pName);
+        return FINDER.getOrDefault(pName, EMPTY);
     }
 
     static {

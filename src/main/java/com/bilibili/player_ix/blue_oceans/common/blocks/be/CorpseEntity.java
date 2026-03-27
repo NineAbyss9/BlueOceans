@@ -43,8 +43,9 @@ extends BlockEntity
             ResourceLocation resourcelocation = livingEntity.getLootTable();
             LootTable loottable = this.level.getServer().getLootData().getLootTable(resourcelocation);
             LootParams.Builder lootparams$builder = (new LootParams.Builder((ServerLevel)this.level)).withParameter(
-                            LootContextParams.THIS_ENTITY, livingEntity).withParameter(LootContextParams.ORIGIN, livingEntity
-                            .position()).withParameter(LootContextParams.DAMAGE_SOURCE, level.damageSources().cactus())
+                            LootContextParams.THIS_ENTITY, livingEntity)
+                    .withParameter(LootContextParams.ORIGIN, livingEntity.position())
+                    .withParameter(LootContextParams.DAMAGE_SOURCE, level.damageSources().cactus())
                     .withOptionalParameter(LootContextParams.KILLER_ENTITY, null)
                     .withOptionalParameter(LootContextParams.DIRECT_KILLER_ENTITY, null);
             LootParams lootparams = lootparams$builder.create(LootContextParamSets.ENTITY);

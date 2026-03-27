@@ -22,7 +22,8 @@ public class Content {
     public static final Content WATER;
     public static final Content LAVA;
     public Content(int pId, String pSt//, Consumer<Block> pConsumer
-    ) {
+    )
+    {
         this.id  = pId;
         name = pSt;
         //this.consumer = pConsumer;
@@ -36,7 +37,8 @@ public class Content {
         return Component.translatable("content." + name);
     }
 
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj)
+    {
         if (this == obj)
             return true;
         if (!(obj instanceof Content content))

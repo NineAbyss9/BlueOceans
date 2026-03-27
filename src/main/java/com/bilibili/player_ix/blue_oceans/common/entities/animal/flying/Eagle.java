@@ -19,6 +19,7 @@ import java.util.List;
 public class Eagle
 extends AbstractFlyingAnimal
 implements IAnimatedMob {
+    public static final int FLY = 60;
     public AnimationState ambient = new AnimationState();
     public AnimationState fly = new AnimationState();
     public AnimationState attack = new AnimationState();
@@ -44,7 +45,7 @@ implements IAnimatedMob {
     }
 
     protected void onFlap() {
-        super.onFlap();
+        this.playAmbientSound();
     }
 
     public boolean shouldFlyUp() {

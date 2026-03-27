@@ -39,7 +39,7 @@ implements IXUtilUser {
         this.mob.setSleeping(false);
     }
 
-    protected <T> T convert() {
+    protected E convert() {
         return IXUtil.c.convert(this.mob);
     }
 }

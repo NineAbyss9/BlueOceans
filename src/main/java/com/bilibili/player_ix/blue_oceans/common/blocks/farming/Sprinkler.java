@@ -27,44 +27,54 @@ import javax.annotation.Nullable;
 
 @SuppressWarnings("deprecation")
 public class Sprinkler
-extends BaseEntityBlock {
+extends BaseEntityBlock
+{
     public static final BooleanProperty ACTIVATED;
     private static final VoxelShape SHAPE;
-    public Sprinkler(Properties pProperties) {
+
+    public Sprinkler(Properties pProperties)
+    {
         super(pProperties);
         this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVATED, Boolean.FALSE));
     }
 
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder)
+    {
         pBuilder.add(ACTIVATED);
     }
 
-    public RenderShape getRenderShape(BlockState pState) {
+    public RenderShape getRenderShape(BlockState pState)
+    {
         return RenderShape.MODEL;
     }
 
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer,
-                                 InteractionHand pHand, BlockHitResult pHit) {
+                                 InteractionHand pHand, BlockHitResult pHit)
+    {
         pLevel.setBlock(pPos, pState.cycle(ACTIVATED), 3);
         pLevel.playSound(null, pPos, SoundEvents.LEVER_CLICK, SoundSource.BLOCKS);
         return InteractionResult.sidedSuccess(pLevel.isClientSide);
     }
 
-    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext)
+    {
         return SHAPE;
     }
 
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState,
-                                                                  BlockEntityType<T> pBlockEntityType) {
+                                                                  BlockEntityType<T> pBlockEntityType)
+    {
         return createTickerHelper(pBlockEntityType, BlueOceansBlockEntities.SPRINKLER.get(), SprinklerEntity::tick);
     }
 
     @Nullable
-    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState)
+    {
         return new SprinklerEntity(pPos, pState);
     }
 
-    static {
+    static
+    {
         ACTIVATED = BoBlockProperties.ACTIVATED;
         SHAPE = box(6, 0, 6, 10, 2, 10);
     }
