@@ -16,7 +16,9 @@ extends MobRenderer<V, HuntingVillagerModel<V>> {
         this.addLayer(new ItemInHandLayer<>(this, p_174304_.getItemInHandRenderer()));
     }
 
+    private static ResourceLocation LOC = new ResourceLocation("blue_oceans:textures/entities/villagers/biologist.png");
+
     public ResourceLocation getTextureLocation(V v) {
-        return new ResourceLocation("blue_oceans:textures/entities/villagers/biologist.png");
+        return LOC;
     }
 }

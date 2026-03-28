@@ -14,7 +14,9 @@ extends MobRenderer<E, NeoFighterModel<E>> {
         super(pContext, new NeoFighterModel<>(pContext.bakeLayer(NeoFighterModel.LAYER_LOCATION)), 0.5F);
     }
 
+    private static ResourceLocation LOC = BlueOceans.redPlum("neo_fighter");
+
     public ResourceLocation getTextureLocation(E pEntity) {
-        return BlueOceans.redPlum("neo_fighter");
+        return LOC;
     }
 }

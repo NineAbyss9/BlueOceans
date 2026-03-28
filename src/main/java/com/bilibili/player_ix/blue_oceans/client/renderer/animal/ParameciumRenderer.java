@@ -21,7 +21,9 @@ extends MobRenderer<T, ParameciumModel<T>> {
         pPoseStack.scale(f, f, f);
     }
 
+    private static ResourceLocation LOC = BlueOceans.location("textures/entities/paramecium.png");
+
     public ResourceLocation getTextureLocation(T t) {
-        return BlueOceans.location("textures/entities/paramecium.png");
+        return LOC;
     }
 }

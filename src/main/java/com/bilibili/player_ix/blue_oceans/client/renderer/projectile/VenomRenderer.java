@@ -28,7 +28,9 @@ public class VenomRenderer<T extends Venom> extends EntityRenderer<T> {
         super.render(pEntity, pEntityYaw, pPartialTick, pPoseStack, pBuffer, pPackedLight);
     }
 
+    private static ResourceLocation LOC = BlueOceans.entity("projectile/venom");
+
     public ResourceLocation getTextureLocation(T t) {
-        return BlueOceans.entity("projectile/venom");
+        return LOC;
     }
 }

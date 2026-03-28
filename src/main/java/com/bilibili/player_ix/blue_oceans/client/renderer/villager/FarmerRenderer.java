@@ -24,7 +24,9 @@ extends MobRenderer<E, HattedVillagerModel<E>> {
         });
     }
 
+    private static ResourceLocation LOC = BlueOceans.villager("farmer");
+
     public ResourceLocation getTextureLocation(E pEntity) {
-        return BlueOceans.villager("farmer");
+        return LOC;
     }
 }

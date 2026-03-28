@@ -72,10 +72,9 @@ extends AquaticPlant
         return SHAPES.get(this.getAge(pState));
     }
 
-    //TODO
     protected ItemLike getBaseSeedId()
     {
-        return super.getBaseSeedId();
+        return this.asItem();
     }
 
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,

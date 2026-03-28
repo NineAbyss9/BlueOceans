@@ -1,6 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.government;
 
+import com.bilibili.player_ix.blue_oceans.api.mob.interfaces.ICanBeAgent;
 import com.bilibili.player_ix.blue_oceans.government.effect.Effect;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -27,9 +28,9 @@ public class Government {
     public Government(Country pCountry, Ideology pIdeology, LivingEntity pLeader, String pName) {
         this.country = pCountry;
         this.mainParty = new Party(pIdeology, pLeader);
-        this.allParties = SubLister.of(this.mainParty);
-        this.effects = new HashSet<>();
-        this.followers = new ArrayList<>();
+        this.allParties = SubLister.<Party>of(this.mainParty);
+        this.effects = new HashSet<Effect>();
+        this.followers = new ArrayList<LivingEntity>();
         this.followers.add(pLeader);
         this.stability = new StabilityHandler(pIdeology.defaultStability);
         this.name = pName;
@@ -140,10 +141,11 @@ public class Government {
         }
     }
 
-    /*public static boolean canHurt(LivingEntity pEntity, LivingEntity pSource) {
-        if (Government.EVIL_FACTION.followers.contains(pEntity) && )
-        return
-    }*/
+    public static boolean canHurt(Government pG, LivingEntity pEntity, LivingEntity pSource) {
+        if (pG.followers.contains(pEntity) && pG.followers.contains(pSource))
+            return pEntity instanceof ICanBeAgent agent && agent.isAgent();
+        return true;
+    }
 
     static {
         EMPTY = new Government(Ideology.Anarchism, null, "EMPTY");

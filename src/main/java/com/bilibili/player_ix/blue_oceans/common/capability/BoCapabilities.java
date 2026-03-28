@@ -13,6 +13,6 @@ public class BoCapabilities {
     }
 
     static {
-        LIVING_HEALTH = CapabilityManager.get(new CapabilityToken<>() {});
+        LIVING_HEALTH = CapabilityManager.get(new CapabilityToken<LivingHealth>() {});
     }
 }

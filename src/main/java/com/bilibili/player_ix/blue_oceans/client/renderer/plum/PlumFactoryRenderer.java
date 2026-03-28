@@ -15,7 +15,9 @@ extends MobRenderer<E, PlumFactoryModel<E>> {
                 pContext.bakeLayer(PlumFactoryModel.LAYER_LOCATION)), 1.25F);
     }
 
+    private static ResourceLocation LOC = BlueOceans.redPlum("plum_factory");
+
     public ResourceLocation getTextureLocation(E pEntity) {
-        return BlueOceans.redPlum("plum_factory");
+        return LOC;
     }
 }

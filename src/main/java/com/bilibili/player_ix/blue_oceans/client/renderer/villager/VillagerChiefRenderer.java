@@ -12,7 +12,9 @@ extends BaseVillagerRenderer<T> {
         super(context);
     }
 
+    private static ResourceLocation LOC = BlueOceans.entity("villagers/villager_chief");
+
     public ResourceLocation getTextureLocation(T pEntity) {
-        return BlueOceans.entity("villagers/villager_chief");
+        return LOC;
     }
 }

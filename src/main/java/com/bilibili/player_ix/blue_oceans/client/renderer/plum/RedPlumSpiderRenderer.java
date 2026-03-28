@@ -20,7 +20,9 @@ extends MobRenderer<T, SpiderModel<T>> {
         pPoseStack.scale(1.25F, 1.25F, 1.25F);
     }
 
+    private static ResourceLocation LOC = BlueOceans.redPlum("red_plum_spider");
+
     public ResourceLocation getTextureLocation(T pEntity) {
-        return BlueOceans.redPlum("red_plum_spider");
+        return LOC;
     }
 }

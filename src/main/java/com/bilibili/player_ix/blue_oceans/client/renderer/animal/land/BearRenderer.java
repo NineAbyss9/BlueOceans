@@ -16,11 +16,14 @@ extends MobRenderer<T, BearModel<T>> {
         super(pContext, new BearModel<>(pContext.bakeLayer(ModelLayers.POLAR_BEAR)), 0.9F);
     }
 
+    private static final ResourceLocation BLACK = BlueOceans.animal("bear/black");
+    private static ResourceLocation LOC = BlueOceans.animal("bear/bear");
+
     public ResourceLocation getTextureLocation(T pEntity) {
         if (pEntity.getVariant().id == 1) {
-            return BlueOceans.animal("bear/black");
+            return BLACK;
         }
-        return BlueOceans.animal("bear/bear");
+        return LOC;
     }
 
     protected void scale(T pLivingEntity, PoseStack pPoseStack, float pPartialTickTime) {

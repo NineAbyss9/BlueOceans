@@ -2,6 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.common.blocks.nature.land;
 
 import com.bilibili.player_ix.blue_oceans.common.blocks.nature.PlantBlock;
+import com.github.NineAbyss9.ix_api.util.ItemUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -39,7 +40,7 @@ extends PlantBlock
 
     public void playerWillDestroy(Level pLevel, BlockPos pPos, BlockState pState, Player pPlayer)
     {
-        if (pPlayer.getMainHandItem().isEmpty())
+        if (ItemUtil.isMainHandEmpty(pPlayer))
             this.thorn(pState, pLevel, pPos, pPlayer);
         super.playerWillDestroy(pLevel, pPos, pState, pPlayer);
     }

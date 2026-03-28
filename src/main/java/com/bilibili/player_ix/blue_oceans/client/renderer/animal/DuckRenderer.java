@@ -22,7 +22,9 @@ extends MobRenderer<E, ChickenModel<E>> {
         return (Mth.sin(f) + 1.0F) * f1;
     }
 
+    private static ResourceLocation LOC = BlueOceans.animal("duck");
+
     public ResourceLocation getTextureLocation(E pEntity) {
-        return BlueOceans.animal("duck");
+        return LOC;
     }
 }

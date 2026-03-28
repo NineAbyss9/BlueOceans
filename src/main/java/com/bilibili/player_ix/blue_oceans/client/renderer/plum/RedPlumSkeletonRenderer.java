@@ -17,7 +17,9 @@ extends AbstractSkeletonRenderer<T> {
         this.addLayer(new ItemInHandLayer<>(this, pContext.getItemInHandRenderer()));
     }
 
+    private static ResourceLocation LOC = BlueOceans.location("textures/entities/red_plum_mobs/skeleton.png");
+
     public ResourceLocation getTextureLocation(T t) {
-        return BlueOceans.location("textures/entities/red_plum_mobs/skeleton.png");
+        return LOC;
     }
 }

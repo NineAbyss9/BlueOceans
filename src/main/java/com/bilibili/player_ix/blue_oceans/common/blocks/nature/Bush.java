@@ -34,7 +34,7 @@ extends BushBlock
     public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom)
     {
         if (!pLevel.isLoaded(pPos)) return;
-        if (pLevel.isDay() && pRandom.nextFloat() < 0.1F) {
+        if (pLevel.isDay() && pLevel.canSeeSky(pPos) && pRandom.nextFloat() < 0.1F) {
             List<LivingEntity> entities = pLevel.getEntitiesOfClass(LivingEntity.class, new AABB(pPos).inflate(1));
             if (!entities.isEmpty()) {
                 entities.forEach(entity -> entity.addEffect(

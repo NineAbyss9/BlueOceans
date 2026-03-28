@@ -18,7 +18,9 @@ extends MobRenderer<N, NeoPlumModel<N>> {
         return pEntity.isConverting();
     }
 
+    private static ResourceLocation LOC = BlueOceans.entityWithCheck("red_plum_mobs/neo_plum.png");
+
     public ResourceLocation getTextureLocation(N entity) {
-        return BlueOceans.entityWithCheck("red_plum_mobs/neo_plum.png");
+        return LOC;
     }
 }

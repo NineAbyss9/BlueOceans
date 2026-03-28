@@ -28,13 +28,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BushBlock;
-import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 
 import java.util.List;
 
+@SuppressWarnings("deprecation")
 public class Shrimp
 extends WaterAnimal
 implements IAnimatedMob, IFlagMob {
@@ -122,7 +122,7 @@ implements IAnimatedMob, IFlagMob {
 
     public boolean canDig() {
         return !level().getBlockState(blockPosition().below()).isAir()
-                && !(level().getBlockState(blockPosition().below()).getBlock() instanceof LiquidBlock)
+                && !level().getBlockState(blockPosition().below()).liquid()
                 && !(level().getBlockState(blockPosition().below()).getBlock() instanceof BushBlock);
     }
 

@@ -19,7 +19,9 @@ extends MobRenderer<T, BikeModel<T>> {
         pPoseStack.scale(2.0F, 2.0F, 2.0F);
     }
 
+    private static ResourceLocation LOC = BlueOceans.entity("traffic/bike");
+
     public ResourceLocation getTextureLocation(T pEntity) {
-        return BlueOceans.entity("/traffic/bike");
+        return LOC;
     }
 }

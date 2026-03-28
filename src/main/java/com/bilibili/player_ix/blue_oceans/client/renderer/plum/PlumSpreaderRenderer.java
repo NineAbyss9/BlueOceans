@@ -15,7 +15,9 @@ extends MobRenderer<E, PlumSpreaderModel<E>> {
                 0.5F);
     }
 
+    private static ResourceLocation LOC = BlueOceans.redPlum("plum_spreader");
+
     public ResourceLocation getTextureLocation(E pEntity) {
-        return BlueOceans.redPlum("plum_spreader");
+        return LOC;
     }
 }

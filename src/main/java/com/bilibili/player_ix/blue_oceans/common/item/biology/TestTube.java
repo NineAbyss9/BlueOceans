@@ -47,7 +47,7 @@ public class TestTube extends Item
             return InteractionResult.PASS;
         else {
             ItemStack stack = player.getItemInHand(pContext.getHand());
-            setContent(stack.getOrCreateTag(), Content.of(state.getFluidState()).id);
+            setContent(stack.getOrCreateTag(), Content.get(state.getFluidState()).id);
             return InteractionResult.SUCCESS;
         }
     }

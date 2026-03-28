@@ -35,7 +35,9 @@ extends EntityRenderer<T> {
         super.render(pEntity, pEntityYaw, pPartialTick, pPoseStack, pBuffer, pPackedLight);
     }
 
+    private static ResourceLocation LOC = BlueOceans.entity("projectile/bullet");
+
     public ResourceLocation getTextureLocation(T pEntity) {
-        return BlueOceans.entity("projectile/bullet");
+        return LOC;
     }
 }

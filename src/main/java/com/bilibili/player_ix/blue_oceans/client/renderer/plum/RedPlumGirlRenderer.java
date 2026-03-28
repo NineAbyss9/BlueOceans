@@ -25,8 +25,7 @@ public class RedPlumGirlRenderer<T extends RedPlumGirl> extends AbstractGirlRend
         });
     }
 
-    @Override
-    public  ResourceLocation getTextureLocation( T t) {
+    public  ResourceLocation getTextureLocation(T t) {
         return GIRL;
     }
 }

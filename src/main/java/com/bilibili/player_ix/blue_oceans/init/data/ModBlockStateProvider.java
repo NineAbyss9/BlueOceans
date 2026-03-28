@@ -40,9 +40,18 @@ extends BlockStateProvider
                 soil(object, block);
             else if (block instanceof Corpse) {
                 corpse(object, block);
+            } else if (block instanceof Util)
+            {
+                simpleBlockWithItem(block, new ModelFile.UncheckedModelFile(modLoc("block/util/"
+                    + object.getId().getPath())));
             } else
                 simpleBlockWithItem(block, new ModelFile.ExistingModelFile(blockTexture(block), this.models().existingFileHelper));
         });
+    }
+
+    private void util(RegistryObject<?> block, Block instance)
+    {
+
     }
 
     private void corpse(RegistryObject<?> block, Block instance)
@@ -132,6 +141,12 @@ extends BlockStateProvider
     }
 
     public interface Cross
+    extends ITextureProvider
+    {
+    }
+
+    public interface Util
+    extends ITextureProvider
     {
     }
 }

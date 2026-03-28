@@ -13,7 +13,9 @@ import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-public class Content {
+public class Content
+{
+    private static int currentId = -1;
     public final int id;
     public final String name;
     //public final Consumer<Block> consumer;
@@ -21,12 +23,10 @@ public class Content {
     public static final Content EMPTY;
     public static final Content WATER;
     public static final Content LAVA;
-    public Content(int pId, String pSt//, Consumer<Block> pConsumer
-    )
+    public Content(int pId, String pSt)
     {
-        this.id  = pId;
+        id  = pId;
         name = pSt;
-        //this.consumer = pConsumer;
     }
 
     public boolean isEmpty() {
@@ -51,21 +51,28 @@ public class Content {
         );
     }
 
-    public static Content register(int pId, String pName//, Consumer<Block> blockConsumer
-    ){
-        Content content = new Content(pId, pName//, blockConsumer
-        );
-        MAP.put(pId, content);
+    public static Content register(String pName)
+    {
+        currentId++;
+        Content content = new Content(currentId, pName);
+        MAP.put(currentId, content);
         return content;
     }
 
-    public static Content of(int pId) {
+    public static Content of(int pId)
+    {
         Content content;
         return (content = MAP.get(pId))
                 == null ? Content.EMPTY : content;
     }
 
-    public static Content of(FluidState pState) {
+    public static Content init(ChemicalFormula cf)
+    {
+        return register(cf.name());
+    }
+
+    public static Content get(FluidState pState)
+    {
         if (pState.isEmpty())
             return Content.EMPTY;
         else if (pState.is(FluidTags.WATER))
@@ -88,12 +95,12 @@ public class Content {
 
     static {
         MAP = new Int2ObjectOpenHashMap<>();
-        EMPTY = register(0, "Empty"//, FunctionCollector.accept()
+        EMPTY = register("Empty"//, FunctionCollector.accept()
         );
-        WATER = register(1, "Water"//, block -> ifContainer(block,
+        WATER = register("Water"//, block -> ifContainer(block,
          //       FunctionCollector.accept())
     );
-        LAVA = register(2, "Lava"/*, block -> ifContainer(block, container -> {
+        LAVA = register("Lava"/*, block -> ifContainer(block, container -> {
             if (water(container)) {
                 if (container.fill(EMPTY)) {
                     Nothing.getInstance().noting();

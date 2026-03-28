@@ -15,7 +15,9 @@ extends AbstractHuntingVillagerRenderer<E> {
         this.addLayer(new ItemInHandLayer<>(this, context.getItemInHandRenderer()));
     }
 
+    private static ResourceLocation LOC = BlueOceans.villager("researcher");
+
     public ResourceLocation getTextureLocation(E pEntity) {
-        return BlueOceans.villager("researcher");
+        return LOC;
     }
 }

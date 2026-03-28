@@ -3,6 +3,7 @@ package com.bilibili.player_ix.blue_oceans.common.entities.villagers;
 
 import com.bilibili.player_ix.blue_oceans.api.mob.IBehaviorUser;
 import com.bilibili.player_ix.blue_oceans.api.mob.Profession;
+import com.bilibili.player_ix.blue_oceans.api.mob.interfaces.ICanBeAgent;
 import com.bilibili.player_ix.blue_oceans.common.entities.AbstractBlueOceansMob;
 import com.bilibili.player_ix.blue_oceans.common.entities.ai.behavior.Behavior;
 import com.bilibili.player_ix.blue_oceans.common.entities.ai.behavior.BehaviorFlag;
@@ -45,7 +46,8 @@ import java.util.*;
 
 public abstract class AbstractHuntingVillager
 extends AbstractBlueOceansMob
-implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCarrier {
+implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCarrier, ICanBeAgent
+{
     @Nullable
     protected Player tradingPlayer;
     private MerchantOffers offers = new MerchantOffers();
@@ -330,8 +332,6 @@ implements RangedAttackMob, NeutralMob, ApiVillager, IBehaviorUser, InventoryCar
     public boolean isClientSide() {
         return this.level().isClientSide;
     }
-
-    public abstract boolean isAgent();
 
     public abstract boolean canAttackEvenBaby();
 

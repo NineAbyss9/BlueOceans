@@ -21,7 +21,9 @@ extends MobRenderer<E, PlumBuilderModel<E>> {
             pPoseStack.scale(0.5F, 0.5F, 0.5F);
     }
 
+    private static ResourceLocation LOC = BlueOceans.redPlum("plum_factory");
+
     public ResourceLocation getTextureLocation(E pEntity) {
-        return BlueOceans.redPlum("plum_factory");
+        return LOC;
     }
 }

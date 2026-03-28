@@ -15,7 +15,9 @@ extends MobRenderer<E, CodModel<E>> {
         super(pContext, new CodModel<>(pContext.bakeLayer(ModelLayers.COD)), 0.3F);
     }
 
+    private static ResourceLocation LOC = BlueOceans.redPlum("cod");
+
     public ResourceLocation getTextureLocation(E pEntity) {
-        return BlueOceans.redPlum("cod");
+        return LOC;
     }
 }

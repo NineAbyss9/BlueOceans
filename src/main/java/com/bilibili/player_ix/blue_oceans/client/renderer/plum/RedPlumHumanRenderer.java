@@ -23,7 +23,9 @@ extends MobRenderer<R, HumanoidModel<R>> {
         }, 0.5f);
     }
 
+    private static ResourceLocation LOC = BlueOceans.location("textures/entities/red_plum_mobs/human.png");
+
     public ResourceLocation getTextureLocation(R r) {
-        return BlueOceans.location("textures/entities/red_plum_mobs/human.png");
+        return LOC;
     }
 }

@@ -15,7 +15,9 @@ extends MobRenderer<E, EarthwormModel<E>> {
                 0.3F);
     }
 
+    private static ResourceLocation LOC = BlueOceans.land("earthworm");
+
     public ResourceLocation getTextureLocation(E pEntity) {
-        return BlueOceans.land("earthworm");
+        return LOC;
     }
 }

@@ -17,7 +17,9 @@ extends MobRenderer<E, RedPlumIllagerModel<E>> {
         this.addLayer(new ItemInHandLayer<>(this, pContext.getItemInHandRenderer()));
     }
 
+    private static ResourceLocation LOC = BlueOceans.redPlum("villager");
+
     public ResourceLocation getTextureLocation(E pEntity) {
-        return BlueOceans.redPlum("villager");
+        return LOC;
     }
 }

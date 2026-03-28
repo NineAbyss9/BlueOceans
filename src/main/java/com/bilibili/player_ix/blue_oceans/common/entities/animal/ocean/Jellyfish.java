@@ -30,7 +30,7 @@ public class Jellyfish
 extends WaterAnimal
 implements TypedMob<Jellyfish.Type>, Cnidarians {
     public static final Predicate<LivingEntity> NOT_JELLYFISH
-            = e-> !(e instanceof Jellyfish);
+            = e -> !(e instanceof Jellyfish);
     protected static final EntityDataAccessor<Integer> DATA_TYPE;
     public AnimationState idle = new AnimationState();
     public float xBodyRot;

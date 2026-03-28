@@ -16,8 +16,10 @@ public class PlumRenderer {
                     0.7f);
         }
 
+        private static ResourceLocation LOC = BlueOceans.redPlum("plum_factory");
+
         public ResourceLocation getTextureLocation(E pEntity) {
-            return BlueOceans.redPlum("plum_factory");
+            return LOC;
         }
     }
 }

@@ -43,7 +43,9 @@ extends AbstractHuntingVillagerRenderer<T> {
         pPoseStack.scale(f, f, f);
     }
 
+    private static ResourceLocation LOC = BlueOceans.villager("base_villager");
+
     public ResourceLocation getTextureLocation(T pEntity) {
-        return BlueOceans.villager("base_villager");
+        return LOC;
     }
 }

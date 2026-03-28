@@ -14,7 +14,9 @@ public class RedPlumsCowRenderer extends MobRenderer<RedPlumCow, CowModel<RedPlu
         super($$0, new CowModel<>($$0.bakeLayer(ModelLayers.MOOSHROOM)), 0.7f);
     }
 
+    private static ResourceLocation LOC = BlueOceans.redPlum("cow");
+
     public ResourceLocation getTextureLocation(RedPlumCow entity) {
-        return BlueOceans.redPlum("cow");
+        return LOC;
     }
 }

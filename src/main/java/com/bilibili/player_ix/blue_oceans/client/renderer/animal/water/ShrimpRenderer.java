@@ -19,7 +19,9 @@ extends MobRenderer<E, ShrimpModel<E>>{
         pPoseStack.scale(0.5f, 0.5f, 0.5f);
     }
 
+    private static ResourceLocation LOC = BlueOceans.water("shrimp");
+
     public ResourceLocation getTextureLocation(E pEntity) {
-        return BlueOceans.water("shrimp");
+        return LOC;
     }
 }

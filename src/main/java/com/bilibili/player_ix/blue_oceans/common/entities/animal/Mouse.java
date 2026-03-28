@@ -16,6 +16,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
+import org.NineAbyss9.math.MathSupport;
 
 import java.util.List;
 
@@ -51,15 +52,20 @@ implements IAnimatedMob {
         return List.of(eat);
     }
 
-    public void aiStep() {
+    public void aiStep()
+    {
         super.aiStep();
-        if (this.level().getBlockState(this.blockPosition()).is(Blocks.WHEAT)
-            && this.level().getRandom().nextFloat() < 0.33F) {
+        if (!eatStarted && this.level().getBlockState(this.blockPosition()).is(Blocks.WHEAT)
+                && this.tickCount % 20 == 0
+                && MathSupport.threadSafeRandom.nextFloat() < 0.15F)
+        {
             eatStarted = true;
         }
-        if (eatStarted) {
+        if (eatStarted)
+        {
             ++eatTick;
-            if (eatTick >= 60) {
+            if (eatTick >= 60)
+            {
                 eatCrops();
                 eatStarted = false;
                 eatTick = 0;

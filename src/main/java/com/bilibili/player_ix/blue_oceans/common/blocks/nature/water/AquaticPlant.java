@@ -31,9 +31,16 @@ extends CropBlock
 implements IForgeShearable, LiquidBlockContainer, BonemealableBlock
 {
     protected static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 12.0D, 14.0D);
+    private ToListFunc sharedDrops;
     public AquaticPlant(Properties pProperties)
     {
         super(pProperties);
+    }
+
+    public AquaticPlant(Properties pP, ToListFunc pDrops)
+    {
+        this(pP);
+        this.sharedDrops = pDrops;
     }
 
     public boolean canGrow()
@@ -49,7 +56,7 @@ implements IForgeShearable, LiquidBlockContainer, BonemealableBlock
     public List<ItemStack> onSheared(@Nullable Player player, ItemStack item, Level level, BlockPos pos, int fortune)
     {
         if (this.isShearable(item, level, pos))
-            return List.of(this.asItem().getDefaultInstance());
+            return this.sharedDrops.toList(player, item, level, pos, fortune);
         else
             return Collections.emptyList();
     }
@@ -123,5 +130,10 @@ implements IForgeShearable, LiquidBlockContainer, BonemealableBlock
     public boolean placeLiquid(LevelAccessor pLevel, BlockPos pPos, BlockState pState, FluidState pFluidState)
     {
         return false;
+    }
+
+    public interface ToListFunc
+    {
+        List<ItemStack> toList(@Nullable Player player, ItemStack item, Level level, BlockPos pos, int fortune);
     }
 }

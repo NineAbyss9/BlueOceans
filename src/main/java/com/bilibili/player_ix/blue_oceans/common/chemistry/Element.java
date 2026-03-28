@@ -3,7 +3,6 @@ package com.bilibili.player_ix.blue_oceans.common.chemistry;
 
 import com.google.common.collect.Maps;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -168,7 +167,6 @@ public class Element {
             throw new NoSuchElementException();
     }
 
-    @Nonnull
     private static Element register(double pRelativeAtomicMass, String pElementSymbol) {
         float vF = (float)pRelativeAtomicMass;
         staticId++;
@@ -177,7 +175,6 @@ public class Element {
         return element;
     }
 
-    @Nonnull
     private static Element register(String pElementSymbol, double pRelativeAtomicMass) {
         return register(pRelativeAtomicMass, pElementSymbol);
     }

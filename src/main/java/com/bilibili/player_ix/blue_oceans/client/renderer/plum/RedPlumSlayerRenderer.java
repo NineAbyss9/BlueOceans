@@ -20,7 +20,9 @@ extends MobRenderer<T, RedPlumSlayerModel<T>> {
         pPoseStack.scale(1.5F, 1.5F, 1.5F);
     }
 
+    private static ResourceLocation LOC = BlueOceans.redPlum("red_plum_slayer");
+
     public ResourceLocation getTextureLocation(T pEntity) {
-        return BlueOceans.redPlum("red_plum_slayer");
+        return LOC;
     }
 }

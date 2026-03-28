@@ -1,5 +1,5 @@
 
-package com.bilibili.player_ix.blue_oceans.common.entities.projectile.citiy;
+package com.bilibili.player_ix.blue_oceans.common.entities.projectile.city;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;

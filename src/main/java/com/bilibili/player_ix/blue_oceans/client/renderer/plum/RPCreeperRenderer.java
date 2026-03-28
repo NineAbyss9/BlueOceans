@@ -33,7 +33,9 @@ extends MobRenderer<E, BoCreeperModel<E>> {
         return (int)(f * 10.0F) % 2 == 0 ? 0.0F : Mth.clamp(f, 0.5F, 1.0F);
     }
 
+    private static ResourceLocation LOC = BlueOceans.redPlum("creeper");
+
     public ResourceLocation getTextureLocation(E pEntity) {
-        return BlueOceans.redPlum("creeper");
+        return LOC;
     }
 }

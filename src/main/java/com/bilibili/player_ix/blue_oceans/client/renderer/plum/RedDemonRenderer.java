@@ -19,7 +19,9 @@ extends MobRenderer<E, RedPlumDemonModel<E>> {
         pPoseStack.scale(1.5F, 1.5F, 1.5F);
     }
 
+    private static ResourceLocation LOC = BlueOceans.redPlum("demon");
+
     public ResourceLocation getTextureLocation(E pEntity) {
-        return BlueOceans.redPlum("demon");
+        return LOC;
     }
 }
