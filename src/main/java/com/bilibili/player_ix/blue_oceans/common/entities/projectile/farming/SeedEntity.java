@@ -33,10 +33,6 @@ implements ItemSupplier {
         this.entityData.define(DATA_SEED, new ItemStack(Items.WHEAT_SEEDS));
     }
 
-    public void tick() {
-        super.tick();
-    }
-
     @SuppressWarnings("deprecation")
     protected void onHitBlock(BlockHitResult pResult) {
         BlockPos pos = pResult.getBlockPos().below();

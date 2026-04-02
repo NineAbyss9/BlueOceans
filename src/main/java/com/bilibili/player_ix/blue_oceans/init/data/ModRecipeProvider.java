@@ -2,6 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.init.data;
 
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
+import net.minecraft.advancements.CriterionTriggerInstance;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.world.item.Items;
@@ -20,47 +21,70 @@ extends RecipeProvider
 
     protected void buildRecipes(Consumer<FinishedRecipe> pWriter)
     {
+        //Util
+        shaped(RecipeCategory.TOOLS, BlueOceansItems.WOODEN_SUPPORT.get(), Items.STICK,
+                getHasName(Items.STICK), has(Items.STICK), "iii", "i i",
+                "i i", pWriter);
+
+        //Farming
+        shaped(RecipeCategory.TOOLS, BlueOceansItems.SPRINKLER.get(), Items.IRON_INGOT, Items.WATER_BUCKET,
+                getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT), "iii", "ixi",
+                "   ", pWriter);
         //Food
         shaped(RecipeCategory.FOOD, BlueOceansItems.BROWN_MUSHROOM_SKEWER.get(), Items.STICK,
-                Items.BROWN_MUSHROOM, "  x", " x ", "i  ", pWriter);
-        shaped(RecipeCategory.FOOD, BlueOceansItems.BROWN_MUSHROOM_SKEWER.get(), Items.STICK,
-                Items.BROWN_MUSHROOM, "  x", " x ", "i  ", pWriter);
+                Items.BROWN_MUSHROOM, "has_bms", has(Items.BROWN_MUSHROOM), "  x", " x ", "i  ", pWriter);
+        shaped(RecipeCategory.FOOD, BlueOceansItems.MUSHROOM_SKEWER.get(), Items.STICK,
+                Items.RED_MUSHROOM, "has_ms", has(Items.RED_MUSHROOM), "  x", " x ", "i  ", pWriter);
         allCookMethods(RecipeCategory.FOOD, BlueOceansItems.C_B_M_S.get(), BlueOceansItems.BROWN_MUSHROOM_SKEWER
                         .get(), 0.2f, pWriter);
         allCookMethods(RecipeCategory.FOOD, BlueOceansItems.C_M_S.get(), BlueOceansItems.MUSHROOM_SKEWER
                 .get(), 0.2f, pWriter);
     }
 
+    public static void shaped(RecipeCategory pC, ItemLike pResult, ItemLike pItem,
+                              String cn, CriterionTriggerInstance instance, String pattern1, String pattern2,
+                              String pattern3, Consumer<FinishedRecipe> pWriter)
+    {
+        ShapedRecipeBuilder.shaped(pC, pResult).define('i', pItem)
+                .pattern(pattern1).pattern(pattern2).pattern(pattern3)
+                .unlockedBy(cn, instance).save(pWriter);
+    }
+
     public static void shaped(RecipeCategory pC, ItemLike pResult, ItemLike pItem, ItemLike pItem1,
-                              String pattern1, String pattern2, String pattern3, Consumer<FinishedRecipe> pWriter)
+                              String cn, CriterionTriggerInstance instance, String pattern1, String pattern2,
+                              String pattern3, Consumer<FinishedRecipe> pWriter)
     {
         ShapedRecipeBuilder.shaped(pC, pResult).define('i', pItem)
                 .define('x', pItem1).pattern(pattern1).pattern(pattern2).pattern(pattern3)
-                .save(pWriter);
+                .unlockedBy(cn, instance).save(pWriter);
     }
 
     public static void allCookMethods(RecipeCategory pC, ItemLike result, ItemLike itemIn, float exp, Consumer<FinishedRecipe> writer)
     {
-        smelting(pC, result, itemIn, exp, writer);
-        smoking(pC, result, itemIn, exp, writer);
-        campfire(pC, result, itemIn, exp, writer);
+        String st = getHasName(itemIn);
+        smelting(pC, result, itemIn, exp, st, writer);
+        smoking(pC, result, itemIn, exp, st, writer);
+        campfire(pC, result, itemIn, exp, st, writer);
     }
 
-    public static void smelting(RecipeCategory pC, ItemLike result, ItemLike itemIn, float exp, Consumer<FinishedRecipe> writer)
+    public static void smelting(RecipeCategory pC, ItemLike result, ItemLike itemIn, float exp,
+                                String pName, Consumer<FinishedRecipe> writer)
     {
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(itemIn), pC, result,
-                exp, 200).unlockedBy(getHasName(itemIn), has(itemIn)).save(writer);
+                exp, 200).unlockedBy(pName, has(itemIn)).save(writer);
     }
 
-    public static void smoking(RecipeCategory pC, ItemLike result, ItemLike itemIn, float exp, Consumer<FinishedRecipe> writer)
+    public static void smoking(RecipeCategory pC, ItemLike result, ItemLike itemIn, float exp,
+                               String pName, Consumer<FinishedRecipe> writer)
     {
         SimpleCookingRecipeBuilder.smoking(Ingredient.of(itemIn), pC, result,
-                exp, 100).unlockedBy(getHasName(itemIn), has(itemIn)).save(writer);
+                exp, 100).unlockedBy(pName, has(itemIn)).save(writer);
     }
 
-    public static void campfire(RecipeCategory pC, ItemLike result, ItemLike itemIn, float exp, Consumer<FinishedRecipe> writer)
+    public static void campfire(RecipeCategory pC, ItemLike result, ItemLike itemIn, float exp,
+                                String pName, Consumer<FinishedRecipe> writer)
     {
         SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(itemIn), pC, result,
-                exp, 150).unlockedBy(getHasName(itemIn), has(itemIn)).save(writer);
+                exp, 150).unlockedBy(pName, has(itemIn)).save(writer);
     }
 }

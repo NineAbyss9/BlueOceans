@@ -16,10 +16,12 @@ public class LivingHealth implements INBTSerializable<CompoundTag> {
     public static final ResourceLocation RESOURCE = BlueOceans.location("living_health");
     public final LivingEntity owner;
     public BodyManager bodyManager;
+    public FeelingManager feelingManager;
     public Map<LivingEffect, LivingEffectInstance> activeEffects = new LinkedHashMap<>();
     public LivingHealth(LivingEntity pOwner) {
         this.owner = pOwner;
         this.bodyManager = new BodyManager(this);
+        this.feelingManager = new FeelingManager(this);
     }
 
     public void tick() {

@@ -17,6 +17,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -35,7 +36,6 @@ import org.NineAbyss9.math.AbyssMath;
 import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Optional;
 
 public class PlumBuilder
 extends RedPlumMonster
@@ -54,7 +54,6 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
         super(type, level);
         this.lostTargetTime = 120;
         this.setHealth(this.getHealthByAge());
-        this.refreshDimensions();
         this.setMaxUpStep(1.4F);
     }
 
@@ -110,7 +109,7 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
             }
         }
         if (this.level().isClientSide) {
-            if (this.isBuilding() && this.getXRot() != 0f || this.getYRot() != 0f) {
+            if (this.isBuilding() && (this.getXRot() != 0f || this.getYRot() != 0f)) {
                 this.setXRot(0f);
                 this.setYRot(0f);
             }
@@ -203,6 +202,8 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
     }
 
     public boolean hurt(DamageSource pSource, float pAmount) {
+        if (pSource.is(DamageTypeTags.IS_DROWNING))
+            return false;
         boolean flag = super.hurt(pSource, pAmount);
         if (flag && (pSource.getEntity() != null || pSource.getDirectEntity() != null)
                 && this.level().getEntitiesOfClass(AbstractRedPlumMob.class,
@@ -331,14 +332,15 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
 
     public void sendNewBuilder() {
         PlumBuilder newBuilder = BlueOceansEntities.PLUM_BUILDER.get().create(level());
-        Optional.ofNullable(newBuilder).ifPresent(builder -> {
+        if (newBuilder != null)
+        {
             Vec3 pos = this.position();
-            builder.moveTo(pos);
-            builder.setTargetPos(pos.add((AbyssMath.randomMax(40, 20)), 0,
+            newBuilder.moveTo(pos);
+            newBuilder.setTargetPos(pos.add((AbyssMath.randomMax(40, 20)), 0,
                     AbyssMath.randomMax(40, 20)));
-            if (!this.level().addFreshEntity(builder))
-                builder.discard();
-        });
+            if (!this.level().addFreshEntity(newBuilder))
+                newBuilder.discard();
+        }
     }
 
     public void protectSelf(float pAmount) {

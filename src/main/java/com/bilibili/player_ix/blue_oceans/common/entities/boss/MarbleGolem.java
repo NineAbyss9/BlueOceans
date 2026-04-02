@@ -62,7 +62,7 @@ implements IFlagMob, ApiBoss, IAnimatedMob {
 
     public void addAdditionalSaveData(CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
-        pCompound.putBoolean("isWu1Wu2", this.isWu1Wu2());
+        pCompound.putBoolean("Wu1Wu2", this.isWu1Wu2());
     }
 
     public void setCustomName(@Nullable Component pName) {

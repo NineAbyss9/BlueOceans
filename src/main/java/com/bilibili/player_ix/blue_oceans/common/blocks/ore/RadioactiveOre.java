@@ -30,11 +30,14 @@ implements Radioactive {
         super(pProperties, pElement);
     }
 
-    public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
-        if (pRandom.nextInt(6) == 0) {
+    public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom)
+    {
+        if (pRandom.nextBoolean())
+        {
             List<LivingEntity> entities = pLevel.getEntitiesOfClass(LivingEntity.class,
                     new AABB(pPos).inflate(4));
-            if (!entities.isEmpty()) {
+            if (!entities.isEmpty())
+            {
                 entities.forEach(entity -> entity.addEffect(null));
             }
         }

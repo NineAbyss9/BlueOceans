@@ -86,6 +86,11 @@ implements IPlumSpreader {
         this.spreadCooldown = tag.getInt("SpreadCooldown");
     }
 
+    public boolean shouldAttackOtherMobs()
+    {
+        return false;
+    }
+
     public static boolean checkPlums(Level pLevel, AABB pBound) {
         return checkPlums(pLevel, pBound, 10);
     }

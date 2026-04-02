@@ -1,6 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.client.renderer.block;
 
+import com.bilibili.player_ix.blue_oceans.BlueOceans;
 import com.bilibili.player_ix.blue_oceans.common.blocks.be.CorpseEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.HeadedModel;
@@ -17,6 +18,7 @@ import org.joml.Quaternionf;
 public class CorpseRenderer implements BlockEntityRenderer<CorpseEntity>
 {
     private final BlockEntityRendererProvider.Context context;
+    private boolean logged;
     public CorpseRenderer(BlockEntityRendererProvider.Context pContext)
     {
         this.context = pContext;
@@ -35,6 +37,11 @@ public class CorpseRenderer implements BlockEntityRenderer<CorpseEntity>
                     0), pPackedLight, pPackedOverlay, 1f, 1f, 1f, 0f);
             pPoseStack.translate(0.5f, 0.5f, 0.5f);
             pPoseStack.mulPose(new Quaternionf(0f, 90f, 0f, 0f));
+            if (!logged)
+            {
+                BlueOceans.LOGGER.debug("Successful to render corpse.");
+                logged = true;
+            }
         }
         pPoseStack.popPose();
     }

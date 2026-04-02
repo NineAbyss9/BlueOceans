@@ -7,6 +7,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.function.Supplier;
+
 public class SeedBlock
 extends Crop
 {
@@ -20,5 +22,10 @@ extends Crop
     public BlockState getGrowthState(BlockState pOriginState, ServerLevel pLevel, BlockPos pPos)
     {
         return this.growth.defaultBlockState();
+    }
+
+    public static Supplier<Crop> simpleSupplier(Block pGrowth, int pMaxAge)
+    {
+        return () -> new SeedBlock(Properties.copy(pGrowth), pGrowth, pMaxAge);
     }
 }

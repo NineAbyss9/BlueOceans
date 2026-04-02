@@ -8,6 +8,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
@@ -55,7 +56,7 @@ implements IAnimatedMob {
     public void aiStep()
     {
         super.aiStep();
-        if (!eatStarted && this.level().getBlockState(this.blockPosition()).is(Blocks.WHEAT)
+        if (!eatStarted && this.level().getBlockState(this.blockPosition()).is(BlockTags.CROPS)
                 && this.tickCount % 20 == 0
                 && MathSupport.threadSafeRandom.nextFloat() < 0.15F)
         {
@@ -73,13 +74,17 @@ implements IAnimatedMob {
         }
     }
 
-    private void eatCrops() {
-        if (!this.level().isClientSide) {
+    private void eatCrops()
+    {
+        if (!this.level().isClientSide)
+        {
             BlockState state = this.level().getBlockState(this.blockPosition());
             List<ItemStack> stacks = state.getDrops(new LootParams.Builder((ServerLevel)this.level()));
-            if (stacks.stream().anyMatch(ItemStack::isEdible)) {
+            if (stacks.stream().anyMatch(ItemStack::isEdible))
+            {
                 stacks.forEach(itemStack -> {
-                    if (itemStack.isEdible()) {
+                    if (itemStack.isEdible())
+                    {
                         this.eat(this.level(), itemStack);
                     }
                 });

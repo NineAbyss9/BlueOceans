@@ -22,7 +22,7 @@ extends Crop
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit)
     {
         ItemStack stack = pPlayer.getItemInHand(pHand);
-        if (stack.isEmpty() || stack.is(this.asItem()))
+        if (this.isMaxAge(pState) && (stack.isEmpty() || stack.is(this.asItem())))
         {
             popResource(pLevel, pPos, this.asItem().getDefaultInstance());
             return InteractionResult.sidedSuccess(pLevel.isClientSide);

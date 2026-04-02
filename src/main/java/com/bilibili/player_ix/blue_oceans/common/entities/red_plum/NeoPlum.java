@@ -98,11 +98,6 @@ implements IConversion {
         return Colors.DARK_RED;
     }
 
-    protected void registerGoals() {
-        OwnableMob.addBehaviorGoals(this, 5, 0.0, 10F,
-                false, false);
-    }
-
     public int getConversionTick() {
         return this.entityData.get(DATA_CONVERT_TICK);
     }
@@ -163,8 +158,7 @@ implements IConversion {
                 int chance = this.getRandomUtil().nextInt(RedPlumUtil.BASE_PLUM_RANDOM_POOL);
                 float f = this.randomUtil.nextFloat();
                 if (f > 0.875F && this.level().getEntitiesOfClass(PlumBuilder.class, this.getBoundingBox()
-                        .inflate(20)).isEmpty() && this.level().getEntitiesOfClass(RedPlumMonster.class,
-                        this.getBoundingBox().inflate(20)).size() < 10)
+                        .inflate(40)).isEmpty())
                     monster = BlueOceansEntities.PLUM_BUILDER.get().create(serverLevel);
                 else if (f > 0.75F)
                     monster = BlueOceansEntities.PLUM_SPREADER.get().create(serverLevel);

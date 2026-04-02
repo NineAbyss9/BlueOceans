@@ -5,9 +5,9 @@ import com.bilibili.player_ix.blue_oceans.api.mob.IAcceptTask;
 import com.bilibili.player_ix.blue_oceans.api.task.Task;
 import com.bilibili.player_ix.blue_oceans.common.blocks.be.CorpseEntity;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlocks;
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansParticleTypes;
 import com.github.NineAbyss9.ix_api.api.mobs.FoodDataUser;
 import com.github.NineAbyss9.ix_api.api.mobs.MobFoodData;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -84,7 +84,7 @@ implements FoodDataUser, IAcceptTask {
 
     public void spawnCorpse()
     {
-        this.level().setBlock(this.blockPosition(), BlueOceansBlocks.CORPSE.get().defaultBlockState(), 0);
+        this.level().setBlock(this.blockPosition(), BlueOceansBlocks.CORPSE.get().defaultBlockState(), 3);
         if (this.level().getBlockEntity(this.blockPosition()) instanceof CorpseEntity entity) {
             entity.setEntity(this.getType());
         }
@@ -104,8 +104,8 @@ implements FoodDataUser, IAcceptTask {
                 double d1 = this.random.nextGaussian() * 0.02D;
                 double d2 = this.random.nextGaussian() * 0.02D;
                 double d3 = 10.0D;
-                this.level().addParticle(ParticleTypes.POOF, this.getX(1.0D) - d0 * d3, this.getRandomY() - d1 * d3,
-                        this.getRandomZ(1.0D) - d2 * d3, d0, d1, d2);
+                this.level().addParticle(BlueOceansParticleTypes.BLOOD.get(), this.getX(1.0D) - d0 * d3,
+                        this.getRandomY() - d1 * d3, this.getRandomZ(1.0D) - d2 * d3, d0, d1, d2);
             }
         } else {
             this.level().broadcastEntityEvent(this, (byte)20);

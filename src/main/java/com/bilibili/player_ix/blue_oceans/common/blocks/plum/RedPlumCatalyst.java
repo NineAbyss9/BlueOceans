@@ -57,11 +57,7 @@ extends RedPlumBlock {
         return pBlockEntity instanceof RedPlumCatalystEntity entity ? entity.getListener() : null;
     }
 
-    protected void random25Action(BlockState pState, ServerLevel pLevel, BlockPos pPos) {
-        for (int i = 0; i<5;i++) {
-            spreadPlum(pLevel, pPos);
-        }
-    }
+    protected void random25Action(BlockState pState, ServerLevel pLevel, BlockPos pPos) {}
 
     public int getLevel() {
         return 2;

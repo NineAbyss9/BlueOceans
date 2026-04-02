@@ -23,7 +23,7 @@ extends NeoPlum {
     }
 
     protected void registerGoals() {
-        this.addMeleeAttackGoal(0, 0.8, 1.5);
+        this.addMeleeAttackGoal(0, 0.8D, 1.5D);
         super.registerGoals();
     }
 

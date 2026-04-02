@@ -41,6 +41,7 @@ extends RedPlumMonster {
     public AnimationState spawn = new AnimationState();
     public AnimationState despawn = new AnimationState();
     private int trueDeathTick;
+    private int ind;
     public PlumHolder(EntityType<? extends PlumHolder> type, Level level) {
         super(type, level);
     }
@@ -61,13 +62,14 @@ extends RedPlumMonster {
             this.setNoGravity(this.noPhysics);
             if (this.level().isClientSide) {
                 this.idle.startIfStopped(tickCount);
-                if (despawn() && this.getTick() == 10)
+                if (this.getTick() == 10 && despawn())
                     this.spawn.start(tickCount);
                 if (this.getTick() < 60 || this.getTick() > 120) {
                     ParticleUtil.addBlockParticle(level(), blockPosition().below(), x(), y(), z());
                 }
                 if (this.getTick() == 70) {
-                    if (despawn()) {
+                    if (despawn())
+                    {
                         this.spawn.stop();
                         this.despawn.start(tickCount);
                     }
@@ -164,6 +166,7 @@ extends RedPlumMonster {
     public void fromList(int pIndex) {
         var list = RedPlumUtil.STRING_MAP.get(pIndex);
         this.setSpawn(list.get(MathSupport.random.nextInt(list.size())));
+        this.ind = pIndex;
     }
 
     @Nullable
@@ -180,7 +183,7 @@ extends RedPlumMonster {
     public boolean hurt(DamageSource pSource, float pAmount) {
         if (this.despawn())
             return false;
-        if (this.getTick() < 60 || this.getTick() > 140)
+        if (this.getTick() < 60 || this.getTick() > 140 || this.ind > 1)
             return false;
         return super.hurt(pSource, pAmount);
     }

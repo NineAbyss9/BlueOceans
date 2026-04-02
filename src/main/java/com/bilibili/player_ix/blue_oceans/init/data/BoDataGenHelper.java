@@ -19,7 +19,8 @@ public class BoDataGenHelper
     public static final Set<RegistryObject<Item>> ITEM_REGISTRIES;
 
     @SubscribeEvent
-    public static void gatherData(GatherDataEvent event) {
+    public static void gatherData(GatherDataEvent event)
+    {
         var generator = event.getGenerator();
         var packOutput = generator.getPackOutput();
         var lookupProvider = event.getLookupProvider();
@@ -30,7 +31,7 @@ public class BoDataGenHelper
         generator.addProvider(isClient, new ModBlockStateProvider(packOutput, BlueOceans.MOD_ID,
                 existingFileHelper));
         generator.addProvider(isClient, new ModItemModelProvider(packOutput, BlueOceans.MOD_ID, existingFileHelper));
-        generator.addProvider(isClient, new ModRecipeProvider(packOutput));
+        generator.addProvider(isServer, new ModRecipeProvider(packOutput));
         /*var languages = List.of("en_us", "zh_cn");
         languages.forEach(l -> generator.addProvider(isClient, new ModLangProvider(packOutput, BlueOceans.MOD_ID, l,
                 BoLang.LANG)));*/

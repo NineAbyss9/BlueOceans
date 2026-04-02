@@ -19,6 +19,7 @@ public class BlueOceansParticleTypes {
     public static final DeferredRegister<ParticleType<?>> REGISTRY = DeferredRegister
             .create(ForgeRegistries.PARTICLE_TYPES, BlueOceans.MOD_ID);
     public static final RegistryObject<SimpleParticleType> BIG_RED_PLUM_INSTANT_SPELL;
+    public static final RegistryObject<SimpleParticleType> BLOOD;
     public static final RegistryObject<SimpleParticleType> BO_SPELL;
     public static final RegistryObject<ParticleType<ImpartParticleOption>> IMPART;
     public static final RegistryObject<SimpleParticleType> RED_PLUM_SPELL;
@@ -29,7 +30,7 @@ public class BlueOceansParticleTypes {
     }
 
     private static Supplier<SimpleParticleType> supplier() {
-        return ()-> new SimpleParticleType(false);
+        return () -> new SimpleParticleType(false);
     }
 
     private static RegistryObject<SimpleParticleType> register(String name) {
@@ -42,6 +43,7 @@ public class BlueOceansParticleTypes {
 
     static {
         BIG_RED_PLUM_INSTANT_SPELL = register("big_plum_instant_spell");
+        BLOOD = register("blood");
         BO_SPELL = register("bo_spell");
         IMPART = REGISTRY.register("impart", ()-> new ParticleType<>(false,
                 ImpartParticleOption.DESERIALIZER) {

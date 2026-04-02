@@ -146,7 +146,7 @@ public class BlueOceansBlocks {
                     .noOcclusion().lightLevel(state->state.getValue(WoodenSupport.BURNING) ? 10 : 0)));
 
     static {
-        ALCOHOL_LAMP = block("Alcohol Lamp", () ->
+        ALCOHOL_LAMP = BLOCKS.register("alcohol_lamp", () ->
                 new AlcoholLamp(BlockBehaviour.Properties.of().sound(SoundType.GLASS).strength(
                                 4F, 10F).lightLevel(light(AlcoholLamp.BURNING, 10))
                         .noOcclusion().emissiveRendering((pState, pLevel, pPos) ->

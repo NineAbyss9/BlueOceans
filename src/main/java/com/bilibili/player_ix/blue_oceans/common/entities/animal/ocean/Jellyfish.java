@@ -178,7 +178,8 @@ implements TypedMob<Jellyfish.Type>, Cnidarians {
 
     public static AttributeSupplier createAttributes() {
         return createMobAttributes().add(Attributes.ARMOR, 0.5).add(Attributes.ATTACK_DAMAGE, 2)
-                .add(Attributes.MOVEMENT_SPEED, 0.2).add(ForgeMod.SWIM_SPEED.get(), 1).build();
+                .add(Attributes.MOVEMENT_SPEED, 0.2).add(ForgeMod.SWIM_SPEED.get(), 1)
+                .add(Attributes.MAX_HEALTH, 10).build();
     }
 
     static {

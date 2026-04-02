@@ -107,13 +107,19 @@ implements IForgeShearable, LiquidBlockContainer, BonemealableBlock
      *
      * @param pState the origin state*/
     public static void spread(BlockState state, ServerLevel pLevel, RandomSource pRandom, BlockPos pPos,
-                              BlockState pState)
+                              BlockState pState, double pChance)
     {
         for (BlockPos pos1 : BlockPos.betweenClosed(pPos.offset(-2, 0, -2), pPos.offset(2, 0, 2))) {
-            if (pLevel.getBlockState(pos1).isAir() && Math.random() < 0.1d) {
+            if (pLevel.getBlockState(pos1).isAir() && state.canSurvive(pLevel, pos1) && Math.random() < pChance) {
                 pLevel.setBlock(pos1, state, 2);
             }
         }
+    }
+
+    public static void spread(BlockState state, ServerLevel pLevel, RandomSource pRandom, BlockPos pPos,
+                              BlockState pState)
+    {
+        spread(state, pLevel, pRandom, pPos, pState, 0.05d);
     }
 
     public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom)

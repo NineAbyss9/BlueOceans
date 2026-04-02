@@ -8,11 +8,11 @@
   ],
   "key": {
     "i": {
-      "item": "blue_oceans:plum_cell_cluster"
+      "item": "blue_oceans:block/plum_cell_cluster"
     }
   },
   "result": {
-    "item": "blue_oceans:plum_tissue",
+    "item": "blue_oceans:block/plum_tissue",
     "count": 1
   }
 }

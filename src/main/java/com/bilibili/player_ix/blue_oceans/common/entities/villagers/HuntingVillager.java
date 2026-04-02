@@ -1,7 +1,6 @@
 
 package com.bilibili.player_ix.blue_oceans.common.entities.villagers;
 
-import com.bilibili.player_ix.blue_oceans.api.mob.MobTypes;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.AbstractRedPlumMob;
 import com.github.NineAbyss9.ix_api.api.ApiPose;
 import net.minecraft.world.entity.*;
@@ -45,15 +44,12 @@ extends BaseVillager {
         this.goalSelector.addGoal(4, new MoveBackToVillageGoal(this, 0.8,
                 true));
         this.targetSelector.addGoal(4, new VillagerHurtByTargetGoal(this).setAlertOthers());
-        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this,
-                AbstractRedPlumMob.class, false) {
-            public boolean canUse() {
-                return super.canUse() && this.targetMob instanceof AbstractRedPlumMob ab &&
-                        ab.getMobTypes() != MobTypes.HOSTILE;
-            }
-        });
         this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, LivingEntity.class,
-                false, (lie) -> lie instanceof Enemy));
+                false, (lie) -> {
+            if (!(lie instanceof Enemy))
+                return false;
+            return !(lie instanceof AbstractRedPlumMob mob) || mob.getMobTypes().isHostile();
+        }));
     }
 
     public boolean canAttackEvenBaby() {

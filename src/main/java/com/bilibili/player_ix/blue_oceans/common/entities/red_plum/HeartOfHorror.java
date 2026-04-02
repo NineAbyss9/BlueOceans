@@ -31,7 +31,7 @@ public class HeartOfHorror extends SpellcasterRedPlumIllager implements RangedAt
     private int ShootTicks;
     public HeartOfHorror(EntityType<? extends AbstractRedPlumMob> p_21683_, Level p_21684_) {
         super(p_21683_, p_21684_);
-        this.xpReward = XP_REWARD_BOSS;
+        this.xpReward = XP_REWARD_LARGE;
     }
 
     public int getShootTicks() {
@@ -101,7 +101,7 @@ public class HeartOfHorror extends SpellcasterRedPlumIllager implements RangedAt
         this.goalSelector.addGoal(3, new HorrorRangedAttackGoal(this, 30, 30));
         this.addMeleeAttackGoal(4, 1);
         this.goalSelector.addGoal(4, new LeapAtTargetGoal(this, 1));
-        this.addBehaviorGoal(5, 1.0, 10F);
+        this.addBehaviorGoal(5, 1.0D, 10F);
         this.targetSelector.addGoal(6, new RedPlumsMobsHurtByTargetGoal(this, HeartOfHorror.class));
         this.addHostileGoal(6);
     }

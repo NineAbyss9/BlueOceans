@@ -1,6 +1,3 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "blue_oceans:block/red_plum_grass"
-  }
+  "parent": "blue_oceans:block/red_plum_grass"
 }

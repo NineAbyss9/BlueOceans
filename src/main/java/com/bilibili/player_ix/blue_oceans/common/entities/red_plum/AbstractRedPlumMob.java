@@ -195,7 +195,7 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
     }
 
     protected float getUpgradeChance() {
-        return 0.4F;
+        return 0.2F;
     }
 
     public MobType getMobType() {
@@ -221,9 +221,11 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
 
     public boolean hurt(DamageSource pSource, float pAmount) {
         Entity entity = pSource.getEntity();
-        if (entity instanceof RedPlumMob mobs) {
+        //I think we don't find an exc
+        /*if (entity instanceof RedPlumMob mobs) {
             return (mobs.isException() || this.isException()) && super.hurt(pSource, pAmount);
-        }
+        }*/
+        if (entity instanceof RedPlumMob) return false;
         if (!MobUtils.canHurt(this, entity)) {
             return false;
         }
@@ -234,7 +236,9 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
         ) {
             pAmount /= 2.0F;
         }
-        if (pSource.getDirectEntity() instanceof LivingEntity living) {
+        if (pSource.getDirectEntity() instanceof LivingEntity living &&
+                pSource.getSourcePosition() != null &&
+                pSource.getSourcePosition().closerThan(position(), 4d)) {
             if (living.getMainHandItem().isEmpty())
                 living.addEffect(EffectInstance.create(BlueOceansMobEffects.PLUM_INFECTION,
                         170));
@@ -263,7 +267,7 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
 
     public boolean canBeAffected(MobEffectInstance pEffectInstance) {
         MobEffect mobEffect = pEffectInstance.getEffect();
-        if (mobEffect.equals(MobEffects.POISON)) {
+        if (mobEffect == MobEffects.POISON) {
             return false;
         }
         return super.canBeAffected(pEffectInstance);

@@ -7,7 +7,6 @@ import com.bilibili.player_ix.blue_oceans.common.entities.ai.goal.AttackModVilla
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.AbstractRedPlumMob;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.IPlumSpreader;
 import com.bilibili.player_ix.blue_oceans.world.spawner.VillagerGroupSpawner;
-import com.google.common.collect.Maps;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.monster.AbstractIllager;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -24,6 +23,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.NineAbyss9.math.MathSupport;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Mod.EventBusSubscriber(modid = BlueOceans.MOD_ID)
@@ -52,7 +52,7 @@ public class BlueOceansEvents
     }
 
     public static final Map<ServerLevel, VillagerGroupSpawner> VILLAGER_GROUPS
-            = Maps.newHashMap();
+            = new HashMap<ServerLevel, VillagerGroupSpawner>();
 
     //private static final Set<Government> GOVERNMENTS = new HashSet<>(Set.of(Government.EMPTY,
     //        Government.EVIL_FACTION));

@@ -39,6 +39,11 @@ implements IPlumSpreader {
         }
     }
 
+    public boolean shouldAttackOtherMobs()
+    {
+        return false;
+    }
+
     protected EntityType<? extends AbstractRedPlumMob> getNextLevelConvert() {
         return BlueOceansEntities.PLUM_FACTORY.get();
     }

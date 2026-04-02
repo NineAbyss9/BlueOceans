@@ -32,7 +32,7 @@ extends BlockEntity
         pEntity.activated = pState.getValue(Sprinkler.ACTIVATED);
         if (pLevel.isClientSide) {
             if (pEntity.activated) {
-                ParticleUtil.addParticle(pLevel, ParticleTypes.FALLING_WATER, pPos,
+                ParticleUtil.addParticle(pLevel, ParticleTypes.DRIPPING_WATER, pPos.above(),
                         AbyssMath.random(0.8), AbyssMath.random(0.4), AbyssMath.random(0.8));
             }
         } else {

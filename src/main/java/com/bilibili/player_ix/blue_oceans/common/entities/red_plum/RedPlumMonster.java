@@ -29,10 +29,12 @@ implements Enemy {
     protected void registerGoals() {
         super.registerGoals();
         this.addBehaviorGoal(5, 1, 10F);
-        this.targetSelector.addGoal(1, new RedPlumsMobsHurtByTargetGoal(this,
-                RedPlumMonster.class).setAlertOthers());
         if (shouldAttackOtherMobs())
+        {
+            this.targetSelector.addGoal(1, new RedPlumsMobsHurtByTargetGoal(this,
+                    RedPlumMonster.class).setAlertOthers());
             this.addHostileGoal(1);
+        }
     }
 
     protected void addMeleeAttackGoal(int $int, double $double, double pRange) {
@@ -73,9 +75,10 @@ implements Enemy {
 
     public boolean removeWhenFarAway(double pDistanceToClosestPlayer) {
         if (this.getLevel() >= 2)
-            return this.level().getEntitiesOfClass(RedPlumMonster.class, this.getBoundingBox().inflate(16),
-                    entity -> entity.getClass() == this.getClass()).size() > 6;
-        return pDistanceToClosestPlayer > 56 * 56;
+            return !this.level().getEntitiesOfClass(PlumBuilder.class, this.getBoundingBox().inflate(16)).isEmpty() ||
+                    (this.level().getEntitiesOfClass(RedPlumMonster.class, this.getBoundingBox().inflate(16),
+                            entity -> entity.getType() == this.getType()).size() > 3);
+        return pDistanceToClosestPlayer > 56d * 56d;
     }
 
     protected enum AttackCoolDownType {

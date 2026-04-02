@@ -16,6 +16,7 @@ import com.bilibili.player_ix.blue_oceans.client.model.projectile.VenomModel;
 import com.bilibili.player_ix.blue_oceans.client.model.villager.HattedVillagerModel;
 import com.bilibili.player_ix.blue_oceans.client.model.villager.HuntingVillagerArmorModel;
 import com.bilibili.player_ix.blue_oceans.client.model.villager.HuntingVillagerModel;
+import com.bilibili.player_ix.blue_oceans.client.particles.BloodParticle;
 import com.bilibili.player_ix.blue_oceans.client.particles.Impart;
 import com.bilibili.player_ix.blue_oceans.client.particles.RedPlumSpell;
 import com.bilibili.player_ix.blue_oceans.client.particles.SparkParticle;
@@ -68,6 +69,7 @@ public class ClientInitEvents {
     public static void registerParticles(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(BlueOceansParticleTypes.BIG_RED_PLUM_INSTANT_SPELL.get(),
             RedPlumSpell.BigInstantSpellProvider::new);
+        event.registerSpriteSet(BlueOceansParticleTypes.BLOOD.get(), BloodParticle.Provider::new);
         event.registerSpriteSet(BlueOceansParticleTypes.BO_SPELL.get(), RedPlumSpell.BOSpellProvider::new);
         event.registerSpriteSet(BlueOceansParticleTypes.IMPART.get(), Impart.Provider::new);
         event.registerSpriteSet(BlueOceansParticleTypes.RED_PLUM_SPELL.get(),

@@ -1,8 +1,8 @@
 {
   "parent": "block/cube_bottom_top",
   "textures": {
-    "bottom": "blue_oceans:block/red_plum_catalyst_top",
+    "bottom": "blue_oceans:block/red_plum_catalyst",
     "side": "blue_oceans:block/red_plum_catalyst",
-    "top": "blue_oceans:block/red_plum_catalyst_top"
+    "top": "blue_oceans:block/red_plum_catalys"
   }
 }

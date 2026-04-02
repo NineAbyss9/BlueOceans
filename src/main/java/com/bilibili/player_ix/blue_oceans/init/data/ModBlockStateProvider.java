@@ -56,19 +56,20 @@ extends BlockStateProvider
 
     private void corpse(RegistryObject<?> block, Block instance)
     {
-        VariantBlockStateBuilder builder = getVariantBuilder(instance);
+        //VariantBlockStateBuilder builder = getVariantBuilder(instance);
         BlockModelBuilder model = models().singleTexture(
                 block.getId().getPath(),
                 block.getId(),
                 modLoc("block/corpse/" + block.getId().getPath())
         ).parent(new ModelFile.UncheckedModelFile(BlueOceans.MOD_ID + "block/corpse_model"));
-        builder.partialState().modelForState().modelFile(model).addModel();
+        //builder.partialState().modelForState().modelFile(model).addModel();
         simpleBlockWithItem(instance, model);
     }
 
     private void farmland(RegistryObject<?> block, AbstractFarmland instance)
     {
         VariantBlockStateBuilder builder = getVariantBuilder(instance);
+        BlockModelBuilder first = null;
         for (int stage = 0;stage < 8;stage++) {
             BlockModelBuilder model = models().singleTexture(
                     block.getId().getPath(),
@@ -79,41 +80,30 @@ extends BlockStateProvider
                     .modelForState()
                     .modelFile(model)
                     .addModel();
+            if (stage == 0)
+            {
+                first = model;
+            }
         }
-        simpleBlockItem(instance, models().singleTexture(
-                block.getId().getPath(),
-                block.getId(),
-                modLoc("block/farming/" + block.getId().getPath()
-        )).parent(new ModelFile.UncheckedModelFile("block/template_farmland")));
+        simpleBlockItem(instance, first);
     }
 
     private void soil(RegistryObject<?> block, Block instance)
     {
-        VariantBlockStateBuilder builder = getVariantBuilder(instance);
-        BlockModelBuilder model = models().singleTexture(
+        //VariantBlockStateBuilder builder = getVariantBuilder(instance);
+        simpleBlockWithItem(instance, models().singleTexture(
                 block.getId().getPath(),
                 block.getId(),
-                modLoc("block/farming/" + block.getId().getPath())
-        );
-        builder.partialState()
-                .modelForState()
-                .modelFile(model)
-                .addModel();
-        simpleBlockItem(instance, model);
+                modLoc("block/farming/" + block.getId().getPath())));
     }
 
     private void cross(RegistryObject<?> block, Block instance)
     {
-        VariantBlockStateBuilder builder = getVariantBuilder(instance);
-        BlockModelBuilder model = models().cross(
+        //VariantBlockStateBuilder builder = getVariantBuilder(instance);
+        simpleBlockWithItem(instance, models().cross(
                 block.getId().getPath(),
                 modLoc("block/cross/" + block.getId().getPath())
-        ).renderType("cutout");
-        builder.partialState()
-                .modelForState()
-                .modelFile(model)
-                .addModel();
-        simpleBlockItem(instance, model);
+        ).renderType("cutout"));
     }
 
     private void registerCropBlock(RegistryObject<Crop> block, Crop crop)
