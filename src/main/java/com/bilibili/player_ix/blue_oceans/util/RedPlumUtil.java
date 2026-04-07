@@ -30,7 +30,7 @@ public class RedPlumUtil {
     /**NeoPlum(NeoFighter) -> {
      * <p> {@linkplain com.bilibili.player_ix.blue_oceans.common.entities.red_plum.PlumSpreader} ->
      *     {@linkplain com.bilibili.player_ix.blue_oceans.common.entities.red_plum.PlumFactory}
-     * <p> BasePlum(like RedPlumSpider) -> RedPlumSlayer
+     * <p> BasePlum(like RedPlumSpider) -> RedPlumSlayer & Red Demon
      * <p> {@linkplain com.bilibili.player_ix.blue_oceans.common.entities.red_plum.PlumBuilder}
      * <p>
      }*/

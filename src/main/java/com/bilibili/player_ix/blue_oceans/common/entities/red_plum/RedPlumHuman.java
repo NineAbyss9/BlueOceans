@@ -41,7 +41,6 @@ public class RedPlumHuman extends RedPlumMonster {
         return ApiPose.NATURAL;
     }
 
-
     protected EntityType<? extends AbstractRedPlumMob> getNextLevelConvert() {
         return BlueOceansEntities.RED_PLUM_SLAYER.get();
     }

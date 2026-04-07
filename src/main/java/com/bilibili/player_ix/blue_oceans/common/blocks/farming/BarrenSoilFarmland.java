@@ -19,8 +19,15 @@ extends AbstractFarmland {
     }
 
     public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
-        if (!pState.canSurvive(pLevel, pPos))
-            turnToSoil(null, pState, pLevel, pPos);
+        if (!pState.canSurvive(pLevel, pPos)) turnToSoil(null, pState, pLevel, pPos);
+    }
+
+    public void fallOn(Level pLevel, BlockState pState, BlockPos pPos, Entity pEntity, float pFallDistance) {
+        if (!pLevel.isClientSide
+                && net.minecraftforge.common.ForgeHooks.onFarmlandTrample(pLevel, pPos,
+                BlueOceansBlocks.BARREN_SOIL.get().defaultBlockState(), pFallDistance, pEntity))
+            turnToSoil(pEntity, pState, pLevel, pPos);
+        pEntity.causeFallDamage(pFallDistance, 1.0F, pLevel.damageSources().fall());
     }
 
     public void turnToSoil(@Nullable Entity pEntity, BlockState pState, Level pLevel, BlockPos pPos) {

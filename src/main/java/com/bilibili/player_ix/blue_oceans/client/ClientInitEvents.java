@@ -39,11 +39,9 @@ import com.bilibili.player_ix.blue_oceans.client.renderer.projectile.SeedEntityR
 import com.bilibili.player_ix.blue_oceans.client.renderer.projectile.VenomRenderer;
 import com.bilibili.player_ix.blue_oceans.client.renderer.villager.*;
 import com.bilibili.player_ix.blue_oceans.common.item.food.Coffee;
-import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlockEntities;
-import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
-import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
-import com.bilibili.player_ix.blue_oceans.init.BlueOceansParticleTypes;
+import com.bilibili.player_ix.blue_oceans.init.*;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ItemModelShaper;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -51,8 +49,12 @@ import net.minecraft.client.renderer.texture.SimpleTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.GrassColor;
+import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -185,6 +187,15 @@ public class ClientInitEvents {
     public static void registerItemStates() {
         ItemProperties.register(BlueOceansItems.COFFEE.get(), new ResourceLocation("java"),
                 (pStack, pLevel, pEntity, pSeed) -> Coffee.isJava(pStack) ? 1.0F : 0.0F);
+    }
+
+    @SubscribeEvent
+    public static void registerBlockColors(RegisterColorHandlersEvent.Block event)
+    {
+        event.register((pState, pLevel, pPos, pTintIndex) -> pLevel != null &&
+                pPos != null ? BiomeColors.getAverageGrassColor(pLevel, pState
+                .getValue(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER ?
+                pPos.below() : pPos) : GrassColor.getDefaultColor(), BlueOceansBlocks.WEED.get());
     }
 
     public static void injectItemModels(ItemRenderer pRenderer) {

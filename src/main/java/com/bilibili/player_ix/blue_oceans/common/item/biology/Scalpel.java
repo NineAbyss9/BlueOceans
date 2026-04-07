@@ -17,8 +17,7 @@ extends SwordItem
         super(BoTier.IRON, 3, -2, new Properties());
     }
 
-    public InteractionResult useOn(UseOnContext pContext)
-    {
+    public InteractionResult useOn(UseOnContext pContext) {
         Level level = pContext.getLevel();
         BlockPos pos = pContext.getClickedPos();
         if (level.getBlockState(pos).getBlock() instanceof Corpse)

@@ -7,6 +7,7 @@ import com.bilibili.player_ix.blue_oceans.common.blocks.plum.RedPlumCatalyst;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansMobEffects;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansSounds;
+import com.bilibili.player_ix.blue_oceans.util.RedPlumUtil;
 import com.github.NineAbyss9.ix_api.api.annotation.ServerOnly;
 import com.github.NineAbyss9.ix_api.api.mobs.IFlagMob;
 import com.github.NineAbyss9.ix_api.util.Maths;
@@ -178,12 +179,16 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
             RedPlumCatalyst.spreadPlum(serverLevel(), this.randomSpreadCenter());
             plumBuilder$spread$int++;
         }
+        for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(16),
+                this::canAttack)) {
+            entity.addEffect(RedPlumUtil.plumInfection(400, Math.min(this.getAge(), 3)));
+        }
     }
 
     @ServerOnly
     private void spreadParticle() {
         ParticleUtil.sendParticles(serverLevel(), DustParticleOptions.REDSTONE, position(),
-                20, 1, 1, 1, 0.01);
+                40, 0.5D, 0.5D, 0.5D, 0.1D);
     }
 
     private BlockPos randomSpreadCenter() {
@@ -196,7 +201,7 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
     //}
 
     public void anotherJoin(AbstractRedPlumMob pMob) {
-        heal(this, (float)pMob.getKills());
+        heal(this, (float)(Math.max(pMob.getKills(), 2)));
         this.setKills(this.getKills() + pMob.getKills());
         pMob.discard();
     }
@@ -216,7 +221,7 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
 
     protected float getDamageAfterArmorAbsorb(DamageSource pDamageSource, float pDamageAmount) {
         return super.getDamageAfterArmorAbsorb(pDamageSource, Math.min(pDamageAmount,
-                this.getMaxHealth() / 4F));
+                this.getHealthByAge() / 4F));
     }
 
     public void addAdditionalSaveData(CompoundTag tag) {
@@ -319,15 +324,15 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
     public float getHealthByAge() {
         int age = this.getAge();
         if (age == 0)
-            return 10;
+            return 10F;
         else if (age == 1)
-            return 60;
+            return 60F;
         else if (age == 2)
-            return 90;
+            return 90F;
         else if (age == 3)
-            return 110;
+            return 110F;
         else
-            return 150;
+            return 150F;
     }
 
     public void sendNewBuilder() {
@@ -348,7 +353,7 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
             this.puffSound();
             AreaEffectCloud areaeffectcloud = new AreaEffectCloud(this.level(), this.getX(), this.getY(), this.getZ());
             areaeffectcloud.setOwner(this);
-            areaeffectcloud.setRadius(2.0F);
+            areaeffectcloud.setRadius(3.0F);
             areaeffectcloud.setRadiusOnUse(-0.5F);
             areaeffectcloud.setWaitTime(20);
             areaeffectcloud.setDuration(areaeffectcloud.getDuration() / 2);
@@ -437,14 +442,15 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
         }
 
         public boolean canMoveToTargetPos() {
-            return (builder.level().getWorldBorder().isWithinBounds(BlockPos.containing(builder.getTargetPos())))
+            canUse = (builder.level().getWorldBorder().isWithinBounds(BlockPos.containing(builder.getTargetPos())))
                     && SpawnPlacements.Type.ON_GROUND.canSpawnAt(builder.level(), BlockPos.containing(builder.getTargetPos()),
                     BlueOceansEntities.PLUM_BUILDER.get());
+            return canUse;
         }
 
         public void start() {
             Vec3 vec3 = builder.getTargetPos();
-            builder.navigation.moveTo(vec3.x, vec3.y, vec3.z, 0.8);
+            builder.navigation.moveTo(vec3.x, vec3.y, vec3.z, 0.8D);
         }
 
         public void tick() {
@@ -467,7 +473,11 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
 
         public boolean canUse() {
             if (!canUse) return false;
-            if (builder.isBuilding() || builder.isEmptyTarget()) return false;
+            if (builder.isBuilding() || builder.isEmptyTarget())
+            {
+                canUse = false;
+                return false;
+            }
             return canMoveToTargetPos();
         }
 

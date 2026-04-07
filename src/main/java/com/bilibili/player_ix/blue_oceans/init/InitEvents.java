@@ -1,6 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.init;
 
+import com.bilibili.player_ix.blue_oceans.BlueOceans;
 import com.bilibili.player_ix.blue_oceans.common.capability.BoCapabilities;
 import com.bilibili.player_ix.blue_oceans.common.capability.LivingHealth;
 import com.bilibili.player_ix.blue_oceans.common.command.BoCommand;
@@ -14,12 +15,13 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.Nullable;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
+@Mod.EventBusSubscriber(modid = BlueOceans.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class InitEvents
 {
     private InitEvents()
@@ -42,12 +44,24 @@ public class InitEvents
 
     //Capabilities start
 
+    @SubscribeEvent
     public static void registerEntityCapabilities(AttachCapabilitiesEvent<Entity> event)
     {
-        if (event.getObject() instanceof LivingEntity living) {
+        if (event.getObject() instanceof LivingEntity living)
+        {
             event.addCapability(LivingHealth.RESOURCE, createProvider(LazyOptional.of(() -> new LivingHealth(living)),
                     BoCapabilities.LIVING_HEALTH));
         }
+    }
+
+    @SubscribeEvent
+    public static void onLivingTick(LivingEvent.LivingTickEvent event)
+    {
+        if (event.getEntity().level().isClientSide)
+        {
+            return;
+        }
+        event.getEntity().getCapability(BoCapabilities.LIVING_HEALTH).ifPresent(LivingHealth::tick);
     }
 
     public static <S extends Tag, T extends INBTSerializable<S>> ICapabilitySerializable<S>

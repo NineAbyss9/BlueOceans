@@ -27,12 +27,14 @@ implements ITextureProvider
         this(new Properties().stacksTo(16));
     }
 
-    public InteractionResult useOn(UseOnContext pContext) {
+    public InteractionResult useOn(UseOnContext pContext)
+    {
         Level level = pContext.getLevel();
         BlockPos pos = pContext.getClickedPos();
         if (!level.isClientSide) {
             ItemStack stack = pContext.getItemInHand();
-            for (int i = 2;i < 6;i++) {
+            for (int i = 2;i < 6;i++)
+            {
                 BlockPos pos1 = pos.relative(Direction.values()[i]);
                 BlockState state = level.getBlockState(pos1);
                 if (state.getBlock() instanceof CropBlock cropBlock
@@ -55,13 +57,19 @@ implements ITextureProvider
         return "util/cf";
     }
 
+    public ItemStack getDefaultInstance()
+    {
+        return setFertility(super.getDefaultInstance(), 0.2F);
+    }
+
     public static float getFertility(ItemStack pStack) {
         if (pStack.getTag() == null || !pStack.getTag().contains(FERTILITY))
             setFertility(pStack, 0.2f);
         return pStack.getOrCreateTag().getFloat(FERTILITY);
     }
 
-    public static void setFertility(ItemStack pStack, float pFertility) {
+    public static ItemStack setFertility(ItemStack pStack, float pFertility) {
         pStack.getOrCreateTag().putFloat(FERTILITY, pFertility);
+        return pStack;
     }
 }

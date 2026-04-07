@@ -216,7 +216,6 @@ extends ModSpellcasterIllager {
             return super.canUse();
         }
 
-        @Override
         protected int getCastingInterval() {
             return 90;
         }

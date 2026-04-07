@@ -13,6 +13,11 @@ implements Organ {
         super(pProperties);
     }
 
+    public Kidney()
+    {
+        this(new Properties());
+    }
+
     public void beforeDie(ServerLevel pLevel, LivingEntity pEntity) {
         if (!pEntity.getPersistentData().getBoolean(BEFORE_DIE_USED)) {
             pEntity.getPersistentData().putBoolean(BEFORE_DIE_USED, true);

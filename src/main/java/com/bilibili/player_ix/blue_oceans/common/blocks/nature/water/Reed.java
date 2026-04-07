@@ -1,12 +1,9 @@
 
 package com.bilibili.player_ix.blue_oceans.common.blocks.nature.water;
 
-import com.bilibili.player_ix.blue_oceans.common.blocks.food.RiceEars;
-import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlocks;
 import com.bilibili.player_ix.blue_oceans.init.BoTags;
+import com.bilibili.player_ix.blue_oceans.init.data.ModBlockStateProvider;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -28,7 +25,7 @@ import org.NineAbyss9.array.ObjectArray;
 @SuppressWarnings("deprecation")
 public class Reed
 extends AquaticPlant
-{
+implements ModBlockStateProvider.Cross {
     public static final IntegerProperty REED_AGE;
     private static final ObjectArray<VoxelShape> SHAPES;
     public Reed(Properties pProperties)
@@ -41,7 +38,7 @@ extends AquaticPlant
         pBuilder.add(REED_AGE);
     }
 
-    public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom)
+    /*public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom)
     {
         if (!pLevel.isAreaLoaded(pPos, 1)) return;
         BlockPos above = pPos.above();
@@ -51,7 +48,7 @@ extends AquaticPlant
                 if (ForgeHooks.onCropsGrowPre(pLevel, pPos, pState,
                         pRandom.nextFloat() < 0.3f)) {
                     if (currentAge == this.getMaxAge()) {
-                        // TODO: Replace
+                        // TOD: Replace
                         RiceEars ears = BlueOceansBlocks.RICE_EARS.get();
                         if (ears.defaultBlockState().canSurvive(pLevel, above) && pLevel.isEmptyBlock(above)) {
                             pLevel.setBlockAndUpdate(above, ears.defaultBlockState());
@@ -65,7 +62,7 @@ extends AquaticPlant
                 }
             }
         }
-    }
+    }*/
 
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext)
     {

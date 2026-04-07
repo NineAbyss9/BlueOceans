@@ -3,7 +3,6 @@ package com.bilibili.player_ix.blue_oceans.common.mob_effect;
 
 import com.bilibili.player_ix.blue_oceans.api.mob.RedPlumMob;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.AbstractRedPlumMob;
-import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.NeoPlum;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlocks;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansMobEffects;
 import com.bilibili.player_ix.blue_oceans.init.BoTags;
@@ -19,6 +18,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.MultifaceBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.NineAbyss9.math.MathSupport;
+import org.NineAbyss9.util.Action;
 
 public class PlumInvade extends MobEffect {
     public PlumInvade() {
@@ -57,12 +57,15 @@ public class PlumInvade extends MobEffect {
                         RedPlumUtil.spawnRedPlumHuman(entityLevel, pLivingEntity);
                     } else if (RedPlumUtil.likeVillager(pLivingEntity)) {
                         RedPlumUtil.spawnRedPlumVillager(entityLevel, pLivingEntity);
-                    } else {
+                    /*} else {
                         var plum = NeoPlum.createRandom(pLivingEntity.position(), entityLevel);
                         if (plum != null) {
                             NeoPlum.addParticleAroundPlum(plum);
-                        }
+                        }*/
                     }
+                    Action.emptyFalse(() -> entityLevel.setBlockAndUpdate(pLivingEntity.blockPosition(),
+                                    BlueOceansBlocks.PLUM_TISSUE.get().defaultBlockState()))
+                            .run(!entityLevel.getBlockState(pLivingEntity.blockPosition()).is(BoTags.RED_PLUM_BLOCKS));
                 }
             }
         } else {

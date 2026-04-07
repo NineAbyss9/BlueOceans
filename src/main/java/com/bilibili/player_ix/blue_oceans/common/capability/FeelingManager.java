@@ -15,12 +15,34 @@ public class FeelingManager
     {
         this.owner = pHealth.owner;
         this.status = Status.GOOD;
-        this.feelingLevel = 60F;
+        this.feelingLevel = 60.0F;
     }
 
     public void tick(LivingHealth pHealth)
     {
+    }
 
+    /** Chronic infection drags mood; cleared gradually when healthy. */
+    public void applyDiseaseMood(LivingHealth pHealth)
+    {
+        if (this.owner.tickCount % 20 != 0)
+        {
+            return;
+        }
+        if (pHealth.hasEffect(LivingEffects.VIRAL_INVASION))
+        {
+            LivingEffectInstance v = pHealth.getEffect(LivingEffects.VIRAL_INVASION);
+            int amp = v == null ? 0 : v.getAmplifier();
+            this.decrease(0.015F + 0.01F * amp);
+        }
+        else if (pHealth.hasEffect(LivingEffects.ILL))
+        {
+            this.decrease(0.008F);
+        }
+        if (pHealth.hasEffect(LivingEffects.IMMUNE_RESPONSE) && !pHealth.hasEffect(LivingEffects.VIRAL_INVASION))
+        {
+            this.increase(0.01F);
+        }
     }
 
     public float getFeelingLevel()
@@ -28,22 +50,24 @@ public class FeelingManager
         return feelingLevel;
     }
 
-    public void setFeelingLevel(float feelLevelIn)
+    public void setFeelingLevel(float feelingLevelIn)
     {
-        this.feelingLevel = feelLevelIn;
+        this.feelingLevel = feelingLevelIn;
+        if (this.status == this.getStatusByFeelingLevel()) return;
+        this.status = this.getStatusByFeelingLevel();
     }
 
     public void increase(float increasement)
     {
-        this.feelingLevel += increasement;
+        this.setFeelingLevel(this.getFeelingLevel() + increasement);
     }
 
     public void decrease(float decreasement)
     {
-        this.feelingLevel -= decreasement;
+        this.setFeelingLevel(this.getFeelingLevel() - decreasement);
     }
 
-    public Status getStatus()
+    public Status getStatusByFeelingLevel()
     {
         if (this.feelingLevel < 10F) return Status.WANT_TO_GO_DIE;
         else if (this.feelingLevel < 30F) return Status.BAD;
@@ -55,12 +79,25 @@ public class FeelingManager
     public static class Feeling
     {
         private float feelingLevel;
+        private Operation operation;
         public static final Feeling HAPPY;
         public static final Feeling SCARED;
         public static final Feeling NERVOUS;
+        public static final Feeling ANGRY;
         public Feeling(float feelingLevelIn)
         {
             this.feelingLevel = feelingLevelIn;
+        }
+
+        public Feeling operation(final Operation pOp)
+        {
+            this.operation = pOp;
+            return this;
+        }
+
+        public Operation getOperation()
+        {
+            return operation;
         }
 
         public Feeling toAvoid()
@@ -73,8 +110,9 @@ public class FeelingManager
                 return HAPPY;
             } else if (this == NERVOUS)
             {
-                return ;
+                return null;
             }
+            return null;
         }
 
         public boolean equals(Object o)
@@ -99,6 +137,7 @@ public class FeelingManager
             HAPPY = new Feeling(70.0F);
             SCARED = new Feeling(30.0F);
             NERVOUS = new Feeling(-10.0F);
+            ANGRY = new Feeling(-30.0F);
         }
     }
 

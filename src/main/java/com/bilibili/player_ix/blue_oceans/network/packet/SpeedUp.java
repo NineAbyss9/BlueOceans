@@ -28,7 +28,7 @@ public class SpeedUp {
     public static void handle(SpeedUp speedUp, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             Player player = ctx.get().getSender();
-            if (ctx.get().getDirection().getReceptionSide().equals(LogicalSide.CLIENT)) {
+            if (ctx.get().getDirection().getReceptionSide() == LogicalSide.CLIENT) {
                 player = BlueOceans.agent.getPlayerInstance();
             }
             if (player != null) {

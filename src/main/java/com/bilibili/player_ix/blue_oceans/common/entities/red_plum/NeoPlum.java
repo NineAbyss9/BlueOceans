@@ -5,7 +5,6 @@ import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansParticleTypes;
 import com.bilibili.player_ix.blue_oceans.util.RedPlumUtil;
 import com.github.NineAbyss9.ix_api.api.mobs.IConversion;
-import com.github.NineAbyss9.ix_api.api.mobs.OwnableMob;
 import com.github.NineAbyss9.ix_api.util.Colors;
 import com.github.NineAbyss9.ix_api.util.Vec9;
 import net.minecraft.core.BlockPos;
@@ -176,6 +175,8 @@ implements IConversion {
                                     builder1 -> !builder1.equals(monster)).isEmpty()) {
                         builder.setTargetPos(pos.add(AbyssMath.random(40), 0,
                                 AbyssMath.random(40)));
+                    } else {
+                        builder.setTargetPos(pos);
                     }
                 }
             }

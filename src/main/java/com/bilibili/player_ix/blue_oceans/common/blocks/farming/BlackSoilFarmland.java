@@ -19,8 +19,7 @@ extends AbstractFarmland {
     }
 
     public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
-        if (!pState.canSurvive(pLevel, pPos))
-            turnToBlackSoil(null, pState, pLevel, pPos);
+        if (!pState.canSurvive(pLevel, pPos)) turnToBlackSoil(null, pState, pLevel, pPos);
     }
 
     public void fallOn(Level pLevel, BlockState pState, BlockPos pPos, Entity pEntity, float pFallDistance) {

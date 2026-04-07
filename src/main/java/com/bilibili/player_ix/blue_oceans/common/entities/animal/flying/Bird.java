@@ -11,8 +11,15 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.PanicGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomFlyingGoal;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -47,7 +54,11 @@ extends AbstractFlyingAnimal {
     }
 
     protected void registerGoals() {
+        this.goalSelector.addGoal(0, new FloatGoal(this));
+        this.goalSelector.addGoal(1, new PanicGoal(this, 1.25D));
         this.goalSelector.addGoal(2, new WanderGoal(this));
+        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
     }
 
     public void aiStep() {
@@ -96,70 +107,59 @@ extends AbstractFlyingAnimal {
         return super.finalizeSpawn(pLevel, pDifficulty, pReason, data, pDataTag);
     }
 
-    /*public InteractionResult mobInteract(Player pPlayer, InteractionHand pHand) {
-        ItemStack itemstack = pPlayer.getItemInHand(pHand);
-        if (!this.isTame() && TAME_FOOD.contains(itemstack.getItem())) {
-            if (!pPlayer.getAbilities().instabuild) {
-                itemstack.shrink(1);
-            }
-            if (!this.isSilent()) {
-                this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.PARROT_EAT,
-                        this.getSoundSource(), 1.0F, 1.0F + (this.random.nextFloat()
-                                - this.random.nextFloat()) * 0.2F);
-            }
-            if (!this.level().isClientSide) {
-                if (this.random.nextInt(10) == 0 && !net.minecraftforge.event.ForgeEventFactory
-                        .onAnimalTame(this, pPlayer)) {
-                    this.tame(pPlayer);
-                    this.level().broadcastEntityEvent(this, (byte)7);
-                } else {
-                    this.level().broadcastEntityEvent(this, (byte)6);
-                }
-            }
-            return InteractionResult.sidedSuccess(this.level().isClientSide);
-        }  else if (!this.isFlying()) {
-            return InteractionResult.sidedSuccess(this.level().isClientSide);
-        } else {
-            return super.mobInteract(pPlayer, pHand);
-        }
-    }*/
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes()
+                .add(Attributes.MAX_HEALTH, 6.0D)
+                .add(Attributes.FLYING_SPEED, 0.45D)
+                .add(Attributes.MOVEMENT_SPEED, 0.22D);
+    }
 
-    static {
+    static
+    {
         DATA_TYPE = SynchedEntityData.defineId(Bird.class, EntityDataSerializers.INT);
     }
 
-    protected static class WanderGoal extends WaterAvoidingRandomFlyingGoal {
-        public WanderGoal(PathfinderMob pMob) {
+    public static class WanderGoal extends WaterAvoidingRandomFlyingGoal
+    {
+        public WanderGoal(PathfinderMob pMob)
+        {
             super(pMob, 1.0D);
         }
 
         @Nullable
-        protected Vec3 getPosition() {
+        public Vec3 getPosition()
+        {
             Vec3 vec3 = null;
-            if (this.mob.isInWater()) {
+            if (this.mob.isInWater())
+            {
                 vec3 = LandRandomPos.getPos(this.mob, 15, 15);
             }
-            if (this.mob.getRandom().nextFloat() >= this.probability) {
+            if (this.mob.getRandom().nextFloat() >= this.probability)
+            {
                 vec3 = this.getTreePos();
             }
             return vec3 == null ? super.getPosition() : vec3;
         }
 
         @Nullable
-        private Vec3 getTreePos() {
+        public Vec3 getTreePos()
+        {
             BlockPos blockpos = this.mob.blockPosition();
             BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
             BlockPos.MutableBlockPos blockpos$mutableblockpos1 = new BlockPos.MutableBlockPos();
-            for(BlockPos blockpos1 : BlockPos.betweenClosed(Mth.floor(this.mob.getX() - 3.0D), Mth
+            for (BlockPos blockpos1 : BlockPos.betweenClosed(Mth.floor(this.mob.getX() - 3.0D), Mth
                     .floor(this.mob.getY() - 6.0D), Mth.floor(this.mob.getZ() - 3.0D), Mth.floor(
                             this.mob.getX() + 3.0D), Mth.floor(this.mob.getY() + 6.0D),
-                    Mth.floor(this.mob.getZ() + 3.0D))) {
-                if (!blockpos.equals(blockpos1)) {
+                    Mth.floor(this.mob.getZ() + 3.0D)))
+            {
+                if (!blockpos.equals(blockpos1))
+                {
                     BlockState blockstate = this.mob.level().getBlockState(blockpos$mutableblockpos1
                             .setWithOffset(blockpos1, Direction.DOWN));
                     boolean flag = blockstate.getBlock() instanceof LeavesBlock || blockstate.is(BlockTags.LOGS);
                     if (flag && this.mob.level().isEmptyBlock(blockpos1) && this.mob.level().isEmptyBlock(
-                            blockpos$mutableblockpos.setWithOffset(blockpos1, Direction.UP))) {
+                            blockpos$mutableblockpos.setWithOffset(blockpos1, Direction.UP)))
+                    {
                         return Vec3.atBottomCenterOf(blockpos1);
                     }
                 }

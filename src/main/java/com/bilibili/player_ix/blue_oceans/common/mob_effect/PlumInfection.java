@@ -4,6 +4,8 @@ package com.bilibili.player_ix.blue_oceans.common.mob_effect;
 import com.bilibili.player_ix.blue_oceans.api.mob.RedPlumMob;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.AbstractRedPlumMob;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.PlumBuilder;
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlocks;
+import com.bilibili.player_ix.blue_oceans.init.BoTags;
 import com.bilibili.player_ix.blue_oceans.util.RedPlumUtil;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -11,6 +13,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import org.NineAbyss9.math.MathSupport;
+import org.NineAbyss9.util.Action;
 
 import java.util.List;
 
@@ -24,14 +27,13 @@ extends MobEffect {
         if (pLivingEntity instanceof RedPlumMob)
         {
             boolean f = pAmplifier > 2;
-            if (pLivingEntity.tickCount % (f ? 10 : 40) == 0) {
-                if (pLivingEntity instanceof PlumBuilder builder) {
-                    PlumBuilder.heal(builder);
-                } else
-                    pLivingEntity.heal(1.0F);
-            }
+            if (pLivingEntity instanceof PlumBuilder builder)
+            {
+                PlumBuilder.heal(builder, f ? 1.0F : 0.25F);
+            } else
+                pLivingEntity.heal(f ? 1.0F : 0.25F);
         } else {
-            if (Math.random() < 0.05) {
+            if (Math.random() < 0.05D) {
                 EquipmentSlot slot = EquipmentSlot.values()[MathSupport.random.nextInt(6)];
                 pLivingEntity.getItemBySlot(slot).hurtAndBreak(1, pLivingEntity, pEntity ->
                         pEntity.broadcastBreakEvent(slot));
@@ -55,9 +57,12 @@ extends MobEffect {
                             RedPlumUtil.spawnRedPlumHuman(level, pLivingEntity);
                         else if (RedPlumUtil.likeVillager(pLivingEntity))
                             RedPlumUtil.spawnRedPlumVillager(level, pLivingEntity);
-                        else {
+                        /*else {
                             RedPlumUtil.spawnBase(level, pLivingEntity.position());
-                        }
+                        }*/
+                        Action.emptyFalse(() -> level.setBlockAndUpdate(pLivingEntity.blockPosition(),
+                                        BlueOceansBlocks.PLUM_CELL_CLUSTER.get().defaultBlockState()))
+                                .run(!level.getBlockState(pLivingEntity.blockPosition()).is(BoTags.RED_PLUM_BLOCKS));
                     }
                 }
             }

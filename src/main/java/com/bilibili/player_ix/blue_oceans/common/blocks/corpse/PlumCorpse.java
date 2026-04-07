@@ -10,6 +10,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 
+@SuppressWarnings("deprecation")
 public class PlumCorpse
 extends Corpse
 {
@@ -24,8 +25,7 @@ extends Corpse
                 .mapColor(DyeColor.RED).jumpFactor(0.8f));
     }
 
-    public void stepOn(Level pLevel, BlockPos pPos, BlockState pState, Entity pEntity)
-    {
+    public void entityInside(BlockState pState, Level pLevel, BlockPos pPos, Entity pEntity) {
         if (pEntity.tickCount % 10 == 0 && Math.random() < 0.3d && pEntity instanceof LivingEntity entity) {
             if (Math.random() < 0.1d)
                 entity.addEffect(RedPlumUtil.plumInfection(600, 1));

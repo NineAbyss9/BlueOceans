@@ -5,7 +5,6 @@ import com.bilibili.player_ix.blue_oceans.api.magic.BOSpellType;
 import com.bilibili.player_ix.blue_oceans.api.mob.MobTypes;
 import com.bilibili.player_ix.blue_oceans.common.entities.ai.goal.BOCastingSpellGoal;
 import com.bilibili.player_ix.blue_oceans.common.entities.ai.goal.BOUseSpellGoal;
-import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansParticleTypes;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansSounds;
 import com.bilibili.player_ix.blue_oceans.api.mob.RedPlumMob;
@@ -55,12 +54,6 @@ implements RedPlumMob {
         this.setMaxUpStep(2f);
         this.xpReward = 560;
         this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
-        this.setNoGravity(false);
-    }
-
-    @SuppressWarnings("unused")
-    public RedPlumGirl(PlayMessages.SpawnEntity packet, Level world) {
-        this(BlueOceansEntities.RED_PLUM_GIRL.get(), world);
     }
 
     public void startSeenByPlayer(ServerPlayer player) {

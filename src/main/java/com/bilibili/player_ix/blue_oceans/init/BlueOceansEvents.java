@@ -2,11 +2,13 @@
 package com.bilibili.player_ix.blue_oceans.init;
 
 import com.bilibili.player_ix.blue_oceans.BlueOceans;
+import com.bilibili.player_ix.blue_oceans.common.blocks.farming.Weed;
 import com.bilibili.player_ix.blue_oceans.common.blocks.nature.water.AquaticPlant;
 import com.bilibili.player_ix.blue_oceans.common.entities.ai.goal.AttackModVillagersGoal;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.AbstractRedPlumMob;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.IPlumSpreader;
 import com.bilibili.player_ix.blue_oceans.world.spawner.VillagerGroupSpawner;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.monster.AbstractIllager;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -97,13 +99,21 @@ public class BlueOceansEvents
     }
 
     @SubscribeEvent
-    public static void onCropGrowPre(BlockEvent.CropGrowEvent.Pre event)
-    {
+    public static void onCropGrowPre(BlockEvent.CropGrowEvent.Pre event) {
         var level = event.getLevel();
         var pos = event.getPos();
         if (level.getBlockState(pos.below()).is(BoTags.BARREN_FARMLANDS)
                 && MathSupport.random.nextFloat() < 0.3F) {
             event.setResult(Event.Result.DENY);
+            return;
+        }
+        for (var pos1 : BlockPos.betweenClosed(pos.offset(-1, 0, -1), pos.offset(1, 0, 1))) {
+            var blockState = level.getBlockState(pos1);
+            if (blockState.getBlock() instanceof Weed weed && MathSupport.random.nextFloat() <
+                    weed.getDisableCropGrowthChance(blockState, level, pos1)) {
+                event.setResult(Event.Result.DENY);
+                break;
+            }
         }
     }
 
@@ -117,6 +127,8 @@ public class BlueOceansEvents
         if (state.getBlock() instanceof CropBlock block && block.isMaxAge(state))
         {
             AquaticPlant.spread(block.getStateForAge(0), (ServerLevel)level, level.getRandom(), pos, state);
+            AquaticPlant.spread(BlueOceansBlocks.WEED.get().defaultBlockState(), (ServerLevel)level,
+                    level.getRandom(), pos, state, 0.1D);
         }
     }
 

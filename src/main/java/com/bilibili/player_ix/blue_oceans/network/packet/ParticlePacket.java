@@ -35,8 +35,7 @@ public record ParticlePacket(ParticleOptions options, double x, double y, double
     public static void handle(ParticlePacket packet, Supplier<NetworkEvent.Context> ctx) {
         NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> {
-            if (SideHandler.isServerSide())
-                return;
+            if (SideHandler.isServerSide()) return;
             //TryBlock block = new TryBlock(() ->
             if (SideHandler.checkLevel())
                 Objects.requireNonNull(Minecraft.getInstance().level).addParticle(packet.options(), packet.x(), packet.y(),

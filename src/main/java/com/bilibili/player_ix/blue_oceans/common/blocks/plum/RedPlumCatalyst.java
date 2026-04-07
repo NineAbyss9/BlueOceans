@@ -42,29 +42,34 @@ import org.NineAbyss9.math.MathSupport;
 
 public class RedPlumCatalyst
 extends RedPlumBlock {
-    public RedPlumCatalyst() {
+    public RedPlumCatalyst()
+    {
         super(Properties.of().mapColor(DyeColor.RED).strength(2F, 30F)
                 .randomTicks().sound(SoundType.SCULK).lightLevel(value -> 3));
     }
 
     @Nullable
-    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState)
+    {
         return new RedPlumCatalystEntity(pPos, pState);
     }
 
     @Nullable
-    public <T extends BlockEntity> GameEventListener getListener(ServerLevel pLevel, T pBlockEntity) {
+    public <T extends BlockEntity> GameEventListener getListener(ServerLevel pLevel, T pBlockEntity)
+    {
         return pBlockEntity instanceof RedPlumCatalystEntity entity ? entity.getListener() : null;
     }
 
     protected void random25Action(BlockState pState, ServerLevel pLevel, BlockPos pPos) {}
 
-    public int getLevel() {
+    public int getLevel()
+    {
         return 2;
     }
 
     public int getExpDrop(BlockState state, LevelReader level, RandomSource radS, BlockPos pos, int fortuneLevel,
-                          int silkTouchLevel) {
+                          int silkTouchLevel)
+    {
         return 4;
     }
 
@@ -73,13 +78,14 @@ extends RedPlumBlock {
         && NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND,
                 pLevel, pPos.above(), BlueOceansEntities.RED_PLUM_HUMAN.get())
         && pLevel.getEntitiesOfClass(RedPlumMonster.class, new AABB(pPos).inflate(10)).size() < 4) {
-            PlumHolder.spawn(pLevel, pPos, 1);
+            PlumHolder.spawn(pLevel, pPos.above(), 1);
         }
     }
 
     @SuppressWarnings("deprecation")
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer,
-                                 InteractionHand pHand, BlockHitResult pHit) {
+                                 InteractionHand pHand, BlockHitResult pHit)
+    {
         if (pPlayer.getItemInHand(pHand).is(Items.EXPERIENCE_BOTTLE)) {
             if (!pLevel.isClientSide) {
                 for (int i = 0;i < 5;i++) {
@@ -91,12 +97,14 @@ extends RedPlumBlock {
         return InteractionResult.PASS;
     }
 
-    public static void spreadPlum(ServerLevel pLevel, Vec3 pPos) {
+    public static void spreadPlum(ServerLevel pLevel, Vec3 pPos)
+    {
         spreadPlum(pLevel, BlockPos.containing(pPos));
     }
 
     @ServerOnly
-    public static void spreadPlum(ServerLevel serverLevel, @Message("Blocks do not below()") BlockPos center) {
+    public static void spreadPlum(ServerLevel serverLevel, @Message("Blocks do not below()") BlockPos center)
+    {
         BlockPos pos = center.offset(Maths.randomInt(3), 0, Maths.randomInt(3));
         BlockState newBlockstate = getRandomGrowthState(serverLevel, pos);
         if (serverLevel.getGameRules().getBoolean(BlueOceansGameRules.PLUM_SPREAD) &&
@@ -109,7 +117,8 @@ extends RedPlumBlock {
         }
     }
 
-    public static BlockState getRandomGrowthState(Level pLevel, BlockPos pPos) {
+    public static BlockState getRandomGrowthState(Level pLevel, BlockPos pPos)
+    {
         BlockState blockstate;
         float rad = MathSupport.random.nextFloat();
         if (rad < 0.1F) {
@@ -125,7 +134,8 @@ extends RedPlumBlock {
                 ? blockstate.setValue(BlockStateProperties.WATERLOGGED, Boolean.TRUE) : blockstate;
     }
 
-    private static boolean canPlaceGrowth(Level pLevel, BlockPos pPos, Block newBlock) {
+    public static boolean canPlaceGrowth(Level pLevel, BlockPos pPos, Block newBlock)
+    {
         BlockState blockstate = pLevel.getBlockState(pPos);
         if (checkOtherRules(blockstate) || checkBlock(blockstate.getBlock(), newBlock)) {
             int i = 0;
@@ -145,11 +155,13 @@ extends RedPlumBlock {
         }
     }
 
-    private static boolean checkOtherRules(BlockState pState) {
+    private static boolean checkOtherRules(BlockState pState)
+    {
         return pState.isAir() || pState.is(Blocks.WATER) && pState.getFluidState().is(Fluids.WATER);
     }
 
-    private static boolean checkBlock(Block pBlock, Block newBlock) {
+    private static boolean checkBlock(Block pBlock, Block newBlock)
+    {
         if (pBlock instanceof PlumBlock plumBlock && newBlock instanceof PlumBlock iPlumBlock) {
             return plumBlock.getLevel() < iPlumBlock.getLevel();
         } else {
@@ -157,7 +169,8 @@ extends RedPlumBlock {
         }
     }
 
-    private static void spreadPlumTop(BlockState pState, BlockPos pPos, ServerLevel pLevel) {
+    public static void spreadPlumTop(BlockState pState, BlockPos pPos, ServerLevel pLevel)
+    {
         float chance = MathSupport.random.nextFloat();
         if (chance < 0.25F && pLevel.getBlockState(pPos.below()).is(BlueOceansBlocks.RED_PLUM_BLOCK.get())
             && !pLevel.getBlockState(pPos).is(BoTags.RED_PLUM_BLOCKS)) {

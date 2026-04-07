@@ -14,6 +14,7 @@ import javax.annotation.Nullable;
 
 public class BoDamageSource {
     public static final ResourceKey<DamageType> CLEAR;
+    public static final ResourceKey<DamageType> IMPORTANT_ORGAN_DEATH;
     public static ResourceKey<DamageType> damage(String name) {
         return ResourceKey.create(Registries.DAMAGE_TYPE, BlueOceans.location(name));
     }
@@ -24,11 +25,18 @@ public class BoDamageSource {
                 .get().getHolder(pType).get(), pDirect, pEntity, pPos);
     }
 
-    public static DamageSource clear(Level pLevel, @Nullable Entity pDirect, @Nullable Entity pEntity) {
+    public static DamageSource clear(Level pLevel, @Nullable Entity pDirect, @Nullable Entity pEntity)
+    {
         return damage(pLevel, pDirect, pEntity, null, CLEAR);
+    }
+
+    public static DamageSource importantOrganDeath(Level pLevel)
+    {
+        return damage(pLevel, null, null, null, IMPORTANT_ORGAN_DEATH);
     }
 
     static {
         CLEAR = damage("clear");
+        IMPORTANT_ORGAN_DEATH = damage("important_organ_death");
     }
 }

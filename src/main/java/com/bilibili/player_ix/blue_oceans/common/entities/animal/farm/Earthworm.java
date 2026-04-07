@@ -122,32 +122,44 @@ implements IFlagMob {
                 .add(Attributes.MAX_HEALTH, 4).add(Attributes.MOVEMENT_SPEED, 0.2);
     }
 
-    static {
+    static
+    {
         DATA_ANIM_TICK = SynchedEntityData.defineId(Earthworm.class, EntityDataSerializers.INT);
         DATA_FLAGS = SynchedEntityData.defineId(Earthworm.class, EntityDataSerializers.INT);
     }
 
-    protected class EarthwormDoTasksGoal extends Goal {
-        public EarthwormDoTasksGoal() {
+    public class EarthwormDoTasksGoal extends Goal
+    {
+        public EarthwormDoTasksGoal()
+        {
         }
 
-        public boolean canUse() {
+        public boolean canUse()
+        {
             return true;
         }
 
-        public void tick() {
-            if (Earthworm.this.isIdle() && MathSupport.random.nextFloat() < 0.05F) {
+        public void tick()
+        {
+            if (Earthworm.this.isIdle() && MathSupport.random.nextFloat() < 0.05F)
+            {
                 Earthworm.this.setTask(Task.DIG);
                 Earthworm.this.setFlag(1);
-            } else if (Earthworm.this.hasTask(Task.DIG) && Earthworm.this.aniTick(40)) {
+            }
+            else if (Earthworm.this.hasTask(Task.DIG) && Earthworm.this.aniTick(40))
+            {
                 Earthworm.this.setTask(Task.HIDE);
                 Earthworm.this.setFlag(2);
                 Earthworm.this.resetAniTick();
-            } else if (Earthworm.this.hasTask(Task.HIDE) && Earthworm.this.tickCount % 20 == 0 &&
-                    MathSupport.random.nextFloat() < 0.125F) {
+            }
+            else if (Earthworm.this.hasTask(Task.HIDE) && Earthworm.this.tickCount % 20 == 0 &&
+                    MathSupport.random.nextFloat() < 0.125F)
+            {
                 Earthworm.this.setTask(Task.WAKE);
                 Earthworm.this.setFlag(3);
-            } else if (Earthworm.this.hasTask(Task.WAKE) && Earthworm.this.aniTick(20)) {
+            }
+            else if (Earthworm.this.hasTask(Task.WAKE) && Earthworm.this.aniTick(20))
+            {
                 Earthworm.this.resetState();
             }
         }

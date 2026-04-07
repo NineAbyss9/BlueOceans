@@ -6,13 +6,20 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public interface Organ {
+public interface Organ
+{
     String POWER_TAG = "Power";
     float getPower(LivingEntity pEntity);
 
     default float getPower(ItemStack pStack) {
         return pStack.getOrCreateTag().getFloat(POWER_TAG);
     }
+
+    default void takeDamage(float damage) {}
+
+    default void applyBuff(LivingEntity pEntity) {}
+
+    default void onRemove(LivingEntity pEntity) {}
 
     default void beforeDie(ServerLevel pLevel, LivingEntity pEntity) {}
 

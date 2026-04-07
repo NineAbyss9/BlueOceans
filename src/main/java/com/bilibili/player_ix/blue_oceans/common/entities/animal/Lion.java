@@ -171,24 +171,29 @@ implements IFlagMob, IAnimatedMob, ISleepMob {
         this.setFlag(var0 ? 0 : 4);
     }
 
-    static {
+    static
+    {
         DATA_FLAGS = SynchedEntityData.defineId(Lion.class, EntityDataSerializers.INT);
         DATA_ATTACK_TICK = SynchedEntityData.defineId(Lion.class, EntityDataSerializers.INT);
     }
 
-    private static class LionTargetGoal extends NearestAttackableTargetGoal<LivingEntity>
-    implements IXUtilUser {
-        public LionTargetGoal(Lion pMob) {
+    public static class LionTargetGoal extends NearestAttackableTargetGoal<LivingEntity>
+            implements IXUtilUser
+    {
+        public LionTargetGoal(Lion pMob)
+        {
             super(pMob, LivingEntity.class, 20, true, false,
                     FunctionCollector.alwaysTrue());
         }
 
-        public boolean canUse() {
+        public boolean canUse()
+        {
             Lion lion = this.convert();
             return lion.foodData.needsFood() && super.canUse();
         }
 
-        public <T> T convert() {
+        public <T> T convert()
+        {
             return IXUtil.c.convert(this.mob);
         }
     }

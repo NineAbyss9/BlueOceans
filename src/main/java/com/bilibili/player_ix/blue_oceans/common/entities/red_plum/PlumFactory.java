@@ -2,7 +2,6 @@
 package com.bilibili.player_ix.blue_oceans.common.entities.red_plum;
 
 import com.bilibili.player_ix.blue_oceans.common.blocks.plum.RedPlumCatalyst;
-import com.bilibili.player_ix.blue_oceans.init.BlueOceansParticleTypes;
 import com.github.NineAbyss9.ix_api.api.annotation.ServerOnly;
 import com.github.NineAbyss9.ix_api.util.Maths;
 import net.minecraft.core.BlockPos;
@@ -15,10 +14,10 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import org.NineAbyss9.annotation.doc.Message;
-import org.NineAbyss9.math.MathSupport;
 
 import javax.annotation.Nullable;
 
+/**A plum mob with a strange look.*/
 public class PlumFactory
 extends RedPlumMonster
 implements IPlumSpreader {
@@ -64,9 +63,6 @@ implements IPlumSpreader {
 
     protected void clientAiStep() {
         this.idle.startIfStopped(this.tickCount);
-        if (MathSupport.random.nextBoolean())
-            BlueOceansParticleTypes.addRedSpell(this.level(), this.getRandomX(0.8),
-                    this.getRandomY(), this.getRandomZ(0.8), 0.2);
     }
 
     protected void customServerAiStep() {
@@ -92,7 +88,7 @@ implements IPlumSpreader {
     }
 
     public static boolean checkPlums(Level pLevel, AABB pBound) {
-        return checkPlums(pLevel, pBound, 10);
+        return checkPlums(pLevel, pBound, 16);
     }
 
     public static boolean checkPlums(Level pLevel, AABB pBound, int maxSize) {

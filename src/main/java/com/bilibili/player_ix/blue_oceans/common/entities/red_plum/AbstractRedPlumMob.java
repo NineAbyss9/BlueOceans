@@ -19,7 +19,6 @@ import com.github.NineAbyss9.ix_api.api.mobs.ApiPoseMob;
 import com.github.NineAbyss9.ix_api.api.mobs.MobUtils;
 import com.github.NineAbyss9.ix_api.api.mobs.OwnableMob;
 import com.github.NineAbyss9.ix_api.api.mobs.effect.EffectInstance;
-import com.github.NineAbyss9.ix_api.util.ParticleUtil;
 import com.github.NineAbyss9.ix_api.util.Vec9;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -122,9 +121,8 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
     }
 
     public void checkAndPlusInfectLevel(LivingEntity pEntity) {
-        if (this.tryConvert(pEntity))
-            return;
-        if (this.getRandomUtil().nextFloat() <= this.getUpgradeChance() || pEntity.getMaxHealth() >= 20.0F) {
+        if (this.tryConvert(pEntity)) return;
+        if (this.getRandomUtil().nextFloat() <= this.getUpgradeChance() || pEntity.getMaxHealth() >= 35.0F) {
             this.setInfectLevelPlus();
         }
     }
@@ -149,7 +147,7 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
     }
 
     public void standOnPlumTick() {
-        if (this.tickCount % 20 == 0 && this.getRandomUtil().nextFloat() < 0.01F) {
+        if (this.tickCount % 20 == 0 && this.getRandomUtil().nextFloat() < 0.005F) {
             this.setInfectLevelPlus();
         }
     }
@@ -348,7 +346,7 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
         this.checkAndPlusInfectLevel(pEntity);
         this.spawnBreedMob(pEntity);
         Action.emptyFalse(() -> level().setBlockAndUpdate(pEntity.blockPosition(),
-                BlueOceansBlocks.PLUM_CELL_CLUSTER.get().defaultBlockState()))
+                BlueOceansBlocks.PLUM_TISSUE.get().defaultBlockState()))
                 .run(!level().getBlockState(pEntity.blockPosition()).is(BoTags.RED_PLUM_BLOCKS));
     }
 
@@ -358,17 +356,6 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
                 RedPlumUtil.spawnRedPlumHuman(this.level(), pEntity);
             else if (RedPlumUtil.likeVillager(pEntity))
                 RedPlumUtil.spawnRedPlumVillager(this.level(), pEntity);
-            else {
-                AbstractRedPlumMob entity = this.random.nextFloat() <= this.spawnFighterChance() ?
-                        BlueOceansEntities.NEO_FIGHTER.get().create(this.serverLevel()) :
-                        BlueOceansEntities.NEO_PLUM.get().create(this.serverLevel());
-                ParticleUtil.sendParticles(this.serverLevel(), BlueOceansParticleTypes.RED_PLUM_SPELL.get(),
-                        pEntity.position(), 12, 0.7, 0.7, 0.7, 0);
-                if (entity != null) {
-                    entity.moveTo(pEntity.position());
-                    this.serverLevel().addFreshEntity(entity);
-                }
-            }
         }
     }
 

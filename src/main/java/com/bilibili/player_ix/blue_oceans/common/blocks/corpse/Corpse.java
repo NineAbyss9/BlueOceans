@@ -18,16 +18,13 @@ import org.jetbrains.annotations.Nullable;
 /**Corpse class for all corpses.*/
 @SuppressWarnings("deprecation")
 public class Corpse
-extends BaseEntityBlock
-{
+extends BaseEntityBlock {
     protected static final VoxelShape BASE_SHAPE;
-    public Corpse(Properties pProperties)
-    {
+    public Corpse(Properties pProperties) {
         super(pProperties);
     }
 
-    public Corpse()
-    {
+    public Corpse() {
         this(Properties.of().sound(SoundType.MUD).strength(1.0f).noCollission()
                 .mapColor(DyeColor.RED));
     }
@@ -37,8 +34,7 @@ extends BaseEntityBlock
         return RenderShape.MODEL;
     }
 
-    public void destroy(LevelAccessor pLevel, BlockPos pPos, BlockState pState)
-    {
+    public void destroy(LevelAccessor pLevel, BlockPos pPos, BlockState pState) {
         if (pLevel instanceof Level level && level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT) &&
                 !pLevel.isClientSide() && pLevel.getBlockEntity(pPos) instanceof CorpseEntity entity)
             entity.drop();
@@ -46,8 +42,7 @@ extends BaseEntityBlock
     }
 
     @Nullable
-    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState)
-    {
+    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
         return new CorpseEntity(pPos, pState);
     }
 

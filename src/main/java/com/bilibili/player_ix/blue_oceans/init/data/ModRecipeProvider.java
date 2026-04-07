@@ -1,10 +1,12 @@
 
 package com.bilibili.player_ix.blue_oceans.init.data;
 
+import com.bilibili.player_ix.blue_oceans.BlueOceans;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
 import net.minecraft.advancements.CriterionTriggerInstance;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
@@ -30,6 +32,8 @@ extends RecipeProvider
         shaped(RecipeCategory.TOOLS, BlueOceansItems.SPRINKLER.get(), Items.IRON_INGOT, Items.WATER_BUCKET,
                 getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT), "iii", "ixi",
                 "   ", pWriter);
+
+        shapeless(RecipeCategory.MISC, Items.PAPER, BlueOceansItems.REED.get(), pWriter);
         //Food
         shaped(RecipeCategory.FOOD, BlueOceansItems.BROWN_MUSHROOM_SKEWER.get(), Items.STICK,
                 Items.BROWN_MUSHROOM, "has_bms", has(Items.BROWN_MUSHROOM), "  x", " x ", "i  ", pWriter);
@@ -39,6 +43,27 @@ extends RecipeProvider
                         .get(), 0.2f, pWriter);
         allCookMethods(RecipeCategory.FOOD, BlueOceansItems.C_M_S.get(), BlueOceansItems.MUSHROOM_SKEWER
                 .get(), 0.2f, pWriter);
+    }
+
+    /**Single*/
+    public static void shapeless(RecipeCategory pRC, ItemLike pResult, ItemLike pMaterial, Consumer<FinishedRecipe> pWriter)
+    {
+        ShapelessRecipeBuilder.shapeless(pRC, pResult).requires(pMaterial)
+                .unlockedBy(getHasName(pResult), has(pMaterial)).save(pWriter,
+                        new ResourceLocation(BlueOceans.MOD_ID + ":" + pResult + "_shapeless"));
+    }
+
+    /**Single with count*/
+    public static void shapeless(RecipeCategory pRC, ItemLike pResult, int pRCount, ItemLike pMaterial, Consumer<FinishedRecipe> pWriter)
+    {
+        ShapelessRecipeBuilder.shapeless(pRC, pResult).requires(pMaterial)
+                .unlockedBy(getHasName(pResult), has(pMaterial)).save(pWriter);
+    }
+
+    public static void shapeless(RecipeCategory pRC, ItemLike pResult, int pCount, Ingredient pIngredient, Consumer<FinishedRecipe> pWriter)
+    {
+        ShapelessRecipeBuilder.shapeless(pRC, pResult, pCount).requires(pIngredient)
+                .unlockedBy(getHasName(pResult), has(pIngredient.getItems()[0].getItem())).save(pWriter);
     }
 
     public static void shaped(RecipeCategory pC, ItemLike pResult, ItemLike pItem,
@@ -71,20 +96,23 @@ extends RecipeProvider
                                 String pName, Consumer<FinishedRecipe> writer)
     {
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(itemIn), pC, result,
-                exp, 200).unlockedBy(pName, has(itemIn)).save(writer);
+                exp, 200).unlockedBy(pName, has(itemIn)).save(writer,
+                new ResourceLocation(BlueOceans.MOD_ID + ":" + result + "_smelting"));
     }
 
     public static void smoking(RecipeCategory pC, ItemLike result, ItemLike itemIn, float exp,
                                String pName, Consumer<FinishedRecipe> writer)
     {
         SimpleCookingRecipeBuilder.smoking(Ingredient.of(itemIn), pC, result,
-                exp, 100).unlockedBy(pName, has(itemIn)).save(writer);
+                exp, 100).unlockedBy(pName, has(itemIn)).save(writer,
+                new ResourceLocation(BlueOceans.MOD_ID + ":" + result + "_smoking"));
     }
 
     public static void campfire(RecipeCategory pC, ItemLike result, ItemLike itemIn, float exp,
                                 String pName, Consumer<FinishedRecipe> writer)
     {
         SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(itemIn), pC, result,
-                exp, 150).unlockedBy(pName, has(itemIn)).save(writer);
+                exp, 150).unlockedBy(pName, has(itemIn)).save(writer,
+                new ResourceLocation(BlueOceans.MOD_ID + ":" + result + "_campfire"));
     }
 }

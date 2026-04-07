@@ -1,6 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.blocks;
 
+import com.bilibili.player_ix.blue_oceans.init.data.ModBlockStateProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -26,6 +27,7 @@ import javax.annotation.Nullable;
 @SuppressWarnings("deprecation")
 public class IronLadder
 extends Block
+implements ModBlockStateProvider.Util
 {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty TOP;

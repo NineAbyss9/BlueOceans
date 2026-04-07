@@ -108,11 +108,6 @@ implements IFlagMob, IAnimatedMob {
     }
 
     //Empty now
-    protected int nextConvertUpNeeds() {
-        return 0x7fffffff;
-    }
-
-    //Empty now
     @Nullable
     protected EntityType<? extends AbstractRedPlumMob> getNextLevelConvert() {
         return null;

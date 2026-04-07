@@ -74,6 +74,11 @@ implements FoodDataUser, IAcceptTask {
         return (AgeableMob)this.getType().create(pLevel);
     }
 
+    public ServerLevel serverLevel()
+    {
+        return (ServerLevel)this.level();
+    }
+
     public Task getTask() {
         return Task.fromId(this.entityData.get(DATA_TASK));
     }

@@ -13,6 +13,7 @@ import com.bilibili.player_ix.blue_oceans.common.blocks.food.Leek;
 import com.bilibili.player_ix.blue_oceans.common.blocks.food.RiceBlock;
 import com.bilibili.player_ix.blue_oceans.common.blocks.food.RiceEars;
 import com.bilibili.player_ix.blue_oceans.common.blocks.nature.Bush;
+import com.bilibili.player_ix.blue_oceans.common.blocks.nature.water.Reed;
 import com.bilibili.player_ix.blue_oceans.common.blocks.plum.*;
 import com.bilibili.player_ix.blue_oceans.common.item.FlagItem;
 import com.bilibili.player_ix.blue_oceans.init.data.BoDataGenHelper;
@@ -80,14 +81,14 @@ public class BlueOceansBlocks {
                     .strength(0.7F)));
     public static final RegistryObject<Block> BLACK_SOIL = block("Black Soil", () ->
             new BlackSoil(BlockBehaviour.Properties.copy(Blocks.DIRT)));
-    public static final RegistryObject<Block> BLACK_SOIL_FARMLAND = BLOCKS.register("black_soil_farmland",
+    public static final RegistryObject<Block> BLACK_SOIL_FARMLAND = block("black_soil_farmland",
             () -> new BlackSoilFarmland(BlockBehaviour.Properties.of().mapColor(MapColor.DIRT).randomTicks()
                     .strength(0.6F).sound(SoundType.GRAVEL).isViewBlocking(BlueOceansBlocks::always)
                     .isSuffocating(BlueOceansBlocks::always)));
     public static final RegistryObject<Block> BUDDING_NEO_PLUM = BLOCKS.register("budding_neo_plum",
             () -> new BuddingNeoPlum(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).forceSolidOn()
                     .noCollission().strength(0.3F).sound(SoundType.SCULK_VEIN)
-                    .pushReaction(PushReaction.DESTROY).randomTicks()));
+                    .pushReaction(PushReaction.DESTROY).randomTicks().replaceable()));
     public static final RegistryObject<Block> BUSH = BLOCKS.register("bush", Bush::new);
     //public static final RegistryObject<Block> CELL = BLOCKS.register("cell", () ->
     //        new CellBlock(BlockBehaviour.Properties.of()));
@@ -122,6 +123,7 @@ public class BlueOceansBlocks {
             () -> new RedPlumVein(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).forceSolidOn()
                     .noCollission().strength(0.3F).sound(SoundType.SCULK_VEIN)
                     .pushReaction(PushReaction.DESTROY).randomTicks()));
+    public static final RegistryObject<Block> REED;
     public static final RegistryObject<Block> RICE = BLOCKS.register("rice",
             () -> new RiceBlock(Block.Properties.of().noCollission().randomTicks().instabreak().sound(SoundType.CROP)
                     .pushReaction(PushReaction.DESTROY).strength(0.2F)));
@@ -140,6 +142,7 @@ public class BlueOceansBlocks {
     public static final RegistryObject<Block> SPRINKLER = BLOCKS.register("sprinkler",
             () -> new Sprinkler(BlockBehaviour.Properties.of().strength(2, 2)
                     .requiresCorrectToolForDrops().sound(SoundType.STONE)));
+    public static final RegistryObject<Block> WEED;
     public static final RegistryObject<Block> WOODEN_SUPPORT = BLOCKS.register("wooden_support",
             () -> new WoodenSupport(BlockBehaviour.Properties.of().strength(1.5F)
                     .instrument(NoteBlockInstrument.BASS).mapColor(MapColor.WOOD).sound(SoundType.WOOD)
@@ -153,5 +156,7 @@ public class BlueOceansBlocks {
                                 isLit(AlcoholLamp.BURNING, pState, pLevel, pPos))));
         BARREN_SOIL = block("Barren Soil", () ->
                 new BarrenSoil(BlockBehaviour.Properties.copy(Blocks.DIRT)));
+        REED = block("reed", () -> new Reed(BlockBehaviour.Properties.copy(Blocks.TALL_GRASS)));
+        WEED = block("weed", () -> new Weed(BlockBehaviour.Properties.copy(Blocks.GRASS)));
     }
 }

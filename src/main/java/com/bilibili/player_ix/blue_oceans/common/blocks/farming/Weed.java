@@ -2,6 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.common.blocks.farming;
 
 import com.bilibili.player_ix.blue_oceans.init.BoTags;
+import com.bilibili.player_ix.blue_oceans.init.data.ModBlockStateProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -11,6 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
@@ -24,7 +26,7 @@ import net.minecraftforge.event.ForgeEventFactory;
 @SuppressWarnings("deprecation")
 public class Weed
 extends BushBlock
-implements BonemealableBlock
+implements BonemealableBlock, ModBlockStateProvider.Cross
 {
     public static final IntegerProperty AGE;
     public Weed(Properties pProperties)
@@ -78,7 +80,7 @@ implements BonemealableBlock
         return !this.isMaxAge(pState);
     }
 
-    public float getDisableCropGrowthChance(BlockState pState, Level pLevel, BlockPos pPos)
+    public float getDisableCropGrowthChance(BlockState pState, LevelAccessor pLevel, BlockPos pPos)
     {
         return pState.getValue(AGE) * 0.2f + 0.05f;
     }

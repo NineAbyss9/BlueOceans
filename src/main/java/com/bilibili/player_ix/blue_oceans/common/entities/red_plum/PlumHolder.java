@@ -96,6 +96,11 @@ extends RedPlumMonster {
         }
     }
 
+    public boolean shouldRenderAtSqrDistance(double pDistance)
+    {
+        return pDistance < 32D * 32D;
+    }
+
     @Nullable
     public EntityType<?> getSpawnEntityType() {
         ResourceLocation location = new ResourceLocation(this.getSpawnId());
@@ -163,7 +168,8 @@ extends RedPlumMonster {
     }
 
     /**@param pIndex the index of the map.*/
-    public void fromList(int pIndex) {
+    public void fromList(final int pIndex)
+    {
         var list = RedPlumUtil.STRING_MAP.get(pIndex);
         this.setSpawn(list.get(MathSupport.random.nextInt(list.size())));
         this.ind = pIndex;
@@ -171,7 +177,8 @@ extends RedPlumMonster {
 
     @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason,
-                                        @Nullable SpawnGroupData pData, @Nullable CompoundTag pTag) {
+                                        @Nullable SpawnGroupData pData, @Nullable CompoundTag pTag)
+    {
         if (pReason == MobSpawnType.SPAWN_EGG)
             this.moveTo(position().add(0d, -2d, 0d));
         if (DEFAULT_SPAWN_MOB.equals(this.getSpawnId())) {
@@ -180,7 +187,8 @@ extends RedPlumMonster {
         return super.finalizeSpawn(pLevel, pDifficulty, pReason, pData, pTag);
     }
 
-    public boolean hurt(DamageSource pSource, float pAmount) {
+    public boolean hurt(DamageSource pSource, float pAmount)
+    {
         if (this.despawn())
             return false;
         if (this.getTick() < 60 || this.getTick() > 140 || this.ind > 1)
@@ -188,7 +196,8 @@ extends RedPlumMonster {
         return super.hurt(pSource, pAmount);
     }
 
-    public boolean isInvulnerableTo(DamageSource pSource) {
+    public boolean isInvulnerableTo(DamageSource pSource)
+    {
         if (pSource.is(DamageTypes.IN_WALL))
             return true;
         if (pSource.is(DamageTypeTags.IS_FIRE))
@@ -231,7 +240,7 @@ extends RedPlumMonster {
     public static void spawn(Level pLevel, @Message("don't below()") BlockPos pPos, int index) {
         PlumHolder holder = BlueOceansEntities.PLUM_HOLDER.get().create(pLevel);
         if (holder != null) {
-            holder.moveTo(pPos.below().below(), 0, 0);
+            holder.moveTo(pPos.below(2), 0, 0);
             holder.fromList(index);
             pLevel.addFreshEntity(holder);
             holder.refreshDimensions();
@@ -239,7 +248,7 @@ extends RedPlumMonster {
     }
 
     protected ResourceLocation getDefaultLootTable() {
-        return ValueHolder.nullToOther(this.getSpawnEntityType(), this.getType()).getDefaultLootTable();
+        return ValueHolder.<EntityType<?>>nullToOther(this.getSpawnEntityType(), this.getType()).getDefaultLootTable();
     }
 
     public boolean removeWhenFarAway(double pDistanceToClosestPlayer) {

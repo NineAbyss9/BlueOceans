@@ -98,7 +98,12 @@ public class BlueOceansItems {
 
     private static RegistryObject<Item> block(String en, Supplier<? extends Block> supplier, String address)
     {
-        return builder().item(() -> new ItemLocBlockItem(supplier.get(), properties(), address)).blocks().build();
+        return builder().name("block/" + en).item(() -> new ItemLocBlockItem(supplier.get(), properties(), address)).blocks().build();
+    }
+
+    private static RegistryObject<Item> block(RegistryObject<? extends Block> supplier, String address)
+    {
+        return builder().name("block/" + supplier.getId().getPath()).item(() -> new ItemLocBlockItem(supplier.get(), properties(), address)).blocks().build();
     }
 
     public static RegistryObject<Item> spawnEgg(String name, Supplier<? extends EntityType<? extends Mob>> object, int b,
@@ -303,6 +308,7 @@ public class BlueOceansItems {
     //Material
     public static final RegistryObject<Item> STEEL_INGOT = ITEMS.register("steel_ingot", BaseItem::new);
 
+    public static final RegistryObject<Item> REED = block("reed", BlueOceansBlocks.REED, "");
     //Fuels
     public static final RegistryObject<Item> Lignite = item("Lignite", BaseItem::new);
     //F End
@@ -321,7 +327,7 @@ public class BlueOceansItems {
     public static final RegistryObject<Item> LEEK_SEEDS = itemNameBlock("leek_seeds", BlueOceansBlocks.LEEK,
             properties().stacksTo(64));
     public static final RegistryObject<Item> MINING_LAMP = block(BlueOceansBlocks.MINING_LAMP);
-    public static final RegistryObject<Item> PLUM_CORPSE = block(BlueOceansBlocks.PLUM_CORPSE);
+    public static final RegistryObject<Item> PLUM_CORPSE = block(BlueOceansBlocks.PLUM_CORPSE, "");
     public static final RegistryObject<Item> RED_PLUM_BLOCK = block(BlueOceansBlocks.RED_PLUM_BLOCK);
     public static final RegistryObject<Item> RED_PLUM_CATALYST = block(BlueOceansBlocks.RED_PLUM_CATALYST);
     public static final RegistryObject<Item> RED_PLUM_GRASS = block(BlueOceansBlocks.RED_PLUM_GRASS);

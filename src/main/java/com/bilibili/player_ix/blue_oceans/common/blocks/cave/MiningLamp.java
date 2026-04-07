@@ -18,24 +18,20 @@ import net.minecraft.world.phys.BlockHitResult;
 
 @SuppressWarnings("deprecation")
 public class MiningLamp
-extends LanternBlock
-{
+extends LanternBlock {
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
-    public MiningLamp(Properties pProperties)
-    {
+    public MiningLamp(Properties pProperties) {
         super(pProperties);
         this.registerDefaultState(this.stateDefinition.any().setValue(LIT, Boolean.FALSE)
                 .setValue(HANGING, Boolean.FALSE).setValue(WATERLOGGED, Boolean.FALSE));
     }
 
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder)
-    {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         pBuilder.add(LIT, HANGING, WATERLOGGED);
     }
 
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
-                                 BlockHitResult pHit)
-    {
+                                 BlockHitResult pHit) {
         if (!pLevel.isClientSide) {
             pState = pState.cycle(LIT);
             pLevel.setBlock(pPos, pState, 3);

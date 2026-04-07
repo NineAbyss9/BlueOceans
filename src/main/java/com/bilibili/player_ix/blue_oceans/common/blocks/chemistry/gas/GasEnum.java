@@ -11,8 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 public enum GasEnum
-implements ICheFor
-{
+implements ICheFor {
     HYDROGEN(Element.H, 0.1f,0.7f, Collections.singletonList(new MobEffectInstance(MobEffects.DIG_SLOWDOWN,
             25)),true, Pair.of(Level.ExplosionInteraction.NONE, 0F),16767483),
     HELIUM(Element.He,0.15f, 0.5f, Collections.singletonList(new MobEffectInstance(MobEffects.JUMP,25)),true, Pair.of(Level.ExplosionInteraction.NONE, 0F),16750204),
@@ -41,8 +40,7 @@ implements ICheFor
     private final Pair<Level.ExplosionInteraction,Float> flammability;
     private final int color;
     GasEnum(ChemicalFormula elementIn, float density, float dissipationRate, List<MobEffectInstance> effects, boolean suffocation,
-            Pair<Level.ExplosionInteraction,Float> flammability, int color)
-    {
+            Pair<Level.ExplosionInteraction,Float> flammability, int color) {
         this.element = elementIn;
         this.density = density;
         this.dissipationRate = dissipationRate;
@@ -53,8 +51,7 @@ implements ICheFor
     }
 
     GasEnum(Element elementIn, float density, float dissipationRate, List<MobEffectInstance> effects, boolean suffocation,
-            Pair<Level.ExplosionInteraction,Float> flammability, int color)
-    {
+            Pair<Level.ExplosionInteraction,Float> flammability, int color) {
         this(elementIn.chemicalFormula(), density, dissipationRate, effects, suffocation, flammability, color);
     }
 
