@@ -51,7 +51,7 @@ import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.NineAbyss9.math.MathSupport;
 
 import java.util.*;
@@ -340,7 +340,8 @@ implements RangedAttackMob, IBOMob, IBONeutralMob, ApiVillager {
     }
 
     public boolean canAttackTarget() {
-        if (this.getTarget() == null)
+        var target = this.getTarget();
+        if (target == null || target instanceof Player player && player != this.lastHurtByPlayer)
             return false;
         return this.closerThan(getTarget(), 3);
     }

@@ -1,7 +1,6 @@
 
 package com.bilibili.player_ix.blue_oceans.common.blocks.plum;
 
-import com.bilibili.player_ix.blue_oceans.common.blocks.be.RedPlumCatalystEntity;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.PlumHolder;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.RedPlumMonster;
 import com.bilibili.player_ix.blue_oceans.config.BoCommonConfig;
@@ -28,15 +27,12 @@ import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
 import org.NineAbyss9.annotation.doc.Message;
 import org.NineAbyss9.math.MathSupport;
 
@@ -48,7 +44,7 @@ extends RedPlumBlock {
                 .randomTicks().sound(SoundType.SCULK).lightLevel(value -> 3));
     }
 
-    @Nullable
+    /*@Nullable
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState)
     {
         return new RedPlumCatalystEntity(pPos, pState);
@@ -58,7 +54,7 @@ extends RedPlumBlock {
     public <T extends BlockEntity> GameEventListener getListener(ServerLevel pLevel, T pBlockEntity)
     {
         return pBlockEntity instanceof RedPlumCatalystEntity entity ? entity.getListener() : null;
-    }
+    }*/
 
     protected void random25Action(BlockState pState, ServerLevel pLevel, BlockPos pPos) {}
 

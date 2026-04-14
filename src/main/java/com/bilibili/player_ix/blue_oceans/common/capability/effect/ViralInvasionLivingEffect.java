@@ -1,6 +1,8 @@
 
-package com.bilibili.player_ix.blue_oceans.common.capability;
+package com.bilibili.player_ix.blue_oceans.common.capability.effect;
 
+import com.bilibili.player_ix.blue_oceans.common.capability.LivingEffect;
+import com.bilibili.player_ix.blue_oceans.common.capability.LivingHealth;
 import com.bilibili.player_ix.blue_oceans.common.entities.Virus;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -12,9 +14,7 @@ public class ViralInvasionLivingEffect extends LivingEffect
 {
     private static final int DAMAGE_INTERVAL = 40;
     private static final int WEAKNESS_INTERVAL = 200;
-    public ViralInvasionLivingEffect()
-    {
-    }
+    public ViralInvasionLivingEffect() {}
 
     public void applyEffectTick(Level pLevel, LivingEntity pEntity, int pEffectLevel)
     {
@@ -22,18 +22,17 @@ public class ViralInvasionLivingEffect extends LivingEffect
         {
             return;
         }
-        int amp = Math.max(0, pEffectLevel);
-        Virus.VirusType virusType = Virus.VirusType.byId(amp);
+        Virus.VirusType virusType = Virus.VirusType.byId(pEffectLevel);
         if (pEntity.tickCount % DAMAGE_INTERVAL == 0)
         {
             DamageSource src = pEntity.damageSources().magic();
             float baseDmg = 0.35F;
-            float dmg = baseDmg * virusType.getDamageMultiplier() + baseDmg * (amp + 1);
+            float dmg = baseDmg * virusType.getDamageMultiplier() + baseDmg * (pEffectLevel + 1);
             pEntity.hurt(src, dmg);
         }
         if (pEntity.tickCount % WEAKNESS_INTERVAL == 0)
         {
-            pEntity.addEffect(new MobEffectInstance(virusType.getAssociatedEffect(), 120, Math.min(amp, 2)));
+            pEntity.addEffect(new MobEffectInstance(virusType.getAssociatedEffect(), 120, Math.min(pEffectLevel, 2)));
         }
     }
 }

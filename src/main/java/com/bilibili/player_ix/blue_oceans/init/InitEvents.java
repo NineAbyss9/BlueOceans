@@ -44,7 +44,7 @@ public class InitEvents
 
     //Capabilities start
 
-    @SubscribeEvent
+    //@SubscribeEvent
     public static void registerEntityCapabilities(AttachCapabilitiesEvent<Entity> event)
     {
         if (event.getObject() instanceof LivingEntity living)
@@ -54,7 +54,7 @@ public class InitEvents
         }
     }
 
-    @SubscribeEvent
+    //@SubscribeEvent
     public static void onLivingTick(LivingEvent.LivingTickEvent event)
     {
         if (event.getEntity().level().isClientSide)

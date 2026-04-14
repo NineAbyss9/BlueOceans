@@ -15,7 +15,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.AnimationState;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -159,7 +158,7 @@ implements IAnimatedMob, IFlagMob {
         }
     }
 
-    protected void doAttackTarget(Entity pEntity) {
+    protected void doAttackTarget(LivingEntity pEntity) {
         super.doAttackTarget(pEntity);
         this.heal(1F + this.getInfectLevel() * 0.5F);
     }

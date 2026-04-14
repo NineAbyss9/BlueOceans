@@ -4,12 +4,9 @@ package com.bilibili.player_ix.blue_oceans.common.blocks.plum;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
-public interface PlumBlock {
-    default int getLevel() {
-        return 1;
-    }
+public class RedPlumGrassBlock extends RedPlumBlock {
 
-    default Block getRestoreBlock() {
-        return Blocks.AIR;
+    public Block getRestoreBlock() {
+        return Blocks.GRASS_BLOCK;
     }
 }

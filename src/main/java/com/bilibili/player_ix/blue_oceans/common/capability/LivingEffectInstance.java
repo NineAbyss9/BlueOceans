@@ -12,13 +12,27 @@ public class LivingEffectInstance
     private int duration;
     private int amplifier;
     private boolean ambient;
-
     public LivingEffectInstance(LivingEffect pEffect, int pDuration, int pAmplifier, boolean pAmbient)
     {
         this.effect = pEffect;
         this.duration = pDuration;
         this.amplifier = pAmplifier;
         this.ambient = pAmbient;
+    }
+
+    public LivingEffectInstance(LivingEffect pEffect, int pDuration, int pAmplifier)
+    {
+        this(pEffect, pDuration, pAmplifier, false);
+    }
+
+    public LivingEffectInstance(LivingEffect pEffect, int pDuration)
+    {
+        this(pEffect, pDuration, 0, false);
+    }
+
+    public LivingEffectInstance(LivingEffect pEffect)
+    {
+        this(pEffect, 600, 0, false);
     }
 
     public int getDuration()

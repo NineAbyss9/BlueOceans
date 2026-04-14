@@ -8,7 +8,7 @@ public class RedPlumLog
 extends AbstractLog
 implements PlumBlock {
     public RedPlumLog() {
-        super(Properties.of().mapColor(DyeColor.RED).strength(60F, 20F));
+        super(Properties.of().mapColor(DyeColor.RED).strength(2F, 19F));
     }
 
 

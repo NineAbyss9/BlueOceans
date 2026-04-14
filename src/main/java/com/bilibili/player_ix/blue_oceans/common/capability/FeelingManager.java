@@ -1,6 +1,8 @@
 
 package com.bilibili.player_ix.blue_oceans.common.capability;
 
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 
 import java.util.Objects;
@@ -20,6 +22,7 @@ public class FeelingManager
 
     public void tick(LivingHealth pHealth)
     {
+        this.applyDiseaseMood(pHealth);
     }
 
     /** Chronic infection drags mood; cleared gradually when healthy. */
@@ -113,6 +116,17 @@ public class FeelingManager
                 return null;
             }
             return null;
+        }
+
+        public MobEffectInstance[] getEffects() {
+            if (this == HAPPY) return make(new MobEffectInstance(MobEffects.REGENERATION, 10, 0));
+            else if (this == SCARED) return make();
+            else if (this == ANGRY) return make(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 600, 0));
+            else return make();
+        }
+
+        private MobEffectInstance[] make(MobEffectInstance... e) {
+            return e;
         }
 
         public boolean equals(Object o)

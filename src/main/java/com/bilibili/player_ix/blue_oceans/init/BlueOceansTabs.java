@@ -68,7 +68,7 @@ public class BlueOceansTabs {
             ).withStyle(
                     ChatFormatting.BLUE)).displayItems((parameter, output) -> {
                 output.accept(BlueOceansItems.GRAVY_BOTTLE.get());
-                output.accept(BlueOceansItems.TEST_TUBE.get());
+                output.accept(BlueOceansItems.REAGENT.get());
                 ItemStack stack = new ItemStack(Items.SPLASH_POTION);
                 PotionUtils.setPotion(stack, BlueOceansMobEffects.Potions.PLUM_INVADE_POTION.get());
                 output.accept(stack);

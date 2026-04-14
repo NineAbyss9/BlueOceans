@@ -1,6 +1,9 @@
 
-package com.bilibili.player_ix.blue_oceans.common.capability;
+package com.bilibili.player_ix.blue_oceans.common.capability.effect;
 
+import com.bilibili.player_ix.blue_oceans.common.capability.BoCapabilities;
+import com.bilibili.player_ix.blue_oceans.common.capability.LivingEffect;
+import com.bilibili.player_ix.blue_oceans.common.capability.LivingEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 

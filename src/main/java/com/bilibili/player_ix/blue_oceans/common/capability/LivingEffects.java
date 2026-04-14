@@ -1,6 +1,10 @@
 
 package com.bilibili.player_ix.blue_oceans.common.capability;
 
+import com.bilibili.player_ix.blue_oceans.common.capability.effect.IllLivingEffect;
+import com.bilibili.player_ix.blue_oceans.common.capability.effect.ImmuneResponseLivingEffect;
+import com.bilibili.player_ix.blue_oceans.common.capability.effect.ViralInvasionLivingEffect;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -14,7 +18,7 @@ public class LivingEffects
     private static final List<LivingEffect> BY_ID = new ArrayList<>();
     private static final Map<LivingEffect, String> KEY_OF = new LinkedHashMap<>();
     public static final LivingEffect ILL;
-    public static final LivingEffect VIRAL_INVASION;
+    public static final ViralInvasionLivingEffect VIRAL_INVASION;
     public static final LivingEffect IMMUNE_RESPONSE;
 
     private LivingEffects()
@@ -22,7 +26,7 @@ public class LivingEffects
         throw new AssertionError();
     }
 
-    public static LivingEffect register(String pKey, LivingEffect pEffect)
+    public static <T extends LivingEffect> T register(String pKey, T pEffect)
     {
         if (BY_KEY.containsKey(pKey))
         {

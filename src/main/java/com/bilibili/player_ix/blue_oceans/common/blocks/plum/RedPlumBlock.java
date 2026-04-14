@@ -19,7 +19,9 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 //import net.minecraft.world.level.NaturalSpawner;
-import net.minecraft.world.level.block.BaseEntityBlock;
+//import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -30,7 +32,7 @@ import org.jetbrains.annotations.Nullable;
 import org.NineAbyss9.math.MathSupport;
 
 @SuppressWarnings("deprecation")
-public class RedPlumBlock extends BaseEntityBlock implements PlumBlock {
+public class RedPlumBlock extends Block implements PlumBlock {
     public RedPlumBlock(Properties pProperties) {
         super(pProperties);
     }
@@ -81,5 +83,9 @@ public class RedPlumBlock extends BaseEntityBlock implements PlumBlock {
     }
 
     protected void spawnPlum(ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
+    }
+
+    public Block getRestoreBlock() {
+        return Blocks.STONE;
     }
 }

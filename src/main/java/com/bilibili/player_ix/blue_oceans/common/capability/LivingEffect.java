@@ -13,7 +13,7 @@ public class LivingEffect
     {
     }
 
-    void bindRegistryId(int pId, String pKey)
+    void bindRegistryId(final int pId, final String pKey)
     {
         this.registryId = pId;
         this.registryKey = pKey;

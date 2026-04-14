@@ -48,7 +48,7 @@ implements IShieldUser, IFlagMob {
     }
 
     protected ItemStack getDailyItem() {
-        return new ItemStack(BlueOceansItems.TEST_TUBE.get());
+        return new ItemStack(BlueOceansItems.REAGENT.get());
     }
 
     public boolean isUsingShield() {
@@ -82,8 +82,7 @@ implements IShieldUser, IFlagMob {
     }
 
     public boolean canAttackTarget() {
-        if (this.getTarget() == null)
-            return false;
+        if (this.getTarget() == null) return false;
         return this.closerThan(this.getTarget(), 3);
     }
 

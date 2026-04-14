@@ -4,6 +4,8 @@ package com.bilibili.player_ix.blue_oceans.common.entities.red_plum;
 import com.bilibili.player_ix.blue_oceans.api.mob.BoMobType;
 import com.bilibili.player_ix.blue_oceans.api.mob.IBehaviorUser;
 import com.bilibili.player_ix.blue_oceans.api.mob.MobTypes;
+import com.bilibili.player_ix.blue_oceans.common.capability.LivingHealthHelper;
+import com.bilibili.player_ix.blue_oceans.common.entities.Virus;
 import com.bilibili.player_ix.blue_oceans.common.entities.ai.behavior.BehaviorSelector;
 import com.bilibili.player_ix.blue_oceans.common.entities.ai.behavior.MoveToBlockBehavior;
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.red_plum_girl.AbstractGirl;
@@ -410,11 +412,9 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
             this.entityData.set(DATA_TARGET_POS, pPos == null ? Vec9.of() : Vec9.of(pPos));
     }
 
-    protected void doAttackTarget(Entity pEntity) {
-        if (pEntity instanceof LivingEntity entity) {
-            entity.addEffect(EffectInstance.create(BlueOceansMobEffects.PLUM_INVADE, 100,
-                    this.getPlumInvadeLevel()));
-        }
+    protected void doAttackTarget(LivingEntity pEntity) {
+        pEntity.addEffect(EffectInstance.create(BlueOceansMobEffects.PLUM_INVADE, 100,
+                this.getPlumInvadeLevel()));
     }
 
     protected int getPlumInvadeLevel() {
@@ -422,15 +422,22 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
     }
 
     protected void doAttackTargetAlways(Entity pEntity) {
+        if (pEntity instanceof LivingEntity) {
+            this.doAttackLivingTargetAlways((LivingEntity)pEntity);
+        }
+    }
+
+    protected void doAttackLivingTargetAlways(LivingEntity pEntity) {
+        LivingHealthHelper.addViralInvasion(pEntity, 600, Virus.VirusType.RED_PLUM.getId());
     }
 
     public boolean doHurtTarget(Entity pEntity) {
         boolean flag = super.doHurtTarget(pEntity);
-        if (flag) {
-            this.doAttackTarget(pEntity);
-        }
         this.doAttackTargetAlways(pEntity);
-        return flag;
+        if (flag && pEntity instanceof LivingEntity livingEntity) {
+            this.doAttackTarget(livingEntity);
+        }
+        return false;
     }
 
     public boolean killedEntity(ServerLevel pLevel, LivingEntity pEntity) {

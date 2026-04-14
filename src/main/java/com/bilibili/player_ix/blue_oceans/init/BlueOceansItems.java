@@ -10,7 +10,7 @@ import com.bilibili.player_ix.blue_oceans.common.item.ItemLocBlockItem;
 import com.bilibili.player_ix.blue_oceans.common.item.WoodenStick;
 import com.bilibili.player_ix.blue_oceans.common.item.biology.GravyBottle;
 import com.bilibili.player_ix.blue_oceans.common.item.biology.Scalpel;
-import com.bilibili.player_ix.blue_oceans.common.item.biology.TestTube;
+import com.bilibili.player_ix.blue_oceans.common.item.biology.Reagent;
 import com.bilibili.player_ix.blue_oceans.common.item.biology.organ.*;
 import com.bilibili.player_ix.blue_oceans.common.item.biology.tissue.Muscle;
 import com.bilibili.player_ix.blue_oceans.common.item.biology.tissue.Nerve;
@@ -509,7 +509,7 @@ public class BlueOceansItems {
     public static final RegistryObject<Item> SCALPEL = addBiology("scalpel", Scalpel::new);
     //HoEnd
     public static final RegistryObject<Item> GRAVY_BOTTLE = addBiology("gravy_bottle", GravyBottle::new);
-    public static final RegistryObject<Item> TEST_TUBE = addBiology("test_tube", TestTube::new);
+    public static final RegistryObject<Item> REAGENT = addBiology("reagent", Reagent::new);
     //BiEnd
 
     public static class ItemBuilder {

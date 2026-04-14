@@ -21,16 +21,15 @@ import net.minecraft.world.level.material.FluidState;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class TestTube extends Item
+public class Reagent extends Item
 {
     public static final String CONTENT_TAG = "Content";
-
-    public TestTube(Properties pProperties)
+    public Reagent(Properties pProperties)
     {
         super(pProperties);
     }
 
-    public TestTube()
+    public Reagent()
     {
         this(new Properties());
     }

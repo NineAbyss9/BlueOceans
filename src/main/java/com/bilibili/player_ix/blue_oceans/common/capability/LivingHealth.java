@@ -6,13 +6,13 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.INBTSerializable;
 
 import javax.annotation.Nullable;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 //@AutoRegisterCapability
@@ -35,21 +35,23 @@ public class LivingHealth implements INBTSerializable<CompoundTag>
 
     public void tick()
     {
-        if (this.owner.level().isClientSide)
+        if (this.level().isClientSide)
         {
             return;
         }
         this.bodyManager.tick();
         this.feelingManager.tick(this);
         this.drinkManager.tick();
-
+        this.feelingManager.tick(this);
         if (this.activeEffects.isEmpty())
         {
             return;
         }
+        this.handleEffects();
+    }
 
+    public void handleEffects() {
         Iterator<Map.Entry<LivingEffect, LivingEffectInstance>> iterator = this.activeEffects.entrySet().iterator();
-        List<LivingEffect> toRemove = null;
         while (iterator.hasNext())
         {
             Map.Entry<LivingEffect, LivingEffectInstance> entry = iterator.next();
@@ -61,8 +63,7 @@ public class LivingHealth implements INBTSerializable<CompoundTag>
                 effect.onRemove(this.owner.level(), this.owner, instance);
                 iterator.remove();
             }
-            else
-            {
+            else {
                 effect.applyEffectTick(this.owner.level(), this.owner, instance);
                 if (!instance.tickDuration())
                 {
@@ -71,8 +72,6 @@ public class LivingHealth implements INBTSerializable<CompoundTag>
                 }
             }
         }
-
-        this.feelingManager.applyDiseaseMood(this);
     }
 
     public boolean hasEffect(LivingEffect pEffect)
@@ -168,5 +167,9 @@ public class LivingHealth implements INBTSerializable<CompoundTag>
     public void deserializeNBT(CompoundTag nbt)
     {
         this.readNBT(nbt);
+    }
+
+    public Level level() {
+        return this.owner.level();
     }
 }

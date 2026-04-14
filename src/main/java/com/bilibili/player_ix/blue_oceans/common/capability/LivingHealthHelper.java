@@ -2,6 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.common.capability;
 
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.common.util.LazyOptional;
 
 /** API helpers for attaching custom health / disease state to any living entity with the capability. */
 public final class LivingHealthHelper
@@ -9,6 +10,14 @@ public final class LivingHealthHelper
     private LivingHealthHelper()
     {
         throw new AssertionError();
+    }
+
+    public static LivingHealth get(LivingEntity pEntity) {
+        return pEntity.getCapability(BoCapabilities.LIVING_HEALTH).orElseThrow(RuntimeException::new);
+    }
+
+    public static LazyOptional<LivingHealth> getOptional(LivingEntity pEntity) {
+        return pEntity.getCapability(BoCapabilities.LIVING_HEALTH);
     }
 
     public static void addViralInvasion(LivingEntity pEntity, int pDurationTicks, int pAmplifier)
@@ -20,9 +29,9 @@ public final class LivingHealthHelper
 
     public static void addImmuneResponse(LivingEntity pEntity, int pDurationTicks, int pAmplifier)
     {
-        pEntity.getCapability(BoCapabilities.LIVING_HEALTH).ifPresent(h ->
+        getOptional(pEntity).ifPresent(h ->
                 h.addEffect(new LivingEffectInstance(LivingEffects.IMMUNE_RESPONSE, pDurationTicks,
-                        Math.max(0, pAmplifier), false)));
+                        pAmplifier, false)));
     }
 
     public static void addIllness(LivingEntity pEntity, int pDurationTicks, int pAmplifier)
@@ -34,7 +43,7 @@ public final class LivingHealthHelper
 
     public static void clearInfection(LivingEntity pEntity)
     {
-        pEntity.getCapability(BoCapabilities.LIVING_HEALTH).ifPresent(h -> {
+       getOptional(pEntity).ifPresent(h -> {
             h.removeEffect(LivingEffects.VIRAL_INVASION);
             h.removeEffect(LivingEffects.ILL);
         });
