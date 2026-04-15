@@ -9,11 +9,14 @@ import org.NineAbyss9.util.lister.SubLister;
 public class BlueBook {
     private final Lister<Page> pages;
     public BlueBook() {
-        pages = new SubLister<>();
+        pages = new SubLister<Page>();
         Page page1 = new Page();
-        page1.addContent(FormattedCharSequence.forward("Welcome to BlueOceans",
-                Style.EMPTY));
+        addContent(page1, "Welcome to BlueOceans", Style.EMPTY.withBold(true));
         addPage(page1);
+    }
+
+    public static void addContent(Page page, String text, Style style) {
+        page.addContent(FormattedCharSequence.forward(text, style));
     }
 
     public Lister<Page> getPages() {
