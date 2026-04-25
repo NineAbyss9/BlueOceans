@@ -20,7 +20,7 @@ public class BoCommonConfig {
     private BoCommonConfig() {
     }
 
-    public static void load(ForgeConfigSpec config, String path) {
+    public static void load(final ForgeConfigSpec config, final String path) {
         final CommentedFileConfig file = CommentedFileConfig.builder(new File(path))
                 .sync().autosave().writingMode(WritingMode.REPLACE).build();
         file.load();
@@ -57,7 +57,8 @@ public class BoCommonConfig {
         push("RedPlum");
         PLUM_INVADE_LEVEL = comment("The level of PlumInvade mobs will affect you, Default:3")
                 .defineInRange("PlumInvadeLevel", 1, 0, 254);
-        SPAWN_NEO_PLUM = comment("Will NeoPlums&NeoFighters spawn?Default:true").define("SpawnNeoPlum",
+        SPAWN_NEO_PLUM = comment("Will NeoPlums&NeoFighters spawn?Default:true")
+                .define("SpawnNeoPlum",
                 false);
         pop();
         pop();

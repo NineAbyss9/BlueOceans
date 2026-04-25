@@ -68,7 +68,7 @@ public class BlueOceansTabs {
             ).withStyle(
                     ChatFormatting.BLUE)).displayItems((parameter, output) -> {
                 output.accept(BlueOceansItems.GRAVY_BOTTLE.get());
-                output.accept(BlueOceansItems.REAGENT.get());
+                output.accept(BlueOceansItems.TEST_TUBE.get().getDefaultInstance());
                 ItemStack stack = new ItemStack(Items.SPLASH_POTION);
                 PotionUtils.setPotion(stack, BlueOceansMobEffects.Potions.PLUM_INVADE_POTION.get());
                 output.accept(stack);
@@ -120,6 +120,9 @@ public class BlueOceansTabs {
                 output.accept(BlueOceansItems.MILK_BOTTLE.get());
                 output.accept(BlueOceansItems.MUSHROOM_SKEWER.get());
                 output.accept(BlueOceansItems.SALT_PILE.get());
+                for (var item : BlueOceansItems.FARMING) {
+                    output.accept(item.get());
+                }
             }).build());
 
     private BlueOceansTabs() {

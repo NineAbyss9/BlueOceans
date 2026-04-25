@@ -19,7 +19,7 @@ extends BlockEntity {
         super(null, pPos, pBlockState);
     }
 
-    public static void serverTick(Level pLevel, BlockPos pPos, BlockState pState, PetriDishEntity pEntity) {
+    public static void tick(Level pLevel, BlockPos pPos, BlockState pState, PetriDishEntity pEntity) {
         if (!pEntity.cultivateObject.isEmpty()) {
             pEntity.cultivateTime.addAndGet(1);
         }

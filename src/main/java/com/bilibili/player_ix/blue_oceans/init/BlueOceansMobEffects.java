@@ -48,7 +48,7 @@ public class BlueOceansMobEffects {
                 BlueOceans.MOD_ID);
         public static final RegistryObject<Potion> PLUM_INVADE_POTION;
 
-        static  {
+        static {
             PLUM_INVADE_POTION = POTIONS.register("plum_invade", () -> new Potion(
                     new MobEffectInstance(PLUM_INVADE.get(), 400, 1)));
         }

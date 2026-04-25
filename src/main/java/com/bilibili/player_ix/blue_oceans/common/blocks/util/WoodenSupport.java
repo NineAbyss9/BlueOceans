@@ -1,7 +1,8 @@
 
-package com.bilibili.player_ix.blue_oceans.common.blocks;
+package com.bilibili.player_ix.blue_oceans.common.blocks.util;
 
-import com.bilibili.player_ix.blue_oceans.common.blocks.be.WoodenSupportBlockEntity;
+import com.bilibili.player_ix.blue_oceans.common.blocks.BoBlockProperties;
+import com.bilibili.player_ix.blue_oceans.common.blocks.be.cooking.WoodenSupportBlockEntity;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlockEntities;
 import com.github.NineAbyss9.ix_api.util.ItemUtil;
 import net.minecraft.core.BlockPos;

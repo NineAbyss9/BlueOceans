@@ -4,6 +4,7 @@ package com.bilibili.player_ix.blue_oceans.common.item.farming;
 import com.bilibili.player_ix.blue_oceans.init.data.ITextureProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
@@ -24,7 +25,7 @@ implements ITextureProvider
     }
 
     public ChemicalFertilizer() {
-        this(new Properties().stacksTo(16));
+        this(new Properties().stacksTo(64));
     }
 
     public InteractionResult useOn(UseOnContext pContext)
@@ -36,9 +37,15 @@ implements ITextureProvider
             for (int i = 2;i < 6;i++)
             {
                 BlockPos pos1 = pos.relative(Direction.values()[i]);
+                if (ScytheItem.shouldDrop(level.getBlockState(pos)) == 0) {
+                    pos1 = pos.above().relative(Direction.values()[i]);
+                }
                 BlockState state = level.getBlockState(pos1);
                 if (state.getBlock() instanceof CropBlock cropBlock
-                    && getFertility(stack) < MathSupport.random.nextFloat()) {
+                    && getFertility(stack) > MathSupport.random.nextFloat()) {
+                    ((ServerLevel)level).sendParticles(ParticleTypes.HAPPY_VILLAGER,
+                            (double)pos1.getX(), (double)pos1.getY(), (double)pos1.getZ(), 5, 0.2D,
+                            0.2D, 0.2D, 0.01D);
                     cropBlock.performBonemeal((ServerLevel)level, level.random, pos1, state);
                 }
             }

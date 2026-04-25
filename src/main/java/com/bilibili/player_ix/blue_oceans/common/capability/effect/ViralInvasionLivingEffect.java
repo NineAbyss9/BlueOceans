@@ -24,7 +24,7 @@ public class ViralInvasionLivingEffect extends LivingEffect
         }
         Virus.VirusType virusType = Virus.VirusType.byId(pEffectLevel);
         if (pEntity.tickCount % DAMAGE_INTERVAL == 0)
-        {
+        {//TODO
             DamageSource src = pEntity.damageSources().magic();
             float baseDmg = 0.35F;
             float dmg = baseDmg * virusType.getDamageMultiplier() + baseDmg * (pEffectLevel + 1);

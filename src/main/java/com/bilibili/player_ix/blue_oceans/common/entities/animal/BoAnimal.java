@@ -45,9 +45,7 @@ implements FoodDataUser, IAcceptTask {
         }
     }
 
-    protected void clientAiStep()
-    {
-    }
+    protected void clientAiStep() {}
 
     public MobFoodData foodData() {
         return this.foodData;
@@ -89,7 +87,7 @@ implements FoodDataUser, IAcceptTask {
 
     public void spawnCorpse()
     {
-        this.level().setBlock(this.blockPosition(), BlueOceansBlocks.CORPSE.get().defaultBlockState(), 3);
+        this.level().setBlock(this.blockPosition(), BlueOceansBlocks.CORPSE.get().defaultBlockState(), 2);
         if (this.level().getBlockEntity(this.blockPosition()) instanceof CorpseEntity entity) {
             entity.setEntity(this.getType());
         }
@@ -97,14 +95,24 @@ implements FoodDataUser, IAcceptTask {
 
     public void die(DamageSource pDamageSource)
     {
+        this.level.broadcastEntityEvent(this, (byte)127);
         super.die(pDamageSource);
-        this.spawnCorpse();
     }
 
-    public void spawnAnim()
+    public void handleEntityEvent(byte pId) {
+        if (pId == 127) {
+            this.deathParticle();
+            this.spawnCorpse();
+            return;
+        }
+        if (pId == 60) return;
+        super.handleEntityEvent(pId);
+    }
+
+    public void deathParticle()
     {
         if (this.level().isClientSide) {
-            for(int i = 0; i < 20; ++i) {
+            for (int i = 0; i < 20; ++i) {
                 double d0 = this.random.nextGaussian() * 0.02D;
                 double d1 = this.random.nextGaussian() * 0.02D;
                 double d2 = this.random.nextGaussian() * 0.02D;

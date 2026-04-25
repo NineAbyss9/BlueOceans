@@ -3,7 +3,7 @@ package com.bilibili.player_ix.blue_oceans.init;
 
 import com.bilibili.player_ix.blue_oceans.BlueOceans;
 import com.bilibili.player_ix.blue_oceans.common.blocks.be.CorpseEntity;
-import com.bilibili.player_ix.blue_oceans.common.blocks.be.WoodenSupportBlockEntity;
+import com.bilibili.player_ix.blue_oceans.common.blocks.be.cooking.WoodenSupportBlockEntity;
 import com.bilibili.player_ix.blue_oceans.common.blocks.be.farming.SprinklerEntity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;

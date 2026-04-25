@@ -33,7 +33,8 @@ import org.jetbrains.annotations.Nullable;
 @SuppressWarnings("deprecation")
 public class Rope
 extends Block
-implements SimpleWaterloggedBlock {
+implements SimpleWaterloggedBlock
+{
     public static final BooleanProperty TOP;
     public static final BooleanProperty END;
     public static final BooleanProperty WATERLOGGED;
@@ -81,8 +82,9 @@ implements SimpleWaterloggedBlock {
     }
 
     public void onPlace(BlockState pState, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pMovedByPiston) {
-        if (!pLevel.isClientSide)
+        if (!pLevel.isClientSide) {
             pLevel.scheduleTick(pPos, this, 1);
+        }
     }
 
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
@@ -91,11 +93,13 @@ implements SimpleWaterloggedBlock {
 
     public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
         BlockState blockState = pState.setValue(TOP, isTop(pLevel, pPos)).setValue(END, isEnd(pLevel, pPos));
-        if (!pState.getValue(TOP) && !pLevel.getBlockState(pPos.above()).is(this))
+        if (!blockState.getValue(TOP) && !pLevel.getBlockState(pPos.above()).is(this)) {
             pLevel.destroyBlock(pPos, true);
-        else
-            if (pState != blockState)
-                pLevel.setBlock(pPos, blockState, 3);
+        } else {
+            if (pState != blockState) {
+                pLevel.setBlock(pPos, blockState, 2);
+            }
+        }
     }
 
     public BlockState updateShape(BlockState pState, Direction pDirection, BlockState pNeighborState,
@@ -114,32 +118,30 @@ implements SimpleWaterloggedBlock {
     }
 
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
-                                 BlockHitResult pHit) {
+                                 BlockHitResult pHit)
+    {
         ItemStack stack = pPlayer.getItemInHand(pHand);
         if (pPlayer.isCrouching()) {
-            if (isTop(pLevel, pPos)) {
+            if (pState.getValue(TOP)) {
                 int i = 0;
                 while (i < 39) {
-                    BlockState belowState = pLevel.getBlockState(pPos.above(i + 1));
-                    if (!belowState.is(this)) {
-                        pLevel.destroyBlock(pPos.above(i), false);
+                    BlockState belowState = pLevel.getBlockState(pPos.below(i));
+                    if (belowState.is(this)) {
+                        pLevel.destroyBlock(pPos.below(i), false);
                         if (!ItemUtil.instabuild(pPlayer))
                             pPlayer.addItem(new ItemStack(BlueOceansItems.ROPE.get()));
-                        break;
-                    } else
-                        i++;
+                    }
+                    i++;
                 }
                 return InteractionResult.sidedSuccess(pLevel.isClientSide);
-            } else if (isEnd(pLevel, pPos)) {
-                for (int i = 0;i < 39;) {
-                    BlockState belowState = pLevel.getBlockState(pPos.above(i + 1));
-                    if (!belowState.is(this)) {
+            } else if (pState.getValue(END)) {
+                for (int i = 0;i < 39;i++) {
+                    BlockState aboveState = pLevel.getBlockState(pPos.above(i));
+                    if (aboveState.is(this)) {
                         pLevel.destroyBlock(pPos.above(i), false);
                         if (!ItemUtil.instabuild(pPlayer))
                             pPlayer.addItem(new ItemStack(BlueOceansItems.ROPE.get()));
-                        break;
-                    } else
-                        i++;
+                    }
                 }
                 return InteractionResult.sidedSuccess(pLevel.isClientSide);
             }

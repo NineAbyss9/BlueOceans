@@ -13,6 +13,7 @@ import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+/// Content class for chemistry.
 public class Content
 {
     private static int currentId = -1;
@@ -23,6 +24,8 @@ public class Content
     public static final Content EMPTY;
     public static final Content WATER;
     public static final Content LAVA;
+    public static final Content ALCOHOL;
+    /**@param pSt the name of the {@linkplain Content}*/
     public Content(int pId, String pSt)
     {
         id  = pId;
@@ -34,7 +37,8 @@ public class Content
     }
 
     public Component description() {
-        return Component.translatable("content." + name);
+        return Component.translatable("content." + name.toLowerCase()
+                .replace(" ", "_"));
     }
 
     public boolean equals(Object obj)
@@ -47,8 +51,7 @@ public class Content
     }
 
     public int hashCode() {
-        return Objects.hash(id, name//, consumer
-        );
+        return Objects.hash(id, name);
     }
 
     public static Content register(String pName)
@@ -61,9 +64,11 @@ public class Content
 
     public static Content of(int pId)
     {
-        Content content;
-        return (content = MAP.get(pId))
-                == null ? Content.EMPTY : content;
+        if (!MAP.containsKey(pId)) {
+            return Content.EMPTY;
+        }
+        Content content = MAP.get(pId);
+        return content == null ? Content.EMPTY : content;
     }
 
     public static Content init(ChemicalFormula cf)
@@ -84,9 +89,7 @@ public class Content
     public static void ifContainer(Block block, Consumer<AbstractContainer> c) {
         if (block instanceof AbstractContainer container) {
             c.accept(container);
-            //return true;
         }
-        //return false;
     }
 
     public static boolean water(AbstractContainer container) {
@@ -95,17 +98,12 @@ public class Content
 
     static {
         MAP = new Int2ObjectOpenHashMap<>();
-        EMPTY = register("Empty"//, FunctionCollector.accept()
-        );
-        WATER = register("Water"//, block -> ifContainer(block,
-         //       FunctionCollector.accept())
-    );
-        LAVA = register("Lava"/*, block -> ifContainer(block, container -> {
-            if (water(container)) {
-                if (container.fill(EMPTY)) {
-                    Nothing.getInstance().noting();
-                }
-            }
-        })*/);
+        EMPTY = register("Empty");
+        WATER = register("Water");
+        LAVA = register("Lava");
+        ALCOHOL = register("Alcohol");
+        for (var cf : ChemicalFormulas.MAP.values()) {
+            init(cf);
+        }
     }
 }

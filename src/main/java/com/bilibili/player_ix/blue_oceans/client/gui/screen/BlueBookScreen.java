@@ -57,13 +57,15 @@ extends Screen {
     }
 
     public void previousPage() {
-        if (currentPage > 0)
+        if (currentPage > 0) {
             currentPage--;
+        }
     }
 
     public void nextPage() {
-        if (currentPage < this.getPageCount())
+        if (currentPage < this.getPageCount()) {
             currentPage++;
+        }
     }
 
     public void firstPage() {

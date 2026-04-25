@@ -41,6 +41,8 @@ extends BlockStateProvider
                 soil(object, block);
             else if (block instanceof Corpse) {
                 corpse(object, block);
+            } else if (block instanceof Ladder) {
+                ladder(object, block);
             } else if (block instanceof Util)
             {
                 simpleBlockWithItem(block, new ModelFile.UncheckedModelFile(modLoc("block/util/"
@@ -50,9 +52,11 @@ extends BlockStateProvider
         });
     }
 
-    private void util(RegistryObject<?> block, Block instance)
+    private void ladder(RegistryObject<?> block, Block instance)
     {
-
+        var model = models().singleTexture(block.getId().getPath().replace("block/", ""),
+                mcLoc("block/ladder"), modLoc("block/util/" + block.getId().getPath()));
+        simpleBlockWithItem(instance, model);
     }
 
     private void corpse(RegistryObject<?> block, Block instance) {
@@ -105,14 +109,12 @@ extends BlockStateProvider
     }
 
     private void soil(RegistryObject<?> block, Block instance) {
-        //VariantBlockStateBuilder builder = getVariantBuilder(instance);
         simpleBlockWithItem(instance, models().cubeAll(
                 block.getId().getPath(),
                 modLoc("block/farming/" + block.getId().getPath())));
     }
 
     private void cross(RegistryObject<?> block, Block instance) {
-        //VariantBlockStateBuilder builder = getVariantBuilder(instance);
         simpleBlock(instance, models().cross(
                 block.getId().getPath(),
                 modLoc("block/cross/" + block.getId().getPath())
@@ -155,10 +157,11 @@ extends BlockStateProvider
     }
 
     public interface Cross
-    extends ITextureProvider {
-    }
+    extends ITextureProvider { }
+
+    public interface Ladder
+    extends ITextureProvider { }
 
     public interface Util
-    extends ITextureProvider {
-    }
+    extends ITextureProvider { }
 }

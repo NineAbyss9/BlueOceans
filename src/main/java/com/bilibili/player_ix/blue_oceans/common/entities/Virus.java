@@ -12,6 +12,7 @@ public class Virus
     private VirusType virusType;
     public Virus() {
         super();
+        this.virusType = VirusType.Influenza;
     }
 
     protected void readAdditionalSaveData(CompoundTag pCompound)
@@ -82,6 +83,7 @@ public class Virus
         ///严重急性呼吸综合征
         SARS(17, 1.2f, MobEffects.WEAKNESS, 40),
         RED_PLUM(18, 1.7F, BlueOceansMobEffects.PLUM_INFECTION.get(), 20);
+        public static final VirusType[] VALUES = values();
         private final int id;
         private final float damageMultiplier;
         private final MobEffect associatedEffect;
@@ -124,7 +126,7 @@ public class Virus
         }
 
         public static VirusType byId(int id) {
-            for (VirusType type : values()) {
+            for (VirusType type : VALUES) {
                 if (type.getId() == id) {
                     return type;
                 }

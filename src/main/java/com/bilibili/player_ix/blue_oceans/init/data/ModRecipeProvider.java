@@ -27,6 +27,9 @@ extends RecipeProvider
         shaped(RecipeCategory.TOOLS, BlueOceansItems.WOODEN_SUPPORT.get(), Items.STICK,
                 getHasName(Items.STICK), has(Items.STICK), "iii", "i i",
                 "i i", pWriter);
+        shaped(RecipeCategory.TOOLS, BlueOceansItems.IRON_LADDER.get(), Items.IRON_INGOT,
+                getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT), "i i", "iii", "i i",
+                pWriter);
 
         //Farming
         shaped(RecipeCategory.TOOLS, BlueOceansItems.SPRINKLER.get(), Items.IRON_INGOT, Items.WATER_BUCKET,
@@ -39,6 +42,10 @@ extends RecipeProvider
                 Items.BROWN_MUSHROOM, "has_bms", has(Items.BROWN_MUSHROOM), "  x", " x ", "i  ", pWriter);
         shaped(RecipeCategory.FOOD, BlueOceansItems.MUSHROOM_SKEWER.get(), Items.STICK,
                 Items.RED_MUSHROOM, "has_ms", has(Items.RED_MUSHROOM), "  x", " x ", "i  ", pWriter);
+
+        shapeless(RecipeCategory.FOOD, BlueOceansItems.SUGARCANE.get(), 2,
+                Ingredient.of(Items.SUGAR_CANE, Items.SUGAR_CANE), pWriter);
+
         allCookMethods(RecipeCategory.FOOD, BlueOceansItems.C_B_M_S.get(), BlueOceansItems.BROWN_MUSHROOM_SKEWER
                         .get(), 0.2f, pWriter);
         allCookMethods(RecipeCategory.FOOD, BlueOceansItems.C_M_S.get(), BlueOceansItems.MUSHROOM_SKEWER
@@ -80,6 +87,24 @@ extends RecipeProvider
                               String pattern3, Consumer<FinishedRecipe> pWriter)
     {
         ShapedRecipeBuilder.shaped(pC, pResult).define('i', pItem)
+                .define('x', pItem1).pattern(pattern1).pattern(pattern2).pattern(pattern3)
+                .unlockedBy(cn, instance).save(pWriter);
+    }
+
+    public static void shaped(RecipeCategory pC, ItemLike pResult, int count, ItemLike pItem,
+                              String cn, CriterionTriggerInstance instance, String pattern1, String pattern2,
+                              String pattern3, Consumer<FinishedRecipe> pWriter)
+    {
+        ShapedRecipeBuilder.shaped(pC, pResult, count).define('i', pItem)
+                .pattern(pattern1).pattern(pattern2).pattern(pattern3)
+                .unlockedBy(cn, instance).save(pWriter);
+    }
+
+    public static void shaped(RecipeCategory pC, ItemLike pResult, int count, ItemLike pItem, ItemLike pItem1,
+                              String cn, CriterionTriggerInstance instance, String pattern1, String pattern2,
+                              String pattern3, Consumer<FinishedRecipe> pWriter)
+    {
+        ShapedRecipeBuilder.shaped(pC, pResult, count).define('i', pItem)
                 .define('x', pItem1).pattern(pattern1).pattern(pattern2).pattern(pattern3)
                 .unlockedBy(cn, instance).save(pWriter);
     }

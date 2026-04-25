@@ -101,7 +101,14 @@ extends RedPlumBlock {
     @ServerOnly
     public static void spreadPlum(ServerLevel serverLevel, @Message("Blocks do not below()") BlockPos center)
     {
-        BlockPos pos = center.offset(Maths.randomInt(3), 0, Maths.randomInt(3));
+        BlockPos pos = center.offset(Maths.randomInt(3), Maths.randomInt(3), Maths.randomInt(3));
+        for (int i = 0;i<5;i++) {
+            if (serverLevel.getBlockState(pos).is(BoTags.RED_PLUM_BLOCKS) || serverLevel.getBlockState(pos).isAir()) {
+                pos = center.offset(Maths.randomInt(3), Maths.randomInt(3), Maths.randomInt(3));
+            } else {
+                break;
+            }
+        }
         BlockState newBlockstate = getRandomGrowthState(serverLevel, pos);
         if (serverLevel.getGameRules().getBoolean(BlueOceansGameRules.PLUM_SPREAD) &&
                 canPlaceGrowth(serverLevel, pos, newBlockstate.getBlock())) {

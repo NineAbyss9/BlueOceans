@@ -8,13 +8,24 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 
+import javax.annotation.Nullable;
+
 public class UnformedPlum
 extends RedPlumMonster
 implements IConversion {
     private static final EntityDataAccessor<Integer> CONVERSION_TICK;
-
     public UnformedPlum(EntityType<? extends UnformedPlum> type, Level level) {
         super(type, level);
+        this.xpReward = 1;
+    }
+
+    @Nullable
+    protected EntityType<? extends AbstractRedPlumMob> getNextLevelConvert() {
+        return null;
+    }
+
+    protected int nextConvertUpNeeds() {
+        return Integer.MAX_VALUE;
     }
 
     public boolean isConverting() {
@@ -30,7 +41,13 @@ implements IConversion {
     }
 
     public void performConvert() {
-
+        if (this.isServerSide()) {
+            AbstractRedPlumMob entity = null;
+            entity.moveTo(this.position());
+            if (this.level().addFreshEntity(entity)) {
+                this.discard();
+            }
+        }
     }
 
     public int getLevel() {

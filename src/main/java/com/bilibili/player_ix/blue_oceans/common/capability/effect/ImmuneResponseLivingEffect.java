@@ -16,9 +16,7 @@ public class ImmuneResponseLivingEffect extends LivingEffect
     private static final int HEAL_INTERVAL = 60;
     private static final int VIRAL_SHRED_INTERVAL = 80;
 
-    public ImmuneResponseLivingEffect()
-    {
-    }
+    public ImmuneResponseLivingEffect() {}
 
     public void applyEffectTick(Level pLevel, LivingEntity pEntity, int pEffectLevel)
     {

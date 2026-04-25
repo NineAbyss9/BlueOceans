@@ -41,16 +41,20 @@ public class ModCat
 extends BoAnimal
 implements ISleepMob, IFlagMob, IAnimatedMob {
     private static final Ingredient TEMPT_FISH = Ingredient.of(Items.COD, Items.SALMON, Items.TROPICAL_FISH);
+    protected static final EntityDataAccessor<Integer> DATA_ANIM_TICK;
     protected static final EntityDataAccessor<Integer> DATA_FLAGS;
+    private int anInt = 0;
     public AnimationState idle = new AnimationState();
     public AnimationState sleep = new AnimationState();
-
+    public AnimationState attack = new AnimationState();
+    public AnimationState stalk = new AnimationState();
     public ModCat(EntityType<? extends BoAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
     protected void defineSynchedData() {
         super.defineSynchedData();
+        this.entityData.define(DATA_ANIM_TICK, 0);
         this.entityData.define(DATA_FLAGS, 0);
     }
 
@@ -63,17 +67,9 @@ implements ISleepMob, IFlagMob, IAnimatedMob {
     public void onSyncedDataUpdated(EntityDataAccessor<?> pKey) {
         if (DATA_FLAGS.equals(pKey) && this.level().isClientSide) {
             switch (this.getFlag()) {
-                case 0 -> {
-                    this.stopAllAnimations();
-                    this.idle.startIfStopped(this.tickCount);
-                }
-                case 1 -> {
-                    this.stopAllAnimations();
-                    this.sleep.startIfStopped(this.tickCount);
-                }
-                case 2 -> {
-                    this.stopAllAnimations();
-                }
+                case 1 -> this.startAfterStop(this.sleep);
+                case 2 -> this.startAfterStop(this.attack);
+                case 3 -> this.startAfterStop(this.stalk);
                 default -> {
                 }
             }
@@ -87,17 +83,17 @@ implements ISleepMob, IFlagMob, IAnimatedMob {
         this.goalSelector.addGoal(2, new TemptGoal(this, 0.9D, TEMPT_FISH, false));
         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.05D, true));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.65D));
-        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, LivingEntity.class, 8.0F));
         this.goalSelector.addGoal(7, new SleepGoal<>(this));
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
 
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, true,
-                ModCat::isStalkablePrey));
+                this::isStalkablePrey));
     }
 
-    private static boolean isStalkablePrey(LivingEntity e) {
-        if (!e.isAlive()) {
+    private boolean isStalkablePrey(LivingEntity e) {
+        if (!e.isAlive() || !this.foodData.needsFood()) {
             return false;
         }
         return e instanceof Mouse || e instanceof Rabbit || e instanceof Chicken;
@@ -161,6 +157,7 @@ implements ISleepMob, IFlagMob, IAnimatedMob {
     }
 
     static {
+        DATA_ANIM_TICK = SynchedEntityData.defineId(ModCat.class, EntityDataSerializers.INT);
         DATA_FLAGS = SynchedEntityData.defineId(ModCat.class, EntityDataSerializers.INT);
     }
 }

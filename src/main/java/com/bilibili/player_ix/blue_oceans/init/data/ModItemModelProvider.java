@@ -27,9 +27,9 @@ extends ItemModelProvider
             {
                 String st;
                 if (handed.isUtil())
-                    st = "util";
+                    st = "util/";
                 else
-                    st = "weapon";
+                    st = "weapon/";
                 withExistingParent(item.toString(), mcLoc("item/handheld"))
                         .texture("layer0", modLoc("item/" + st + handed.getAddress()));
             } else if (item instanceof BlockItem)
@@ -85,6 +85,11 @@ extends ItemModelProvider
     {
         default boolean isUtil() {
             return true;
+        }
+
+        default String getAddress()
+        {
+            return this.toString();
         }
     }
 

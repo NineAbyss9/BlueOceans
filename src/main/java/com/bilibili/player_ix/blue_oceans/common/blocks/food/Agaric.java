@@ -1,7 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.blocks.food;
 
-import com.bilibili.player_ix.blue_oceans.common.blocks.AbstractMushroom;
+import com.bilibili.player_ix.blue_oceans.common.blocks.core.AbstractMushroom;
 import net.minecraft.world.level.ItemLike;
 
 //木耳

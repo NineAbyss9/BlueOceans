@@ -2,6 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.common.entities.projectile.plum;
 
 import com.bilibili.player_ix.blue_oceans.api.mob.RedPlumMob;
+import com.bilibili.player_ix.blue_oceans.common.blocks.plum.PlumBlock;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansMobEffects;
@@ -40,7 +41,7 @@ extends ThrowableItemProjectile {
         super.onHit(pResult);
         if (!this.level().isClientSide) {
             this.hurtPlums();
-            this.removePlumBlocks();
+            this.transformPlumBlocks();
             this.level().levelEvent(2002, this.blockPosition(), PotionUtils.getColor(Potions.LUCK));
             this.discard();
         }
@@ -62,12 +63,17 @@ extends ThrowableItemProjectile {
         }
     }
 
-    protected void removePlumBlocks() {
+    protected void transformPlumBlocks() {
         AABB aabb = this.getBoundingBox().inflate(4, 2, 4);
         for (BlockPos pos1 : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ),
-                Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ)))
-            if (checkIsPlum(pos1))
-                level().destroyBlock(pos1, false, this.getOwner());
+                Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+            if (checkIsPlum(pos1)) {
+                var block = ((PlumBlock)this.level().getBlockState(pos1).getBlock())
+                        .getRestoreBlock(this.level(), pos1).defaultBlockState();
+                this.level().destroyBlock(pos1, false, this.getOwner());
+                this.level().setBlock(pos1, block, 2);
+            }
+        }
     }
 
     private LivingEntity livingOwner() {

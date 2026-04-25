@@ -95,8 +95,6 @@ extends AbstractContainerMenu {
     }
 
     public boolean stillValid(Player pPlayer) {
-        return stillValid(this.access, pPlayer,
-                //TODO: Replace this
-                null);
+        return true;
     }
 }

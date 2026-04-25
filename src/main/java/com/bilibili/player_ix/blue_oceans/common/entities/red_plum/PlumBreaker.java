@@ -13,6 +13,7 @@ import org.NineAbyss9.util.Action;
 
 import javax.annotation.Nullable;
 
+/**May be deprecated*/
 public class PlumBreaker
 extends RedPlumMonster {
     public PlumBreaker(EntityType<? extends PlumBreaker> type, Level level) {

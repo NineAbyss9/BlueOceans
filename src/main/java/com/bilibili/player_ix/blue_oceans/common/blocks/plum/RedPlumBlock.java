@@ -85,7 +85,10 @@ public class RedPlumBlock extends Block implements PlumBlock {
     protected void spawnPlum(ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
     }
 
-    public Block getRestoreBlock() {
+    public Block getRestoreBlock(Level pLevel, BlockPos pPos) {
+        if (pLevel.canSeeSky(pPos)) {
+            return Blocks.GRASS_BLOCK;
+        }
         return Blocks.STONE;
     }
 }

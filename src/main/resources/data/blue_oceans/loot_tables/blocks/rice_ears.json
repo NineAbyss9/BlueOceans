@@ -29,7 +29,7 @@
               }
             }
           ],
-          "name": "blue_oceans:block/rice",
+          "name": "blue_oceans:rice",
           "functions": [
             {
               "function": "set_count",

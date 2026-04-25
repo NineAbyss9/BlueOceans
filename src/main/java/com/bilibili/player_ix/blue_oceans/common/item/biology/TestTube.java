@@ -21,20 +21,25 @@ import net.minecraft.world.level.material.FluidState;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class Reagent extends Item
+public class TestTube extends Item
 {
     public static final String CONTENT_TAG = "Content";
-    public Reagent(Properties pProperties)
+    public TestTube(Properties pProperties)
     {
         super(pProperties);
     }
 
-    public Reagent()
+    public TestTube()
     {
         this(new Properties());
     }
 
-    @SuppressWarnings("all")
+    public ItemStack getDefaultInstance() {
+        var o = super.getDefaultInstance();
+        setContent(o.getOrCreateTag(), 0);
+        return o;
+    }
+
     public InteractionResult useOn(UseOnContext pContext)
     {
         Level level = pContext.getLevel();
@@ -42,9 +47,9 @@ public class Reagent extends Item
         BlockPos pos = pContext.getClickedPos();
         BlockState state = level.getBlockState(pos);
         FluidState fluidState = state.getFluidState();
-        if (state.isAir() || player == null || fluidState == null)
+        if (state.isAir() || player == null || fluidState == null) {
             return InteractionResult.PASS;
-        else {
+        } else {
             ItemStack stack = player.getItemInHand(pContext.getHand());
             setContent(stack.getOrCreateTag(), Content.get(state.getFluidState()).id);
             return InteractionResult.SUCCESS;
@@ -62,12 +67,12 @@ public class Reagent extends Item
         return super.use(pLevel, pPlayer, pUsedHand);
     }
 
-    public void appendHoverText(ItemStack pStack, Level pLevel, List<Component> pTooltipComponents,
+    /*public void appendHoverText(ItemStack pStack, Level pLevel, List<Component> pTooltipComponents,
                                 TooltipFlag pIsAdvanced)
     {
         Content content = getContent(pStack.getTag());
         pTooltipComponents.add(content.description());
-    }
+    }*/
 
     public static Content getContent(@Nullable CompoundTag pTag)
     {

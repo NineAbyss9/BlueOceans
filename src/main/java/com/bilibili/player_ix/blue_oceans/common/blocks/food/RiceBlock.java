@@ -14,6 +14,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
@@ -31,8 +34,14 @@ implements LiquidBlockContainer {
             box(2.0D, 0.0D, 2.0D, 13.0D, 10.0D, 13.0D),
             box(3.0D, 0.0D, 3.0D, 14.0D, 12.0D, 14.0D),
             box(3.0D, 0.0D, 3.0D, 15.0D, 16.0D, 15.0D));
+    protected static final IntegerProperty AGE = BlockStateProperties.AGE_3;
     public RiceBlock(Properties pProperties) {
         super(pProperties, 3);
+    }
+
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder)
+    {
+        pBuilder.add(AGE);
     }
 
     @SuppressWarnings("deprecation")
@@ -61,6 +70,11 @@ implements LiquidBlockContainer {
         }
     }
 
+    public IntegerProperty getAgeProperty()
+    {
+        return AGE;
+    }
+
     protected boolean mayPlaceOn(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
         if (!pLevel.getBlockState(pPos.above()).is(Blocks.WATER))
             return false;
@@ -83,10 +97,7 @@ implements LiquidBlockContainer {
     }
 
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return SHAPE_BY_AGE.get(//AbyssMath.clampI(
-                this.getAge(pState)
-                //, 0, 4)
-        );
+        return SHAPE_BY_AGE.get(this.getAge(pState));
     }
 
     public boolean isValidBonemealTarget(LevelReader pLevel, BlockPos pPos, BlockState pState, boolean pIsClient) {

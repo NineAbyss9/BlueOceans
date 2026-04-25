@@ -9,12 +9,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
+import org.NineAbyss9.math.MathSupport;
 
 public class Orange
 extends FoodItem {
     public Orange() {
         super(new Properties().stacksTo(64), (stack, pLevel, player) -> {
-            player.addItem(new ItemStack(BlueOceansItems.ORANGE_FLESH.get()));
+            for (int i = 0;i < MathSupport.random.nextInt(3) + 2;i++) {
+                player.addItem(new ItemStack(BlueOceansItems.ORANGE_FLESH.get()));
+            }
             ItemStack cache = stack.copy();
             cache.shrink(1);
             return cache;

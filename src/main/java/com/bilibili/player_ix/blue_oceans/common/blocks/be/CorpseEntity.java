@@ -34,7 +34,6 @@ extends BlockEntity
     public void setEntity(EntityType<?> pEntity)
     {
         this.entity = pEntity.create(this.level);
-        this.entity.moveTo(this.worldPosition, 0, 0);
     }
 
     public void drop()

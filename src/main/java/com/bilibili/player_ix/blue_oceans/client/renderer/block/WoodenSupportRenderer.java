@@ -1,7 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.client.renderer.block;
 
-import com.bilibili.player_ix.blue_oceans.common.blocks.be.WoodenSupportBlockEntity;
+import com.bilibili.player_ix.blue_oceans.common.blocks.be.cooking.WoodenSupportBlockEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;

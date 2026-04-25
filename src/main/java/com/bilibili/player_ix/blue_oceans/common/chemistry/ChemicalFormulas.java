@@ -1,11 +1,15 @@
 
 package com.bilibili.player_ix.blue_oceans.common.chemistry;
 
+import com.mojang.logging.LogUtils;
+import org.slf4j.Logger;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class ChemicalFormulas
 {
+    private static final Logger LOGGER = LogUtils.getLogger();
     public static final Map<String, ChemicalFormula> MAP;
     public static final ChemicalFormula CO2;
     public static final ChemicalFormula CO;
@@ -24,8 +28,13 @@ public class ChemicalFormulas
     public static final ChemicalFormula WF6;
 
     public static ChemicalFormula get(String name) {
-        if (!MAP.containsKey(name))
-            return of(name);
+        if (!MAP.containsKey(name)) {
+            var cf = of(name);
+            Content.init(cf);
+            LOGGER.debug("Found uninitialized {} \"{}\", registered.", ChemicalFormula.class.getSimpleName(),
+                    name);
+            return cf;
+        }
         return MAP.get(name);
     }
 

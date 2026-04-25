@@ -85,11 +85,12 @@ implements ModItemModelProvider.Handed
         BlockState state = level.getBlockState(pos);
         Player player = pContext.getPlayer();
         ItemStack stack = pContext.getItemInHand();
-        if (!level.isClientSide) {
+        if (level.isClientSide) {
+            return shouldDrop(state) > 0 ? InteractionResult.SUCCESS : InteractionResult.PASS;
+        } else {
             if (dropResources(state, level, pos, player, stack) && shouldDamage(stack) && player != null)
                 stack.hurtAndBreak(1, player, entity -> entity.broadcastBreakEvent(pContext.getHand()));
             return InteractionResult.CONSUME;
         }
-        return InteractionResult.SUCCESS;
     }
 }

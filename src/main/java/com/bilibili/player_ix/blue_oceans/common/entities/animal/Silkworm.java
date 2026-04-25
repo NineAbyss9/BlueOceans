@@ -143,14 +143,10 @@ implements IAnimatedMob, CompletelyPerverseState.Interface {
     }
 
     public void setPerState(CompletelyPerverseState pState) {
-        if (this.level().isClientSide) {
-            return;
-        }
         int next = pState.id;
-        if (this.entityData.get(DATA_STATE) != next) {
-            this.entityData.set(DATA_STATE, next);
-            this.refreshDimensions();
-        }
+        if (this.entityData.get(DATA_STATE) == next) return;
+        this.entityData.set(DATA_STATE, next);
+        this.refreshDimensions();
     }
 
     public List<AnimationState> getAllAnimations() {
@@ -159,12 +155,12 @@ implements IAnimatedMob, CompletelyPerverseState.Interface {
 
     public void addAdditionalSaveData(CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
-        pCompound.putInt("SilkwormStageTick", this.stageTick);
+        pCompound.putInt("StageTick", this.stageTick);
     }
 
     public void readAdditionalSaveData(CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
-        this.stageTick = pCompound.getInt("SilkwormStageTick");
+        this.stageTick = pCompound.getInt("StageTick");
     }
 
     static

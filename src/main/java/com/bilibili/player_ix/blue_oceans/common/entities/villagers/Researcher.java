@@ -48,7 +48,7 @@ implements IShieldUser, IFlagMob {
     }
 
     protected ItemStack getDailyItem() {
-        return new ItemStack(BlueOceansItems.REAGENT.get());
+        return new ItemStack(BlueOceansItems.TEST_TUBE.get());
     }
 
     public boolean isUsingShield() {

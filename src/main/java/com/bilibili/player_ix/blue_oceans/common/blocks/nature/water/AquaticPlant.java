@@ -31,7 +31,8 @@ extends CropBlock
 implements IForgeShearable, LiquidBlockContainer, BonemealableBlock
 {
     protected static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 12.0D, 14.0D);
-    private ToListFunc sharedDrops;
+    private ToListFunc sharedDrops = (player, item, level, pos, fortune) ->
+            Collections.emptyList();
     public AquaticPlant(Properties pProperties)
     {
         super(pProperties);
@@ -105,7 +106,9 @@ implements IForgeShearable, LiquidBlockContainer, BonemealableBlock
 
     /**@param state the state will be placed
      *
-     * @param pState the origin state*/
+     * @param pState the origin state
+     *
+     * @param pChance the spread chance*/
     public static void spread(BlockState state, ServerLevel pLevel, RandomSource pRandom, BlockPos pPos,
                               BlockState pState, double pChance)
     {
@@ -124,8 +127,9 @@ implements IForgeShearable, LiquidBlockContainer, BonemealableBlock
 
     public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom)
     {
-        if (canGrow())
+        if (canGrow()) {
             super.randomTick(pState, pLevel, pPos, pRandom);
+        }
     }
 
     public boolean canPlaceLiquid(BlockGetter pLevel, BlockPos pPos, BlockState pState, Fluid pFluid)

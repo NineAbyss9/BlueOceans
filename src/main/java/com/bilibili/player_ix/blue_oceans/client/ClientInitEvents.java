@@ -50,8 +50,6 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.GrassColor;
-import net.minecraft.world.level.block.DoublePlantBlock;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
@@ -190,20 +188,30 @@ public class ClientInitEvents {
     }
 
     @SubscribeEvent
-    public static void registerBlockColors(RegisterColorHandlersEvent.Block event)
+    public static void registerItemColors(RegisterColorHandlersEvent.Item event)
     {
-        event.register((pState, pLevel, pPos, pTintIndex) -> pLevel != null &&
-                pPos != null ? BiomeColors.getAverageGrassColor(pLevel, pState
-                .getValue(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER ?
-                pPos.below() : pPos) : GrassColor.getDefaultColor(), BlueOceansBlocks.WEED.get());
+        event.register((itemStack, i) -> {
+            return GrassColor.getDefaultColor();
+        });
     }
 
-    public static void injectItemModels(ItemRenderer pRenderer) {
+    @SubscribeEvent
+    public static void registerBlockColors(RegisterColorHandlersEvent.Block event)
+    {
+        event.register((pState, pLevel, pPos, pTintIndex) -> {
+            if (pLevel == null || pPos == null) {
+                return GrassColor.getDefaultColor();
+            }
+            return BiomeColors.getAverageGrassColor(pLevel, pPos);
+        }, BlueOceansBlocks.WEED.get());
+    }
+
+    private static void injectItemModels(ItemRenderer pRenderer) {
         ItemModelShaper shaper = pRenderer.getItemModelShaper();
         shaper.register(BlueOceansItems.GAS_MASK.get(), makeModelLocation("gasmask"));
     }
 
-    public static void injectItemTextures(Minecraft pMinecraft) {
+    private static void injectItemTextures(Minecraft pMinecraft) {
         TextureManager manager = pMinecraft.textureManager;
         var gasmask = BlueOceans.item("biology/gas_mask");
         manager.register(gasmask, new SimpleTexture(gasmask));

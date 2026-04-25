@@ -2,6 +2,8 @@
 package com.bilibili.player_ix.blue_oceans.common.blocks.chemistry.gas;
 
 import com.bilibili.player_ix.blue_oceans.common.chemistry.*;
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlocks;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.Level;
@@ -53,6 +55,12 @@ implements ICheFor {
     GasEnum(Element elementIn, float density, float dissipationRate, List<MobEffectInstance> effects, boolean suffocation,
             Pair<Level.ExplosionInteraction,Float> flammability, int color) {
         this(elementIn.chemicalFormula(), density, dissipationRate, effects, suffocation, flammability, color);
+    }
+
+    public void spread(Level pLevel, BlockPos pCenter, int radius) {
+        for (var pos : BlockPos.betweenClosed(pCenter.offset(radius, radius, radius), pCenter.offset(-radius, -radius, -radius))) {
+            pLevel.setBlock(pos, BlueOceansBlocks.getGas(this).defaultBlockState(), 2);
+        }
     }
 
     public boolean isSuffocating() {

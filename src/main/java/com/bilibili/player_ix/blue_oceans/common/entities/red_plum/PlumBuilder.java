@@ -174,10 +174,12 @@ implements IFlagMob, IAnimatedMob, IPlumSpreader, Immobile {
     @ServerOnly
     public void spread() {
         this.spreadParticle();
-        int plumBuilder$spread$int = 0;
-        while (plumBuilder$spread$int < this.getAge() * 3) {
-            RedPlumCatalyst.spreadPlum(serverLevel(), this.randomSpreadCenter());
-            plumBuilder$spread$int++;
+        if (PlumSpreader.checkConditions(this)) {
+            int plumBuilder$spread$int = 0;
+            while (plumBuilder$spread$int < this.getAge() * 3) {
+                RedPlumCatalyst.spreadPlum(serverLevel(), this.randomSpreadCenter());
+                plumBuilder$spread$int++;
+            }
         }
         for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(16),
                 this::canAttack)) {

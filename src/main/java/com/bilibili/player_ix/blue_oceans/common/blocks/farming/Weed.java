@@ -18,9 +18,9 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.event.ForgeEventFactory;
 
 @SuppressWarnings("deprecation")
@@ -41,7 +41,7 @@ implements BonemealableBlock, ModBlockStateProvider.Cross
 
     public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom)
     {
-        if (!pLevel.isAreaLoaded(pPos, 1)) return; // Forge: prevent loading unloaded chunks when checking neighbor's light
+        if (!pLevel.isAreaLoaded(pPos, 1) || pLevel.isLoaded(pPos)) return;
         if (pLevel.getRawBrightness(pPos, 0) >= 4) {
             int i = this.getAge(pState);
             if (i < this.getMaxAge()) {
@@ -137,25 +137,35 @@ implements BonemealableBlock, ModBlockStateProvider.Cross
     public void performBonemeal(ServerLevel pLevel, RandomSource pRandom, BlockPos pPos, BlockState pState)
     {
         BlockState blockstate = this.defaultBlockState();
-        BlockState blockstate1 = blockstate.setValue(TallSeagrassBlock.HALF, DoubleBlockHalf.UPPER);
+        //BlockState blockstate1 = blockstate.setValue(TallSeagrassBlock.HALF, DoubleBlockHalf.UPPER);
         BlockPos blockpos = pPos.above();
         if (pLevel.getBlockState(blockpos).isAir()) {
             pLevel.setBlock(pPos, blockstate, 2);
-            pLevel.setBlock(blockpos, blockstate1, 2);
+            pLevel.setBlock(blockpos, blockstate//1
+                    , 2);
         }
     }
 
     public void entityInside(BlockState pState, Level pLevel, BlockPos pPos, Entity pEntity)
     {
-        if (pEntity.getType().is(BoTags.HEAVY_MOBS) && ForgeEventFactory.getMobGriefingEvent(pLevel, pEntity)) {
-            pLevel.destroyBlock(pPos, true);
-            pLevel.setBlock(pPos, this.getStateForAge(0), 3);
+        if (!pEntity.getType().is(BoTags.HEAVY_MOBS) || !ForgeEventFactory.getMobGriefingEvent(pLevel, pEntity)
+        || pState.getValue(AGE) == 0) {
+            return;
         }
+        pLevel.destroyBlock(pPos, true);
+        pLevel.setBlock(pPos, this.getStateForAge(0), 2);
     }
 
     public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos)
     {
-        return pLevel.canSeeSky(pPos) && super.canSurvive(pState, pLevel, pPos);
+        if (!pLevel.canSeeSky(pPos)) return false;
+        if (!pState.canSustainPlant(pLevel, pPos, Direction.UP, this)) return false;
+        return super.canSurvive(pState, pLevel, pPos);
+    }
+
+    public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction facing, IPlantable plantable)
+    {
+        return plantable instanceof Weed;
     }
 
     public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player)

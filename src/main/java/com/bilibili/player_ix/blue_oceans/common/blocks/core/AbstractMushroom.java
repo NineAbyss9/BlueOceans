@@ -1,5 +1,5 @@
 
-package com.bilibili.player_ix.blue_oceans.common.blocks;
+package com.bilibili.player_ix.blue_oceans.common.blocks.core;
 
 import com.bilibili.player_ix.blue_oceans.compat.spore.SporeCompat;
 import net.minecraft.core.BlockPos;
@@ -51,7 +51,8 @@ extends CropBlock {
         return AGE;
     }
 
-    public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
+    public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom)
+    {
         super.randomTick(pState, pLevel, pPos, pRandom);
         if (SporeCompat.isSporeLoaded() && pRandom.nextFloat() < 0.01F) {
             List<LivingEntity> entities =

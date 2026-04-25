@@ -30,27 +30,29 @@ extends DiggerItem {
         this(6.0F, -3.4F, BoTier.IRON, new Properties());
     }
 
-    public InteractionResult useOn(UseOnContext pContext) {
+    public InteractionResult useOn(UseOnContext pContext)
+    {
         ItemStack stack = pContext.getItemInHand();
-        if (isStarted(stack)) {
-            BlockPos pos = pContext.getClickedPos();
-            Level level = pContext.getLevel();
-            BlockState state = level.getBlockState(pos);
-            if (this.isCorrectToolForDrops(stack, state)) {
-                level.destroyBlock(pos, true, pContext.getPlayer());
-            }
+        if (!isStarted(stack)) {
+            return InteractionResult.FAIL;
+        }
+        BlockPos pos = pContext.getClickedPos();
+        Level level = pContext.getLevel();
+        BlockState state = level.getBlockState(pos);
+        if (this.isCorrectToolForDrops(stack, state)) {
+            level.destroyBlock(pos, true, pContext.getPlayer());
         }
         return super.useOn(pContext);
     }
 
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
         ItemStack stack = pPlayer.getItemInHand(pUsedHand);
-        if (isStarted(stack))
+        if (isStarted(stack)) {
             if (getAndPlusUseTime(stack) >= this.getUseDuration(stack)) {
                 setStarted(stack, false);
                 setUseTime(stack, 0);
             }
-        else {
+        } else {
             if (getAndPlusUseTime(stack) >= this.getUseDuration(stack)) {
                 setStarted(stack, true);
                 setUseTime(stack, 0);

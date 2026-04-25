@@ -50,7 +50,9 @@ implements IPlumSpreader {
         if ((this.spreadCooldown <= 0 || this.getRandomUtil().nextFloat() < 0.06F)
             && PlumSpreader.checkConditions(this)) {
             if (this.isServerSide()) {
-                spreadPlum(this.level(), this.blockPosition());
+                for (int i = 0;i<3;i++) {
+                    spreadPlum(this.level(), this.blockPosition());
+                }
             }
             this.spreadCooldown = Maths.toTick(15);
         }

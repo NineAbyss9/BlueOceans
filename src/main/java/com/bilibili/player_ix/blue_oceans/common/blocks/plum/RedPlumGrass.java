@@ -6,7 +6,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -27,12 +29,16 @@ implements PlumBlock, ModBlockStateProvider.Cross
                 .pushReaction(PushReaction.DESTROY).lightLevel(value -> 2));
     }
 
+    public Block getRestoreBlock(Level pLevel, BlockPos pPos) {
+        return Blocks.GRASS;
+    }
+
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         return SHAPE;
     }
 
     protected boolean mayPlaceOn(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
-        return Block.isFaceFull(pState.getShape(pLevel, pPos),  Direction.UP);
+        return Block.isFaceFull(pState.getShape(pLevel, pPos), Direction.UP);
     }
 
     static {

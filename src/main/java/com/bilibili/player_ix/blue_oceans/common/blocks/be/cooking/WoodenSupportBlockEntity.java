@@ -1,5 +1,5 @@
 
-package com.bilibili.player_ix.blue_oceans.common.blocks.be;
+package com.bilibili.player_ix.blue_oceans.common.blocks.be.cooking;
 
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlockEntities;
 import com.bilibili.player_ix.blue_oceans.init.BoTags;
@@ -40,7 +40,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-import static com.bilibili.player_ix.blue_oceans.common.blocks.WoodenSupport.BURNING;
+import static com.bilibili.player_ix.blue_oceans.common.blocks.util.WoodenSupport.BURNING;
 
 public class WoodenSupportBlockEntity
 extends BlockEntity
@@ -161,14 +161,19 @@ implements WorldlyContainer, RecipeHolder, IXUtilUser {
                 pState = pState.setValue(BURNING, pBlockEntity.isBurning());
                 pLevel.setBlock(pPos, pState, 3);
             }
-            if (flag1)
+            if (flag1) {
                 setChanged(pLevel, pPos, pState);
+            }
         }
     }
 
     private boolean canBurn(RegistryAccess pRegistryAccess, @Nullable Recipe<?> pRecipe,
                             WoodenSupportBlockEntity woodenSupport) {
-        if (!woodenSupport.getPuttedItem().isEmpty() && pRecipe != null) {
+        if (woodenSupport.getPuttedItem().isEmpty()) {
+            woodenSupport.items.clear();
+            return false;
+        }
+        if (pRecipe != null) {
             ItemStack itemstack = pRecipe.assemble(IXUtil.c.convert(this), pRegistryAccess);
             if (itemstack.isEmpty() || itemstack.is(Items.WET_SPONGE))
                 return false;
@@ -270,7 +275,7 @@ implements WorldlyContainer, RecipeHolder, IXUtilUser {
         }
     }
 
-    private static int getTotalCookTime(Level pLevel, WoodenSupportBlockEntity pBlockEntity) {
+    static int getTotalCookTime(Level pLevel, WoodenSupportBlockEntity pBlockEntity) {
         return pBlockEntity.quickCheck.getRecipeFor(pBlockEntity, pLevel).map(
                 AbstractCookingRecipe::getCookingTime).orElse(200);
     }

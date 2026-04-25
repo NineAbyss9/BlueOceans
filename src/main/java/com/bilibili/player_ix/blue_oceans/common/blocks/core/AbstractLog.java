@@ -1,5 +1,5 @@
 
-package com.bilibili.player_ix.blue_oceans.common.blocks;
+package com.bilibili.player_ix.blue_oceans.common.blocks.core;
 
 import net.minecraft.world.level.block.RotatedPillarBlock;
 

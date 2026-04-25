@@ -52,8 +52,9 @@ implements IBONeutralMob {
             this.setDeltaMovement(this.getDeltaMovement().scale(0.9d));
             if (this.getTarget() == null)
                 this.setDeltaMovement(this.getDeltaMovement().add(0.d, 0.005d, 0.d));
-        } else
+        } else {
             super.travel(pTravelVector);
+        }
     }
 
     public MobType getMobType() {

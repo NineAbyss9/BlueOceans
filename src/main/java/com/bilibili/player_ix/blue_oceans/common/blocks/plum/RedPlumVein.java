@@ -30,8 +30,6 @@ extends MultifaceBlock
 implements SimpleWaterloggedBlock, PlumBlock {
     private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     private final MultifaceSpreader veinSpreader;
-    //private final MultifaceSpreader sameSpaceSpreader =
-    //        new MultifaceSpreader(new SpreaderConfig(MultifaceSpreader.SpreadType.SAME_POSITION));
     public RedPlumVein(Properties properties) {
         super(properties);
         veinSpreader = new MultifaceSpreader(new SpreaderConfig(MultifaceSpreader.DEFAULT_SPREAD_ORDER));

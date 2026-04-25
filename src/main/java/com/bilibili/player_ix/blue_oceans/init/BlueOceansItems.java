@@ -10,7 +10,7 @@ import com.bilibili.player_ix.blue_oceans.common.item.ItemLocBlockItem;
 import com.bilibili.player_ix.blue_oceans.common.item.WoodenStick;
 import com.bilibili.player_ix.blue_oceans.common.item.biology.GravyBottle;
 import com.bilibili.player_ix.blue_oceans.common.item.biology.Scalpel;
-import com.bilibili.player_ix.blue_oceans.common.item.biology.Reagent;
+import com.bilibili.player_ix.blue_oceans.common.item.biology.TestTube;
 import com.bilibili.player_ix.blue_oceans.common.item.biology.organ.*;
 import com.bilibili.player_ix.blue_oceans.common.item.biology.tissue.Muscle;
 import com.bilibili.player_ix.blue_oceans.common.item.biology.tissue.Nerve;
@@ -18,6 +18,7 @@ import com.bilibili.player_ix.blue_oceans.common.item.biology.tissue.PlumMuscle;
 import com.bilibili.player_ix.blue_oceans.common.item.biology.tissue.PlumNerve;
 import com.bilibili.player_ix.blue_oceans.common.item.block.RiceItem;
 import com.bilibili.player_ix.blue_oceans.common.item.chemistry.ElementItem;
+import com.bilibili.player_ix.blue_oceans.common.item.cooking.Sorbet;
 import com.bilibili.player_ix.blue_oceans.common.item.equipment.ElementArmor;
 import com.bilibili.player_ix.blue_oceans.common.item.farming.ChemicalFertilizer;
 import com.bilibili.player_ix.blue_oceans.common.item.food.*;
@@ -83,6 +84,7 @@ public class BlueOceansItems {
     public static Set<RegistryObject<? extends Item>> BIOLOGY_ITEMS = Sets.newLinkedHashSet();
     public static Set<RegistryObject<? extends Item>> PLUM_ITEMS = Sets.newLinkedHashSet();
     public static Set<RegistryObject<? extends Item>> UTILS = Sets.newLinkedHashSet();
+    public static Set<RegistryObject<? extends Item>> FARMING = Sets.newHashSet();
     private BlueOceansItems() {
     }
 
@@ -94,6 +96,10 @@ public class BlueOceansItems {
         var obj = BlueOceansItems.ITEMS.register(en.replace(" ", "_").toLowerCase(), pItem);
         BoDataGenHelper.ITEM_REGISTRIES.add(obj);
         return obj;
+    }
+
+    private static ItemBuilder itemBuilder(String en, Supplier<Item> pItem) {
+        return builder().item(pItem).name(en);
     }
 
     private static RegistryObject<Item> block(String en, Supplier<? extends Block> supplier, String address)
@@ -324,6 +330,7 @@ public class BlueOceansItems {
     public static final RegistryObject<Item> BUSH = block(BlueOceansBlocks.BUSH);
     public static final RegistryObject<Item> CORPSE = block(BlueOceansBlocks.CORPSE);
     public static final RegistryObject<Item> FLAG = ITEMS.register("flag", FlagItem::new);
+    public static final RegistryObject<Item> IRON_LADDER = block(BlueOceansBlocks.IRON_LADDER, "");
     public static final RegistryObject<Item> LEEK_SEEDS = itemNameBlock("leek_seeds", BlueOceansBlocks.LEEK,
             properties().stacksTo(64));
     public static final RegistryObject<Item> MINING_LAMP = block(BlueOceansBlocks.MINING_LAMP);
@@ -340,6 +347,7 @@ public class BlueOceansItems {
     public static final RegistryObject<Item> SCLEROTIC_RED_PLUM_BLOCK =
             block(BlueOceansBlocks.SCLEROTIC_RED_PLUM_BLOCK);
     public static final RegistryObject<Item> SPRINKLER = block(BlueOceansBlocks.SPRINKLER);
+    public static final RegistryObject<Item> WEED = block(BlueOceansBlocks.WEED);
     public static final RegistryObject<Item> WOODEN_SUPPORT = block(BlueOceansBlocks.WOODEN_SUPPORT);
     //B end
 
@@ -376,14 +384,18 @@ public class BlueOceansItems {
             () -> new FoodItem(2, 1.2f));
     public static final RegistryObject<Item> MUSHROOM_SKEWER = ITEMS.register("mushroom_skewer",
             () -> new FoodItem(2, 1.2F));
-    public static final RegistryObject<Item> C_M_S = item("cooked_mushroom_skewer",
-            () -> new FoodItem(4, 1.5f));
-    public static final RegistryObject<Item> C_B_M_S = item("cooked_brown_mushroom_skewer",
-            () -> new FoodItem(4, 1.5f));
+    public static final RegistryObject<Item> C_M_S = itemBuilder("cooked_mushroom_skewer",
+            () -> new FoodItem(4, 1.5f)).food().build();
+    public static final RegistryObject<Item> C_B_M_S = itemBuilder("cooked_brown_mushroom_skewer",
+            () -> new FoodItem(4, 1.5f)).food().build();
+    public static final RegistryObject<Item> DRIED_CARROT = itemBuilder("dried_carrot",
+            () -> new FoodItem(1, 1.5F)).food().build();
     public static final RegistryObject<Item> GINKGO = ITEMS.register("ginkgo",
             () -> new FoodItem(1, 1.5F));
-    public static final RegistryObject<Item> LEEK = ITEMS.register("leek", () -> new FoodItem(2, 1.0F));
     public static final RegistryObject<Item> GRAPE = ITEMS.register("grape", ()-> new FoodItem(2, 1.0F));
+    public static final RegistryObject<Item> LEEK = ITEMS.register("leek", () -> new FoodItem(2, 1.0F));
+    public static final RegistryObject<Item> NOODLE_BOWL = builder().name("noodle_bowl")
+            .item(() -> new FoodItem(5, 1.5F)).food().build();
     public static final RegistryObject<Item> ORANGE_FLESH = ITEMS.register("orange_flesh", () ->
             new FoodItem(2, 0.5F));
     public static final RegistryObject<Item> ORANGE = ITEMS.register("orange", Orange::new);
@@ -408,11 +420,15 @@ public class BlueOceansItems {
                 }
             });
     public static final RegistryObject<Item> RoastedNori = builder().item(() -> new FoodItem(2, 1.1f))
-            .translate("Roasted Nori", "烤紫菜").build();
+            .name("roasted_nori").build();
     public static final RegistryObject<Item> SALT_PILE = ITEMS.register("salt_pile",
             () -> new Item(properties().stacksTo(64)));
+    public static final RegistryObject<Item> SOUP = builder().item(() -> new FoodItem(4, 1.5F))
+            .name("soup").food().build();
     public static final RegistryObject<Item> STRAWBERRY = ITEMS.register("strawberry",
             () -> FoodItem.fast(1, 1F));
+    public static final RegistryObject<Item> SUGARCANE = builder().name("sugarcane").food().item(() ->
+                    new FoodItem(2, 1.0F)).build();
     public static final RegistryObject<Item> GREATEST_MANTOU = ITEMS.register("greatest_mantou",
             () -> new FoodItem(100, 100F, 1,
                     new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 600, 5),
@@ -461,6 +477,8 @@ public class BlueOceansItems {
     //Traffic
     public static final RegistryObject<Item> BIKE_EGG = noAddToCreativeSpawnEgg("bike",
             BlueOceansEntities.BIKE, 1001033, 1001033);
+
+    public static final RegistryObject<Item> SORBET = builder().name("kitchen_knife").item(() -> new Sorbet(properties())).utils().build();
     //UEnd
 
     //Misc
@@ -509,8 +527,12 @@ public class BlueOceansItems {
     public static final RegistryObject<Item> SCALPEL = addBiology("scalpel", Scalpel::new);
     //HoEnd
     public static final RegistryObject<Item> GRAVY_BOTTLE = addBiology("gravy_bottle", GravyBottle::new);
-    public static final RegistryObject<Item> REAGENT = addBiology("reagent", Reagent::new);
+    public static final RegistryObject<Item> TEST_TUBE = addBiology("test_tube", TestTube::new);
     //BiEnd
+
+    static {
+        FARMING.add(RICE_BOWL);
+    }
 
     public static class ItemBuilder {
         public Supplier<Item> item;
@@ -518,6 +540,7 @@ public class BlueOceansItems {
         public boolean spawnEggs;
         public boolean blocks;
         public boolean utils;
+        public boolean food;
         public String en;
         public String zh;
         public ItemBuilder() {
@@ -535,6 +558,11 @@ public class BlueOceansItems {
 
         public ItemBuilder spawnEggs() {
             this.spawnEggs = true;
+            return this;
+        }
+
+        public ItemBuilder food() {
+            this.food = true;
             return this;
         }
 
@@ -566,6 +594,7 @@ public class BlueOceansItems {
             if (spawnEggs) SPAWN_EGGS.add(obj);
             if (blocks) BLOCKS.add(obj);
             if (utils) UTILS.add(obj);
+            if (food) FARMING.add(obj);
             return obj;
         }
     }

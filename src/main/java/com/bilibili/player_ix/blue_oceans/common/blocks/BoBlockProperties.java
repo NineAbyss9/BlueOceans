@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public class BoBlockProperties {
+    public static final IntegerProperty BITES = IntegerProperty.create("bites", 0, 10);
     public static final IntegerProperty GROWTH_AGE = IntegerProperty.create("age", 0, 600);
     public static final BooleanProperty COVERED = BooleanProperty.create("covered");
     public static final IntegerProperty CAPACITY = IntegerProperty.create("capacity",
@@ -33,7 +34,7 @@ public class BoBlockProperties {
             } else {
                 this.min = pMin;
                 this.max = pMax;
-                Set<Long> set = Sets.newHashSet();
+                Set<Long> set = Sets.<Long>newHashSet();
                 for (long i  = pMin; i <= pMax; ++i) {
                     set.add(i);
                 }
@@ -56,7 +57,7 @@ public class BoBlockProperties {
             try {
                 long integer = Long.parseLong(pValue);
                 return integer >= this.min && integer <= this.max ? Optional.of(integer) : Optional.empty();
-            } catch (NumberFormatException numberformatexception) {
+            } catch (NumberFormatException e) {
                 return Optional.empty();
             }
         }

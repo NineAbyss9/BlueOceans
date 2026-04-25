@@ -75,14 +75,21 @@ public class RedPlumUtil {
         }
     }
 
+    public static void spawnNeoPlum(Level pLevel, Vec3 pos) {
+        var list = MAP.get(0);
+        var mob = list.get(MathSupport.random.nextInt(list.size())).create(pLevel);
+        if (mob != null) {
+            mob.moveTo(pos);
+            pLevel.addFreshEntity(mob);
+        }
+    }
+
     public static void spawnBase(Level pLevel, Vec3 pos) {
         var list = MAP.get(1);
-        if (list != null) {
-            var mob = list.get(MathSupport.random.nextInt(BASE_PLUM_RANDOM_POOL)).create(pLevel);
-            if (mob != null) {
-                mob.moveTo(pos);
-                pLevel.addFreshEntity(mob);
-            }
+        var mob = list.get(MathSupport.random.nextInt(BASE_PLUM_RANDOM_POOL)).create(pLevel);
+        if (mob != null) {
+            mob.moveTo(pos);
+            pLevel.addFreshEntity(mob);
         }
     }
 

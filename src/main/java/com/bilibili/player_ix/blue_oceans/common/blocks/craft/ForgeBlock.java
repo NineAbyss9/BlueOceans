@@ -1,5 +1,5 @@
 
-package com.bilibili.player_ix.blue_oceans.common.blocks;
+package com.bilibili.player_ix.blue_oceans.common.blocks.craft;
 
 import com.bilibili.player_ix.blue_oceans.client.gui.menu.ForgeMenu;
 import net.minecraft.core.BlockPos;

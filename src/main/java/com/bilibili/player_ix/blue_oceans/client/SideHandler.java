@@ -21,7 +21,6 @@ public class SideHandler {
         return Minecraft.getInstance().level != null;
     }
 
-    @SuppressWarnings("all")
     public static boolean checkConnection() {
         return Minecraft.getInstance() != null && Minecraft.getInstance().getConnection() != null;
     }

@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.Block;
 @PFMAreNonnullByDefault
 public class BoTags {
     //EntityTypes
+    /// These mobs are heavy enough to destroy crops
     public static TagKey<EntityType<?>> HEAVY_MOBS
             = entityTypeTag("heavy_mobs");
     public static TagKey<EntityType<?>> RED_PLUM_MOBS
@@ -23,10 +24,12 @@ public class BoTags {
             = blockTagKey("barren_farmlands");
     public static TagKey<Block> FARMLANDS
             = blockTagKey("farmlands");
+    /// Like Alcohol lamp
     public static TagKey<Block> FUELS
             = blockTagKey("fuels");
     public static TagKey<Block> PLUMS_CAN_UPGRADE
             = blockTagKey("plums_can_upgrade");
+    /// Must implements the {@linkplain com.bilibili.player_ix.blue_oceans.common.blocks.plum.PlumBlock}
     public static TagKey<Block> RED_PLUM_BLOCKS
             = blockTagKey("red_plum_blocks");
 

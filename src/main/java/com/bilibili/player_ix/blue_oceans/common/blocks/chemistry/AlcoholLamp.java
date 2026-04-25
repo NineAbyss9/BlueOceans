@@ -45,7 +45,7 @@ implements IChemical
 
     public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, RandomSource pRandom) {
         if (pState.getValue(BURNING)) {
-            pLevel.addParticle(ParticleTypes.FLAME, pPos.getX() + 0.5, pPos.getY() + 0.5, pPos.getZ() + 0.5,
+            pLevel.addParticle(ParticleTypes.FLAME, pPos.getX() + 0.5D, pPos.getY() + 0.5D, pPos.getZ() + 0.5D,
                     AbyssMath.trueOrFalse(pRandom.nextDouble() * 0.05),
                     AbyssMath.trueOrFalse(pRandom.nextDouble() * 0.05),
                     AbyssMath.trueOrFalse(pRandom.nextDouble() * 0.05));
@@ -61,11 +61,10 @@ implements IChemical
         ItemStack itemStack = pPlayer.getItemInHand(pHand);
         if (!pState.getValue(BURNING) && pState.getValue(CAPACITY) > 0 && !pState.getValue(COVERED) &&
                 itemStack.is(Items.FLINT_AND_STEEL)) {
-            pState = pState.setValue(BURNING, true);
-            pLevel.setBlock(pPos, pState, 3);
+            pLevel.setBlock(pPos, pState.setValue(BURNING, true), 2);
             return InteractionResult.sidedSuccess(pLevel.isClientSide);
         } else if (pState.getValue(BURNING)) {
-            pLevel.setBlock(pPos, pState.cycle(BURNING), 3);
+            pLevel.setBlock(pPos, pState.cycle(BURNING), 2);
             return InteractionResult.sidedSuccess(pLevel.isClientSide);
         }
         return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
@@ -75,23 +74,11 @@ implements IChemical
         if (pState.getValue(BURNING)) {
             if (pState.getValue(CAPACITY) > 0) {
                 if (pLevel.getGameTime() % 2400L == 0L)
-                    pLevel.setBlock(pPos, pState.setValue(CAPACITY, pState.getValue(CAPACITY) - 1), 3);
+                    pLevel.setBlock(pPos, pState.setValue(CAPACITY, pState.getValue(CAPACITY) - 1), 1);
             } else
-                pLevel.setBlock(pPos, pState.setValue(BURNING, false), 3);
+                pLevel.setBlock(pPos, pState.setValue(BURNING, false), 2);
         }
     }
-
-    /*public void stepOn(Level pLevel, BlockPos pPos, BlockState pState, Entity pEntity) {
-        if (isLit(pState)) {
-            if (!pEntity.fireImmune()) {
-                pEntity.setRemainingFireTicks(pEntity.getRemainingFireTicks() + 1);
-                if (pEntity.getRemainingFireTicks() == 0) {
-                    pEntity.setSecondsOnFire(6);
-                }
-            }
-            pEntity.hurt(pLevel.damageSources().onFire(), FIRE_DAMAGE);
-        }
-    }*/
 
     public void entityInside(BlockState pState, Level pLevel, BlockPos pPos, Entity pEntity) {
         if (pState.getValue(BURNING)) {

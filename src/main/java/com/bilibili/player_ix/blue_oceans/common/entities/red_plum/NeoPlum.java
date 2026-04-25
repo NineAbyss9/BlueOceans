@@ -58,13 +58,15 @@ implements IConversion {
     }
 
     public void convertTick() {
-        if (!isNoAi())
+        if (!isNoAi()) {
             IConversion.super.convertTick();
+        }
     }
 
     public void decreaseConvertTick() {
-        if (!isNoAi())
+        if (!isNoAi()) {
             IConversion.super.decreaseConvertTick();
+        }
     }
 
     public void addAdditionalSaveData(CompoundTag tag) {

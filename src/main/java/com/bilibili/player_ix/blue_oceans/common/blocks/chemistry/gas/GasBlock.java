@@ -80,15 +80,15 @@ implements IElement
 
     public static Supplier<GasBlock> simpleSupplier(Properties propertiesIn, GasEnum gasEnum)
     {
-        return (Supplier<GasBlock>)() -> new GasBlock(propertiesIn, gasEnum.getElement(), gasEnum.getDensity(), gasEnum.getDissipationRate(),
-                gasEnum.getEffects(), gasEnum.isSuffocating(), gasEnum.getFlammability(), gasEnum.getColor());
+        return (Supplier<GasBlock>)() -> new GasBlock(propertiesIn, gasEnum.getElement(), gasEnum.getDensity(),
+                gasEnum.getDissipationRate(), gasEnum.getEffects(), gasEnum.isSuffocating(), gasEnum.getFlammability(), gasEnum.getColor());
     }
 
     public static Supplier<GasBlock> simpleSupplier(Element elementIn, float densityIn, float dissipationChanceIn,
                                                     List<MobEffectInstance> effectInstancesIn,
                                                     boolean suffocatingIn, Pair<Level.ExplosionInteraction, Float> flammabilityIn, int colorIn)
     {
-        return () -> new GasBlock(Properties.of().air().noCollission().noLootTable(), elementIn, densityIn, dissipationChanceIn,
-                effectInstancesIn, suffocatingIn, flammabilityIn, colorIn);
+        return (Supplier<GasBlock>)() -> new GasBlock(Properties.of().air().noCollission().noLootTable(), elementIn, densityIn,
+                dissipationChanceIn, effectInstancesIn, suffocatingIn, flammabilityIn, colorIn);
     }
 }

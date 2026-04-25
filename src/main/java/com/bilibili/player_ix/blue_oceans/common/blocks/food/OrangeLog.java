@@ -1,7 +1,7 @@
 
 package com.bilibili.player_ix.blue_oceans.common.blocks.food;
 
-import com.bilibili.player_ix.blue_oceans.common.blocks.AbstractLog;
+import com.bilibili.player_ix.blue_oceans.common.blocks.core.AbstractLog;
 import net.minecraft.world.level.block.Blocks;
 
 public class OrangeLog

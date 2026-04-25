@@ -21,8 +21,8 @@ public class FlagItem extends BlockItem {
     }
 
     public enum Type {
-        EVIL_FACTION(1);
-
+        EVIL_FACTION(1),
+        PLAYER(2);
         public final int id;
         Type(int pId) {
             this.id =pId;

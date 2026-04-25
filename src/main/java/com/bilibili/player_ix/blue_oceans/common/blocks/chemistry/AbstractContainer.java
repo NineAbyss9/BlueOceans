@@ -42,7 +42,7 @@ extends BaseEntityBlock {
         return null;
     }
 
-    public BooleanValueHolder<Content> fill(Content c) {
+    public BooleanValueHolder<Content> fill(BlockState pState, Content c) {
         return this.holder().fill(c);
     }
 

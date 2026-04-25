@@ -23,7 +23,9 @@ extends ItemCombinerMenu {
     }
 
     protected boolean mayPickup(Player pPlayer, boolean pHasStack) {
-        return false;
+        return /*this.access.evaluate((level, blockPos) -> level.getRecipeManager().getRecipesFor(
+                null)
+                        .isEmpty(), true)*/false;
     }
 
     protected void onTake(Player pPlayer, ItemStack pStack) {
@@ -31,7 +33,7 @@ extends ItemCombinerMenu {
     }
 
     protected boolean isValidBlock(BlockState pState) {
-        return false;
+        return true;
     }
 
     public void createResult() {
@@ -47,7 +49,8 @@ extends ItemCombinerMenu {
     }
 
     protected ItemCombinerMenuSlotDefinition createInputSlotDefinitions() {
-        return ItemCombinerMenuSlotDefinition.create().withSlot(0, 26, 45, FunctionCollector.alwaysTrue())
+        return ItemCombinerMenuSlotDefinition.create()
+                .withSlot(0, 26, 45, FunctionCollector.alwaysTrue())
                 .withSlot(1, 75, 45, FunctionCollector.alwaysTrue())
                 .withResultSlot(2, 133, 45).build();
     }

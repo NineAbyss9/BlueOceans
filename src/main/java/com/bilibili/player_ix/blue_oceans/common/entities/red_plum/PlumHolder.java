@@ -150,8 +150,9 @@ extends RedPlumMonster {
 
     public void despawnMob() {
         var entity = this.getDespawnMob();
-        if (entity != null)
+        if (entity != null) {
             entity.discard();
+        }
     }
 
     @Nullable
@@ -179,8 +180,9 @@ extends RedPlumMonster {
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason,
                                         @Nullable SpawnGroupData pData, @Nullable CompoundTag pTag)
     {
-        if (pReason == MobSpawnType.SPAWN_EGG)
+        if (pReason == MobSpawnType.SPAWN_EGG) {
             this.moveTo(position().add(0d, -2d, 0d));
+        }
         if (DEFAULT_SPAWN_MOB.equals(this.getSpawnId())) {
             this.fromList(1);
         }
@@ -189,19 +191,23 @@ extends RedPlumMonster {
 
     public boolean hurt(DamageSource pSource, float pAmount)
     {
-        if (this.despawn())
+        if (this.despawn()) {
             return false;
-        if (this.getTick() < 60 || this.getTick() > 140 || this.ind > 1)
+        }
+        if (this.getTick() < 60 || this.getTick() > 140 || this.ind > 1) {
             return false;
+        }
         return super.hurt(pSource, pAmount);
     }
 
     public boolean isInvulnerableTo(DamageSource pSource)
     {
-        if (pSource.is(DamageTypes.IN_WALL))
+        if (pSource.is(DamageTypes.IN_WALL)) {
             return true;
-        if (pSource.is(DamageTypeTags.IS_FIRE))
+        }
+        if (pSource.is(DamageTypeTags.IS_FIRE)) {
             return true;
+        }
         return super.isInvulnerableTo(pSource);
     }
 

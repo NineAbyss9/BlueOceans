@@ -16,6 +16,10 @@ extends Item {
         super(new Properties());
     }
 
+    public ItemStack getDefaultInstance() {
+        return withFaceValue(1.0F);
+    }
+
     public static ItemStack withFaceValue(float pValue) {
         //TODO
         ItemStack stack = new ItemStack(Item.byId(0));

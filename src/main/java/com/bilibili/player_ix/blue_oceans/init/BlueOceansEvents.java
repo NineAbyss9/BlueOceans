@@ -31,9 +31,7 @@ import java.util.Map;
 @Mod.EventBusSubscriber(modid = BlueOceans.MOD_ID)
 public class BlueOceansEvents
 {
-    private BlueOceansEvents()
-    {
-    }
+    private BlueOceansEvents() {}
 
     @SubscribeEvent
     public static void onLivingDeath(LivingDeathEvent event)

@@ -10,19 +10,29 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
 
 @SuppressWarnings("deprecation")
 public class Leek
 extends Crop {
+    protected static final IntegerProperty AGE = BlockStateProperties.AGE_3;
     public Leek() {
         super(Properties.copy(Blocks.WHEAT), 3);
         this.shape(box(0, 0, 0, 16, 2, 16),
                 box(0, 0, 0, 16, 3, 16),
                 box(0, 0, 0, 16, 5, 16),
                 box(0, 0, 0, 16, 7, 16));
+    }
+
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder)
+    {
+        pBuilder.add(AGE);
     }
 
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
@@ -35,6 +45,11 @@ extends Crop {
             return InteractionResult.sidedSuccess(pLevel.isClientSide);
         }
         return InteractionResult.PASS;
+    }
+
+    public IntegerProperty getAgeProperty()
+    {
+        return AGE;
     }
 
     protected ItemLike getBaseSeedId() {

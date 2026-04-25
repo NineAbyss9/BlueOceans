@@ -1,6 +1,7 @@
 
-package com.bilibili.player_ix.blue_oceans.common.blocks;
+package com.bilibili.player_ix.blue_oceans.common.blocks.util;
 
+import com.bilibili.player_ix.blue_oceans.common.blocks.BoBlockProperties;
 import com.bilibili.player_ix.blue_oceans.init.data.ModBlockStateProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -27,7 +28,7 @@ import javax.annotation.Nullable;
 @SuppressWarnings("deprecation")
 public class IronLadder
 extends Block
-implements ModBlockStateProvider.Util
+implements ModBlockStateProvider.Ladder
 {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty TOP;
@@ -62,12 +63,10 @@ implements ModBlockStateProvider.Util
 
     public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos)
     {
-        if (pState.getValue(TOP))
-        {
-            Direction direction = pState.getValue(FACING);
+        if (pState.getValue(TOP)) {
+            var direction = pState.getValue(FACING);
             return this.canAttachTo(pLevel, pPos.relative(direction.getOpposite()), direction);
-        } else
-        {
+        } else {
             return pLevel.getBlockState(pPos.above()).is(this);
         }
     }

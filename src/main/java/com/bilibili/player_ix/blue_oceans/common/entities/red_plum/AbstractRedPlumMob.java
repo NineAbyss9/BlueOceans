@@ -22,8 +22,6 @@ import com.github.NineAbyss9.ix_api.api.mobs.MobUtils;
 import com.github.NineAbyss9.ix_api.api.mobs.OwnableMob;
 import com.github.NineAbyss9.ix_api.api.mobs.effect.EffectInstance;
 import com.github.NineAbyss9.ix_api.util.Vec9;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -43,8 +41,6 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.MultifaceBlock;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.NineAbyss9.util.Action;
 
@@ -326,7 +322,7 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
 
     public void die(DamageSource pDamageSource) {
         if (!this.level().isClientSide) {
-            BlockPos currentPos = blockPosition();
+            /*BlockPos currentPos = blockPosition();
             BlockState state = this.level().getBlockState(currentPos);
             BlockState neoPlum = ((MultifaceBlock)BlueOceansBlocks.BUDDING_NEO_PLUM.get())
                     .getStateForPlacement(state, level(), currentPos, Direction.DOWN);
@@ -334,7 +330,8 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
                 Action.emptyTrue(() -> this.level().setBlockAndUpdate(currentPos, neoPlum))
                         .run(state.is(BoTags.RED_PLUM_BLOCKS) || !state.canBeReplaced()
                                 || fallDistance > 0.25F);
-            }
+            }*/
+            this.spawnPlumCorpse();
         }
         super.die(pDamageSource);
     }
@@ -354,11 +351,18 @@ implements RedPlumMob, ApiPoseMob, IBehaviorUser {
 
     public void spawnBreedMob(LivingEntity pEntity) {
         if (!this.level().isClientSide) {
-            if (RedPlumUtil.likeHuman(pEntity))
+            if (pEntity == this) {
+                RedPlumUtil.spawnNeoPlum(this.level(), this.position());
+            } else if (RedPlumUtil.likeHuman(pEntity))
                 RedPlumUtil.spawnRedPlumHuman(this.level(), pEntity);
             else if (RedPlumUtil.likeVillager(pEntity))
                 RedPlumUtil.spawnRedPlumVillager(this.level(), pEntity);
         }
+    }
+
+    public void spawnPlumCorpse() {
+        if (!this.level().getBlockState(this.blockPosition()).isAir()) return;
+        this.level().setBlock(this.blockPosition(), BlueOceansBlocks.PLUM_CORPSE.get().defaultBlockState(), 3);
     }
 
     public boolean shouldAttackOtherMobs() {

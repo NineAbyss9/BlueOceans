@@ -1,8 +1,8 @@
 
 package com.bilibili.player_ix.blue_oceans.client.renderer.block;
 
-import com.bilibili.player_ix.blue_oceans.BlueOceans;
 import com.bilibili.player_ix.blue_oceans.common.blocks.be.CorpseEntity;
+//import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.HeadedModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -18,7 +18,6 @@ import org.joml.Quaternionf;
 public class CorpseRenderer implements BlockEntityRenderer<CorpseEntity>
 {
     private final BlockEntityRendererProvider.Context context;
-    private boolean logged;
     public CorpseRenderer(BlockEntityRendererProvider.Context pContext)
     {
         this.context = pContext;
@@ -27,21 +26,17 @@ public class CorpseRenderer implements BlockEntityRenderer<CorpseEntity>
     public void render(CorpseEntity pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer,
                        int pPackedLight, int pPackedOverlay)
     {
-        if (pBlockEntity.getEntity() == null) return;
+        //if (pBlockEntity.getEntity() == null) return;
+        //RenderSystem.setShaderColor(0.5f, 0.5f, 0.5f, 1.0f);
         pPoseStack.pushPose();
         EntityRenderer<? extends Entity> renderer = this.context.getEntityRenderer().getRenderer(pBlockEntity.getEntity());
         if (renderer instanceof LivingEntityRenderer<?, ?> livingEntityRenderer && livingEntityRenderer.getModel()
                 instanceof HeadedModel headedModel) {
             headedModel.getHead().render(pPoseStack, pBuffer.getBuffer(RenderType.entityCutoutNoCull(renderer
-                    .getTextureLocation(IXUtil.c.convert(pBlockEntity.getEntity())))).color(12, 12, 12,
-                    0), pPackedLight, pPackedOverlay, 1f, 1f, 1f, 0f);
+                    .getTextureLocation(IXUtil.c.convert(pBlockEntity.getEntity())))).color(255, 255, 255, 255),
+                    pPackedLight, pPackedOverlay, 0.5f, 0.5f, 0.5f, 1f);
             pPoseStack.translate(0.5f, 0.5f, 0.5f);
             pPoseStack.mulPose(new Quaternionf(0f, 90f, 0f, 0f));
-            if (!logged)
-            {
-                BlueOceans.LOGGER.debug("Successful to render corpse.");
-                logged = true;
-            }
         }
         pPoseStack.popPose();
     }

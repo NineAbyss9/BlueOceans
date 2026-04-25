@@ -15,6 +15,10 @@ implements ModItemModelProvider.Handed
         super(new Properties().durability(1999).rarity(Rarity.UNCOMMON));
     }
 
+    public boolean isUtil() {
+        return false;
+    }
+
     public AbstractArrow customArrow(AbstractArrow arrow) {
         RedPlumArrow newArrow = null;
         newArrow.setCustomName(arrow.getCustomName());

@@ -1,11 +1,11 @@
 
 package com.bilibili.player_ix.blue_oceans.common.item.food;
 
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansMobEffects;
 import com.github.NineAbyss9.ix_api.util.Maths;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -34,8 +34,8 @@ extends FoodItem {
 
     public ItemStack finishUsingItem(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity) {
         if (isJava(pStack)) {
-            pLivingEntity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, Maths.minuteToTick(5),
-                    4));
+            pLivingEntity.addEffect(new MobEffectInstance(BlueOceansMobEffects.COMFORTABLE.get(), Maths.minuteToTick(5),
+                    2));
         }
         return super.finishUsingItem(pStack, pLevel, pLivingEntity);
     }

@@ -30,11 +30,12 @@ import java.nio.file.Path;
 public class BlueOceans implements ModOfNineAbyss {
     /**The id of the mod.*/
     public static final String MOD_ID = "blue_oceans";
+    @SuppressWarnings("unused")
+    public static final String MODID = MOD_ID;
     public static final Logger LOGGER = LogUtils.getLogger();
     /**The agent of the mod.*/
     public static BoAgent agent;
 
-    /*Constructor*/
     @SuppressWarnings("removal")
     public BlueOceans(FMLJavaModLoadingContext context) {
         agent = DistExecutor.unsafeRunForDist(() -> ClientAgent::new, () -> ServerAgent::new);

@@ -6,6 +6,8 @@ import com.bilibili.player_ix.blue_oceans.common.blocks.*;
 import com.bilibili.player_ix.blue_oceans.common.blocks.cave.MiningLamp;
 import com.bilibili.player_ix.blue_oceans.common.blocks.cave.Rope;
 import com.bilibili.player_ix.blue_oceans.common.blocks.chemistry.AlcoholLamp;
+import com.bilibili.player_ix.blue_oceans.common.blocks.chemistry.gas.GasBlock;
+import com.bilibili.player_ix.blue_oceans.common.blocks.chemistry.gas.GasEnum;
 import com.bilibili.player_ix.blue_oceans.common.blocks.corpse.Corpse;
 import com.bilibili.player_ix.blue_oceans.common.blocks.corpse.PlumCorpse;
 import com.bilibili.player_ix.blue_oceans.common.blocks.farming.*;
@@ -13,8 +15,11 @@ import com.bilibili.player_ix.blue_oceans.common.blocks.food.Leek;
 import com.bilibili.player_ix.blue_oceans.common.blocks.food.RiceBlock;
 import com.bilibili.player_ix.blue_oceans.common.blocks.food.RiceEars;
 import com.bilibili.player_ix.blue_oceans.common.blocks.nature.Bush;
+import com.bilibili.player_ix.blue_oceans.common.blocks.nature.GanodermaLucidum;
 import com.bilibili.player_ix.blue_oceans.common.blocks.nature.water.Reed;
 import com.bilibili.player_ix.blue_oceans.common.blocks.plum.*;
+import com.bilibili.player_ix.blue_oceans.common.blocks.util.IronLadder;
+import com.bilibili.player_ix.blue_oceans.common.blocks.util.WoodenSupport;
 import com.bilibili.player_ix.blue_oceans.common.item.FlagItem;
 import com.bilibili.player_ix.blue_oceans.init.data.BoDataGenHelper;
 import net.minecraft.core.BlockPos;
@@ -36,6 +41,9 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
@@ -43,6 +51,23 @@ import java.util.function.ToIntFunction;
 public class BlueOceansBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,
             BlueOceans.MOD_ID);
+    public static final Set<RegistryObject<GasBlock>> GASES = new HashSet<>();
+    public static GasBlock getGas(GasEnum gasEnum) {
+        AtomicReference<GasBlock> result = new AtomicReference<>();
+        GASES.forEach(object -> {
+            if (!object.getId().getPath().contains(gasEnum.name())) {
+                return;
+            }
+            result.set((GasBlock)object.get());
+        });
+        if (result.get() == null) throw new NullPointerException();
+        return result.get();
+    }
+
+    private static RegistryObject<GasBlock> gas(GasEnum gasEnum,
+                                                Supplier<GasBlock> supplier) {
+        return BLOCKS.register(gasEnum.name().toLowerCase(), supplier);
+    }
 
     private static boolean always(BlockState p_50775_, BlockGetter p_50776_, BlockPos p_50777_) {
         return true;
@@ -101,6 +126,8 @@ public class BlueOceansBlocks {
             ()-> new FlagBlock(FlagItem.Type.EVIL_FACTION));
     public static final RegistryObject<Block> GANODERMA_LUCIDUM = BLOCKS.register("ganoderma_lucidum",
             GanodermaLucidum::new);
+    public static final RegistryObject<Block> IRON_LADDER = block("iron_ladder",
+            IronLadder::new);
     public static final RegistryObject<Block> LEEK = BLOCKS.register("leek", Leek::new);
     /*public static final RegistryObject<Block> ORANGE_SAPLING = BLOCKS.register("orange_sapling",
             () -> new SaplingBlock(BoSaplings.orange(), BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission()
@@ -158,5 +185,14 @@ public class BlueOceansBlocks {
                 new BarrenSoil(BlockBehaviour.Properties.copy(Blocks.DIRT)));
         REED = block("reed", () -> new Reed(BlockBehaviour.Properties.copy(Blocks.TALL_GRASS)));
         WEED = block("weed", () -> new Weed(BlockBehaviour.Properties.copy(Blocks.GRASS)));
+    }
+
+
+    public static class SimpleBlockProperties extends BlockBehaviour.Properties {
+        public SimpleBlockProperties() {
+            super();
+        }
+
+
     }
 }

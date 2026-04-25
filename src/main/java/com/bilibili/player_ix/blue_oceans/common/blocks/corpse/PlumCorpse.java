@@ -26,7 +26,7 @@ extends Corpse
     }
 
     public void entityInside(BlockState pState, Level pLevel, BlockPos pPos, Entity pEntity) {
-        if (pEntity.tickCount % 10 == 0 && Math.random() < 0.3d && pEntity instanceof LivingEntity entity) {
+        if (pLevel.getGameTime() % 10L == 0L && pEntity instanceof LivingEntity entity) {
             if (Math.random() < 0.1d)
                 entity.addEffect(RedPlumUtil.plumInfection(600, 1));
             else
