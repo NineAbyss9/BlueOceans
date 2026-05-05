@@ -12,7 +12,7 @@ public class CultivateObject {
      * 青霉菌
      */
     public static final CultivateObject Penicillium;
-    public static final CultivateObject RED_PLUM_CELL = null;
+    public static final CultivateObject RED_PLUM_CELL;
     private final String name;
     private final long growTime;
     private final int maxGrow;
@@ -83,10 +83,15 @@ public class CultivateObject {
         return FINDER.getOrDefault(pName, EMPTY);
     }
 
+    public static CultivateObject putIfAbsent(String name, CultivateObject object) {
+        return FINDER.putIfAbsent(name, object);
+    }
+
     static {
         FINDER = new TreeMap<>();
         EMPTY = new CultivateObject("Empty", Long.MAX_VALUE, Integer.MAX_VALUE, Type.EMPTY);
         Penicillium = new CultivateObject("Penicillium", 400L, 4, Type.Fungi);
+        RED_PLUM_CELL = new CultivateObject("RedPlumCell", 180L, 4, Type.Cell);
     }
 
     public enum Type {

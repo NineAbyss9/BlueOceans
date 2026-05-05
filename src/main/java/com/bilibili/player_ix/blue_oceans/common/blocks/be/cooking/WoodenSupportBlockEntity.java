@@ -90,26 +90,27 @@ implements WorldlyContainer, RecipeHolder, IXUtilUser {
                             WoodenSupportBlockEntity pBlockEntity) {
         if (pLevel.isClientSide)
         {
-            if (pState.getValue(BURNING))
-            {
-                double d0 = pPos.getX();
-                double d1 = pPos.getY();
-                double d2 = pPos.getZ();
-                if (Math.random() < 0.1d) {
-                    pLevel.playLocalSound(d0, d1, d2, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS,
+            Random pRandom = MathSupport.random;
+            if (pState.getValue(BURNING)) {
+                double $$4 = (double)pPos.getX() + 0.5D;
+                double $$5 = (double)pPos.getY() + 0.5D;
+                double $$6 = (double)pPos.getZ() + 0.5D;
+                if (pRandom.nextDouble() < 0.1D) {
+                    pLevel.playLocalSound($$4, $$5, $$6, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS,
                             1.0F, 1.0F, false);
-                    Random pRandom = MathSupport.threadSafeRandom;
-                    pLevel.addParticle(ParticleTypes.FLAME,
-                            d0 + pRandom.nextDouble(),
-                            d1 + pRandom.nextDouble(),
-                            d2 + pRandom.nextDouble(),
-                            pRandom.nextDouble() * 0.15d,
-                            pRandom.nextDouble() * 0.15d,
-                            pRandom.nextDouble() * 0.15d);
                 }
+                /*Direction $$7 = (Direction)pState.getValue(WoodenSupport.FACING);
+                Direction.Axis $$8 = $$7.getAxis();
+                double $$10 = pRandom.nextDouble() * 0.6 - 0.3;
+                double $$11 = $$8 == Direction.Axis.X ? $$7.getStepX() * 0.52D : $$10;
+                double $$12 = pRandom.nextDouble() * 6.0D / 16.0D;
+                double $$13 = $$8 == Direction.Axis.Z ? $$7.getStepZ() * 0.52D : $$10;*/
+                pLevel.addParticle(ParticleTypes.SMOKE, $$4, $$5, $$6, 0.0D,
+                        0.0D, 0.0D);
+                pLevel.addParticle(ParticleTypes.FLAME, $$4, $$5, $$6, 0.0D,
+                        0.0D, 0.0D);
             }
-        } else
-        {
+        } else {
             boolean flag = pBlockEntity.isBurning();
             boolean flag1 = false;
             boolean puttedItemsNotEmpty = !pBlockEntity.getPuttedItem().isEmpty();
@@ -238,7 +239,8 @@ implements WorldlyContainer, RecipeHolder, IXUtilUser {
     }
 
     public boolean isEmpty() {
-        return items.stream().allMatch(ItemStack::isEmpty);
+        return items.stream().filter(ItemStack::isEmpty)
+                .toList().isEmpty();
     }
 
     public ItemStack getItem(int pIndex) {

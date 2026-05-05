@@ -72,6 +72,10 @@ implements IChemical
 
     public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
         if (pState.getValue(BURNING)) {
+            if (pLevel.getBlockState(pPos.above()).is(this)) {
+                pLevel.destroyBlock(pPos, false);
+                //TODO Spawn glass slice
+            }
             if (pState.getValue(CAPACITY) > 0) {
                 if (pLevel.getGameTime() % 2400L == 0L)
                     pLevel.setBlock(pPos, pState.setValue(CAPACITY, pState.getValue(CAPACITY) - 1), 1);

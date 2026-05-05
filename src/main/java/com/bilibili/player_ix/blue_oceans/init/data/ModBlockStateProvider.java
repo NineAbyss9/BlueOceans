@@ -6,11 +6,13 @@ import com.bilibili.player_ix.blue_oceans.common.blocks.corpse.Corpse;
 import com.bilibili.player_ix.blue_oceans.common.blocks.farming.AbstractFarmland;
 import com.bilibili.player_ix.blue_oceans.common.blocks.farming.AbstractSoil;
 import com.bilibili.player_ix.blue_oceans.common.blocks.food.Crop;
+import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FarmBlock;
 import net.minecraft.world.level.block.MultifaceBlock;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -35,6 +37,8 @@ extends BlockStateProvider
                 crop(IXUtil.c.convert(object), crop);
             else if (block instanceof Cross) {
                 cross(object, block);
+            } else if (block instanceof MainAndOtherSide) {
+                mainSideAndOtherSide(object);
             } else if (block instanceof AbstractFarmland farmland)
                 farmland(object, farmland);
             else if (block instanceof AbstractSoil)
@@ -55,12 +59,40 @@ extends BlockStateProvider
     private void ladder(RegistryObject<?> block, Block instance)
     {
         var model = models().singleTexture(block.getId().getPath().replace("block/", ""),
-                mcLoc("block/ladder"), modLoc("block/util/" + block.getId().getPath()));
-        simpleBlockWithItem(instance, model);
+                mcLoc("block/ladder"), modLoc("block/util/" + block.getId().getPath()))
+                .renderType("translucent");
+        getVariantBuilder(instance)
+                .forAllStates(state -> ConfiguredModel.builder()
+                        .modelFile(model)
+                        .rotationY(((int)state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360)
+                        .build());
+        itemModels().getBuilder("item/block/" + block.getId().getPath().replace("block/", ""))
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", new ResourceLocation(
+                        BlueOceans.MOD_ID, "block/util/" + block.getId().getPath()));
+    }
+
+    private void mainSideAndOtherSide(RegistryObject<? extends Block> block)
+    {
+        String st = block.getId().getPath();
+        var model = models().singleTexture(st,
+                        mcLoc("block/orientable"), "side", modLoc("block/mo/" + st))
+                .texture("front", modLoc("block/mo/" + st + "_main"))
+                .texture("top", modLoc("block/mo/" + st));
+        for (Direction direction : Direction.values()) {
+            if (direction.getAxis().isHorizontal()) {
+                getVariantBuilder(block.get())
+                        .partialState().with(BlockStateProperties.HORIZONTAL_FACING, direction)
+                        .modelForState()
+                        .modelFile(model)
+                        .rotationY((int)(direction.toYRot() + 180) % 360)
+                        .addModel();
+            }
+        }
+        itemModels().getBuilder("item/block/" + st).parent(model);
     }
 
     private void corpse(RegistryObject<?> block, Block instance) {
-        //VariantBlockStateBuilder builder = getVariantBuilder(instance);
         BlockModelBuilder model = models().singleTexture(
                 block.getId().getPath().replace("block/", ""),
                 new ResourceLocation(BlueOceans.MOD_ID, "block/corpse_model"),
@@ -164,4 +196,6 @@ extends BlockStateProvider
 
     public interface Util
     extends ITextureProvider { }
+
+    public interface MainAndOtherSide { }
 }

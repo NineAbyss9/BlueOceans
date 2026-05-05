@@ -192,7 +192,7 @@ public class ClientInitEvents {
     {
         event.register((itemStack, i) -> {
             return GrassColor.getDefaultColor();
-        });
+        }, BlueOceansItems.WEED.get());
     }
 
     @SubscribeEvent

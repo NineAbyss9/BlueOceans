@@ -26,8 +26,7 @@ public class CorpseRenderer implements BlockEntityRenderer<CorpseEntity>
     public void render(CorpseEntity pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer,
                        int pPackedLight, int pPackedOverlay)
     {
-        //if (pBlockEntity.getEntity() == null) return;
-        //RenderSystem.setShaderColor(0.5f, 0.5f, 0.5f, 1.0f);
+        if (pBlockEntity.getEntity() == null) return;
         pPoseStack.pushPose();
         EntityRenderer<? extends Entity> renderer = this.context.getEntityRenderer().getRenderer(pBlockEntity.getEntity());
         if (renderer instanceof LivingEntityRenderer<?, ?> livingEntityRenderer && livingEntityRenderer.getModel()

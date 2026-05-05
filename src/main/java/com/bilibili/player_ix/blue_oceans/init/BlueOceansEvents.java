@@ -97,8 +97,10 @@ public class BlueOceansEvents
     }
 
     @SubscribeEvent
-    public static void onCropGrowPre(BlockEvent.CropGrowEvent.Pre event) {
+    public static void onCropGrowPre(BlockEvent.CropGrowEvent.Pre event)
+    {
         var level = event.getLevel();
+        if (level.isClientSide()) return;
         var pos = event.getPos();
         if (level.getBlockState(pos.below()).is(BoTags.BARREN_FARMLANDS)
                 && MathSupport.random.nextFloat() < 0.3F) {

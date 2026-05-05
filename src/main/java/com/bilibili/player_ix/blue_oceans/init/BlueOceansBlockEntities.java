@@ -20,6 +20,8 @@ public class BlueOceansBlockEntities {
             = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, BlueOceans.MOD_ID);
     public static final RegistryObject<BlockEntityType<CorpseEntity>> CORPSE = BLOCK_ENTITIES.register("corpse",
             () -> BlockEntityType.Builder.of(CorpseEntity::new, BlueOceansBlocks.CORPSE.get()).build(Instance.nullOf()));
+    //public static final RegistryObject<BlockEntityType<PetriDishEntity>> PETRI_DISH = register("petri_dish",
+    //        PetriDishEntity::new, null);
     public static final RegistryObject<BlockEntityType<SprinklerEntity>> SPRINKLER
             = register("sprinkler", SprinklerEntity::new, BlueOceansBlocks.SPRINKLER);
     public static final RegistryObject<BlockEntityType<WoodenSupportBlockEntity>> WOODEN_SUPPORT

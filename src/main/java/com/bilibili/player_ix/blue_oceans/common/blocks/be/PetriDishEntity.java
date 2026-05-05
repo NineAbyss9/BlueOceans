@@ -9,11 +9,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.concurrent.atomic.AtomicLong;
-
 public class PetriDishEntity
 extends BlockEntity {
-    public AtomicLong cultivateTime;
+    private long cultivateTime = 0L;
     private CultivateObject cultivateObject = CultivateObject.EMPTY;
     public PetriDishEntity(BlockPos pPos, BlockState pBlockState) {
         super(null, pPos, pBlockState);
@@ -21,20 +19,20 @@ extends BlockEntity {
 
     public static void tick(Level pLevel, BlockPos pPos, BlockState pState, PetriDishEntity pEntity) {
         if (!pEntity.cultivateObject.isEmpty()) {
-            pEntity.cultivateTime.addAndGet(1);
+            pEntity.cultivateTime += 1L;
         }
     }
 
     public void load(CompoundTag pTag) {
         super.load(pTag);
         this.cultivateObject = CultivateObject.get(pTag.getString("CultivateObject"));
-        this.cultivateTime.set(pTag.getLong("CultivateTime"));
+        this.cultivateTime = pTag.getLong("CultivateTime");
     }
 
     protected void saveAdditional(CompoundTag pTag) {
         super.saveAdditional(pTag);
         pTag.putString("CultivateObject", this.cultivateObject.name());
-        pTag.putLong("CultivateTime", this.cultivateTime.longValue());
+        pTag.putLong("CultivateTime", this.cultivateTime);
     }
 
     public CultivateObject getCultivateObject() {

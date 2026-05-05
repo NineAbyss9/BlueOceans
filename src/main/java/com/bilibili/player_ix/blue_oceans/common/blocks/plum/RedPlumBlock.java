@@ -2,24 +2,14 @@
 package com.bilibili.player_ix.blue_oceans.common.blocks.plum;
 
 import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.AbstractRedPlumMob;
-/*import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.NeoPlum;
-import com.bilibili.player_ix.blue_oceans.common.entities.red_plum.RedPlumMonster;
-import com.bilibili.player_ix.blue_oceans.config.BoCommonConfig;*/
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlocks;
-//import com.bilibili.player_ix.blue_oceans.init.BlueOceansEntities;
-import com.bilibili.player_ix.blue_oceans.init.BlueOceansParticleTypes;
-import com.github.NineAbyss9.ix_api.util.ParticleUtil;
-import com.github.NineAbyss9.ix_api.util.Vec9;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
-//import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-//import net.minecraft.world.level.NaturalSpawner;
-//import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
@@ -27,7 +17,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
-//import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 import org.NineAbyss9.math.MathSupport;
 
@@ -63,11 +52,6 @@ public class RedPlumBlock extends Block implements PlumBlock {
     @SuppressWarnings("deprecation")
     public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
         this.spawnPlum(pLevel, pPos, pRandom);
-        if (pRandom.nextFloat() < 0.1F) {
-            BlockPos above = pPos.above();
-            ParticleUtil.serverAddParticle(pLevel, BlueOceansParticleTypes.RED_PLUM_SPELL.get(),
-                    Vec9.of(above));
-        }
         if (pRandom.nextFloat() < 0.02F) {
             this.random25Action(pState, pLevel, pPos);
         }
@@ -75,10 +59,9 @@ public class RedPlumBlock extends Block implements PlumBlock {
 
     protected void random25Action(BlockState pState, ServerLevel pLevel, BlockPos pPos) {
         if (this.getLevel() == 1) {
-            BlockState state = MathSupport.random.nextBoolean() ?
+            pLevel.setBlock(pPos, MathSupport.random.nextBoolean() ?
                     BlueOceansBlocks.RED_PLUM_CATALYST.get().defaultBlockState() :
-                    BlueOceansBlocks.SCLEROTIC_RED_PLUM_BLOCK.get().defaultBlockState();
-            pLevel.setBlock(pPos, state, 2);
+                    BlueOceansBlocks.SCLEROTIC_RED_PLUM_BLOCK.get().defaultBlockState(), 2);
         }
     }
 
@@ -86,7 +69,7 @@ public class RedPlumBlock extends Block implements PlumBlock {
     }
 
     public Block getRestoreBlock(Level pLevel, BlockPos pPos) {
-        if (pLevel.canSeeSky(pPos)) {
+        if (pLevel.getBlockState(pPos.above()).isAir()) {
             return Blocks.GRASS_BLOCK;
         }
         return Blocks.STONE;

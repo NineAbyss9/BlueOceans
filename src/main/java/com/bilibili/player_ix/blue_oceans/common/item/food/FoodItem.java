@@ -78,13 +78,13 @@ implements ModItemModelProvider.Food
     public static FoodItem comfortable(int pNutrition, float pSaturation) {
         return new FoodItem(new Properties().food(new FoodProperties.Builder().nutrition(pNutrition)
                 .saturationMod(pSaturation).effect(() ->
-                        new MobEffectInstance(BlueOceansMobEffects.COMFORTABLE.get()), 0.0F).build()));
+                        new MobEffectInstance(BlueOceansMobEffects.COMFORTABLE.get()), 1.0F).build()));
     }
 
     public ItemStack finishUsingItem(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity) {
         if (pLivingEntity instanceof Player player) {
             ItemStack result = function.apply(pStack, pLevel, player);
-            if (result.equals(pStack))
+            if (result == pStack)
                 return super.finishUsingItem(pStack, pLevel, pLivingEntity);
             else
                 return result;

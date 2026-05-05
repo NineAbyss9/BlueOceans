@@ -13,6 +13,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.ForgeHooks;
 import org.NineAbyss9.math.MathSupport;
 
 public class ChemicalFertilizer
@@ -20,6 +21,7 @@ extends Item
 implements ITextureProvider
 {
     public static final String FERTILITY = "Fertility";
+    public static final String USE_COUNT = "NumberOfUses";
     public ChemicalFertilizer(Properties pProperties) {
         super(pProperties);
     }
@@ -34,6 +36,11 @@ implements ITextureProvider
         BlockPos pos = pContext.getClickedPos();
         if (!level.isClientSide) {
             ItemStack stack = pContext.getItemInHand();
+            if (getUseCount(stack) > 2) {
+                stack.shrink(1);
+            } else {
+                increaseUseCount(stack);
+            }
             for (int i = 2;i < 6;i++)
             {
                 BlockPos pos1 = pos.relative(Direction.values()[i]);
@@ -43,10 +50,13 @@ implements ITextureProvider
                 BlockState state = level.getBlockState(pos1);
                 if (state.getBlock() instanceof CropBlock cropBlock
                     && getFertility(stack) > MathSupport.random.nextFloat()) {
-                    ((ServerLevel)level).sendParticles(ParticleTypes.HAPPY_VILLAGER,
-                            (double)pos1.getX(), (double)pos1.getY(), (double)pos1.getZ(), 5, 0.2D,
-                            0.2D, 0.2D, 0.01D);
-                    cropBlock.performBonemeal((ServerLevel)level, level.random, pos1, state);
+                    if (ForgeHooks.onCropsGrowPre(level, pos1, state, true)) {
+                        ((ServerLevel)level).sendParticles(ParticleTypes.HAPPY_VILLAGER,
+                                (double)pos1.getX(), (double)pos1.getY(), (double)pos1.getZ(), 5, 0.2D,
+                                0.2D, 0.2D, 0.01D);
+                        cropBlock.performBonemeal((ServerLevel)level, level.random, pos1, state);
+                        ForgeHooks.onCropsGrowPost(level, pos1, state);
+                    }
                 }
             }
             return InteractionResult.CONSUME;
@@ -66,7 +76,9 @@ implements ITextureProvider
 
     public ItemStack getDefaultInstance()
     {
-        return setFertility(super.getDefaultInstance(), 0.2F);
+        var stack = (setFertility(new ItemStack(this), 0.2F));
+        getUseCount(stack);
+        return stack;
     }
 
     public static float getFertility(ItemStack pStack) {
@@ -78,5 +90,17 @@ implements ITextureProvider
     public static ItemStack setFertility(ItemStack pStack, float pFertility) {
         pStack.getOrCreateTag().putFloat(FERTILITY, pFertility);
         return pStack;
+    }
+
+    public static int getUseCount(ItemStack pStack) {
+        if (pStack.getTag() == null || !pStack.getTag().contains(USE_COUNT)) {
+            pStack.getOrCreateTag().putInt(USE_COUNT, 0);
+            return 0;
+        }
+        return pStack.getOrCreateTag().getInt(USE_COUNT);
+    }
+
+    public static void increaseUseCount(ItemStack pStack) {
+        pStack.getOrCreateTag().putInt(USE_COUNT, getUseCount(pStack) + 1);
     }
 }

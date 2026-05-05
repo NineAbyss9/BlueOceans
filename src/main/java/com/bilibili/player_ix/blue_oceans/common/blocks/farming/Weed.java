@@ -41,15 +41,13 @@ implements BonemealableBlock, ModBlockStateProvider.Cross
 
     public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom)
     {
-        if (!pLevel.isAreaLoaded(pPos, 1) || pLevel.isLoaded(pPos)) return;
+        if (!pLevel.isAreaLoaded(pPos, 1) || !pLevel.isLoaded(pPos)) return;
         if (pLevel.getRawBrightness(pPos, 0) >= 4) {
             int i = this.getAge(pState);
             if (i < this.getMaxAge()) {
                 float f = getGrowthSpeed(this, pLevel, pPos);
-                if (net.minecraftforge.common.ForgeHooks.onCropsGrowPre(pLevel, pPos, pState, pRandom.nextInt(
-                        (int)(25.0F / f) + 1) == 0)) {
+                if (pRandom.nextInt((int)(25.0F / f) + 1) == 0) {
                     pLevel.setBlock(pPos, this.getStateForAge(i + 1), 2);
-                    net.minecraftforge.common.ForgeHooks.onCropsGrowPost(pLevel, pPos, pState);
                 }
             }
         }
@@ -80,6 +78,7 @@ implements BonemealableBlock, ModBlockStateProvider.Cross
         return !this.isMaxAge(pState);
     }
 
+    @SuppressWarnings("unused")
     public float getDisableCropGrowthChance(BlockState pState, LevelAccessor pLevel, BlockPos pPos)
     {
         return pState.getValue(AGE) * 0.2f + 0.05f;
@@ -94,7 +93,7 @@ implements BonemealableBlock, ModBlockStateProvider.Cross
                 float f1 = 0.0F;
                 BlockState blockstate = pLevel.getBlockState(blockpos.offset(i, 0, j));
                 if (blockstate.canSustainPlant(pLevel, blockpos.offset(i, 0, j), Direction.UP,
-                        (net.minecraftforge.common.IPlantable)pBlock)) {
+                        (IPlantable)pBlock)) {
                     f1 = 1.0F;
                     if (blockstate.isFertile(pLevel, pPos.offset(i, 0, j))) {
                         f1 = 3.0F;
@@ -125,25 +124,19 @@ implements BonemealableBlock, ModBlockStateProvider.Cross
     }
 
     public boolean isBonemealSuccess(Level pLevel, RandomSource pRandom, BlockPos pPos, BlockState pState)
-    {
-        return false;
-    }
+    {return false;}
 
     public boolean isValidBonemealTarget(LevelReader pLevel, BlockPos pPos, BlockState pState, boolean pIsClient)
-    {
-        return false;
-    }
+    {return false;}
 
     public void performBonemeal(ServerLevel pLevel, RandomSource pRandom, BlockPos pPos, BlockState pState)
     {
         BlockState blockstate = this.defaultBlockState();
-        //BlockState blockstate1 = blockstate.setValue(TallSeagrassBlock.HALF, DoubleBlockHalf.UPPER);
-        BlockPos blockpos = pPos.above();
-        if (pLevel.getBlockState(blockpos).isAir()) {
+        //BlockPos blockpos = pPos.above();
+        //if (pLevel.getBlockState(blockpos).isAir()) {
             pLevel.setBlock(pPos, blockstate, 2);
-            pLevel.setBlock(blockpos, blockstate//1
-                    , 2);
-        }
+            //pLevel.setBlock(blockpos, blockstate, 2);
+        //}
     }
 
     public void entityInside(BlockState pState, Level pLevel, BlockPos pPos, Entity pEntity)
@@ -163,15 +156,10 @@ implements BonemealableBlock, ModBlockStateProvider.Cross
         return super.canSurvive(pState, pLevel, pPos);
     }
 
-    public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction facing, IPlantable plantable)
-    {
-        return plantable instanceof Weed;
-    }
+    public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction facing, IPlantable plantable) {return false;}
 
     public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player)
-    {
-        return new ItemStack(this.asItem());
-    }
+    {return new ItemStack(this.asItem());}
 
     static {
         AGE = BlockStateProperties.AGE_2;

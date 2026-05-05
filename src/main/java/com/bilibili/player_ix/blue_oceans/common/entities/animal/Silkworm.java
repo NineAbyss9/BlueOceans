@@ -113,11 +113,10 @@ implements IAnimatedMob, CompletelyPerverseState.Interface {
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty,
                                         MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData,
                                         @Nullable CompoundTag pDataTag) {
-        SpawnGroupData data = super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
         if (pReason == MobSpawnType.NATURAL && pLevel.getRandom().nextFloat() < 0.72F) {
             this.entityData.set(DATA_STATE, CompletelyPerverseState.ADULT.id);
         }
-        return data;
+        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
     }
 
     public boolean isFlying() {
@@ -163,8 +162,7 @@ implements IAnimatedMob, CompletelyPerverseState.Interface {
         this.stageTick = pCompound.getInt("StageTick");
     }
 
-    static
-    {
+    static {
         DATA_STATE = SynchedEntityData.defineId(Silkworm.class, EntityDataSerializers.INT);
     }
 

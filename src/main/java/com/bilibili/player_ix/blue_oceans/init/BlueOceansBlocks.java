@@ -11,6 +11,7 @@ import com.bilibili.player_ix.blue_oceans.common.blocks.chemistry.gas.GasEnum;
 import com.bilibili.player_ix.blue_oceans.common.blocks.corpse.Corpse;
 import com.bilibili.player_ix.blue_oceans.common.blocks.corpse.PlumCorpse;
 import com.bilibili.player_ix.blue_oceans.common.blocks.farming.*;
+import com.bilibili.player_ix.blue_oceans.common.blocks.farming.animal.Incubator;
 import com.bilibili.player_ix.blue_oceans.common.blocks.food.Leek;
 import com.bilibili.player_ix.blue_oceans.common.blocks.food.RiceBlock;
 import com.bilibili.player_ix.blue_oceans.common.blocks.food.RiceEars;
@@ -43,25 +44,27 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
 @SuppressWarnings({"deprecation", "unused"})
-public class BlueOceansBlocks {
+public class BlueOceansBlocks
+{
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,
             BlueOceans.MOD_ID);
     public static final Set<RegistryObject<GasBlock>> GASES = new HashSet<>();
-    public static GasBlock getGas(GasEnum gasEnum) {
-        AtomicReference<GasBlock> result = new AtomicReference<>();
-        GASES.forEach(object -> {
+    public static GasBlock getGas(GasEnum gasEnum)
+    {
+        GasBlock result = null;
+        for (RegistryObject<GasBlock> object : GASES) {
             if (!object.getId().getPath().contains(gasEnum.name())) {
-                return;
+                continue;
             }
-            result.set((GasBlock)object.get());
-        });
-        if (result.get() == null) throw new NullPointerException();
-        return result.get();
+            result = object.get();
+            break;
+        }
+        if (result == null) throw new NullPointerException();
+        return result;
     }
 
     private static RegistryObject<GasBlock> gas(GasEnum gasEnum,
@@ -126,6 +129,7 @@ public class BlueOceansBlocks {
             ()-> new FlagBlock(FlagItem.Type.EVIL_FACTION));
     public static final RegistryObject<Block> GANODERMA_LUCIDUM = BLOCKS.register("ganoderma_lucidum",
             GanodermaLucidum::new);
+    public static final RegistryObject<Block> INCUBATOR = block("incubator", Incubator::new);
     public static final RegistryObject<Block> IRON_LADDER = block("iron_ladder",
             IronLadder::new);
     public static final RegistryObject<Block> LEEK = BLOCKS.register("leek", Leek::new);
@@ -185,14 +189,5 @@ public class BlueOceansBlocks {
                 new BarrenSoil(BlockBehaviour.Properties.copy(Blocks.DIRT)));
         REED = block("reed", () -> new Reed(BlockBehaviour.Properties.copy(Blocks.TALL_GRASS)));
         WEED = block("weed", () -> new Weed(BlockBehaviour.Properties.copy(Blocks.GRASS)));
-    }
-
-
-    public static class SimpleBlockProperties extends BlockBehaviour.Properties {
-        public SimpleBlockProperties() {
-            super();
-        }
-
-
     }
 }

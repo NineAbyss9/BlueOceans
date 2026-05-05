@@ -5,17 +5,10 @@ import com.bilibili.player_ix.blue_oceans.BlueOceans;
 import com.bilibili.player_ix.blue_oceans.api.item.BORarity;
 import com.bilibili.player_ix.blue_oceans.api.item.BoTier;
 import com.bilibili.player_ix.blue_oceans.common.chemistry.Element;
-import com.bilibili.player_ix.blue_oceans.common.item.FlagItem;
-import com.bilibili.player_ix.blue_oceans.common.item.ItemLocBlockItem;
-import com.bilibili.player_ix.blue_oceans.common.item.WoodenStick;
-import com.bilibili.player_ix.blue_oceans.common.item.biology.GravyBottle;
-import com.bilibili.player_ix.blue_oceans.common.item.biology.Scalpel;
-import com.bilibili.player_ix.blue_oceans.common.item.biology.TestTube;
+import com.bilibili.player_ix.blue_oceans.common.item.*;
+import com.bilibili.player_ix.blue_oceans.common.item.biology.*;
 import com.bilibili.player_ix.blue_oceans.common.item.biology.organ.*;
-import com.bilibili.player_ix.blue_oceans.common.item.biology.tissue.Muscle;
-import com.bilibili.player_ix.blue_oceans.common.item.biology.tissue.Nerve;
-import com.bilibili.player_ix.blue_oceans.common.item.biology.tissue.PlumMuscle;
-import com.bilibili.player_ix.blue_oceans.common.item.biology.tissue.PlumNerve;
+import com.bilibili.player_ix.blue_oceans.common.item.biology.tissue.*;
 import com.bilibili.player_ix.blue_oceans.common.item.block.RiceItem;
 import com.bilibili.player_ix.blue_oceans.common.item.chemistry.ElementItem;
 import com.bilibili.player_ix.blue_oceans.common.item.cooking.Sorbet;
@@ -64,9 +57,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.minecraftforge.registries.*;
 
 import java.util.Set;
 import java.util.function.Supplier;
@@ -74,7 +65,8 @@ import java.util.function.Supplier;
 @SuppressWarnings("unused")
 @PAMAreNonnullByDefault
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class BlueOceansItems {
+public class BlueOceansItems
+{
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS,  BlueOceans.MOD_ID);
     public static Set<RegistryObject<? extends Item>> MAIN_CREATIVE_ITEMS = Sets.newLinkedHashSet();
@@ -100,6 +92,10 @@ public class BlueOceansItems {
 
     private static ItemBuilder itemBuilder(String en, Supplier<Item> pItem) {
         return builder().item(pItem).name(en);
+    }
+
+    private static RegistryObject<Item> food(String en, Supplier<Item> pItem) {
+        return builder().name(en).item(pItem).food().build();
     }
 
     private static RegistryObject<Item> block(String en, Supplier<? extends Block> supplier, String address)
@@ -312,15 +308,20 @@ public class BlueOceansItems {
     //S End
 
     //Material
+    /// For index
+    public static final Object MATERIAL = new Object();
+    public static final RegistryObject<Item> GLASS_SLICE = itemBuilder("glass_slice", BaseItem::new).build();
     public static final RegistryObject<Item> STEEL_INGOT = ITEMS.register("steel_ingot", BaseItem::new);
 
-    public static final RegistryObject<Item> REED = block("reed", BlueOceansBlocks.REED, "");
+    public static final RegistryObject<Item> REED = block("reed", BlueOceansBlocks.REED);
     //Fuels
     public static final RegistryObject<Item> Lignite = item("Lignite", BaseItem::new);
     //F End
     //M End
 
     //Block
+    /// For index
+    public static final Object BLOCK = new Object();
     public static final RegistryObject<Item> BARREN_SOIL = block(BlueOceansBlocks.BARREN_SOIL);
     public static final RegistryObject<Item> BARREN_SOIL_FARMLAND = block(BlueOceansBlocks.BARREN_SOIL_FARMLAND);
     public static final RegistryObject<Item> BLACK_SOIL = block(BlueOceansBlocks.BLACK_SOIL);
@@ -330,11 +331,12 @@ public class BlueOceansItems {
     public static final RegistryObject<Item> BUSH = block(BlueOceansBlocks.BUSH);
     public static final RegistryObject<Item> CORPSE = block(BlueOceansBlocks.CORPSE);
     public static final RegistryObject<Item> FLAG = ITEMS.register("flag", FlagItem::new);
-    public static final RegistryObject<Item> IRON_LADDER = block(BlueOceansBlocks.IRON_LADDER, "");
+    public static final RegistryObject<Item> INCUBATOR = block("incubator", BlueOceansBlocks.INCUBATOR);
+    public static final RegistryObject<Item> IRON_LADDER = block(BlueOceansBlocks.IRON_LADDER);
     public static final RegistryObject<Item> LEEK_SEEDS = itemNameBlock("leek_seeds", BlueOceansBlocks.LEEK,
             properties().stacksTo(64));
     public static final RegistryObject<Item> MINING_LAMP = block(BlueOceansBlocks.MINING_LAMP);
-    public static final RegistryObject<Item> PLUM_CORPSE = block(BlueOceansBlocks.PLUM_CORPSE, "");
+    public static final RegistryObject<Item> PLUM_CORPSE = block(BlueOceansBlocks.PLUM_CORPSE);
     public static final RegistryObject<Item> RED_PLUM_BLOCK = block(BlueOceansBlocks.RED_PLUM_BLOCK);
     public static final RegistryObject<Item> RED_PLUM_CATALYST = block(BlueOceansBlocks.RED_PLUM_CATALYST);
     public static final RegistryObject<Item> RED_PLUM_GRASS = block(BlueOceansBlocks.RED_PLUM_GRASS);
@@ -390,6 +392,8 @@ public class BlueOceansItems {
             () -> new FoodItem(4, 1.5f)).food().build();
     public static final RegistryObject<Item> DRIED_CARROT = itemBuilder("dried_carrot",
             () -> new FoodItem(1, 1.5F)).food().build();
+    public static final RegistryObject<Item> DUCK_EGG = itemBuilder("duck_egg", () -> new FoodItem(properties()))
+            .food().build();
     public static final RegistryObject<Item> GINKGO = ITEMS.register("ginkgo",
             () -> new FoodItem(1, 1.5F));
     public static final RegistryObject<Item> GRAPE = ITEMS.register("grape", ()-> new FoodItem(2, 1.0F));

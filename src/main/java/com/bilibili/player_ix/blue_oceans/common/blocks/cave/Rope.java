@@ -104,10 +104,12 @@ implements SimpleWaterloggedBlock
 
     public BlockState updateShape(BlockState pState, Direction pDirection, BlockState pNeighborState,
                                   LevelAccessor pLevel, BlockPos pPos, BlockPos pNeighborPos) {
-        if (pState.getValue(WATERLOGGED))
+        if (pState.getValue(WATERLOGGED)) {
             pLevel.scheduleTick(pPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
-        if (!pLevel.isClientSide())
+        }
+        if (!pLevel.isClientSide()) {
             pLevel.scheduleTick(pPos, this, 1);
+        }
         return //!canSurvive(pState, pLevel, pPos) ? Blocks.AIR.defaultBlockState() :
                 super.updateShape(pState, pDirection, pNeighborState, pLevel, pPos, pNeighborPos);
     }

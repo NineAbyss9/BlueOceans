@@ -3,10 +3,12 @@ package com.bilibili.player_ix.blue_oceans.common.blocks.be.farming;
 
 import com.bilibili.player_ix.blue_oceans.common.blocks.farming.Sprinkler;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansBlockEntities;
+import com.github.NineAbyss9.ix_api.api.annotation.ServerOnly;
 import com.github.NineAbyss9.ix_api.util.ParticleUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.CropBlock;
@@ -33,7 +35,7 @@ extends BlockEntity
         if (pLevel.isClientSide) {
             if (pEntity.activated) {
                 ParticleUtil.addParticle(pLevel, ParticleTypes.SPLASH, pPos.above(),
-                        AbyssMath.random(0.4), AbyssMath.random(0.2), AbyssMath.random(0.4));
+                        AbyssMath.random(10), AbyssMath.random(0.2), AbyssMath.random(10));
             }
         } else {
             if (pEntity.activated) {
@@ -72,10 +74,7 @@ extends BlockEntity
 
     public static void tryGrowCrops(Level pLevel, BlockPos pPos)
     {
-        AABB aabb = //DirectionUtil.isHorizontal(pFacing) ?
-                new AABB(pPos).inflate(20, 2, 20)
-                //: new AABB(pPos).inflate(20)
-                ;
+        AABB aabb = new AABB(pPos).inflate(20, 2, 20);
         for (BlockPos pos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ),
                 Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
             if (pLevel.random.nextFloat() < 0.05F) {
@@ -84,10 +83,13 @@ extends BlockEntity
         }
     }
 
+    @ServerOnly
     public static void growCrop(Level pLevel, BlockPos pPos, BlockState pState)
     {
         if (pState.getBlock() instanceof CropBlock block) {
             block.growCrops(pLevel, pPos, pState);
+            ParticleUtil.sendParticles((ServerLevel)pLevel, ParticleTypes.HAPPY_VILLAGER, pPos.getCenter(),
+                    10, 0.1D, 0.1D, 0.1D, 0.1D);
         }
     }
 }

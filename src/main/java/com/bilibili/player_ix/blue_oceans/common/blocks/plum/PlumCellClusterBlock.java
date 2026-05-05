@@ -26,7 +26,7 @@ implements PlumBlock {
     public PlumCellClusterBlock() {
         super(Properties.of().instabreak().mapColor(DyeColor.RED).noCollission()
                 .sound(SoundType.SCULK_VEIN));
-        this.registerDefaultState(this.getStateDefinition().any().setValue(GROWTH_AGE, 30));
+        this.registerDefaultState(this.stateDefinition.any().setValue(GROWTH_AGE, 30));
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {

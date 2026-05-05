@@ -96,6 +96,11 @@ public class BlueOceansEntities {
                                              pSpawnType, pPos, pRandom) ->
                 checkAPIMonsterSpawnRules(pEntityType, pServerLevel, pSpawnType, pPos, pRandom) &&
                         BoCommonConfig.SPAWN_NEO_PLUM.get(), SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(DUCK.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                (entityType, serverLevelAccessor, mobSpawnType,
+                 blockPos, randomSource) -> checkAPIMonsterSpawnRules(entityType, serverLevelAccessor,
+                        mobSpawnType, blockPos, randomSource) && BoCommonConfig.SPAWN_DUCK.get(),
+                SpawnPlacementRegisterEvent.Operation.AND);
     }
 
     public static boolean checkAPIMonsterSpawnRules(EntityType<? extends Mob> type, ServerLevelAccessor accessor,

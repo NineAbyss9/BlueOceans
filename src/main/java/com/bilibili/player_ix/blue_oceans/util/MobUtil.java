@@ -232,7 +232,8 @@ public record MobUtil(Entity pEntity)
     }
 
     public static float getRelativeAngle(LivingEntity attacker, LivingEntity entityHit) {
-        float entityHitAngle = (float)((Math.atan2(entityHit.getZ() - attacker.getZ(), entityHit.getX() - attacker.getX()) * (180 / Math.PI) - 90) % 360);
+        float entityHitAngle = (float)((Math.atan2(entityHit.getZ() - attacker.getZ(), entityHit.getX() - attacker.getX()) * (180 / Math.PI) -
+                90) % 360);
         float entityAttackingAngle = attacker.yBodyRot % 360;
         if (entityHitAngle < 0) {
             entityHitAngle += 360;
@@ -243,5 +244,5 @@ public record MobUtil(Entity pEntity)
         return entityHitAngle - entityAttackingAngle;
     }
 
-    //To here
+    ///To here
 }

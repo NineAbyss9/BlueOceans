@@ -31,8 +31,7 @@ extends CropBlock
 implements IForgeShearable, LiquidBlockContainer, BonemealableBlock
 {
     protected static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 12.0D, 14.0D);
-    private ToListFunc sharedDrops = (player, item, level, pos, fortune) ->
-            Collections.emptyList();
+    private ToListFunc sharedDrops = EmptyI.EMPTY;
     public AquaticPlant(Properties pProperties)
     {
         super(pProperties);
@@ -122,7 +121,7 @@ implements IForgeShearable, LiquidBlockContainer, BonemealableBlock
     public static void spread(BlockState state, ServerLevel pLevel, RandomSource pRandom, BlockPos pPos,
                               BlockState pState)
     {
-        spread(state, pLevel, pRandom, pPos, pState, 0.05d);
+        spread(state, pLevel, pRandom, pPos, pState, 0.05D);
     }
 
     public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom)
@@ -146,4 +145,9 @@ implements IForgeShearable, LiquidBlockContainer, BonemealableBlock
     {
         List<ItemStack> toList(@Nullable Player player, ItemStack item, Level level, BlockPos pos, int fortune);
     }
+
+    private static final class EmptyI implements ToListFunc {
+        public List<ItemStack> toList(@Nullable Player player, ItemStack item, Level level, BlockPos pos, int fortune)
+        {return Collections.emptyList();}
+        private static final ToListFunc EMPTY = new EmptyI();}
 }

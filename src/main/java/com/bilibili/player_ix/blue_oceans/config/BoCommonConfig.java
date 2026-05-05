@@ -9,13 +9,15 @@ import java.io.File;
 
 /**Learn from
  *<a href="https://github.com/Polarice3/Goety-2/blob/1.20/src/main/java/com/Polarice3/Goety/config/AttributesConfig.java">link</a>*/
-public class BoCommonConfig {
+public class BoCommonConfig
+{
     public static final ForgeConfigSpec.DoubleValue ALCOHOL_LAMP_DAMAGE;
     public static final ForgeConfigSpec.DoubleValue COMFORTABLE_HEAL_AMOUNT;
     public static final ForgeConfigSpec.DoubleValue DAMAGE_BOOST_PLUS_VALUE;
     public static final ForgeConfigSpec.IntValue PLUM_INVADE_LEVEL;
     public static final ForgeConfigSpec.BooleanValue SPAWN_NEO_PLUM;
-    public static ConfigBuilder configBuilder;
+    public static final ForgeConfigSpec.BooleanValue SPAWN_DUCK;
+    private static ConfigBuilder configBuilder;
     public static final ForgeConfigSpec SPEC;
     private BoCommonConfig() {
     }
@@ -54,6 +56,9 @@ public class BoCommonConfig {
         pop();
 
         //Plum
+        push("Animal");
+        SPAWN_DUCK = comment("Will ducks spawn?Default:true").define("SpawnDuck", true);
+        pop();
         push("RedPlum");
         PLUM_INVADE_LEVEL = comment("The level of PlumInvade mobs will affect you, Default:3")
                 .defineInRange("PlumInvadeLevel", 1, 0, 254);

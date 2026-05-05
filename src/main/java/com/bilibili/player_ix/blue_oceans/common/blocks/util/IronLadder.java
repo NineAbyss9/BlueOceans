@@ -40,14 +40,14 @@ implements ModBlockStateProvider.Ladder
     public IronLadder(Properties pProperties)
     {
         super(pProperties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH)
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.EAST)
                 .setValue(WATERLOGGED, Boolean.FALSE));
     }
 
     public IronLadder()
     {
         this(Properties.of().strength(2.0F, 2.0F)
-                .forceSolidOff().sound(SoundType.LADDER).noOcclusion().pushReaction(PushReaction.DESTROY));
+                .forceSolidOff().sound(SoundType.METAL).noOcclusion().pushReaction(PushReaction.DESTROY));
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder)
@@ -73,8 +73,9 @@ implements ModBlockStateProvider.Ladder
 
     public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom)
     {
-        if (!pState.canSurvive(pLevel, pPos))
+        if (!pState.canSurvive(pLevel, pPos)) {
             pLevel.destroyBlock(pPos, true);
+        }
     }
 
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext)

@@ -22,9 +22,15 @@ extends Arrow {
         super(pLevel, pShooter);
     }
 
+    public EntityType<?> getType()
+    {
+        return super.getType();
+    }
+
     protected void tickDespawn() {
-        for (int i = 0;i < 4;i++)
+        for (int i = 0;i < 4;i++) {
             super.tickDespawn();
+        }
     }
 
     protected void doPostHurtEffects(LivingEntity pLiving) {

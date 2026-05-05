@@ -23,6 +23,13 @@ extends RecipeProvider
 
     protected void buildRecipes(Consumer<FinishedRecipe> pWriter)
     {
+        //Block
+        shaped(RecipeCategory.BUILDING_BLOCKS, Items.GLASS, BlueOceansItems.GLASS_SLICE.get(),
+                getHasName(BlueOceansItems.GLASS_SLICE.get()), has(BlueOceansItems.GLASS_SLICE.get()),
+                "ii", "ii", "  ", pWriter);
+        shaped(RecipeCategory.TOOLS, BlueOceansItems.INCUBATOR.get(), Items.IRON_INGOT, Items.REDSTONE_LAMP,
+                getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT), "iii", "ixi", "iii", pWriter);
+
         //Util
         shaped(RecipeCategory.TOOLS, BlueOceansItems.WOODEN_SUPPORT.get(), Items.STICK,
                 getHasName(Items.STICK), has(Items.STICK), "iii", "i i",

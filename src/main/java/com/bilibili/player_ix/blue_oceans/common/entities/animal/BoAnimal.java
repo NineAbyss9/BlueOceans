@@ -17,9 +17,12 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import javax.annotation.Nullable;
+import java.util.function.Supplier;
 
 public class BoAnimal
 extends Animal
@@ -95,8 +98,14 @@ implements FoodDataUser, IAcceptTask {
 
     public void die(DamageSource pDamageSource)
     {
-        this.level.broadcastEntityEvent(this, (byte)127);
+        this.level().broadcastEntityEvent(this, (byte)127);
         super.die(pDamageSource);
+    }
+
+    @Nullable
+    public ItemEntity spawnAtLocation(Supplier<? extends ItemLike> pItem)
+    {
+        return super.spawnAtLocation(pItem.get());
     }
 
     public void handleEntityEvent(byte pId) {

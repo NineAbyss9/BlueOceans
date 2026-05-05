@@ -2,6 +2,7 @@
 package com.bilibili.player_ix.blue_oceans.common.entities.animal.freshwater;
 
 import com.bilibili.player_ix.blue_oceans.common.entities.animal.WaterAnimal;
+import com.bilibili.player_ix.blue_oceans.init.BlueOceansItems;
 import com.bilibili.player_ix.blue_oceans.init.BlueOceansSounds;
 import com.github.NineAbyss9.ix_api.util.Maths;
 import net.minecraft.sounds.SoundEvent;
@@ -34,7 +35,6 @@ extends WaterAnimal {
     public float flapping = 1.0F;
     private float nextFlap = 1.0F;
     public int eggTime = this.random.nextInt(6000) + 6000;
-    //Chicken v;
     public Duck(EntityType<? extends Duck> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
@@ -67,7 +67,7 @@ extends WaterAnimal {
         if (!this.level().isClientSide && this.isAlive() && !this.isBaby() && --this.eggTime <= 0) {
             this.playSound(SoundEvents.CHICKEN_EGG, 1.0F, (this.random.nextFloat() -
                     this.random.nextFloat()) * 0.2F + 1.0F);
-            this.spawnAtLocation(Items.EGG);
+            this.spawnAtLocation(BlueOceansItems.DUCK_EGG);
             this.gameEvent(GameEvent.ENTITY_PLACE);
             this.eggTime = this.random.nextInt(6000) + 6000;
         }
@@ -111,6 +111,10 @@ extends WaterAnimal {
         if (pPassenger instanceof LivingEntity) {
             ((LivingEntity)pPassenger).yBodyRot = this.yBodyRot;
         }
+    }
+
+    protected void handleAirSupply(int pAirSupply)
+    {
     }
 
     public static AttributeSupplier.Builder createAttributes() {

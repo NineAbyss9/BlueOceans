@@ -52,9 +52,9 @@ extends ThrowableItemProjectile {
                 .inflate(4, 1, 4));
         if (!list.isEmpty()) {
             list.forEach(mob -> {
-                if (mob instanceof RedPlumMob)
+                if (mob instanceof RedPlumMob) {
                     mob.hurt(BoDamageSource.clear(level(), livingOwner(), livingOwner()), 10.0F);
-                else if (mob.hasEffect(BlueOceansMobEffects.PLUM_INFECTION.get()) ||
+                } else if (mob.hasEffect(BlueOceansMobEffects.PLUM_INFECTION.get()) ||
                         mob.hasEffect(BlueOceansMobEffects.PLUM_INVADE.get())) {
                     mob.removeEffect(BlueOceansMobEffects.PLUM_INFECTION.get());
                     mob.removeEffect(BlueOceansMobEffects.PLUM_INVADE.get());
